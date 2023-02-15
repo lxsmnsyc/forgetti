@@ -1,0 +1,61 @@
+{
+  "name": "forgetti",
+  "type": "module",
+  "version": "0.0.0",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "license": "MIT",
+  "keywords": [
+    "pridepack"
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@types/babel__core": "^7.20.0",
+    "@types/babel__traverse": "^7.18.3",
+    "@types/node": "^18.13.0",
+    "eslint": "^8.32.0",
+    "eslint-config-lxsmnsyc": "^0.4.8",
+    "pridepack": "2.4.0",
+    "tslib": "^2.5.0",
+    "typescript": "^4.9.4",
+    "vitest": "^0.28.1"
+  },
+  "dependencies": {
+    "@babel/helper-module-imports": "^7.18.6",
+    "@babel/traverse": "^7.20.13",
+    "@babel/types": "^7.20.7"
+  },
+  "peerDependencies": {
+    "@babel/core": "^7"
+  },
+  "scripts": {
+    "prepublishOnly": "pridepack clean && pridepack build",
+    "build": "pridepack build",
+    "type-check": "pridepack check",
+    "lint": "pridepack lint",
+    "clean": "pridepack clean",
+    "watch": "pridepack watch",
+    "start": "pridepack start",
+    "dev": "pridepack dev",
+    "test": "vitest"
+  },
+  "private": false,
+  "description": "",
+  "repository": {
+    "url": "",
+    "type": "git"
+  },
+  "homepage": "",
+  "bugs": {
+    "url": ""
+  },
+  "author": "",
+  "publishConfig": {
+    "access": "public"
+  }
+}
