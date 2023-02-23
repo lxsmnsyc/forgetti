@@ -4,7 +4,14 @@ import { describe, expect, it } from 'vitest';
 import plugin, { Options } from '../src';
 
 const options: Options = {
-  shouldCheckComponentName: true,
+  componentFilter: {
+    source: '^[A-Z]',
+    flags: '',
+  },
+  hookFilter: {
+    source: '^use[A-Z]',
+    flags: '',
+  },
   memo: {
     name: 'useMemo',
     source: 'react',

@@ -27,6 +27,6 @@ function Example(props) {
     _v9 = _eq9 ? _c[8] : _c[8] = [_v8];
   useEffect(() => {
     console.log(example);
-  }, _v9);
+  }, [_v9]);
 }"
 `;
