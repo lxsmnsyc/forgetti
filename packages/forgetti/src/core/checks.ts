@@ -2,14 +2,6 @@ import * as t from '@babel/types';
 import * as babel from '@babel/core';
 import { ComponentNode, StateContext } from './types';
 
-export function isComponentishName(name: string) {
-  return name[0] >= 'A' && name[0] <= 'Z';
-}
-
-export function isHookishName(name: string) {
-  return /^use[A-Z]/.test(name);
-}
-
 export function isValidImportSpecifier(
   specifier: t.ImportSpecifier,
   name: string,
@@ -34,11 +26,8 @@ export function isComponentNameValid(
   checkName = false,
 ) {
   if (checkName) {
-    if (ctx.opts.shouldCheckComponentName) {
-      return false;
-    }
     if (t.isFunctionExpression(node) || t.isFunctionDeclaration(node)) {
-      return (node.id && isComponentishName(node.id.name));
+      return (node.id && ctx.filters.component.test(node.id.name));
     }
     return false;
   }

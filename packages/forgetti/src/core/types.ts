@@ -24,7 +24,8 @@ export interface Options {
   memo: ImportRegistration;
   hooks: HookRegistration[];
   hocs: ImportRegistration[];
-  shouldCheckComponentName: boolean;
+  componentFilter: { source: string, flags: string };
+  hookFilter?: { source: string, flags: string };
 }
 
 export interface State extends babel.PluginPass {
@@ -40,4 +41,8 @@ export interface StateContext {
     hocsNamespaces: Map<t.Identifier, ImportRegistration[]>;
   };
   opts: Options;
+  filters: {
+    component: RegExp;
+    hook?: RegExp;
+  }
 }

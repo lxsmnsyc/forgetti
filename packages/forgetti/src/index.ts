@@ -5,12 +5,13 @@ import {
   isValidImportSpecifier,
   isComponent,
   isComponentNameValid,
-  isComponentishName,
 } from './core/checks';
 import Optimizer from './core/optimizer';
 import { StateContext, State } from './core/types';
 import unwrapNode from './core/unwrap-node';
 import unwrapPath from './core/unwrap-path';
+
+export { Options } from './core/types';
 
 function extractImportIdentifiers(
   ctx: StateContext,
@@ -156,7 +157,7 @@ function transformVariableDeclarator(
   if (!t.isIdentifier(path.node.id)) {
     return;
   }
-  if (isComponentishName(path.node.id.name)) {
+  if (ctx.filters.component.test(path.node.id.name)) {
     transformFunction(ctx, path.get('init') as babel.NodePath<Argument>, false);
   }
 }
@@ -175,6 +176,12 @@ export default function forgettiPlugin(): babel.PluginObj<State> {
             hocsNamespaces: new Map(),
           },
           opts,
+          filters: {
+            component: new RegExp(opts.componentFilter.source, opts.componentFilter.flags),
+            hook: opts.hookFilter
+              ? new RegExp(opts.hookFilter.source, opts.hookFilter.flags)
+              : undefined,
+          },
         };
 
         // Register all import specifiers

@@ -2,7 +2,7 @@ import * as babel from '@babel/core';
 import { addDefault, addNamed } from '@babel/helper-module-imports';
 import * as t from '@babel/types';
 import { forEach } from './arrays';
-import { isHookishName, isPathValid } from './checks';
+import { isPathValid } from './checks';
 import getForeignBindings from './get-foreign-bindings';
 import isGuaranteedLiteral from './is-guaranteed-literal';
 import { ComponentNode, StateContext } from './types';
@@ -354,7 +354,7 @@ export default class Optimizer {
             }
           }
         }
-        if (isHookishName(trueID.name)) {
+        if (this.ctx.filters.hook?.test(trueID.name)) {
           isHook = true;
         }
       // Check if callee is potentially a namespace import
@@ -389,7 +389,7 @@ export default class Optimizer {
             }
           }
         }
-        if (isHookishName(trueMember.property.name)) {
+        if (this.ctx.filters.hook?.test(trueMember.property.name)) {
           isHook = true;
         }
       }
