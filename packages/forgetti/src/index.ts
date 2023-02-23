@@ -1,76 +1,16 @@
 import * as babel from '@babel/core';
-import { addNamed } from '@babel/helper-module-imports';
 import * as t from '@babel/types';
-import { forEach } from './arrays';
-
-export type HookIdentity =
-  | 'memo'
-  | 'callback'
-  | 'effect';
-
-export interface ImportRegistration {
-  name: string;
-  source: string;
-  kind: 'named' | 'default';
-}
-
-export interface HookRegistration extends ImportRegistration {
-  type: HookIdentity;
-}
-
-export interface Options {
-  memo: ImportRegistration;
-  hooks: HookRegistration[];
-  hocs: ImportRegistration[];
-  shouldCheckComponentName: boolean;
-}
-
-interface State extends babel.PluginPass {
-  opts: Options;
-}
-
-interface StateContext {
-  hooks: Map<string, t.Identifier>;
-  registrations: {
-    hooks: Map<t.Identifier, HookRegistration>;
-    hocs: Map<t.Identifier, ImportRegistration>;
-  };
-  opts: Options;
-}
-
-function isComponentishName(name: string) {
-  return name[0] >= 'A' && name[0] <= 'Z';
-}
-
-function isHookishName(name: string) {
-  return name.startsWith('use');
-}
-
-function getImportIdentifier(
-  ctx: StateContext,
-  path: babel.NodePath,
-  mod: string,
-  name: string,
-) {
-  const target = `${mod}[${name}]`;
-  const current = ctx.hooks.get(target);
-  if (current) {
-    return current;
-  }
-  const newID = addNamed(path, name, mod);
-  ctx.hooks.set(target, newID);
-  return newID;
-}
-
-function isValidImportSpecifier(
-  specifier: t.ImportSpecifier,
-  name: string,
-): boolean {
-  return (
-    (t.isIdentifier(specifier.imported) && specifier.imported.name === name)
-    || (t.isStringLiteral(specifier.imported) && specifier.imported.value === name)
-  );
-}
+import { forEach } from './core/arrays';
+import {
+  isValidImportSpecifier,
+  isComponent,
+  isComponentNameValid,
+  isComponentishName,
+} from './core/checks';
+import Optimizer from './core/optimizer';
+import { StateContext, State } from './core/types';
+import unwrapNode from './core/unwrap-node';
+import unwrapPath from './core/unwrap-path';
 
 function extractImportIdentifiers(
   ctx: StateContext,
@@ -83,15 +23,29 @@ function extractImportIdentifiers(
     if (mod === registration.source) {
       forEach(path.node.specifiers, (specifier) => {
         if (t.isImportSpecifier(specifier)) {
-          if (registration.kind === 'named') {
+          if (
+            registration.kind === 'named'
+            && isValidImportSpecifier(specifier, registration.name)
+          ) {
+            ctx.registrations.hooks.set(specifier.local, registration);
+          }
+          if (
+            registration.kind === 'default'
+            && isValidImportSpecifier(specifier, 'default')
+          ) {
             ctx.registrations.hooks.set(specifier.local, registration);
           }
         } else if (t.isImportDefaultSpecifier(specifier)) {
-          if (registration.kind === 'default') {
+          if (registration.kind === 'default' && specifier.local.name === registration.name) {
             ctx.registrations.hooks.set(specifier.local, registration);
           }
         } else if (t.isImportNamespaceSpecifier(specifier)) {
-          ctx.registrations.hooks.set(specifier.local, registration);
+          let current = ctx.registrations.hooksNamespaces.get(specifier.local);
+          if (!current) {
+            current = [];
+          }
+          current.push(registration);
+          ctx.registrations.hooksNamespaces.set(specifier.local, current);
         }
       });
     }
@@ -115,90 +69,37 @@ function extractImportIdentifiers(
             ctx.registrations.hocs.set(specifier.local, registration);
           }
         } else if (t.isImportDefaultSpecifier(specifier)) {
-          if (registration.kind === 'default') {
+          if (registration.kind === 'default' && specifier.local.name === registration.name) {
             ctx.registrations.hocs.set(specifier.local, registration);
           }
         } else if (t.isImportNamespaceSpecifier(specifier)) {
-          ctx.registrations.hocs.set(specifier.local, registration);
+          let current = ctx.registrations.hocsNamespaces.get(specifier.local);
+          if (!current) {
+            current = [];
+          }
+          current.push(registration);
+          ctx.registrations.hocsNamespaces.set(specifier.local, current);
         }
       });
     }
   });
 }
 
-type ComponentNode = t.ArrowFunctionExpression | t.FunctionExpression | t.FunctionDeclaration;
-
-function isComponent(node: t.Node): node is ComponentNode {
-  return (
-    t.isArrowFunctionExpression(node)
-    || t.isFunctionExpression(node)
-    || t.isFunctionDeclaration(node)
-  );
-}
-
-type TypeCheck<K> =
-  K extends (node: t.Node) => node is (infer U extends t.Node)
-    ? U
-    : never;
-
-type TypeFilter = (node: t.Node) => boolean;
-
-function unwrapExpression<K extends TypeFilter>(
-  node: t.Node,
-  key: K,
-): TypeCheck<K> | undefined {
-  if (key(node)) {
-    return node as TypeCheck<K>;
-  }
-  if (
-    t.isParenthesizedExpression(node)
-    || t.isTypeCastExpression(node)
-    || t.isTSAsExpression(node)
-    || t.isTSSatisfiesExpression(node)
-    || t.isTSNonNullExpression(node)
-    || t.isTSTypeAssertion(node)
-    || t.isTSInstantiationExpression(node)
-  ) {
-    return unwrapExpression(node.expression, key);
-  }
-  return undefined;
-}
-
-function isComponentNameValid(
-  ctx: StateContext,
-  node: ComponentNode,
-  checkName = false,
-) {
-  if (checkName) {
-    if (ctx.opts.shouldCheckComponentName) {
-      return false;
-    }
-    if (t.isFunctionExpression(node) || t.isFunctionDeclaration(node)) {
-      return (node.id && isComponentishName(node.id.name));
-    }
-    return false;
-  }
-  return true;
-}
-
-function traverseFunction(
-  ctx: StateContext,
-  path: babel.NodePath,
-  node: t.Node,
-) {
-  if (t.isBlock(node)) {
-
-  }
-}
+type Argument =
+  | t.Expression
+  | t.ArgumentPlaceholder
+  | t.JSXNamespacedName
+  | t.SpreadElement
+  | t.FunctionDeclaration;
 
 function transformFunction(
   ctx: StateContext,
-  path: babel.NodePath,
+  path: babel.NodePath<Argument>,
   checkName = false,
 ) {
-  const node = unwrapExpression(path.node, isComponent);
-  if (node && isComponentNameValid(ctx, node, checkName)) {
-    traverseFunction(ctx, path, node);
+  const unwrapped = unwrapPath(path, isComponent);
+  if (unwrapped && isComponentNameValid(ctx, unwrapped.node, checkName)) {
+    new Optimizer(ctx, unwrapped).optimize();
   }
 }
 
@@ -210,7 +111,7 @@ function transformHOC(
     return;
   }
   // Check if callee is potentially a named or default import
-  const trueID = unwrapExpression(path.node.callee, t.isIdentifier);
+  const trueID = unwrapNode(path.node.callee, t.isIdentifier);
   if (t.isIdentifier(trueID)) {
     const binding = path.scope.getBindingIdentifier(trueID.name);
     if (binding) {
@@ -221,21 +122,25 @@ function transformHOC(
     }
   // Check if callee is potentially a namespace import
   }
-  const trueMember = unwrapExpression(path.node.callee, t.isMemberExpression);
+  const trueMember = unwrapNode(path.node.callee, t.isMemberExpression);
   if (
     trueMember
     && !trueMember.computed
     && t.isIdentifier(trueMember.property)
   ) {
-    const obj = unwrapExpression(trueMember.object, t.isIdentifier);
-    if (!t.isIdentifier(obj)) {
-      return;
-    }
-    const binding = path.scope.getBindingIdentifier(obj.name);
-    if (binding) {
-      const registration = ctx.registrations.hocs.get(binding);
-      if (registration && registration.name === trueMember.property.name) {
-        transformFunction(ctx, path.get('arguments')[0]);
+    const obj = unwrapNode(trueMember.object, t.isIdentifier);
+    if (obj) {
+      const binding = path.scope.getBindingIdentifier(obj.name);
+      if (binding) {
+        const registrations = ctx.registrations.hocsNamespaces.get(binding);
+        if (registrations) {
+          const propName = trueMember.property.name;
+          forEach(registrations, (registration) => {
+            if (registration && registration.name === propName) {
+              transformFunction(ctx, path.get('arguments')[0]);
+            }
+          });
+        }
       }
     }
   }
@@ -252,11 +157,11 @@ function transformVariableDeclarator(
     return;
   }
   if (isComponentishName(path.node.id.name)) {
-    transformFunction(ctx, path, false);
+    transformFunction(ctx, path.get('init') as babel.NodePath<Argument>, false);
   }
 }
 
-export function forgettiPlugin(): babel.PluginObj<State> {
+export default function forgettiPlugin(): babel.PluginObj<State> {
   return {
     name: 'forgetti',
     visitor: {
@@ -266,6 +171,8 @@ export function forgettiPlugin(): babel.PluginObj<State> {
           registrations: {
             hooks: new Map(),
             hocs: new Map(),
+            hooksNamespaces: new Map(),
+            hocsNamespaces: new Map(),
           },
           opts,
         };
