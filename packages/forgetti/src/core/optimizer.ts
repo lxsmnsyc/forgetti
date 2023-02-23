@@ -296,10 +296,9 @@ export default class Optimizer {
     const [, dependencies] = path.get('arguments');
     if (isPathValid(dependencies, t.isExpression)) {
       const optimizedArray = this.optimizeExpression(statements, dependencies);
-      path.node.arguments[1] = optimizedArray;
-      return path.node;
+      path.node.arguments[1] = t.arrayExpression([optimizedArray]);
     }
-    throw new Error('Unsupported');
+    return path.node;
   }
 
   optimizeCallback(
