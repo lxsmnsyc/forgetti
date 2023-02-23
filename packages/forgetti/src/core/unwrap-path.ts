@@ -1,17 +1,12 @@
 import * as t from '@babel/types';
 import { isPathValid } from './checks';
 
-type TypeCheck<K> =
-  K extends (node: t.Node) => node is (infer U extends t.Node)
-    ? U
-    : never;
+type TypeFilter<V extends t.Node> = (node: t.Node) => node is V;
 
-type TypeFilter = (node: t.Node) => boolean;
-
-export default function unwrapPath<K extends TypeFilter>(
-  path: babel.NodePath,
-  key: K,
-): babel.NodePath<TypeCheck<K>> | undefined {
+export default function unwrapPath<V extends t.Node>(
+  path: unknown,
+  key: TypeFilter<V>,
+): babel.NodePath<V> | undefined {
   if (isPathValid(path, key)) {
     return path;
   }
