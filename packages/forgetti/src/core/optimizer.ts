@@ -118,13 +118,15 @@ export default class Optimizer {
       condition = t.binaryExpression('in', index, header);
     } else if (dependencies) {
       condition = dependencies;
-    }
-
-    if (!condition) {
+    } else {
       condition = t.callExpression(
         t.memberExpression(t.identifier('Object'), t.identifier('is')),
         [pos, current],
       );
+    }
+
+    if (!condition) {
+      condition = t.binaryExpression('in', index, header);
     }
 
     const eqid = (
