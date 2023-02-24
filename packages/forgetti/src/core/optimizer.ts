@@ -54,8 +54,6 @@ export default class Optimizer {
 
   path: babel.NodePath<ComponentNode>;
 
-  comparisons = new WeakMap<t.Identifier, t.Identifier>();
-
   optimizedID = new WeakMap<t.Identifier, OptimizedExpression>();
 
   constructor(ctx: StateContext, path: babel.NodePath<ComponentNode>) {
@@ -105,18 +103,8 @@ export default class Optimizer {
     const index = this.createIndex();
     const pos = t.memberExpression(header, index, true);
     const vid = this.path.scope.generateUidIdentifier('v');
-    const eqid = this.path.scope.generateUidIdentifier('eq');
 
-    const optimized = optimizedExpr(vid, eqid);
-
-    if (t.isIdentifier(current)) {
-      this.comparisons.set(vid, eqid);
-      this.comparisons.set(current, eqid);
-      this.optimizedID.set(current, optimized);
-      this.optimizedID.set(vid, optimized);
-    }
-
-    let condition: t.Expression;
+    let condition: t.Expression | undefined;
 
     if (Array.isArray(dependencies)) {
       forEach(dependencies, (dependency) => {
@@ -137,21 +125,34 @@ export default class Optimizer {
       );
     }
 
+    const eqid = (
+      t.isIdentifier(condition)
+        ? condition
+        : this.path.scope.generateUidIdentifier('eq')
+    );
+
+    const declaration = (
+      t.isIdentifier(condition)
+        ? []
+        : [t.variableDeclarator(eqid, condition)]
+    );
+
+    const optimized = optimizedExpr(vid, eqid);
+
+    if (t.isIdentifier(current)) {
+      this.optimizedID.set(current, optimized);
+      this.optimizedID.set(vid, optimized);
+    }
+
     const init = t.conditionalExpression(
       eqid,
       pos,
       t.assignmentExpression('=', pos, current),
     );
 
-    statements.push(
-      t.variableDeclaration(
-        'let',
-        [
-          t.variableDeclarator(eqid, condition!),
-          t.variableDeclarator(vid, init),
-        ],
-      ),
-    );
+    declaration.push(t.variableDeclarator(vid, init));
+
+    statements.push(t.variableDeclaration('let', declaration));
 
     return optimized;
   }
