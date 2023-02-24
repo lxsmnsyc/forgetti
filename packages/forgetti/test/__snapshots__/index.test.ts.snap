@@ -4,29 +4,19 @@ exports[`example > should run 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 import { useMemo, useEffect } from 'react';
 function Example(props) {
-  const _c = _useMemo(() => new Array(9), []);
+  const _c = _useMemo(() => new Array(5), []);
   let _eq = Object.is(_c[0], props),
     _v = _eq ? _c[0] : _c[0] = props;
   let _eq2 = _eq,
-    _v2 = _eq2 ? _c[1] : _c[1] = _v.greeting;
+    _v2 = _eq2 ? _c[1] : _c[1] = _v.receiver;
   let _eq3 = (2 in _c),
     _v3 = _eq3 ? _c[2] : _c[2] = ', ';
   let _eq4 = _eq,
-    _v4 = _eq4 ? _c[3] : _c[3] = _v.receiver;
-  const message = _v2 + _v3 + _v4;
-  let _eq5 = Object.is(_c[4], message),
-    _v5 = _eq5 ? _c[4] : _c[4] = message;
-  let _eq6 = _eq5,
-    _v6 = _eq6 ? _c[5] : _c[5] = [_v5];
-  let _eq7 = _v6,
-    _v7 = _eq7 ? _c[6] : _c[6] = (() => props.format(message))();
-  const example = _v7;
-  let _eq8 = Object.is(_c[7], example),
-    _v8 = _eq8 ? _c[7] : _c[7] = example;
-  let _eq9 = _eq8,
-    _v9 = _eq9 ? _c[8] : _c[8] = [_v8];
-  useEffect(() => {
-    console.log(example);
-  }, [_v9]);
+    _v4 = _eq4 ? _c[3] : _c[3] = _v.greeting;
+  let _eq5 = _eq2 && _eq3 && _eq4,
+    _v5 = _eq5 ? _c[4] : _c[4] = {
+      message: _v2 + _v3 + _v4
+    };
+  const example = _v5;
 }"
 `;

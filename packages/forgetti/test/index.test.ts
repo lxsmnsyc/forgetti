@@ -66,12 +66,9 @@ describe('example', () => {
     const code = `
 import { useMemo, useEffect } from 'react';
 function Example(props) {
-  const message = props.greeting + ', ' + props.receiver;
-  const example = useMemo(() => props.format(message), [message]);
-
-  useEffect(() => {
-    console.log(example);
-  }, [example]);
+  const example = {
+    message: props.receiver + ', ' + props.greeting,
+  };
 }
     
 `;
