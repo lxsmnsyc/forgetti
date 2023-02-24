@@ -118,7 +118,9 @@ export default class Optimizer {
       condition = t.binaryExpression('in', index, header);
     } else if (dependencies) {
       condition = dependencies;
-    } else {
+    }
+
+    if (!condition) {
       condition = t.callExpression(
         t.memberExpression(t.identifier('Object'), t.identifier('is')),
         [pos, current],
