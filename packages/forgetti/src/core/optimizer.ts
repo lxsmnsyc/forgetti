@@ -1,10 +1,10 @@
 import * as babel from '@babel/core';
-import { addDefault, addNamed } from '@babel/helper-module-imports';
 import * as t from '@babel/types';
 import { forEach } from './arrays';
-import { isPathValid } from './checks';
+import { isNestedExpression, isPathValid } from './checks';
 import getForeignBindings from './get-foreign-bindings';
 import isGuaranteedLiteral from './is-guaranteed-literal';
+import OptimizerScope from './optimizer-scope';
 import { ComponentNode, StateContext } from './types';
 import unwrapNode from './unwrap-node';
 
@@ -46,46 +46,18 @@ function mergeDependencies(
 }
 
 export default class Optimizer {
-  memo: t.Identifier | undefined;
-
-  indeces = 0;
-
   ctx: StateContext;
 
   path: babel.NodePath<ComponentNode>;
+
+  scope: OptimizerScope;
 
   optimizedID = new WeakMap<t.Identifier, OptimizedExpression>();
 
   constructor(ctx: StateContext, path: babel.NodePath<ComponentNode>) {
     this.ctx = ctx;
     this.path = path;
-  }
-
-  getMemoIdentifier() {
-    const { name, source, kind } = this.ctx.opts.memo;
-    const target = `memo/${source}[${name}]`;
-    const current = this.ctx.hooks.get(target);
-    if (current) {
-      return current;
-    }
-    const newID = (kind === 'named')
-      ? addNamed(this.path, name, source)
-      : addDefault(this.path, source);
-    this.ctx.hooks.set(target, newID);
-    return newID;
-  }
-
-  createHeader() {
-    if (!this.memo) {
-      this.memo = this.path.scope.generateUidIdentifier('c');
-    }
-    return this.memo;
-  }
-
-  createIndex() {
-    const current = this.indeces;
-    this.indeces += 1;
-    return t.numericLiteral(current);
+    this.scope = new OptimizerScope(ctx, path);
   }
 
   createMemo(
@@ -99,8 +71,12 @@ export default class Optimizer {
         return optimized;
       }
     }
-    const header = this.createHeader();
-    const index = this.createIndex();
+    const header = (
+      this.scope.parent
+        ? this.scope.createLoopHeader()
+        : this.scope.createHeader()
+    );
+    const index = this.scope.createIndex();
     const pos = t.memberExpression(header, index, true);
     const vid = this.path.scope.generateUidIdentifier('v');
 
@@ -484,17 +460,14 @@ export default class Optimizer {
     statements: t.Statement[],
     path: babel.NodePath<t.AssignmentExpression>,
   ) {
+    // TODO Work on left node
     const optimizedRight = this.optimizeExpression(statements, path.get('right'));
-    statements.push(
-      t.expressionStatement(
-        t.assignmentExpression(
-          path.node.operator,
-          path.node.left,
-          optimizedRight.expr,
-        ),
-      ),
-    );
-    return optimizedRight;
+    path.node.right = optimizedRight.expr;
+
+    const variable = path.scope.generateUidIdentifier('v');
+    statements.push(t.variableDeclaration('let', [t.variableDeclarator(variable, path.node)]));
+
+    return optimizedExpr(variable, optimizedRight.deps);
   }
 
   optimizeArrayExpression(
@@ -560,29 +533,45 @@ export default class Optimizer {
     return this.createMemo(statements, path.node, condition);
   }
 
+  optimizeNewExpression(
+    statements: t.Statement[],
+    path: babel.NodePath<t.NewExpression>,
+  ) {
+    const calleePath = path.get('callee');
+    if (isPathValid(calleePath, t.isExpression)) {
+      const callee = this.optimizeExpression(statements, calleePath);
+      // Build dependencies
+      const condition: t.Expression[] = createDependencies(callee.deps);
+      const argumentsPath = path.get('arguments');
+      forEach(argumentsPath, (argument, i) => {
+        if (isPathValid(argument, t.isExpression)) {
+          const optimized = this.optimizeExpression(statements, argument);
+          mergeDependencies(condition, optimized.deps);
+          path.node.arguments[i] = optimized.expr;
+        } else if (isPathValid(argument, t.isSpreadElement)) {
+          const optimized = this.optimizeExpression(statements, argument.get('argument'));
+          mergeDependencies(condition, optimized.deps);
+          argument.node.argument = optimized.expr;
+        }
+      });
+      path.node.callee = callee.expr;
+      return this.createMemo(statements, path.node, condition);
+    }
+    return optimizedExpr(path.node);
+  }
+
   optimizeExpression(
     statements: t.Statement[],
     path: babel.NodePath<t.Expression>,
   ): OptimizedExpression {
-    if (
-      t.isParenthesizedExpression(path.node)
-      || t.isTypeCastExpression(path.node)
-      || t.isTSAsExpression(path.node)
-      || t.isTSSatisfiesExpression(path.node)
-      || t.isTSNonNullExpression(path.node)
-      || t.isTSTypeAssertion(path.node)
-      || t.isTSInstantiationExpression(path.node)
-    ) {
+    if (isPathValid(path, isNestedExpression)) {
       return this.optimizeExpression(
         statements,
-        path.get('expression') as babel.NodePath<t.Expression>,
+        path.get('expression'),
       );
     }
     // No need to optimize
-    if (
-      t.isNullLiteral(path.node)
-      || t.isBooleanLiteral(path.node)
-    ) {
+    if (t.isLiteral(path.node) && !t.isTemplateLiteral(path.node)) {
       return optimizedExpr(path.node);
     }
     // Only optimize for complex values
@@ -636,7 +625,7 @@ export default class Optimizer {
       return this.optimizeObjectExpression(statements, path);
     }
     if (isPathValid(path, t.isNewExpression)) {
-      // TODO
+      return this.optimizeNewExpression(statements, path);
     }
     if (isPathValid(path, t.isSequenceExpression)) {
       // TODO
@@ -734,6 +723,43 @@ export default class Optimizer {
     statements.push(newNode);
   }
 
+  optimizeLoopStatement(
+    statements: t.Statement[],
+    path: babel.NodePath<t.Loop>,
+  ) {
+    const parent = this.scope;
+    this.scope = new OptimizerScope(this.ctx, path, parent);
+    let newStatements: t.Statement[] = [];
+    this.optimizeStatement(newStatements, path.get('body'));
+
+    const header = this.scope.getLoopDeclaration();
+    if (header) {
+      newStatements = [
+        header,
+        ...newStatements,
+      ];
+    }
+
+    const memoDeclaration = this.scope.getLoopMemoDeclaration();
+    if (memoDeclaration) {
+      statements.push(memoDeclaration);
+    }
+
+    path.node.body = t.blockStatement(newStatements);
+    this.scope = parent;
+
+    statements.push(path.node);
+  }
+
+  optimizeForXStatement(
+    statements: t.Statement[],
+    path: babel.NodePath<t.ForXStatement>,
+  ) {
+    const optimized = this.optimizeExpression(statements, path.get('right'));
+    path.node.right = optimized.expr;
+    this.optimizeLoopStatement(statements, path);
+  }
+
   optimizeStatement(
     statements: t.Statement[],
     path: babel.NodePath<t.Statement>,
@@ -748,6 +774,10 @@ export default class Optimizer {
       this.optimizeBlockStatement(statements, path);
     } else if (isPathValid(path, t.isIfStatement)) {
       this.optimizeIfStatement(statements, path);
+    } else if (isPathValid(path, t.isForXStatement)) {
+      this.optimizeForXStatement(statements, path);
+    } else if (isPathValid(path, t.isLoop)) {
+      this.optimizeLoopStatement(statements, path);
     } else {
       statements.push(path.node);
     }
@@ -775,29 +805,10 @@ export default class Optimizer {
 
     this.optimizeBlock(newStatements, path.get('body'));
 
-    if (this.memo) {
+    const header = this.scope.getMemoDeclaration();
+    if (header) {
       newStatements = [
-        t.variableDeclaration(
-          'const',
-          [
-            t.variableDeclarator(
-              this.memo,
-              t.callExpression(
-                this.getMemoIdentifier(),
-                [
-                  t.arrowFunctionExpression(
-                    [],
-                    t.newExpression(
-                      t.identifier('Array'),
-                      [t.numericLiteral(this.indeces)],
-                    ),
-                  ),
-                  t.arrayExpression(),
-                ],
-              ),
-            ),
-          ],
-        ),
+        header,
         ...newStatements,
       ];
     }

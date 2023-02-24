@@ -1,4 +1,5 @@
 import * as t from '@babel/types';
+import { isNestedExpression } from './checks';
 
 type TypeCheck<K> =
   K extends (node: t.Node) => node is (infer U extends t.Node)
@@ -14,15 +15,7 @@ export default function unwrapNode<K extends TypeFilter>(
   if (key(node)) {
     return node as TypeCheck<K>;
   }
-  if (
-    t.isParenthesizedExpression(node)
-    || t.isTypeCastExpression(node)
-    || t.isTSAsExpression(node)
-    || t.isTSSatisfiesExpression(node)
-    || t.isTSNonNullExpression(node)
-    || t.isTSTypeAssertion(node)
-    || t.isTSInstantiationExpression(node)
-  ) {
+  if (isNestedExpression(node)) {
     return unwrapNode(node.expression, key);
   }
   return undefined;

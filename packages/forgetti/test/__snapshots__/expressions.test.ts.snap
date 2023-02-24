@@ -1,0 +1,189 @@
+// Vitest Snapshot v1
+
+exports[`expressions > should optimize array expressions 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+function Example(props) {
+  let _c = _useMemo(() => new Array(5), []);
+  let _eq = Object.is(_c[0], props),
+    _v = _eq ? _c[0] : _c[0] = props;
+  let _v2 = _eq ? _c[1] : _c[1] = _v.a;
+  let _v3 = _eq ? _c[2] : _c[2] = _v.b;
+  let _v4 = _eq ? _c[3] : _c[3] = _v.c;
+  let _eq2 = _eq && _eq && _eq,
+    _v5 = _eq2 ? _c[4] : _c[4] = [_v2, _v3, ..._v4];
+  return _v5;
+}"
+`;
+
+exports[`expressions > should optimize assignment expressions 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+function Example(props) {
+  let _c = _useMemo(() => new Array(2), []);
+  let a;
+  let b;
+  let c;
+  let _eq = Object.is(_c[0], props),
+    _v = _eq ? _c[0] : _c[0] = props;
+  let _v2 = _eq ? _c[1] : _c[1] = _v.x;
+  let _v3 = c = _v2;
+  let _v4 = b = _v3;
+  let _v5 = a = _v4;
+  _v5;
+}"
+`;
+
+exports[`expressions > should optimize await/yield expressions 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+async function Example(props) {
+  let _c = _useMemo(() => new Array(3), []);
+  let _eq = Object.is(_c[0], props),
+    _v = _eq ? _c[0] : _c[0] = props;
+  let _v2 = _eq ? _c[1] : _c[1] = _v.call;
+  let _v3 = _eq ? _c[2] : _c[2] = _v2();
+  return await _v3;
+}"
+`;
+
+exports[`expressions > should optimize binary expressions 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+function Example(props) {
+  let _c = _useMemo(() => new Array(3), []);
+  let _eq = Object.is(_c[0], props),
+    _v = _eq ? _c[0] : _c[0] = props;
+  let _v2 = _eq ? _c[1] : _c[1] = _v.a;
+  let _v3 = _eq ? _c[2] : _c[2] = _v.b;
+  return _v2 + _v3;
+}"
+`;
+
+exports[`expressions > should optimize call expressions 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+function Example(props) {
+  let _c = _useMemo(() => new Array(3), []);
+  let _eq = Object.is(_c[0], props),
+    _v = _eq ? _c[0] : _c[0] = props;
+  let _v2 = _eq ? _c[1] : _c[1] = _v.call;
+  let _v3 = _eq ? _c[2] : _c[2] = _v2();
+  return _v3;
+}"
+`;
+
+exports[`expressions > should optimize conditional expressions 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+function Example(props) {
+  let _c = _useMemo(() => new Array(4), []);
+  let _eq = Object.is(_c[0], props),
+    _v2 = _eq ? _c[0] : _c[0] = props;
+  let _v3 = _eq ? _c[1] : _c[1] = _v2.a;
+  let _v;
+  if (_v3) {
+    let _v4 = _eq ? _c[2] : _c[2] = _v2.b;
+    _v = _v4;
+  } else {
+    let _v5 = _eq ? _c[3] : _c[3] = _v2.c;
+    _v = _v5;
+  }
+  return _v;
+}"
+`;
+
+exports[`expressions > should optimize function expressions 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+function Example(props) {
+  let _c = _useMemo(() => new Array(2), []);
+  let _eq = Object.is(_c[0], props),
+    _v = _eq ? _c[0] : _c[0] = props;
+  let _v2 = _eq ? _c[1] : _c[1] = () => {
+    console.log(props.message);
+  };
+  return _v2;
+}"
+`;
+
+exports[`expressions > should optimize guaranteed literals 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+function Example(props) {
+  let _c = _useMemo(() => new Array(1), []);
+  let _eq = (0 in _c),
+    _v = _eq ? _c[0] : _c[0] = 1 + 2;
+  return _v;
+}"
+`;
+
+exports[`expressions > should optimize identifiers 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+function Example(props) {
+  let _c = _useMemo(() => new Array(1), []);
+  let _eq = Object.is(_c[0], props),
+    _v = _eq ? _c[0] : _c[0] = props;
+  return _v;
+}"
+`;
+
+exports[`expressions > should optimize logical expressions 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+function Example(props) {
+  let _c = _useMemo(() => new Array(3), []);
+  let _eq = Object.is(_c[0], props),
+    _v2 = _eq ? _c[0] : _c[0] = props;
+  let _v3 = _eq ? _c[1] : _c[1] = _v2.a;
+  let _v;
+  if (_v3) {
+    let _v4 = _eq ? _c[2] : _c[2] = _v2.b;
+    _v = _v4;
+  } else _v = _v3;
+  return _v;
+}"
+`;
+
+exports[`expressions > should optimize member expressions 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+function Example(props) {
+  let _c = _useMemo(() => new Array(2), []);
+  let _eq = Object.is(_c[0], props),
+    _v = _eq ? _c[0] : _c[0] = props;
+  let _v2 = _eq ? _c[1] : _c[1] = _v.example;
+  return _v2;
+}"
+`;
+
+exports[`expressions > should optimize new expressions 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+function Example(props) {
+  let _c = _useMemo(() => new Array(2), []);
+  let _eq = Object.is(_c[0], props),
+    _v = _eq ? _c[0] : _c[0] = props;
+  let _v2 = _eq ? _c[1] : _c[1] = new X(_v);
+  return _v2;
+}"
+`;
+
+exports[`expressions > should optimize object expressions 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+function Example(props) {
+  let _c = _useMemo(() => new Array(5), []);
+  let _eq = Object.is(_c[0], props),
+    _v = _eq ? _c[0] : _c[0] = props;
+  let _v2 = _eq ? _c[1] : _c[1] = _v.a;
+  let _v3 = _eq ? _c[2] : _c[2] = _v.b;
+  let _v4 = _eq ? _c[3] : _c[3] = _v.c;
+  let _eq2 = _eq && _eq && _eq,
+    _v5 = _eq2 ? _c[4] : _c[4] = {
+      a: _v2,
+      b: _v3,
+      ..._v4
+    };
+  return _v5;
+}"
+`;
+
+exports[`expressions > should optimize unary expressions 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+function Example(props) {
+  let _c = _useMemo(() => new Array(2), []);
+  let _eq = Object.is(_c[0], props),
+    _v = _eq ? _c[0] : _c[0] = props;
+  let _v2 = _eq ? _c[1] : _c[1] = _v.a;
+  return !_v2;
+}"
+`;

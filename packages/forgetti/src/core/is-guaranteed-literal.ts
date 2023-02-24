@@ -1,5 +1,6 @@
 import * as t from '@babel/types';
 import { every } from './arrays';
+import { isNestedExpression } from './checks';
 
 export default function isGuaranteedLiteral(node: t.Node): node is t.Literal {
   if (t.isLiteral(node)) {
@@ -14,15 +15,7 @@ export default function isGuaranteedLiteral(node: t.Node): node is t.Literal {
     }
     return true;
   }
-  if (
-    t.isParenthesizedExpression(node)
-    || t.isTypeCastExpression(node)
-    || t.isTSAsExpression(node)
-    || t.isTSSatisfiesExpression(node)
-    || t.isTSNonNullExpression(node)
-    || t.isTSTypeAssertion(node)
-    || t.isTSInstantiationExpression(node)
-  ) {
+  if (isNestedExpression(node)) {
     return isGuaranteedLiteral(node.expression);
   }
   if (t.isUnaryExpression(node)) {

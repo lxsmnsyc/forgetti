@@ -42,3 +42,21 @@ export function isPathValid<V extends t.Node>(
 ): path is babel.NodePath<V> {
   return key((path as babel.NodePath).node);
 }
+
+export type NestedExpression =
+  | t.ParenthesizedExpression
+  | t.TypeCastExpression
+  | t.TSAsExpression
+  | t.TSSatisfiesExpression
+  | t.TSNonNullExpression
+  | t.TSInstantiationExpression;
+
+export function isNestedExpression(node: t.Node): node is NestedExpression {
+  return t.isParenthesizedExpression(node)
+    || t.isTypeCastExpression(node)
+    || t.isTSAsExpression(node)
+    || t.isTSSatisfiesExpression(node)
+    || t.isTSNonNullExpression(node)
+    || t.isTSTypeAssertion(node)
+    || t.isTSInstantiationExpression(node);
+}
