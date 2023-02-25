@@ -71,7 +71,10 @@ export default class OptimizerScope {
           t.logicalExpression(
             '||',
             pos,
-            t.assignmentExpression('=', pos, t.arrayExpression()),
+            t.assignmentExpression('=', pos, t.newExpression(
+              t.identifier('Array'),
+              [t.numericLiteral(this.indeces)],
+            )),
           ),
         ),
       ]);
