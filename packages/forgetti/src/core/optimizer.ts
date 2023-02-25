@@ -991,14 +991,14 @@ export default class Optimizer {
     this.scope = consequent;
     this.optimizeStatement(consequentPath, true);
     this.scope = parent;
-    const newNode = t.ifStatement(optimized.expr, t.blockStatement(consequent.statements));
+    const newNode = t.ifStatement(optimized.expr, t.blockStatement(consequent.getStatements()));
     if (path.node.alternate) {
       const alternatePath = path.get('alternate') as babel.NodePath<t.Statement>;
       const alternate = new OptimizerScope(this.ctx, alternatePath, parent);
       this.scope = alternate;
       this.optimizeStatement(alternatePath, true);
       this.scope = parent;
-      newNode.alternate = t.blockStatement(alternate.statements);
+      newNode.alternate = t.blockStatement(alternate.getStatements());
     }
     this.scope.push(newNode);
   }

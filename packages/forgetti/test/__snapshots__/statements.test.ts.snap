@@ -84,13 +84,14 @@ function Example(props) {
 exports[`statements > should optimize if statements 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 function Example(props) {
-  let _c = _useMemo(() => new Array(3), []);
+  let _c = _useMemo(() => new Array(5), []);
   let _eq = Object.is(_c[0], props),
     _v = _eq ? _c[0] : _c[0] = props;
   let _v2 = _eq ? _c[1] : _c[1] = _v.type;
   let _eq2 = Object.is(_c[2], _v2),
     _v3 = _eq2 ? _c[2] : _c[2] = _v2;
   if (_v3 === 'a') {
+    let _c2 = _c[3] || (_c[3] = []);
     let _v4 = _c2[0] || (_c2[0] = examples.a);
     let _v5 = _eq ? _c2[1] : _c2[1] = _v.value;
     let _eq3 = Object.is(_c2[2], _v5),
@@ -98,6 +99,7 @@ function Example(props) {
     let _v7 = _eq3 ? _c2[3] : _c2[3] = _v4(_v6);
     return _v7;
   } else {
+    let _c3 = _c[4] || (_c[4] = []);
     let _v8 = _c3[0] || (_c3[0] = examples.b);
     let _v9 = _eq ? _c3[1] : _c3[1] = _v.value;
     let _eq4 = Object.is(_c3[2], _v9),
@@ -117,7 +119,7 @@ function Example(props) {
   let _v2 = _eq ? _c[1] : _c[1] = _v.type;
   switch (_v2) {
     case 'a':
-      let _c2 = 2 in _c ? _c[2] : _c[2] = [];
+      let _c2 = _c[2] || (_c[2] = []);
       let _v3 = _c2[0] || (_c2[0] = examples.a);
       let _v4 = _eq ? _c2[1] : _c2[1] = _v.value;
       let _eq2 = Object.is(_c2[2], _v4),
@@ -125,7 +127,7 @@ function Example(props) {
       let _v6 = _eq2 ? _c2[3] : _c2[3] = _v3(_v5);
       return _v6;
     case 'b':
-      let _c3 = 3 in _c ? _c[3] : _c[3] = [];
+      let _c3 = _c[3] || (_c[3] = []);
       let _v7 = _c3[0] || (_c3[0] = examples.b);
       let _v8 = _eq ? _c3[1] : _c3[1] = _v.value;
       let _eq3 = Object.is(_c3[2], _v8),
@@ -133,7 +135,7 @@ function Example(props) {
       let _v10 = _eq3 ? _c3[3] : _c3[3] = _v7(_v9);
       return _v10;
     case 'c':
-      let _c4 = 4 in _c ? _c[4] : _c[4] = [];
+      let _c4 = _c[4] || (_c[4] = []);
       let _v11 = _c4[0] || (_c4[0] = examples.c);
       let _v12 = _eq ? _c4[1] : _c4[1] = _v.value;
       let _eq4 = Object.is(_c4[2], _v12),
@@ -141,7 +143,7 @@ function Example(props) {
       let _v14 = _eq4 ? _c4[3] : _c4[3] = _v11(_v13);
       return _v14;
     default:
-      let _c5 = 5 in _c ? _c[5] : _c[5] = [];
+      let _c5 = _c[5] || (_c[5] = []);
       let _v15 = _c5[0] || (_c5[0] = examples.default);
       let _v16 = _eq ? _c5[1] : _c5[1] = _v.value;
       let _eq5 = Object.is(_c5[2], _v16),
@@ -157,7 +159,7 @@ exports[`statements > should optimize try statements 1`] = `
 function Example(props) {
   let _c2 = _useMemo(() => new Array(3), []);
   try {
-    let _c = 0 in _c2 ? _c2[0] : _c2[0] = [];
+    let _c = _c2[0] || (_c2[0] = []);
     let _eq = Object.is(_c[0], props),
       _v = _eq ? _c[0] : _c[0] = props;
     let _v2 = _eq ? _c[1] : _c[1] = _v.a;
@@ -166,7 +168,7 @@ function Example(props) {
     let _v4 = _eq2 ? _c[3] : _c[3] = _v3();
     _v4;
   } catch (e) {
-    let _c3 = 1 in _c2 ? _c2[1] : _c2[1] = [];
+    let _c3 = _c2[1] || (_c2[1] = []);
     let _v5 = _eq ? _c3[0] : _c3[0] = _v.b;
     let _eq3 = Object.is(_c3[1], _v5),
       _v6 = _eq3 ? _c3[1] : _c3[1] = _v5;
@@ -176,7 +178,7 @@ function Example(props) {
       _v8 = _eq5 ? _c3[3] : _c3[3] = _v6(_v7);
     _v8;
   } finally {
-    let _c4 = 2 in _c2 ? _c2[2] : _c2[2] = [];
+    let _c4 = _c2[2] || (_c2[2] = []);
     let _v9 = _eq ? _c4[0] : _c4[0] = _v.c;
     let _eq6 = Object.is(_c4[1], _v9),
       _v10 = _eq6 ? _c4[1] : _c4[1] = _v9;

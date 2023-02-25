@@ -151,34 +151,34 @@ exports[`expressions > should optimize conditional expressions 1`] = `
 function Example(props) {
   let _c4 = _useMemo(() => new Array(4), []);
   let _eq2 = Object.is(_c4[3], (() => {
-      let _c = 2 in _c4 ? _c4[2] : _c4[2] = [];
+      let _c = _c4[2] || (_c4[2] = []);
       let _eq = Object.is(_c[0], props),
         _v2 = _eq ? _c[0] : _c[0] = props;
       let _v3 = _eq ? _c[1] : _c[1] = _v2.a;
       let _v;
       if (_v3) {
-        let _c2 = 0 in _c4 ? _c4[0] : _c4[0] = [];
+        let _c2 = _c4[0] || (_c4[0] = []);
         let _v4 = _eq ? _c2[0] : _c2[0] = _v2.b;
         _v = _v4;
       } else {
-        let _c3 = 1 in _c4 ? _c4[1] : _c4[1] = [];
+        let _c3 = _c4[1] || (_c4[1] = []);
         let _v5 = _eq ? _c3[0] : _c3[0] = _v2.c;
         _v = _v5;
       }
       return _v;
     })()),
     _v6 = _eq2 ? _c4[3] : _c4[3] = (() => {
-      let _c = 2 in _c4 ? _c4[2] : _c4[2] = [];
+      let _c = _c4[2] || (_c4[2] = []);
       let _eq = Object.is(_c[0], props),
         _v2 = _eq ? _c[0] : _c[0] = props;
       let _v3 = _eq ? _c[1] : _c[1] = _v2.a;
       let _v;
       if (_v3) {
-        let _c2 = 0 in _c4 ? _c4[0] : _c4[0] = [];
+        let _c2 = _c4[0] || (_c4[0] = []);
         let _v4 = _eq ? _c2[0] : _c2[0] = _v2.b;
         _v = _v4;
       } else {
-        let _c3 = 1 in _c4 ? _c4[1] : _c4[1] = [];
+        let _c3 = _c4[1] || (_c4[1] = []);
         let _v5 = _eq ? _c3[0] : _c3[0] = _v2.c;
         _v = _v5;
       }
@@ -225,26 +225,26 @@ exports[`expressions > should optimize logical expressions 1`] = `
 function Example(props) {
   let _c3 = _useMemo(() => new Array(3), []);
   let _eq2 = Object.is(_c3[2], (() => {
-      let _c = 1 in _c3 ? _c3[1] : _c3[1] = [];
+      let _c = _c3[1] || (_c3[1] = []);
       let _eq = Object.is(_c[0], props),
         _v2 = _eq ? _c[0] : _c[0] = props;
       let _v3 = _eq ? _c[1] : _c[1] = _v2.a;
       let _v;
       if (_v3) {
-        let _c2 = 0 in _c3 ? _c3[0] : _c3[0] = [];
+        let _c2 = _c3[0] || (_c3[0] = []);
         let _v4 = _eq ? _c2[0] : _c2[0] = _v2.b;
         _v = _v4;
       } else _v = _v3;
       return _v;
     })()),
     _v5 = _eq2 ? _c3[2] : _c3[2] = (() => {
-      let _c = 1 in _c3 ? _c3[1] : _c3[1] = [];
+      let _c = _c3[1] || (_c3[1] = []);
       let _eq = Object.is(_c[0], props),
         _v2 = _eq ? _c[0] : _c[0] = props;
       let _v3 = _eq ? _c[1] : _c[1] = _v2.a;
       let _v;
       if (_v3) {
-        let _c2 = 0 in _c3 ? _c3[0] : _c3[0] = [];
+        let _c2 = _c3[0] || (_c3[0] = []);
         let _v4 = _eq ? _c2[0] : _c2[0] = _v2.b;
         _v = _v4;
       } else _v = _v3;
