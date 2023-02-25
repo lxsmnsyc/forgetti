@@ -586,6 +586,16 @@ export default class Optimizer {
     return optimizedExpr(path.node);
   }
 
+  optimizeSequenceExpression(
+    path: babel.NodePath<t.SequenceExpression>,
+  ) {
+    forEach(path.get('expressions'), (expr, i) => {
+      const result = this.optimizeExpression(expr);
+      path.node.expressions[i] = result.expr;
+    });
+    return optimizedExpr(path.node);
+  }
+
   optimizeExpression(
     path: babel.NodePath<t.Expression>,
   ): OptimizedExpression {
@@ -650,7 +660,7 @@ export default class Optimizer {
       return this.optimizeNewExpression(path);
     }
     if (isPathValid(path, t.isSequenceExpression)) {
-      // TODO
+      return this.optimizeSequenceExpression(path);
     }
     if (isPathValid(path, t.isJSXElement)) {
       // TODO

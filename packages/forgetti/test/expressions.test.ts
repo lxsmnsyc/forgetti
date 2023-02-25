@@ -178,4 +178,12 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
+  it('should optimize sequence expressions', async () => {
+    const code = `
+function Example(props) {
+  return props.a(), props.b();
+}
+`;
+    expect(await compile(code)).toMatchSnapshot();
+  });
 });
