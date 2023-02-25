@@ -163,4 +163,30 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
+  it('should optimize JSX Element', async () => {
+    const code = `
+function Example(props) {
+  return (
+    <div>
+      <h1 title={props.title}>Title: {props.title}</h1>
+      {props.children}
+    </div>
+  );
+}
+`;
+    expect(await compile(code)).toMatchSnapshot();
+  });
+  it('should optimize JSX Fragment', async () => {
+    const code = `
+function Example(props) {
+  return (
+    <>
+      <h1 title={props.title}>Title: {props.title}</h1>
+      {props.children}
+    </>
+  );
+}
+`;
+    expect(await compile(code)).toMatchSnapshot();
+  });
 });

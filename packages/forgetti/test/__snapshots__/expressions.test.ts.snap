@@ -1,5 +1,61 @@
 // Vitest Snapshot v1
 
+exports[`expressions > should optimize JSX Element 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+function Example(props) {
+  let _c = _useMemo(() => new Array(10), []);
+  let _eq = Object.is(_c[0], props),
+    _v = _eq ? _c[0] : _c[0] = props;
+  let _v2 = _eq ? _c[1] : _c[1] = _v.title;
+  let _eq2 = Object.is(_c[2], _v2),
+    _v3 = _eq2 ? _c[2] : _c[2] = _v2;
+  let _v4 = _eq ? _c[3] : _c[3] = _v.title;
+  let _eq3 = Object.is(_c[4], _v4),
+    _v5 = _eq3 ? _c[4] : _c[4] = _v4;
+  let _eq4 = _eq2 && _eq3,
+    _v6 = _eq4 ? _c[5] : _c[5] = <h1 title={_v3}>Title: {_v5}</h1>;
+  let _eq5 = Object.is(_c[6], _v6),
+    _v7 = _eq5 ? _c[6] : _c[6] = _v6;
+  let _v8 = _eq ? _c[7] : _c[7] = _v.children;
+  let _eq6 = Object.is(_c[8], _v8),
+    _v9 = _eq6 ? _c[8] : _c[8] = _v8;
+  let _eq7 = _eq5 && _eq6,
+    _v10 = _eq7 ? _c[9] : _c[9] = <div>
+      {_v7}
+      {_v9}
+    </div>;
+  return _v10;
+}"
+`;
+
+exports[`expressions > should optimize JSX Fragment 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+function Example(props) {
+  let _c = _useMemo(() => new Array(10), []);
+  let _eq = Object.is(_c[0], props),
+    _v = _eq ? _c[0] : _c[0] = props;
+  let _v2 = _eq ? _c[1] : _c[1] = _v.title;
+  let _eq2 = Object.is(_c[2], _v2),
+    _v3 = _eq2 ? _c[2] : _c[2] = _v2;
+  let _v4 = _eq ? _c[3] : _c[3] = _v.title;
+  let _eq3 = Object.is(_c[4], _v4),
+    _v5 = _eq3 ? _c[4] : _c[4] = _v4;
+  let _eq4 = _eq2 && _eq3,
+    _v6 = _eq4 ? _c[5] : _c[5] = <h1 title={_v3}>Title: {_v5}</h1>;
+  let _eq5 = Object.is(_c[6], _v6),
+    _v7 = _eq5 ? _c[6] : _c[6] = _v6;
+  let _v8 = _eq ? _c[7] : _c[7] = _v.children;
+  let _eq6 = Object.is(_c[8], _v8),
+    _v9 = _eq6 ? _c[8] : _c[8] = _v8;
+  let _eq7 = _eq5 && _eq6,
+    _v10 = _eq7 ? _c[9] : _c[9] = <>
+      {_v7}
+      {_v9}
+    </>;
+  return _v10;
+}"
+`;
+
 exports[`expressions > should optimize array expressions 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 function Example(props) {

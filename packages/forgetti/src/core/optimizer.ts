@@ -551,6 +551,7 @@ export default class Optimizer {
     if (isPathValid(path, t.isMemberExpression)) {
       return this.memoizeMemberExpression(path);
     }
+    // TODO Destructuring
     return {
       expr: path.node,
       deps: [],
@@ -735,6 +736,97 @@ export default class Optimizer {
     return this.createMemo(path.node, conditions);
   }
 
+  memoizeJSXChildren(
+    path: babel.NodePath<t.JSXFragment | t.JSXElement>,
+  ) {
+    const conditions = createDependencies();
+    forEach(path.get('children'), (child, i) => {
+      if (isPathValid(child, t.isJSXFragment)) {
+        const optimized = this.createDependency(child);
+        if (optimized) {
+          path.node.children[i] = t.jsxExpressionContainer(optimized.expr);
+          mergeDependencies(conditions, optimized.deps);
+        }
+      } else if (isPathValid(child, t.isJSXElement)) {
+        const optimized = this.createDependency(child);
+        if (optimized) {
+          path.node.children[i] = t.jsxExpressionContainer(optimized.expr);
+          mergeDependencies(conditions, optimized.deps);
+        }
+      } else if (isPathValid(child, t.isJSXExpressionContainer)) {
+        const expr = child.get('expression');
+        if (isPathValid(expr, t.isExpression)) {
+          const optimized = this.createDependency(expr);
+          if (optimized) {
+            child.node.expression = optimized.expr;
+            mergeDependencies(conditions, optimized.deps);
+          }
+        }
+      }
+    });
+
+    return conditions;
+  }
+
+  optimizeJSXFragment(
+    path: babel.NodePath<t.JSXFragment>,
+  ) {
+    if (this.ctx.preset.optimizeJSX) {
+      const dependencies = this.memoizeJSXChildren(path);
+      return this.createMemo(path.node, dependencies);
+    }
+    return optimizedExpr(path.node);
+  }
+
+  optimizeJSXElement(
+    path: babel.NodePath<t.JSXElement>,
+  ) {
+    if (this.ctx.preset.optimizeJSX) {
+      const dependencies = createDependencies();
+      const attributes = path.get('openingElement').get('attributes');
+      forEach(attributes, (attribute) => {
+        if (isPathValid(attribute, t.isJSXAttribute)) {
+          const value = attribute.get('value');
+          if (value) {
+            if (isPathValid(value, t.isJSXFragment)) {
+              const optimized = this.createDependency(value);
+              if (optimized) {
+                attribute.node.value = t.jsxExpressionContainer(optimized.expr);
+                mergeDependencies(dependencies, optimized.deps);
+              }
+            } else if (isPathValid(value, t.isJSXElement)) {
+              const optimized = this.createDependency(value);
+              if (optimized) {
+                attribute.node.value = t.jsxExpressionContainer(optimized.expr);
+                mergeDependencies(dependencies, optimized.deps);
+              }
+            } else if (isPathValid(value, t.isJSXExpressionContainer)) {
+              const expr = value.get('expression');
+              if (isPathValid(expr, t.isExpression)) {
+                const optimized = this.createDependency(expr);
+                if (optimized) {
+                  value.node.expression = optimized.expr;
+                  mergeDependencies(dependencies, optimized.deps);
+                }
+              }
+            }
+          }
+        } else if (isPathValid(attribute, t.isJSXSpreadAttribute)) {
+          const optimized = this.createDependency(attribute.get('argument'));
+          if (optimized) {
+            attribute.node.argument = optimized.expr;
+            mergeDependencies(dependencies, optimized.deps);
+          }
+        }
+      });
+      if (path.node.children.length) {
+        mergeDependencies(dependencies, this.memoizeJSXChildren(path));
+      }
+      return this.createMemo(path.node, dependencies);
+    }
+    return optimizedExpr(path.node);
+  }
+
   optimizeExpression(
     path: babel.NodePath<t.Expression>,
   ): OptimizedExpression {
@@ -806,6 +898,12 @@ export default class Optimizer {
     }
     if (isPathValid(path, t.isTemplateLiteral)) {
       return this.optimizeTemplateLiteral(path);
+    }
+    if (isPathValid(path, t.isJSXFragment)) {
+      return this.optimizeJSXFragment(path);
+    }
+    if (isPathValid(path, t.isJSXElement)) {
+      return this.optimizeJSXElement(path);
     }
     return optimizedExpr(path.node, undefined, true);
   }

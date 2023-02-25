@@ -14,6 +14,7 @@ export interface HookRegistration extends ImportRegistration {
 }
 
 export interface Preset {
+  optimizeJSX?: boolean;
   memo: ImportRegistration;
   hooks: HookRegistration[];
   hocs: ImportRegistration[];
@@ -31,6 +32,7 @@ export function createPreset(preset: Preset): Preset {
 
 export const PRESETS = {
   react: createPreset({
+    optimizeJSX: true,
     componentFilter: {
       source: '^[A-Z]',
       flags: '',
@@ -90,6 +92,7 @@ export const PRESETS = {
     ],
   }),
   preact: createPreset({
+    optimizeJSX: true,
     componentFilter: {
       source: '^[A-Z]',
       flags: '',
