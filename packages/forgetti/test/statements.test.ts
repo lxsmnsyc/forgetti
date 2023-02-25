@@ -133,4 +133,16 @@ describe('statements', () => {
   `;
     expect(await compile(code)).toMatchSnapshot();
   });
+  it('should optimize if statements', async () => {
+    const code = `
+  function Example(props) {
+    if (props.type === 'a') {
+      return examples.a(props.value);
+    } else {
+      return examples.b(props.value);
+    }
+  }
+  `;
+    expect(await compile(code)).toMatchSnapshot();
+  });
 });

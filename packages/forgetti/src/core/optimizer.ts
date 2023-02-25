@@ -717,13 +717,18 @@ export default class Optimizer {
 
   optimizeBlockStatement(
     path: babel.NodePath<t.BlockStatement>,
+    topBlock = false,
   ) {
-    const parent = this.scope;
-    const block = new OptimizerScope(this.ctx, path, parent);
-    this.scope = block;
-    this.optimizeBlock(path);
-    this.scope = parent;
-    this.scope.push(t.blockStatement(block.getStatements()));
+    if (topBlock) {
+      this.optimizeBlock(path);
+    } else {
+      const parent = this.scope;
+      const block = new OptimizerScope(this.ctx, path, parent);
+      this.scope = block;
+      this.optimizeBlock(path);
+      this.scope = parent;
+      this.scope.push(t.blockStatement(block.getStatements()));
+    }
   }
 
   optimizeIfStatement(
@@ -734,14 +739,14 @@ export default class Optimizer {
     const consequentPath = path.get('consequent');
     const consequent = new OptimizerScope(this.ctx, consequentPath, parent);
     this.scope = consequent;
-    this.optimizeStatement(consequentPath);
+    this.optimizeStatement(consequentPath, true);
     this.scope = parent;
     const newNode = t.ifStatement(optimized.expr, t.blockStatement(consequent.statements));
     if (path.node.alternate) {
       const alternatePath = path.get('alternate') as babel.NodePath<t.Statement>;
       const alternate = new OptimizerScope(this.ctx, alternatePath, parent);
       this.scope = alternate;
-      this.optimizeStatement(alternatePath);
+      this.optimizeStatement(alternatePath, true);
       this.scope = parent;
       newNode.alternate = t.blockStatement(alternate.statements);
     }
@@ -754,7 +759,7 @@ export default class Optimizer {
     const parent = this.scope;
     const loop = new OptimizerScope(this.ctx, path, parent, true);
     this.scope = loop;
-    this.optimizeStatement(path.get('body'));
+    this.optimizeStatement(path.get('body'), true);
     this.scope = parent;
 
     const statements = loop.getStatements();
@@ -829,6 +834,7 @@ export default class Optimizer {
 
   optimizeStatement(
     path: babel.NodePath<t.Statement>,
+    topBlock = false,
   ): void {
     if (isPathValid(path, t.isExpressionStatement)) {
       this.optimizeExpressionStatement(path);
@@ -837,7 +843,7 @@ export default class Optimizer {
     } else if (isPathValid(path, t.isReturnStatement)) {
       this.optimizeReturnStatement(path);
     } else if (isPathValid(path, t.isBlockStatement)) {
-      this.optimizeBlockStatement(path);
+      this.optimizeBlockStatement(path, topBlock);
     } else if (isPathValid(path, t.isIfStatement)) {
       this.optimizeIfStatement(path);
     } else if (isPathValid(path, t.isForXStatement)) {
