@@ -200,6 +200,22 @@ function Example(props) {
 }"
 `;
 
+exports[`expressions > should optimize template literals 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+function Example(props) {
+  let _c = _useMemo(() => new Array(6), []);
+  let _eq = Object.is(_c[0], props),
+    _v = _eq ? _c[0] : _c[0] = props;
+  let _v2 = _eq ? _c[1] : _c[1] = _v.a;
+  let _v3 = _eq ? _c[2] : _c[2] = _v2();
+  let _v4 = _eq ? _c[3] : _c[3] = _v.b;
+  let _v5 = _eq ? _c[4] : _c[4] = _v4();
+  let _eq2 = _eq && _eq,
+    _v6 = _eq2 ? _c[5] : _c[5] = \`\${_v3}, \${_v5}\`;
+  return _v6;
+}"
+`;
+
 exports[`expressions > should optimize unary expressions 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 function Example(props) {

@@ -231,7 +231,7 @@ export default class Optimizer {
     }
     const leftPath = path.get('left');
 
-    const dependencies: t.Expression[] = [];
+    const dependencies = createDependencies();
 
     if (isPathValid(leftPath, t.isExpression)) {
       const optimizedLeft = this.optimizeExpression(leftPath);
@@ -412,7 +412,7 @@ export default class Optimizer {
 
       if (isHook) {
         const argumentsPath = path.get('arguments');
-        const dependencies: t.Expression[] = [];
+        const dependencies = createDependencies();
         forEach(argumentsPath, (argument, i) => {
           if (isPathValid(argument, t.isExpression)) {
             const optimized = this.optimizeExpression(argument);
@@ -428,7 +428,7 @@ export default class Optimizer {
       }
       const callee = this.optimizeExpression(calleePath);
       // Build dependencies
-      const condition: t.Expression[] = createDependencies(callee.deps);
+      const condition = createDependencies(callee.deps);
       const argumentsPath = path.get('arguments');
       forEach(argumentsPath, (argument, i) => {
         if (isPathValid(argument, t.isExpression)) {
@@ -462,7 +462,7 @@ export default class Optimizer {
     path: babel.NodePath<t.ArrowFunctionExpression | t.FunctionExpression>,
   ) {
     const bindings = getForeignBindings(path);
-    const dependencies: t.Expression[] = [];
+    const dependencies = createDependencies();
     forEach(bindings, (binding) => {
       const optimized = this.memoizeIdentifier(path, binding);
       mergeDependencies(dependencies, optimized.deps);
@@ -502,7 +502,7 @@ export default class Optimizer {
   optimizeArrayExpression(
     path: babel.NodePath<t.ArrayExpression | t.TupleExpression>,
   ) {
-    const condition: t.Expression[] = [];
+    const condition = createDependencies();
     const elementsPath = path.get('elements');
     forEach(elementsPath, (element, i) => {
       if (isPathValid(element, t.isExpression)) {
@@ -522,7 +522,7 @@ export default class Optimizer {
   optimizeObjectExpression(
     path: babel.NodePath<t.ObjectExpression | t.RecordExpression>,
   ) {
-    const condition: t.Expression[] = [];
+    const condition = createDependencies();
     const elementsPath = path.get('properties');
     forEach(elementsPath, (element) => {
       if (isPathValid(element, t.isObjectProperty)) {
@@ -548,7 +548,7 @@ export default class Optimizer {
         element.node.argument = optimized.expr;
       } else if (isPathValid(element, t.isObjectMethod)) {
         const bindings = getForeignBindings(path);
-        const dependencies: t.Expression[] = [];
+        const dependencies = createDependencies();
         forEach(bindings, (binding) => {
           const optimized = this.memoizeIdentifier(path, binding);
           mergeDependencies(dependencies, optimized.deps);
@@ -567,7 +567,7 @@ export default class Optimizer {
     if (isPathValid(calleePath, t.isExpression)) {
       const callee = this.optimizeExpression(calleePath);
       // Build dependencies
-      const condition: t.Expression[] = createDependencies(callee.deps);
+      const condition = createDependencies(callee.deps);
       const argumentsPath = path.get('arguments');
       forEach(argumentsPath, (argument, i) => {
         if (isPathValid(argument, t.isExpression)) {
@@ -594,6 +594,20 @@ export default class Optimizer {
       path.node.expressions[i] = result.expr;
     });
     return optimizedExpr(path.node);
+  }
+
+  optimizeTemplateLiteral(
+    path: babel.NodePath<t.TemplateLiteral>,
+  ) {
+    const conditions = createDependencies();
+    forEach(path.get('expressions'), (expr, i) => {
+      if (isPathValid(expr, t.isExpression)) {
+        const result = this.optimizeExpression(expr);
+        path.node.expressions[i] = result.expr;
+        mergeDependencies(conditions, result.deps);
+      }
+    });
+    return this.createMemo(path.node, conditions);
   }
 
   optimizeExpression(
@@ -662,17 +676,11 @@ export default class Optimizer {
     if (isPathValid(path, t.isSequenceExpression)) {
       return this.optimizeSequenceExpression(path);
     }
-    if (isPathValid(path, t.isJSXElement)) {
-      // TODO
-    }
-    if (isPathValid(path, t.isJSXFragment)) {
-      // TODO
-    }
     if (isPathValid(path, t.isTaggedTemplateExpression)) {
       // TODO
     }
     if (isPathValid(path, t.isTemplateLiteral)) {
-      // TODO
+      return this.optimizeTemplateLiteral(path);
     }
     return optimizedExpr(path.node);
   }
