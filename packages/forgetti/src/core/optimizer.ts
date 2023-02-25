@@ -103,7 +103,7 @@ export default class Optimizer {
         }
       });
     } else if (dependencies === true) {
-      condition = t.binaryExpression('in', index, header);
+      // Do nothing
     } else if (dependencies) {
       condition = dependencies;
     } else {
@@ -113,21 +113,21 @@ export default class Optimizer {
       );
     }
 
-    if (!condition) {
-      condition = t.binaryExpression('in', index, header);
+    let eqid: t.Expression;
+
+    if (condition == null) {
+      eqid = pos;
+    } else if (t.isIdentifier(condition)) {
+      eqid = condition;
+    } else {
+      eqid = this.path.scope.generateUidIdentifier('eq');
     }
 
-    const eqid = (
-      t.isIdentifier(condition)
-        ? condition
-        : this.path.scope.generateUidIdentifier('eq')
-    );
+    const declaration: t.VariableDeclarator[] = [];
 
-    const declaration = (
-      t.isIdentifier(condition)
-        ? []
-        : [t.variableDeclarator(eqid, condition)]
-    );
+    if (condition && !t.isIdentifier(condition)) {
+      declaration.push(t.variableDeclarator(eqid, condition));
+    }
 
     const optimized = optimizedExpr(vid, eqid);
 
@@ -136,10 +136,12 @@ export default class Optimizer {
       this.optimizedID.set(vid, optimized);
     }
 
-    const init = t.conditionalExpression(
-      eqid,
-      pos,
-      t.assignmentExpression('=', pos, current),
+    const update = t.assignmentExpression('=', pos, current);
+
+    const init = (
+      condition
+        ? t.conditionalExpression(eqid, pos, update)
+        : t.logicalExpression('||', pos, update)
     );
 
     declaration.push(t.variableDeclarator(vid, init));
@@ -347,12 +349,23 @@ export default class Optimizer {
   optimizeUnaryExpression(
     path: babel.NodePath<t.UnaryExpression>,
   ) {
-    const optimized = this.createDependency(path.get('argument'));
+    let current = path.get('argument');
+    let isPositive = false;
+    while (isPathValid(current, t.isUnaryExpression)) {
+      isPositive = !isPositive;
+      current = path.get('argument');
+    }
+
+    if (isPositive) {
+      return this.optimizeExpression(current);
+    }
+
+    const optimized = this.createDependency(current);
     if (optimized) {
       path.node.argument = optimized.expr;
       return optimizedExpr(path.node, optimized.deps);
     }
-    return optimizedExpr(path.node, undefined, true);
+    return optimizedExpr(path.node);
   }
 
   optimizeEffect(
@@ -364,7 +377,7 @@ export default class Optimizer {
       path.node.arguments[1] = t.arrayExpression([optimizedArray.expr]);
       return optimizedExpr(path.node, optimizedArray.deps);
     }
-    return optimizedExpr(path.node, undefined, true);
+    return optimizedExpr(path.node);
   }
 
   optimizeCallback(
@@ -377,7 +390,7 @@ export default class Optimizer {
         return this.createMemo(callback.node, optimizedArray.expr);
       }
     }
-    return optimizedExpr(path.node, undefined, true);
+    return optimizedExpr(path.node);
   }
 
   optimizeMemo(
@@ -393,7 +406,7 @@ export default class Optimizer {
         );
       }
     }
-    return optimizedExpr(path.node, undefined, true);
+    return optimizedExpr(path.node);
   }
 
   optimizeCallExpression(
@@ -478,7 +491,7 @@ export default class Optimizer {
             }
           }
         });
-        return optimizedExpr(path.node, undefined, true);
+        return optimizedExpr(path.node);
       }
       // Build dependencies
       const condition = createDependencies();
@@ -736,8 +749,8 @@ export default class Optimizer {
   optimizeExpression(
     path: babel.NodePath<t.Expression>,
   ): OptimizedExpression {
-    if (isPathValid(path, isNestedExpression)) {
-      return this.optimizeExpression(path.get('expression'));
+    while (isPathValid(path, isNestedExpression)) {
+      path = path.get('expression');
     }
     // No need to optimize
     if (t.isLiteral(path.node) && !t.isTemplateLiteral(path.node)) {

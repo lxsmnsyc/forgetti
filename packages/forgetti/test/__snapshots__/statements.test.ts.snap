@@ -10,14 +10,13 @@ function Example(props) {
   do {
     let _lid = _id++,
       _l = _lid in _c ? _c[_lid] : _c[_lid] = new Array(4);
-    let _eq = (0 in _l),
-      _v = _eq ? _l[0] : _l[0] = console.log;
-    let _eq2 = Object.is(_l[1], _v),
-      _v2 = _eq2 ? _l[1] : _l[1] = _v;
-    let _eq3 = Object.is(_l[2], i),
-      _v3 = _eq3 ? _l[2] : _l[2] = i;
-    let _eq4 = _eq2 && _eq3,
-      _v4 = _eq4 ? _l[3] : _l[3] = _v2(_v3);
+    let _v = _l[0] || (_l[0] = console.log);
+    let _eq = Object.is(_l[1], _v),
+      _v2 = _eq ? _l[1] : _l[1] = _v;
+    let _eq2 = Object.is(_l[2], i),
+      _v3 = _eq2 ? _l[2] : _l[2] = i;
+    let _eq3 = _eq && _eq2,
+      _v4 = _eq3 ? _l[3] : _l[3] = _v2(_v3);
     _v4;
     let _v5 = i += 1;
     _v5;
@@ -34,14 +33,13 @@ function Example(props) {
   for (let i = 0; i < 10; i += 1) {
     let _lid = _id++,
       _l = _lid in _c ? _c[_lid] : _c[_lid] = new Array(4);
-    let _eq = (0 in _l),
-      _v = _eq ? _l[0] : _l[0] = console.log;
-    let _eq2 = Object.is(_l[1], _v),
-      _v2 = _eq2 ? _l[1] : _l[1] = _v;
-    let _eq3 = Object.is(_l[2], i),
-      _v3 = _eq3 ? _l[2] : _l[2] = i;
-    let _eq4 = _eq2 && _eq3,
-      _v4 = _eq4 ? _l[3] : _l[3] = _v2(_v3);
+    let _v = _l[0] || (_l[0] = console.log);
+    let _eq = Object.is(_l[1], _v),
+      _v2 = _eq ? _l[1] : _l[1] = _v;
+    let _eq2 = Object.is(_l[2], i),
+      _v3 = _eq2 ? _l[2] : _l[2] = i;
+    let _eq3 = _eq && _eq2,
+      _v4 = _eq3 ? _l[3] : _l[3] = _v2(_v3);
     _v4;
   }
 }"
@@ -59,14 +57,13 @@ function Example(props) {
   for (const x in _v2) {
     let _lid = _id++,
       _l = _lid in _c2 ? _c2[_lid] : _c2[_lid] = new Array(4);
-    let _eq2 = (0 in _l),
-      _v3 = _eq2 ? _l[0] : _l[0] = console.log;
-    let _eq3 = Object.is(_l[1], _v3),
-      _v4 = _eq3 ? _l[1] : _l[1] = _v3;
-    let _eq4 = Object.is(_l[2], x),
-      _v5 = _eq4 ? _l[2] : _l[2] = x;
-    let _eq5 = _eq3 && _eq4,
-      _v6 = _eq5 ? _l[3] : _l[3] = _v4(_v5);
+    let _v3 = _l[0] || (_l[0] = console.log);
+    let _eq2 = Object.is(_l[1], _v3),
+      _v4 = _eq2 ? _l[1] : _l[1] = _v3;
+    let _eq3 = Object.is(_l[2], x),
+      _v5 = _eq3 ? _l[2] : _l[2] = x;
+    let _eq4 = _eq2 && _eq3,
+      _v6 = _eq4 ? _l[3] : _l[3] = _v4(_v5);
     _v6;
   }
 }"
@@ -84,14 +81,13 @@ function Example(props) {
   for (const x of _v2) {
     let _lid = _id++,
       _l = _lid in _c2 ? _c2[_lid] : _c2[_lid] = new Array(4);
-    let _eq2 = (0 in _l),
-      _v3 = _eq2 ? _l[0] : _l[0] = console.log;
-    let _eq3 = Object.is(_l[1], _v3),
-      _v4 = _eq3 ? _l[1] : _l[1] = _v3;
-    let _eq4 = Object.is(_l[2], x),
-      _v5 = _eq4 ? _l[2] : _l[2] = x;
-    let _eq5 = _eq3 && _eq4,
-      _v6 = _eq5 ? _l[3] : _l[3] = _v4(_v5);
+    let _v3 = _l[0] || (_l[0] = console.log);
+    let _eq2 = Object.is(_l[1], _v3),
+      _v4 = _eq2 ? _l[1] : _l[1] = _v3;
+    let _eq3 = Object.is(_l[2], x),
+      _v5 = _eq3 ? _l[2] : _l[2] = x;
+    let _eq4 = _eq2 && _eq3,
+      _v6 = _eq4 ? _l[3] : _l[3] = _v4(_v5);
     _v6;
   }
 }"
@@ -107,26 +103,24 @@ function Example(props) {
   let _eq2 = Object.is(_c[2], _v2),
     _v3 = _eq2 ? _c[2] : _c[2] = _v2;
   if (_v3 === 'a') {
-    let _eq3 = (0 in _c2),
-      _v4 = _eq3 ? _c2[0] : _c2[0] = examples.a;
-    let _eq4 = Object.is(_c2[1], _v4),
-      _v5 = _eq4 ? _c2[1] : _c2[1] = _v4;
+    let _v4 = _c2[0] || (_c2[0] = examples.a);
+    let _eq3 = Object.is(_c2[1], _v4),
+      _v5 = _eq3 ? _c2[1] : _c2[1] = _v4;
     let _v6 = _eq ? _c2[2] : _c2[2] = _v.value;
-    let _eq5 = Object.is(_c2[3], _v6),
-      _v7 = _eq5 ? _c2[3] : _c2[3] = _v6;
-    let _eq6 = _eq4 && _eq5,
-      _v8 = _eq6 ? _c2[4] : _c2[4] = _v5(_v7);
+    let _eq4 = Object.is(_c2[3], _v6),
+      _v7 = _eq4 ? _c2[3] : _c2[3] = _v6;
+    let _eq5 = _eq3 && _eq4,
+      _v8 = _eq5 ? _c2[4] : _c2[4] = _v5(_v7);
     return _v8;
   } else {
-    let _eq7 = (0 in _c3),
-      _v9 = _eq7 ? _c3[0] : _c3[0] = examples.b;
-    let _eq8 = Object.is(_c3[1], _v9),
-      _v10 = _eq8 ? _c3[1] : _c3[1] = _v9;
+    let _v9 = _c3[0] || (_c3[0] = examples.b);
+    let _eq6 = Object.is(_c3[1], _v9),
+      _v10 = _eq6 ? _c3[1] : _c3[1] = _v9;
     let _v11 = _eq ? _c3[2] : _c3[2] = _v.value;
-    let _eq9 = Object.is(_c3[3], _v11),
-      _v12 = _eq9 ? _c3[3] : _c3[3] = _v11;
-    let _eq10 = _eq8 && _eq9,
-      _v13 = _eq10 ? _c3[4] : _c3[4] = _v10(_v12);
+    let _eq7 = Object.is(_c3[3], _v11),
+      _v12 = _eq7 ? _c3[3] : _c3[3] = _v11;
+    let _eq8 = _eq6 && _eq7,
+      _v13 = _eq8 ? _c3[4] : _c3[4] = _v10(_v12);
     return _v13;
   }
 }"
@@ -142,51 +136,47 @@ function Example(props) {
   switch (_v2) {
     case 'a':
       let _c2 = 2 in _c ? _c[2] : _c[2] = [];
-      let _eq2 = (0 in _c2),
-        _v3 = _eq2 ? _c2[0] : _c2[0] = examples.a;
-      let _eq3 = Object.is(_c2[1], _v3),
-        _v4 = _eq3 ? _c2[1] : _c2[1] = _v3;
+      let _v3 = _c2[0] || (_c2[0] = examples.a);
+      let _eq2 = Object.is(_c2[1], _v3),
+        _v4 = _eq2 ? _c2[1] : _c2[1] = _v3;
       let _v5 = _eq ? _c2[2] : _c2[2] = _v.value;
-      let _eq4 = Object.is(_c2[3], _v5),
-        _v6 = _eq4 ? _c2[3] : _c2[3] = _v5;
-      let _eq5 = _eq3 && _eq4,
-        _v7 = _eq5 ? _c2[4] : _c2[4] = _v4(_v6);
+      let _eq3 = Object.is(_c2[3], _v5),
+        _v6 = _eq3 ? _c2[3] : _c2[3] = _v5;
+      let _eq4 = _eq2 && _eq3,
+        _v7 = _eq4 ? _c2[4] : _c2[4] = _v4(_v6);
       return _v7;
     case 'b':
       let _c3 = 3 in _c ? _c[3] : _c[3] = [];
-      let _eq6 = (0 in _c3),
-        _v8 = _eq6 ? _c3[0] : _c3[0] = examples.b;
-      let _eq7 = Object.is(_c3[1], _v8),
-        _v9 = _eq7 ? _c3[1] : _c3[1] = _v8;
+      let _v8 = _c3[0] || (_c3[0] = examples.b);
+      let _eq5 = Object.is(_c3[1], _v8),
+        _v9 = _eq5 ? _c3[1] : _c3[1] = _v8;
       let _v10 = _eq ? _c3[2] : _c3[2] = _v.value;
-      let _eq8 = Object.is(_c3[3], _v10),
-        _v11 = _eq8 ? _c3[3] : _c3[3] = _v10;
-      let _eq9 = _eq7 && _eq8,
-        _v12 = _eq9 ? _c3[4] : _c3[4] = _v9(_v11);
+      let _eq6 = Object.is(_c3[3], _v10),
+        _v11 = _eq6 ? _c3[3] : _c3[3] = _v10;
+      let _eq7 = _eq5 && _eq6,
+        _v12 = _eq7 ? _c3[4] : _c3[4] = _v9(_v11);
       return _v12;
     case 'c':
       let _c4 = 4 in _c ? _c[4] : _c[4] = [];
-      let _eq10 = (0 in _c4),
-        _v13 = _eq10 ? _c4[0] : _c4[0] = examples.c;
-      let _eq11 = Object.is(_c4[1], _v13),
-        _v14 = _eq11 ? _c4[1] : _c4[1] = _v13;
+      let _v13 = _c4[0] || (_c4[0] = examples.c);
+      let _eq8 = Object.is(_c4[1], _v13),
+        _v14 = _eq8 ? _c4[1] : _c4[1] = _v13;
       let _v15 = _eq ? _c4[2] : _c4[2] = _v.value;
-      let _eq12 = Object.is(_c4[3], _v15),
-        _v16 = _eq12 ? _c4[3] : _c4[3] = _v15;
-      let _eq13 = _eq11 && _eq12,
-        _v17 = _eq13 ? _c4[4] : _c4[4] = _v14(_v16);
+      let _eq9 = Object.is(_c4[3], _v15),
+        _v16 = _eq9 ? _c4[3] : _c4[3] = _v15;
+      let _eq10 = _eq8 && _eq9,
+        _v17 = _eq10 ? _c4[4] : _c4[4] = _v14(_v16);
       return _v17;
     default:
       let _c5 = 5 in _c ? _c[5] : _c[5] = [];
-      let _eq14 = (0 in _c5),
-        _v18 = _eq14 ? _c5[0] : _c5[0] = examples.default;
-      let _eq15 = Object.is(_c5[1], _v18),
-        _v19 = _eq15 ? _c5[1] : _c5[1] = _v18;
+      let _v18 = _c5[0] || (_c5[0] = examples.default);
+      let _eq11 = Object.is(_c5[1], _v18),
+        _v19 = _eq11 ? _c5[1] : _c5[1] = _v18;
       let _v20 = _eq ? _c5[2] : _c5[2] = _v.value;
-      let _eq16 = Object.is(_c5[3], _v20),
-        _v21 = _eq16 ? _c5[3] : _c5[3] = _v20;
-      let _eq17 = _eq15 && _eq16,
-        _v22 = _eq17 ? _c5[4] : _c5[4] = _v19(_v21);
+      let _eq12 = Object.is(_c5[3], _v20),
+        _v21 = _eq12 ? _c5[3] : _c5[3] = _v20;
+      let _eq13 = _eq11 && _eq12,
+        _v22 = _eq13 ? _c5[4] : _c5[4] = _v19(_v21);
       return _v22;
   }
 }"
@@ -236,14 +226,13 @@ function Example(props) {
   while (i < props.x) {
     let _lid = _id++,
       _l = _lid in _c ? _c[_lid] : _c[_lid] = new Array(4);
-    let _eq = (0 in _l),
-      _v = _eq ? _l[0] : _l[0] = console.log;
-    let _eq2 = Object.is(_l[1], _v),
-      _v2 = _eq2 ? _l[1] : _l[1] = _v;
-    let _eq3 = Object.is(_l[2], i),
-      _v3 = _eq3 ? _l[2] : _l[2] = i;
-    let _eq4 = _eq2 && _eq3,
-      _v4 = _eq4 ? _l[3] : _l[3] = _v2(_v3);
+    let _v = _l[0] || (_l[0] = console.log);
+    let _eq = Object.is(_l[1], _v),
+      _v2 = _eq ? _l[1] : _l[1] = _v;
+    let _eq2 = Object.is(_l[2], i),
+      _v3 = _eq2 ? _l[2] : _l[2] = i;
+    let _eq3 = _eq && _eq2,
+      _v4 = _eq3 ? _l[3] : _l[3] = _v2(_v3);
     _v4;
     let _v5 = i += 1;
     _v5;

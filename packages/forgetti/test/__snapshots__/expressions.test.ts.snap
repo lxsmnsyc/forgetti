@@ -149,8 +149,7 @@ exports[`expressions > should optimize guaranteed literals 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 function Example(props) {
   let _c = _useMemo(() => new Array(1), []);
-  let _eq = (0 in _c),
-    _v = _eq ? _c[0] : _c[0] = 1 + 2;
+  let _v = _c[0] || (_c[0] = 1 + 2);
   return _v;
 }"
 `;
