@@ -116,4 +116,21 @@ describe('statements', () => {
   `;
     expect(await compile(code)).toMatchSnapshot();
   });
+  it('should optimize switch statements', async () => {
+    const code = `
+  function Example(props) {
+    switch (props.type) {
+      case 'a':
+        return examples.a(props.value);
+      case 'b':
+        return examples.b(props.value);
+      case 'c':
+        return examples.c(props.value);
+      default:
+        return examples.default(props.value);
+    }
+  }
+  `;
+    expect(await compile(code)).toMatchSnapshot();
+  });
 });

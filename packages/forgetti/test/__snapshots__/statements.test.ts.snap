@@ -3,20 +3,21 @@
 exports[`statements > should optimize do-while statements 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 function Example(props) {
-  let _c2 = _useMemo(() => new Array(1), []);
+  let _c3 = _useMemo(() => new Array(1), []);
   let i = 0;
-  let _c = 0 in _c2 ? _c2[0] : _c2[0] = [],
+  let _c2 = 0 in _c3 ? _c3[0] : _c3[0] = [],
     _id = 0;
   do {
     let _lid = _id++,
-      _l = _lid in _c ? _c[_lid] : _c[_lid] = new Array(3);
+      _l = _lid in _c2 ? _c2[_lid] : _c2[_lid] = new Array(1);
     {
-      let _eq = (0 in _l),
-        _v = _eq ? _l[0] : _l[0] = console.log;
-      let _eq2 = Object.is(_l[1], i),
-        _v2 = _eq2 ? _l[1] : _l[1] = i;
+      let _c = 0 in _c2 ? _c2[0] : _c2[0] = [];
+      let _eq = (0 in _c),
+        _v = _eq ? _c[0] : _c[0] = console.log;
+      let _eq2 = Object.is(_c[1], i),
+        _v2 = _eq2 ? _c[1] : _c[1] = i;
       let _eq3 = _eq && _eq2,
-        _v3 = _eq3 ? _l[2] : _l[2] = _v(_v2);
+        _v3 = _eq3 ? _c[2] : _c[2] = _v(_v2);
       _v3;
       let _v4 = i += 1;
       _v4;
@@ -28,19 +29,20 @@ function Example(props) {
 exports[`statements > should optimize for statements 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 function Example(props) {
-  let _c2 = _useMemo(() => new Array(1), []);
-  let _c = 0 in _c2 ? _c2[0] : _c2[0] = [],
+  let _c3 = _useMemo(() => new Array(1), []);
+  let _c2 = 0 in _c3 ? _c3[0] : _c3[0] = [],
     _id = 0;
   for (let i = 0; i < 10; i += 1) {
     let _lid = _id++,
-      _l = _lid in _c ? _c[_lid] : _c[_lid] = new Array(3);
+      _l = _lid in _c2 ? _c2[_lid] : _c2[_lid] = new Array(1);
     {
-      let _eq = (0 in _l),
-        _v = _eq ? _l[0] : _l[0] = console.log;
-      let _eq2 = Object.is(_l[1], i),
-        _v2 = _eq2 ? _l[1] : _l[1] = i;
+      let _c = 0 in _c2 ? _c2[0] : _c2[0] = [];
+      let _eq = (0 in _c),
+        _v = _eq ? _c[0] : _c[0] = console.log;
+      let _eq2 = Object.is(_c[1], i),
+        _v2 = _eq2 ? _c[1] : _c[1] = i;
       let _eq3 = _eq && _eq2,
-        _v3 = _eq3 ? _l[2] : _l[2] = _v(_v2);
+        _v3 = _eq3 ? _c[2] : _c[2] = _v(_v2);
       _v3;
     }
   }
@@ -54,18 +56,19 @@ function Example(props) {
   let _eq = Object.is(_c[0], props),
     _v = _eq ? _c[0] : _c[0] = props;
   let _v2 = _eq ? _c[1] : _c[1] = _v.arr;
-  let _c2 = 2 in _c ? _c[2] : _c[2] = [],
+  let _c3 = 2 in _c ? _c[2] : _c[2] = [],
     _id = 0;
   for (const x in _v2) {
     let _lid = _id++,
-      _l = _lid in _c2 ? _c2[_lid] : _c2[_lid] = new Array(3);
+      _l = _lid in _c3 ? _c3[_lid] : _c3[_lid] = new Array(1);
     {
-      let _eq2 = (0 in _l),
-        _v3 = _eq2 ? _l[0] : _l[0] = console.log;
-      let _eq3 = Object.is(_l[1], x),
-        _v4 = _eq3 ? _l[1] : _l[1] = x;
+      let _c2 = 0 in _c3 ? _c3[0] : _c3[0] = [];
+      let _eq2 = (0 in _c2),
+        _v3 = _eq2 ? _c2[0] : _c2[0] = console.log;
+      let _eq3 = Object.is(_c2[1], x),
+        _v4 = _eq3 ? _c2[1] : _c2[1] = x;
       let _eq4 = _eq2 && _eq3,
-        _v5 = _eq4 ? _l[2] : _l[2] = _v3(_v4);
+        _v5 = _eq4 ? _c2[2] : _c2[2] = _v3(_v4);
       _v5;
     }
   }
@@ -79,20 +82,65 @@ function Example(props) {
   let _eq = Object.is(_c[0], props),
     _v = _eq ? _c[0] : _c[0] = props;
   let _v2 = _eq ? _c[1] : _c[1] = _v.arr;
-  let _c2 = 2 in _c ? _c[2] : _c[2] = [],
+  let _c3 = 2 in _c ? _c[2] : _c[2] = [],
     _id = 0;
   for (const x of _v2) {
     let _lid = _id++,
-      _l = _lid in _c2 ? _c2[_lid] : _c2[_lid] = new Array(3);
+      _l = _lid in _c3 ? _c3[_lid] : _c3[_lid] = new Array(1);
     {
-      let _eq2 = (0 in _l),
-        _v3 = _eq2 ? _l[0] : _l[0] = console.log;
-      let _eq3 = Object.is(_l[1], x),
-        _v4 = _eq3 ? _l[1] : _l[1] = x;
+      let _c2 = 0 in _c3 ? _c3[0] : _c3[0] = [];
+      let _eq2 = (0 in _c2),
+        _v3 = _eq2 ? _c2[0] : _c2[0] = console.log;
+      let _eq3 = Object.is(_c2[1], x),
+        _v4 = _eq3 ? _c2[1] : _c2[1] = x;
       let _eq4 = _eq2 && _eq3,
-        _v5 = _eq4 ? _l[2] : _l[2] = _v3(_v4);
+        _v5 = _eq4 ? _c2[2] : _c2[2] = _v3(_v4);
       _v5;
     }
+  }
+}"
+`;
+
+exports[`statements > should optimize switch statements 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+function Example(props) {
+  let _c = _useMemo(() => new Array(6), []);
+  let _eq = Object.is(_c[0], props),
+    _v = _eq ? _c[0] : _c[0] = props;
+  let _v2 = _eq ? _c[1] : _c[1] = _v.type;
+  switch (_v2) {
+    case 'a':
+      let _c2 = 2 in _c ? _c[2] : _c[2] = [];
+      let _eq2 = (0 in _c2),
+        _v3 = _eq2 ? _c2[0] : _c2[0] = examples.a;
+      let _v4 = _eq ? _c2[1] : _c2[1] = _v.value;
+      let _eq3 = _eq2 && _eq,
+        _v5 = _eq3 ? _c2[2] : _c2[2] = _v3(_v4);
+      return _v5;
+    case 'b':
+      let _c3 = 3 in _c ? _c[3] : _c[3] = [];
+      let _eq4 = (0 in _c3),
+        _v6 = _eq4 ? _c3[0] : _c3[0] = examples.b;
+      let _v7 = _eq ? _c3[1] : _c3[1] = _v.value;
+      let _eq5 = _eq4 && _eq,
+        _v8 = _eq5 ? _c3[2] : _c3[2] = _v6(_v7);
+      return _v8;
+    case 'c':
+      let _c4 = 4 in _c ? _c[4] : _c[4] = [];
+      let _eq6 = (0 in _c4),
+        _v9 = _eq6 ? _c4[0] : _c4[0] = examples.c;
+      let _v10 = _eq ? _c4[1] : _c4[1] = _v.value;
+      let _eq7 = _eq6 && _eq,
+        _v11 = _eq7 ? _c4[2] : _c4[2] = _v9(_v10);
+      return _v11;
+    default:
+      let _c5 = 5 in _c ? _c[5] : _c[5] = [];
+      let _eq8 = (0 in _c5),
+        _v12 = _eq8 ? _c5[0] : _c5[0] = examples.default;
+      let _v13 = _eq ? _c5[1] : _c5[1] = _v.value;
+      let _eq9 = _eq8 && _eq,
+        _v14 = _eq9 ? _c5[2] : _c5[2] = _v12(_v13);
+      return _v14;
   }
 }"
 `;
@@ -100,20 +148,21 @@ function Example(props) {
 exports[`statements > should optimize while statements 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 function Example(props) {
-  let _c2 = _useMemo(() => new Array(1), []);
+  let _c3 = _useMemo(() => new Array(1), []);
   let i = 0;
-  let _c = 0 in _c2 ? _c2[0] : _c2[0] = [],
+  let _c2 = 0 in _c3 ? _c3[0] : _c3[0] = [],
     _id = 0;
   while (i < props.x) {
     let _lid = _id++,
-      _l = _lid in _c ? _c[_lid] : _c[_lid] = new Array(3);
+      _l = _lid in _c2 ? _c2[_lid] : _c2[_lid] = new Array(1);
     {
-      let _eq = (0 in _l),
-        _v = _eq ? _l[0] : _l[0] = console.log;
-      let _eq2 = Object.is(_l[1], i),
-        _v2 = _eq2 ? _l[1] : _l[1] = i;
+      let _c = 0 in _c2 ? _c2[0] : _c2[0] = [];
+      let _eq = (0 in _c),
+        _v = _eq ? _c[0] : _c[0] = console.log;
+      let _eq2 = Object.is(_c[1], i),
+        _v2 = _eq2 ? _c[1] : _c[1] = i;
       let _eq3 = _eq && _eq2,
-        _v3 = _eq3 ? _l[2] : _l[2] = _v(_v2);
+        _v3 = _eq3 ? _c[2] : _c[2] = _v(_v2);
       _v3;
       let _v4 = i += 1;
       _v4;
