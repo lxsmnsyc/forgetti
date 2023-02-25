@@ -27,7 +27,13 @@ export function isComponentNameValid(
 ) {
   if (checkName) {
     if (t.isFunctionExpression(node) || t.isFunctionDeclaration(node)) {
-      return (node.id && ctx.filters.component.test(node.id.name));
+      return (
+        node.id
+        && (
+          ctx.filters.component.test(node.id.name)
+          || (ctx.filters.hook && ctx.filters.hook.test(node.id.name))
+        )
+      );
     }
     return false;
   }

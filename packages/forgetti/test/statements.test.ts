@@ -145,4 +145,18 @@ describe('statements', () => {
   `;
     expect(await compile(code)).toMatchSnapshot();
   });
+  it('should optimize try statements', async () => {
+    const code = `
+  function Example(props) {
+    try {
+      props.a();
+    } catch (e) {
+      props.b(e);
+    } finally {
+      props.c();
+    }
+  }
+  `;
+    expect(await compile(code)).toMatchSnapshot();
+  });
 });

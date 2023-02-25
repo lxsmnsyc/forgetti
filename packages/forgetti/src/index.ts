@@ -157,7 +157,10 @@ function transformVariableDeclarator(
   if (!t.isIdentifier(path.node.id)) {
     return;
   }
-  if (ctx.filters.component.test(path.node.id.name)) {
+  if (
+    ctx.filters.component.test(path.node.id.name)
+    || (ctx.filters.hook && ctx.filters.hook.test(path.node.id.name))
+  ) {
     transformFunction(ctx, path.get('init') as babel.NodePath<Argument>, false);
   }
 }
