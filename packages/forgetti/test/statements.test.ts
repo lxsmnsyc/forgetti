@@ -4,46 +4,7 @@ import { describe, expect, it } from 'vitest';
 import plugin, { Options } from '../src';
 
 const options: Options = {
-  componentFilter: {
-    source: '^[A-Z]',
-    flags: '',
-  },
-  hookFilter: {
-    source: '^use[A-Z]',
-    flags: '',
-  },
-  memo: {
-    name: 'useMemo',
-    source: 'react',
-    kind: 'named',
-  },
-  hooks: [
-    {
-      type: 'memo',
-      name: 'useMemo',
-      source: 'react',
-      kind: 'named',
-    },
-    {
-      type: 'callback',
-      name: 'useCallback',
-      source: 'react',
-      kind: 'named',
-    },
-    {
-      type: 'effect',
-      name: 'useEffect',
-      source: 'react',
-      kind: 'named',
-    },
-    {
-      type: 'effect',
-      name: 'useLayoutEffect',
-      source: 'react',
-      kind: 'named',
-    },
-  ],
-  hocs: [],
+  preset: 'react',
 };
 
 async function compile(code: string) {

@@ -30,7 +30,7 @@ export default class OptimizerScope {
   }
 
   getMemoIdentifier() {
-    const { name, source, kind } = this.ctx.opts.memo;
+    const { name, source, kind } = this.ctx.preset.memo;
     const target = `memo/${source}[${name}]`;
     const current = this.ctx.hooks.get(target);
     if (current) {

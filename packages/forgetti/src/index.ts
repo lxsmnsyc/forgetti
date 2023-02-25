@@ -7,11 +7,12 @@ import {
   isComponentNameValid,
 } from './core/checks';
 import Optimizer from './core/optimizer';
+import { PRESETS, Options } from './core/presets';
 import { StateContext, State } from './core/types';
 import unwrapNode from './core/unwrap-node';
 import unwrapPath from './core/unwrap-path';
 
-export { Options } from './core/types';
+export { Options };
 
 function extractImportIdentifiers(
   ctx: StateContext,
@@ -20,7 +21,7 @@ function extractImportIdentifiers(
   const mod = path.node.source.value;
 
   // Identify hooks
-  forEach(ctx.opts.hooks, (registration) => {
+  forEach(ctx.preset.hooks, (registration) => {
     if (mod === registration.source) {
       forEach(path.node.specifiers, (specifier) => {
         if (t.isImportSpecifier(specifier)) {
@@ -52,7 +53,7 @@ function extractImportIdentifiers(
     }
   });
   // Identify hocs
-  forEach(ctx.opts.hocs, (registration) => {
+  forEach(ctx.preset.hocs, (registration) => {
     if (mod === registration.source) {
       forEach(path.node.specifiers, (specifier) => {
         if (t.isImportSpecifier(specifier)) {
@@ -170,6 +171,7 @@ export default function forgettiPlugin(): babel.PluginObj<State> {
     name: 'forgetti',
     visitor: {
       Program(programPath, { opts }) {
+        const preset = typeof opts.preset === 'string' ? PRESETS[opts.preset] : opts.preset;
         const ctx: StateContext = {
           hooks: new Map(),
           registrations: {
@@ -178,11 +180,11 @@ export default function forgettiPlugin(): babel.PluginObj<State> {
             hooksNamespaces: new Map(),
             hocsNamespaces: new Map(),
           },
-          opts,
+          preset,
           filters: {
-            component: new RegExp(opts.componentFilter.source, opts.componentFilter.flags),
-            hook: opts.hookFilter
-              ? new RegExp(opts.hookFilter.source, opts.hookFilter.flags)
+            component: new RegExp(preset.componentFilter.source, preset.componentFilter.flags),
+            hook: preset.hookFilter
+              ? new RegExp(preset.hookFilter.source, preset.hookFilter.flags)
               : undefined,
           },
         };

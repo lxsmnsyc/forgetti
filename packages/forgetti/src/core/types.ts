@@ -1,32 +1,15 @@
 import * as t from '@babel/types';
+import {
+  HookRegistration,
+  ImportRegistration,
+  Options,
+  Preset,
+} from './presets';
 
 export type ComponentNode =
   | t.ArrowFunctionExpression
   | t.FunctionExpression
   | t.FunctionDeclaration;
-
-export type HookIdentity =
-  | 'memo'
-  | 'callback'
-  | 'effect';
-
-export interface ImportRegistration {
-  name: string;
-  source: string;
-  kind: 'named' | 'default';
-}
-
-export interface HookRegistration extends ImportRegistration {
-  type: HookIdentity;
-}
-
-export interface Options {
-  memo: ImportRegistration;
-  hooks: HookRegistration[];
-  hocs: ImportRegistration[];
-  componentFilter: { source: string, flags: string };
-  hookFilter?: { source: string, flags: string };
-}
 
 export interface State extends babel.PluginPass {
   opts: Options;
@@ -40,7 +23,7 @@ export interface StateContext {
     hooksNamespaces: Map<t.Identifier, HookRegistration[]>;
     hocsNamespaces: Map<t.Identifier, ImportRegistration[]>;
   };
-  opts: Options;
+  preset: Preset;
   filters: {
     component: RegExp;
     hook?: RegExp;
