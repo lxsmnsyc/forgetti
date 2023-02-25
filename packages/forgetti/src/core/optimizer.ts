@@ -82,11 +82,22 @@ export default class Optimizer {
     let condition: t.Expression | undefined;
 
     if (Array.isArray(dependencies)) {
+      const newSet = new Set<t.Identifier>();
       forEach(dependencies, (dependency) => {
         if (condition && dependency) {
-          condition = t.logicalExpression('&&', condition, dependency);
+          if (t.isIdentifier(dependency)) {
+            if (!newSet.has(dependency)) {
+              condition = t.logicalExpression('&&', condition, dependency);
+              newSet.add(dependency);
+            }
+          } else {
+            condition = t.logicalExpression('&&', condition, dependency);
+          }
         } else if (dependency) {
           condition = dependency;
+          if (t.isIdentifier(dependency)) {
+            newSet.add(dependency);
+          }
         }
       });
     } else if (dependencies === true) {
