@@ -201,9 +201,6 @@ export default function forgettiPlugin(): babel.PluginObj<State> {
           CallExpression(path) {
             transformHOC(ctx, path);
           },
-          ArrowFunctionExpression(path) {
-            transformFunction(ctx, path);
-          },
           FunctionDeclaration(path) {
             transformFunction(ctx, path);
           },

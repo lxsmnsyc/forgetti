@@ -44,18 +44,35 @@
     "dev": "pridepack dev",
     "test": "vitest"
   },
-  "private": false,
-  "description": "",
+  "description": "Solve your hook spaghetti. Inspired by React Forget",
   "repository": {
-    "url": "",
+    "url": "https://github.com/lxsmnsyc/forgetti.git",
     "type": "git"
   },
-  "homepage": "",
+  "homepage": "https://github.com/lxsmnsyc/forgetti/tree/main/packages/forgetti",
   "bugs": {
-    "url": ""
+    "url": "https://github.com/lxsmnsyc/forgetti/issues"
   },
-  "author": "",
   "publishConfig": {
     "access": "public"
+  },
+  "author": "Alexis Munsayac",
+  "private": false,
+  "typesVersions": {
+    "*": {}
+  },
+  "types": "./dist/types/index.d.ts",
+  "main": "./dist/cjs/production/index.cjs",
+  "module": "./dist/esm/production/index.mjs",
+  "exports": {
+    ".": {
+      "development": {
+        "require": "./dist/cjs/development/index.cjs",
+        "import": "./dist/esm/development/index.mjs"
+      },
+      "require": "./dist/cjs/production/index.cjs",
+      "import": "./dist/esm/production/index.mjs",
+      "types": "./dist/types/index.d.ts"
+    }
   }
 }

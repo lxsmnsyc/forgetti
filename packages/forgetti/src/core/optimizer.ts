@@ -370,7 +370,7 @@ export default class Optimizer {
     path: babel.NodePath<t.CallExpression | t.OptionalCallExpression>,
   ) {
     const [, dependencies] = path.get('arguments');
-    if (isPathValid(dependencies, t.isExpression)) {
+    if (dependencies && isPathValid(dependencies, t.isExpression)) {
       const optimizedArray = this.optimizeExpression(dependencies);
       path.node.arguments[1] = t.arrayExpression([optimizedArray.expr]);
       return optimizedExpr(path.node, optimizedArray.deps);
