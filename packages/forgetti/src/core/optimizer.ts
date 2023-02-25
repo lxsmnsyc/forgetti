@@ -349,18 +349,7 @@ export default class Optimizer {
   optimizeUnaryExpression(
     path: babel.NodePath<t.UnaryExpression>,
   ) {
-    let current = path.get('argument');
-    let isPositive = false;
-    while (isPathValid(current, t.isUnaryExpression)) {
-      isPositive = !isPositive;
-      current = path.get('argument');
-    }
-
-    if (isPositive) {
-      return this.optimizeExpression(current);
-    }
-
-    const optimized = this.createDependency(current);
+    const optimized = this.createDependency(path.get('argument'));
     if (optimized) {
       path.node.argument = optimized.expr;
       return optimizedExpr(path.node, optimized.deps);
