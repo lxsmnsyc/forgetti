@@ -26,9 +26,7 @@ describe('statements', () => {
   it('should optimize for-of statements', async () => {
     const code = `
   function Example(props) {
-    return props.a
-      ? (props.b ? props.c : props.d)
-      : (props.e ? props.f : props.g);
+    return props.a && props.b && props.c && props.d;
   }
   `;
     expect(await compile(code)).toMatchSnapshot();

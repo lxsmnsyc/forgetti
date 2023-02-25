@@ -301,10 +301,7 @@ export default class Optimizer {
   ) {
     const id = path.scope.generateUidIdentifier('v');
     const parent = this.scope;
-    const test = new OptimizerScope(this.ctx, path, parent);
-    this.scope = test;
     const optimizedTest = this.optimizeExpression(path.get('left'));
-    this.scope = parent;
     const alternate = new OptimizerScope(this.ctx, path, parent);
     this.scope = alternate;
     const optimizedAlternate = this.optimizeExpression(path.get('right'));
@@ -327,7 +324,7 @@ export default class Optimizer {
     const alternateExpr = path.node.operator === '||'
       ? first
       : last;
-    test.push(
+    this.scope.push(
       t.variableDeclaration(
         'let',
         [t.variableDeclarator(id)],
@@ -337,13 +334,8 @@ export default class Optimizer {
         consequentExpr,
         alternateExpr,
       ),
-      t.returnStatement(id),
     );
-    const iife = t.callExpression(
-      t.arrowFunctionExpression([], t.blockStatement(test.getStatements())),
-      [],
-    );
-    return this.createMemo(iife, false);
+    return optimizedExpr(id);
   }
 
   optimizeUnaryExpression(
