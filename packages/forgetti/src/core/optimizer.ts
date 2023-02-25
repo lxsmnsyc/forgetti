@@ -56,6 +56,8 @@ export default class Optimizer {
 
   optimizedID = new WeakMap<t.Identifier, OptimizedExpression>();
 
+  constants = new WeakSet<t.Identifier>();
+
   constructor(ctx: StateContext, path: babel.NodePath<ComponentNode>) {
     this.ctx = ctx;
     this.path = path;
@@ -129,7 +131,11 @@ export default class Optimizer {
       declaration.push(t.variableDeclarator(eqid, condition));
     }
 
-    const optimized = optimizedExpr(vid, eqid);
+    const optimized = optimizedExpr(vid, condition ? eqid : undefined);
+
+    if (condition == null) {
+      this.constants.add(vid);
+    }
 
     if (t.isIdentifier(current)) {
       this.optimizedID.set(current, optimized);
@@ -157,6 +163,9 @@ export default class Optimizer {
     const optimized = this.optimizeExpression(path);
     if (optimized.constant) {
       return undefined;
+    }
+    if (t.isIdentifier(optimized.expr) && this.constants.has(optimized.expr)) {
+      return optimized;
     }
     const result = this.dependency.get(path.node);
     if (result) {
