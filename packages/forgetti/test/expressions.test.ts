@@ -194,4 +194,12 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
+  it('should optimize tagged templates', async () => {
+    const code = `
+function Example(props) {
+  return props.tag\`\${props.a()}, \${props.b()}\`;
+}
+`;
+    expect(await compile(code)).toMatchSnapshot();
+  });
 });

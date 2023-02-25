@@ -596,7 +596,7 @@ export default class Optimizer {
     return optimizedExpr(path.node);
   }
 
-  optimizeTemplateLiteral(
+  memoizeTemplateLiteral(
     path: babel.NodePath<t.TemplateLiteral>,
   ) {
     const conditions = createDependencies();
@@ -607,6 +607,32 @@ export default class Optimizer {
         mergeDependencies(conditions, result.deps);
       }
     });
+    return {
+      expr: path.node,
+      deps: conditions,
+    };
+  }
+
+  optimizeTemplateLiteral(
+    path: babel.NodePath<t.TemplateLiteral>,
+  ) {
+    const result = this.memoizeTemplateLiteral(path);
+    return this.createMemo(result.expr, result.deps);
+  }
+
+  optimizedTaggedTemplateExpression(
+    path: babel.NodePath<t.TaggedTemplateExpression>,
+  ) {
+    const conditions = createDependencies();
+    const tag = this.optimizeExpression(path.get('tag'));
+    const quasi = this.memoizeTemplateLiteral(path.get('quasi'));
+
+    mergeDependencies(conditions, tag.deps);
+    mergeDependencies(conditions, quasi.deps);
+
+    path.node.tag = tag.expr;
+    path.node.quasi = quasi.expr;
+
     return this.createMemo(path.node, conditions);
   }
 
@@ -677,7 +703,7 @@ export default class Optimizer {
       return this.optimizeSequenceExpression(path);
     }
     if (isPathValid(path, t.isTaggedTemplateExpression)) {
-      // TODO
+      return this.optimizedTaggedTemplateExpression(path);
     }
     if (isPathValid(path, t.isTemplateLiteral)) {
       return this.optimizeTemplateLiteral(path);
