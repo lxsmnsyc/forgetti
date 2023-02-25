@@ -123,13 +123,12 @@ export default class OptimizerScope {
     const index = this.parent.createIndex();
     const id = this.createLoopIndex();
     const pos = t.memberExpression(header, index, true);
-    const condition = t.binaryExpression('in', index, header);
 
     return t.variableDeclaration('let', [
       t.variableDeclarator(
         this.createHeader(),
-        t.conditionalExpression(
-          condition,
+        t.logicalExpression(
+          '||',
           pos,
           t.assignmentExpression('=', pos, t.arrayExpression()),
         ),
@@ -147,8 +146,8 @@ export default class OptimizerScope {
       t.variableDeclarator(localIndex, t.updateExpression('++', index)),
       t.variableDeclarator(
         this.createLoopHeader(),
-        t.conditionalExpression(
-          t.binaryExpression('in', localIndex, header),
+        t.logicalExpression(
+          '||',
           pos,
           t.assignmentExpression(
             '=',

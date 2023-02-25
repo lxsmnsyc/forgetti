@@ -5,11 +5,11 @@ exports[`statements > should optimize do-while statements 1`] = `
 function Example(props) {
   let _c2 = _useMemo(() => new Array(1), []);
   let i = 0;
-  let _c = 0 in _c2 ? _c2[0] : _c2[0] = [],
+  let _c = _c2[0] || (_c2[0] = []),
     _id = 0;
   do {
     let _lid = _id++,
-      _l = _lid in _c ? _c[_lid] : _c[_lid] = new Array(3);
+      _l = _c[_lid] || (_c[_lid] = new Array(3));
     let _v = _l[0] || (_l[0] = console.log);
     let _eq = Object.is(_l[1], i),
       _v2 = _eq ? _l[1] : _l[1] = i;
@@ -25,11 +25,11 @@ exports[`statements > should optimize for statements 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 function Example(props) {
   let _c2 = _useMemo(() => new Array(1), []);
-  let _c = 0 in _c2 ? _c2[0] : _c2[0] = [],
+  let _c = _c2[0] || (_c2[0] = []),
     _id = 0;
   for (let i = 0; i < 10; i += 1) {
     let _lid = _id++,
-      _l = _lid in _c ? _c[_lid] : _c[_lid] = new Array(3);
+      _l = _c[_lid] || (_c[_lid] = new Array(3));
     let _v = _l[0] || (_l[0] = console.log);
     let _eq = Object.is(_l[1], i),
       _v2 = _eq ? _l[1] : _l[1] = i;
@@ -46,11 +46,11 @@ function Example(props) {
   let _eq = Object.is(_c[0], props),
     _v = _eq ? _c[0] : _c[0] = props;
   let _v2 = _eq ? _c[1] : _c[1] = _v.arr;
-  let _c2 = 2 in _c ? _c[2] : _c[2] = [],
+  let _c2 = _c[2] || (_c[2] = []),
     _id = 0;
   for (const x in _v2) {
     let _lid = _id++,
-      _l = _lid in _c2 ? _c2[_lid] : _c2[_lid] = new Array(3);
+      _l = _c2[_lid] || (_c2[_lid] = new Array(3));
     let _v3 = _l[0] || (_l[0] = console.log);
     let _eq2 = Object.is(_l[1], x),
       _v4 = _eq2 ? _l[1] : _l[1] = x;
@@ -67,11 +67,11 @@ function Example(props) {
   let _eq = Object.is(_c[0], props),
     _v = _eq ? _c[0] : _c[0] = props;
   let _v2 = _eq ? _c[1] : _c[1] = _v.arr;
-  let _c2 = 2 in _c ? _c[2] : _c[2] = [],
+  let _c2 = _c[2] || (_c[2] = []),
     _id = 0;
   for (const x of _v2) {
     let _lid = _id++,
-      _l = _lid in _c2 ? _c2[_lid] : _c2[_lid] = new Array(3);
+      _l = _c2[_lid] || (_c2[_lid] = new Array(3));
     let _v3 = _l[0] || (_l[0] = console.log);
     let _eq2 = Object.is(_l[1], x),
       _v4 = _eq2 ? _l[1] : _l[1] = x;
@@ -191,11 +191,11 @@ exports[`statements > should optimize while statements 1`] = `
 function Example(props) {
   let _c2 = _useMemo(() => new Array(1), []);
   let i = 0;
-  let _c = 0 in _c2 ? _c2[0] : _c2[0] = [],
+  let _c = _c2[0] || (_c2[0] = []),
     _id = 0;
   while (i < props.x) {
     let _lid = _id++,
-      _l = _lid in _c ? _c[_lid] : _c[_lid] = new Array(3);
+      _l = _c[_lid] || (_c[_lid] = new Array(3));
     let _v = _l[0] || (_l[0] = console.log);
     let _eq = Object.is(_l[1], i),
       _v2 = _eq ? _l[1] : _l[1] = i;
