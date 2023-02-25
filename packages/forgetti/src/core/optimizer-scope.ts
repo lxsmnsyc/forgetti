@@ -13,14 +13,20 @@ export default class OptimizerScope {
 
   parent?: OptimizerScope;
 
+  isInLoop?: boolean;
+
+  statements: t.Statement[] = [];
+
   constructor(
     ctx: StateContext,
     path: babel.NodePath,
     parent?: OptimizerScope,
+    isInLoop?: boolean,
   ) {
     this.ctx = ctx;
     this.path = path;
     this.parent = parent;
+    this.isInLoop = isInLoop;
   }
 
   getMemoIdentifier() {
@@ -53,6 +59,23 @@ export default class OptimizerScope {
   getMemoDeclaration() {
     if (!this.memo) {
       return undefined;
+    }
+    if (this.parent) {
+      const header = this.parent.createHeader();
+      const index = this.parent.createIndex();
+      const pos = t.memberExpression(header, index, true);
+      const condition = t.binaryExpression('in', index, header);
+
+      return t.variableDeclaration('let', [
+        t.variableDeclarator(
+          this.createHeader(),
+          t.conditionalExpression(
+            condition,
+            pos,
+            t.assignmentExpression('=', pos, t.arrayExpression()),
+          ),
+        ),
+      ]);
     }
     return t.variableDeclaration('let', [
       t.variableDeclarator(
@@ -138,5 +161,23 @@ export default class OptimizerScope {
         ),
       ),
     ]);
+  }
+
+  getStatements() {
+    const result = [...this.statements];
+    const header = this.isInLoop
+      ? this.getLoopDeclaration()
+      : this.getMemoDeclaration();
+    if (header) {
+      return [
+        header,
+        ...result,
+      ];
+    }
+    return result;
+  }
+
+  push(...statements: t.Statement[]) {
+    this.statements = this.statements.concat(statements);
   }
 }
