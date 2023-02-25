@@ -49,7 +49,8 @@ export type NestedExpression =
   | t.TSAsExpression
   | t.TSSatisfiesExpression
   | t.TSNonNullExpression
-  | t.TSInstantiationExpression;
+  | t.TSInstantiationExpression
+  | t.TSTypeAssertion;
 
 export function isNestedExpression(node: t.Node): node is NestedExpression {
   return t.isParenthesizedExpression(node)
