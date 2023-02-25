@@ -233,10 +233,7 @@ export default class Optimizer {
   ) {
     const id = path.scope.generateUidIdentifier('v');
     const parent = this.scope;
-    const test = new OptimizerScope(this.ctx, path, parent);
-    this.scope = test;
     const optimizedTest = this.optimizeExpression(path.get('test'));
-    this.scope = parent;
     const consequentPath = path.get('consequent');
     const consequent = new OptimizerScope(this.ctx, consequentPath, parent);
     this.scope = consequent;
@@ -258,7 +255,7 @@ export default class Optimizer {
         t.assignmentExpression('=', id, optimizedAlternate.expr),
       ),
     );
-    test.push(
+    this.scope.push(
       t.variableDeclaration(
         'let',
         [t.variableDeclarator(id)],
@@ -268,15 +265,9 @@ export default class Optimizer {
         t.blockStatement(consequent.getStatements()),
         t.blockStatement(alternate.getStatements()),
       ),
-      t.returnStatement(id),
     );
 
-    const iife = t.callExpression(
-      t.arrowFunctionExpression([], t.blockStatement(test.getStatements())),
-      [],
-    );
-
-    return this.createMemo(iife, false);
+    return optimizedExpr(id);
   }
 
   optimizeBinaryExpression(
