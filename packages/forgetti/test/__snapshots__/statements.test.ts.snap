@@ -155,16 +155,20 @@ function Example(props) {
     let _v2 = _eq ? _c[1] : _c[1] = _v.a();
     _v2;
   } catch (e) {
-    let _c3 = _c2[1] || (_c2[1] = new Array(2));
-    let _eq2 = Object.is(_c3[0], e),
-      _v3 = _eq2 ? _c3[0] : _c3[0] = e;
-    let _eq3 = _eq && _eq2,
-      _v4 = _eq3 ? _c3[1] : _c3[1] = _v.b(_v3);
-    _v4;
-  } finally {
-    let _c4 = _c2[2] || (_c2[2] = new Array(1));
-    let _v5 = _eq ? _c4[0] : _c4[0] = _v.c();
+    let _c3 = _c2[1] || (_c2[1] = new Array(3));
+    let _eq2 = Object.is(_c3[0], props),
+      _v3 = _eq2 ? _c3[0] : _c3[0] = props;
+    let _eq3 = Object.is(_c3[1], e),
+      _v4 = _eq3 ? _c3[1] : _c3[1] = e;
+    let _eq4 = _eq2 && _eq3,
+      _v5 = _eq4 ? _c3[2] : _c3[2] = _v3.b(_v4);
     _v5;
+  } finally {
+    let _c4 = _c2[2] || (_c2[2] = new Array(2));
+    let _eq5 = Object.is(_c4[0], props),
+      _v6 = _eq5 ? _c4[0] : _c4[0] = props;
+    let _v7 = _eq5 ? _c4[1] : _c4[1] = _v6.c();
+    _v7;
   }
 }"
 `;

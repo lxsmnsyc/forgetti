@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
 import * as t from '@babel/types';
 import { addDefault, addNamed } from '@babel/helper-module-imports';
-import { StateContext } from './types';
+import { OptimizedExpression, StateContext } from './types';
 
 export default class OptimizerScope {
   memo: t.Identifier | undefined;
@@ -180,5 +181,52 @@ export default class OptimizerScope {
 
   push(...statements: t.Statement[]) {
     this.statements = this.statements.concat(statements);
+  }
+
+  optimizedID = new WeakMap<t.Identifier, OptimizedExpression>();
+
+  setOptimized(key: t.Identifier, value: OptimizedExpression) {
+    this.optimizedID.set(key, value);
+  }
+
+  getOptimized(key: t.Identifier) {
+    let current: OptimizerScope | undefined = this;
+    while (current) {
+      const result = current.optimizedID.get(key);
+      if (result) {
+        return result;
+      }
+      current = current.parent;
+    }
+    return undefined;
+  }
+
+  deleteOptimized(key: t.Identifier) {
+    let current: OptimizerScope | undefined = this;
+    while (current) {
+      if (current.optimizedID.has(key)) {
+        current.optimizedID.delete(key);
+        return;
+      }
+      current = current.parent;
+    }
+  }
+
+  constants = new WeakSet<t.Identifier>();
+
+  addConstant(value: t.Identifier) {
+    this.constants.add(value);
+  }
+
+  hasConstant(value: t.Identifier): boolean {
+    let current: OptimizerScope | undefined = this;
+    while (current) {
+      const result = current.constants.has(value);
+      if (result) {
+        return result;
+      }
+      current = current.parent;
+    }
+    return false;
   }
 }

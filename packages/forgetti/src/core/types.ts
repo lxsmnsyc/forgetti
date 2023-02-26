@@ -29,3 +29,9 @@ export interface StateContext {
     hook?: RegExp;
   }
 }
+
+export interface OptimizedExpression {
+  expr: t.Expression;
+  deps?: t.Expression | t.Expression[];
+  constant?: boolean,
+}

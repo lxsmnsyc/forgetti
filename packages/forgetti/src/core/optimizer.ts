@@ -5,14 +5,8 @@ import { isNestedExpression, isPathValid } from './checks';
 import getForeignBindings from './get-foreign-bindings';
 import isGuaranteedLiteral from './is-guaranteed-literal';
 import OptimizerScope from './optimizer-scope';
-import { ComponentNode, StateContext } from './types';
+import { ComponentNode, OptimizedExpression, StateContext } from './types';
 import unwrapNode from './unwrap-node';
-
-interface OptimizedExpression {
-  expr: t.Expression;
-  deps?: t.Expression | t.Expression[];
-  constant?: boolean,
-}
 
 function optimizedExpr(
   expr: t.Expression,
@@ -54,10 +48,6 @@ export default class Optimizer {
 
   scope: OptimizerScope;
 
-  optimizedID = new WeakMap<t.Identifier, OptimizedExpression>();
-
-  constants = new WeakSet<t.Identifier>();
-
   constructor(ctx: StateContext, path: babel.NodePath<ComponentNode>) {
     this.ctx = ctx;
     this.path = path;
@@ -69,7 +59,7 @@ export default class Optimizer {
     dependencies?: t.Expression | t.Expression[] | boolean,
   ): OptimizedExpression {
     if (t.isIdentifier(current)) {
-      const optimized = this.optimizedID.get(current);
+      const optimized = this.scope.getOptimized(current);
       if (optimized) {
         return optimized;
       }
@@ -134,12 +124,12 @@ export default class Optimizer {
     const optimized = optimizedExpr(vid, condition ? eqid : undefined);
 
     if (condition == null) {
-      this.constants.add(vid);
+      this.scope.addConstant(vid);
     }
 
     if (t.isIdentifier(current)) {
-      this.optimizedID.set(current, optimized);
-      this.optimizedID.set(vid, optimized);
+      this.scope.setOptimized(current, optimized);
+      this.scope.setOptimized(vid, optimized);
     }
 
     const update = t.assignmentExpression('=', pos, current);
@@ -164,7 +154,7 @@ export default class Optimizer {
     if (optimized.constant) {
       return undefined;
     }
-    if (t.isIdentifier(optimized.expr) && this.constants.has(optimized.expr)) {
+    if (t.isIdentifier(optimized.expr) && this.scope.hasConstant(optimized.expr)) {
       return optimized;
     }
     const result = this.dependency.get(path.node);
@@ -541,7 +531,7 @@ export default class Optimizer {
         const binding = path.scope.getBindingIdentifier(path.node.name);
         if (binding) {
           // Variable has been modified, marked as dirty
-          this.optimizedID.delete(binding);
+          this.scope.deleteOptimized(binding);
         }
       }
     }
