@@ -103,16 +103,13 @@ function Example(props) {
 exports[`expressions > should optimize await/yield expressions 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 async function Example(props) {
-  let _c = _useMemo(() => new Array(5), []);
+  let _c = _useMemo(() => new Array(3), []);
   let _eq = Object.is(_c[0], props),
     _v = _eq ? _c[0] : _c[0] = props;
-  let _v2 = _eq ? _c[1] : _c[1] = _v.call;
+  let _v2 = _eq ? _c[1] : _c[1] = _v.call();
   let _eq2 = Object.is(_c[2], _v2),
     _v3 = _eq2 ? _c[2] : _c[2] = _v2;
-  let _v4 = _eq2 ? _c[3] : _c[3] = _v3();
-  let _eq3 = Object.is(_c[4], _v4),
-    _v5 = _eq3 ? _c[4] : _c[4] = _v4;
-  return await _v5;
+  return await _v3;
 }"
 `;
 
@@ -135,14 +132,11 @@ function Example(props) {
 exports[`expressions > should optimize call expressions 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 function Example(props) {
-  let _c = _useMemo(() => new Array(4), []);
+  let _c = _useMemo(() => new Array(2), []);
   let _eq = Object.is(_c[0], props),
     _v = _eq ? _c[0] : _c[0] = props;
-  let _v2 = _eq ? _c[1] : _c[1] = _v.call;
-  let _eq2 = Object.is(_c[2], _v2),
-    _v3 = _eq2 ? _c[2] : _c[2] = _v2;
-  let _v4 = _eq2 ? _c[3] : _c[3] = _v3();
-  return _v4;
+  let _v2 = _eq ? _c[1] : _c[1] = _v.call();
+  return _v2;
 }"
 `;
 
@@ -262,69 +256,51 @@ function Example(props) {
 exports[`expressions > should optimize sequence expressions 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 function Example(props) {
-  let _c = _useMemo(() => new Array(7), []);
+  let _c = _useMemo(() => new Array(3), []);
   let _eq = Object.is(_c[0], props),
     _v = _eq ? _c[0] : _c[0] = props;
-  let _v2 = _eq ? _c[1] : _c[1] = _v.a;
-  let _eq2 = Object.is(_c[2], _v2),
-    _v3 = _eq2 ? _c[2] : _c[2] = _v2;
-  let _v4 = _eq2 ? _c[3] : _c[3] = _v3();
-  let _v5 = _eq ? _c[4] : _c[4] = _v.b;
-  let _eq3 = Object.is(_c[5], _v5),
-    _v6 = _eq3 ? _c[5] : _c[5] = _v5;
-  let _v7 = _eq3 ? _c[6] : _c[6] = _v6();
-  return _v4, _v7;
+  let _v2 = _eq ? _c[1] : _c[1] = _v.a();
+  let _v3 = _eq ? _c[2] : _c[2] = _v.b();
+  return _v2, _v3;
 }"
 `;
 
 exports[`expressions > should optimize tagged templates 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 function Example(props) {
-  let _c = _useMemo(() => new Array(12), []);
+  let _c = _useMemo(() => new Array(8), []);
   let _eq = Object.is(_c[0], props),
     _v = _eq ? _c[0] : _c[0] = props;
   let _v2 = _eq ? _c[1] : _c[1] = _v.tag;
   let _eq2 = Object.is(_c[2], _v2),
     _v3 = _eq2 ? _c[2] : _c[2] = _v2;
-  let _v4 = _eq ? _c[3] : _c[3] = _v.a;
+  let _v4 = _eq ? _c[3] : _c[3] = _v.a();
   let _eq3 = Object.is(_c[4], _v4),
     _v5 = _eq3 ? _c[4] : _c[4] = _v4;
-  let _v6 = _eq3 ? _c[5] : _c[5] = _v5();
+  let _v6 = _eq ? _c[5] : _c[5] = _v.b();
   let _eq4 = Object.is(_c[6], _v6),
     _v7 = _eq4 ? _c[6] : _c[6] = _v6;
-  let _v8 = _eq ? _c[7] : _c[7] = _v.b;
-  let _eq5 = Object.is(_c[8], _v8),
-    _v9 = _eq5 ? _c[8] : _c[8] = _v8;
-  let _v10 = _eq5 ? _c[9] : _c[9] = _v9();
-  let _eq6 = Object.is(_c[10], _v10),
-    _v11 = _eq6 ? _c[10] : _c[10] = _v10;
-  let _eq7 = _eq2 && _eq4 && _eq6,
-    _v12 = _eq7 ? _c[11] : _c[11] = _v3\`\${_v7}, \${_v11}\`;
-  return _v12;
+  let _eq5 = _eq2 && _eq3 && _eq4,
+    _v8 = _eq5 ? _c[7] : _c[7] = _v3\`\${_v5}, \${_v7}\`;
+  return _v8;
 }"
 `;
 
 exports[`expressions > should optimize template literals 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 function Example(props) {
-  let _c = _useMemo(() => new Array(10), []);
+  let _c = _useMemo(() => new Array(6), []);
   let _eq = Object.is(_c[0], props),
     _v = _eq ? _c[0] : _c[0] = props;
-  let _v2 = _eq ? _c[1] : _c[1] = _v.a;
+  let _v2 = _eq ? _c[1] : _c[1] = _v.a();
   let _eq2 = Object.is(_c[2], _v2),
     _v3 = _eq2 ? _c[2] : _c[2] = _v2;
-  let _v4 = _eq2 ? _c[3] : _c[3] = _v3();
+  let _v4 = _eq ? _c[3] : _c[3] = _v.b();
   let _eq3 = Object.is(_c[4], _v4),
     _v5 = _eq3 ? _c[4] : _c[4] = _v4;
-  let _v6 = _eq ? _c[5] : _c[5] = _v.b;
-  let _eq4 = Object.is(_c[6], _v6),
-    _v7 = _eq4 ? _c[6] : _c[6] = _v6;
-  let _v8 = _eq4 ? _c[7] : _c[7] = _v7();
-  let _eq5 = Object.is(_c[8], _v8),
-    _v9 = _eq5 ? _c[8] : _c[8] = _v8;
-  let _eq6 = _eq3 && _eq5,
-    _v10 = _eq6 ? _c[9] : _c[9] = \`\${_v5}, \${_v9}\`;
-  return _v10;
+  let _eq4 = _eq2 && _eq3,
+    _v6 = _eq4 ? _c[5] : _c[5] = \`\${_v3}, \${_v5}\`;
+  return _v6;
 }"
 `;
 

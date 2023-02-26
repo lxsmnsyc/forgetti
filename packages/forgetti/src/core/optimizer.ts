@@ -199,7 +199,7 @@ export default class Optimizer {
     path: babel.NodePath<t.MemberExpression>,
   ) {
     const condition = createDependencies();
-    const source = this.optimizeExpression(path.get('object'));
+    const source = this.createDependency(path.get('object'));
     if (source) {
       path.node.object = source.expr;
       mergeDependencies(condition, source.deps);
@@ -476,7 +476,12 @@ export default class Optimizer {
       }
       // Build dependencies
       const condition = createDependencies();
-      const callee = this.createDependency(calleePath);
+      const callee = (
+        (isPathValid(calleePath, t.isMemberExpression)
+          || isPathValid(calleePath, t.isOptionalMemberExpression))
+          ? this.memoizeMemberExpression(calleePath as babel.NodePath<t.MemberExpression>)
+          : this.createDependency(calleePath)
+      );
       if (callee) {
         path.node.callee = callee.expr;
         mergeDependencies(condition, callee.deps);
