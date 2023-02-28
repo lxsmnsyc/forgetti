@@ -163,22 +163,20 @@ function Example(props) {
     _v3 = _eq2 ? _c[2] : _c[2] = _v2;
   if (_v3 === 'a') {
     // Branch here, create a cache
-    let _c2 = _c[3] || (_c[3] = new Array(4));
-    let _v4 = _c2[0] || (_c2[0] = examples.a);
-    let _v5 = _eq ? _c2[1] : _c2[1] = _v.value;
-    let _eq3 = Object.is(_c2[2], _v5),
-      _v6 = _eq3 ? _c2[2] : _c2[2] = _v5;
-    let _v7 = _eq3 ? _c2[3] : _c2[3] = _v4(_v6);
-    return _v7;
+    let _c2 = _c[3] || (_c[3] = new Array(3));
+    let _v4 = _eq ? _c2[0] : _c2[0] = _v.value;
+    let _eq3 = Object.is(_c2[1], _v4),
+      _v5 = _eq3 ? _c2[1] : _c2[1] = _v4;
+    let _v6 = _eq3 ? _c2[2] : _c2[2] = examples.a(_v5);
+    return _v6;
   } else {
     // Branch here, create a cache
-    let _c3 = _c[4] || (_c[4] = new Array(4));
-    let _v8 = _c3[0] || (_c3[0] = examples.b);
-    let _v9 = _eq ? _c3[1] : _c3[1] = _v.value;
-    let _eq4 = Object.is(_c3[2], _v9),
-      _v10 = _eq4 ? _c3[2] : _c3[2] = _v9;
-    let _v11 = _eq4 ? _c3[3] : _c3[3] = _v8(_v10);
-    return _v11;
+    let _c3 = _c[4] || (_c[4] = new Array(3));
+    let _v7 = _eq ? _c3[0] : _c3[0] = _v.value;
+    let _eq4 = Object.is(_c3[1], _v7),
+      _v8 = _eq4 ? _c3[1] : _c3[1] = _v7;
+    let _v9 = _eq4 ? _c3[2] : _c3[2] = examples.b(_v8);
+    return _v9;
   }
 }
 ```
@@ -222,12 +220,11 @@ function Example(props) {
     // Create an id
     let _lid = _id++,
       // Create a new cache for statically-sized content
-      _l = _c2[_lid] || (_c2[_lid] = new Array(3));
-    let _v3 = _l[0] || (_l[0] = console.log);
-    let _eq2 = Object.is(_l[1], x),
-      _v4 = _eq2 ? _l[1] : _l[1] = x;
-    let _v5 = _eq2 ? _l[2] : _l[2] = _v3(_v4);
-    _v5;
+      _l = _c2[_lid] || (_c2[_lid] = new Array(2));
+    let _eq2 = Object.is(_l[0], x),
+      _v3 = _eq2 ? _l[0] : _l[0] = x;
+    let _v4 = _eq2 ? _l[1] : _l[1] = console.log(_v3);
+    _v4;
   }
 }
 ```
