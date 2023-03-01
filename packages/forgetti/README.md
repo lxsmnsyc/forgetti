@@ -244,6 +244,10 @@ List of supported loop statements:
 
 [![React without memo](https://img.youtube.com/vi/lGEMwh32soc/0.jpg)](https://www.youtube.com/watch?v=lGEMwh32soc "React without memo")
 
+## Sponsors
+
+![Sponsors](https://github.com/lxsmnsyc/sponsors/blob/main/sponsors.svg?raw=true)
+
 ## License
 
 MIT © [lxsmnsyc](https://github.com/lxsmnsyc)
