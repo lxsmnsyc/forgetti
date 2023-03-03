@@ -1,7 +1,8 @@
 export type HookIdentity =
   | 'memo'
   | 'callback'
-  | 'effect';
+  | 'effect'
+  | 'ref';
 
 export interface ImportRegistration {
   name: string;
@@ -47,6 +48,12 @@ export const PRESETS = {
       kind: 'named',
     },
     hooks: [
+      {
+        type: 'ref',
+        name: 'useRef',
+        source: 'react',
+        kind: 'named',
+      },
       {
         type: 'memo',
         name: 'useMemo',
@@ -107,6 +114,12 @@ export const PRESETS = {
       kind: 'named',
     },
     hooks: [
+      {
+        type: 'ref',
+        name: 'useRef',
+        source: 'preact/hooks',
+        kind: 'named',
+      },
       {
         type: 'memo',
         name: 'useMemo',

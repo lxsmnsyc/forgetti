@@ -380,6 +380,27 @@ export default class Optimizer {
     return optimizedExpr(path.node);
   }
 
+  optimizeRef(
+    path: babel.NodePath<t.CallExpression | t.OptionalCallExpression>,
+  ) {
+    const arg = path.node.arguments[0];
+    let init: t.Expression | undefined;
+    if (arg) {
+      if (t.isExpression(arg)) {
+        init = arg;
+      } else if (t.isSpreadElement(arg)) {
+        init = t.memberExpression(arg.argument, t.numericLiteral(0), true);
+      }
+    }
+    const expr = t.objectExpression([
+      t.objectProperty(
+        t.identifier('current'),
+        init || t.identifier('undefined'),
+      ),
+    ]);
+    return this.createMemo(expr, true);
+  }
+
   optimizeCallExpression(
     path: babel.NodePath<t.CallExpression | t.OptionalCallExpression>,
   ) {
@@ -399,6 +420,8 @@ export default class Optimizer {
                 return this.optimizeEffect(path);
               case 'memo':
                 return this.optimizeMemo(path);
+              case 'ref':
+                return this.optimizeRef(path);
               default:
                 isHook = true;
             }
@@ -431,6 +454,8 @@ export default class Optimizer {
                       return this.optimizeEffect(path);
                     case 'memo':
                       return this.optimizeMemo(path);
+                    case 'ref':
+                      return this.optimizeRef(path);
                     default:
                       break;
                   }
