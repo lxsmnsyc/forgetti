@@ -77,6 +77,7 @@ Here's an example preset:
   // - memo: a hook that resembles `useMemo`
   // - callback: a hook that resembles `useCallback`
   // - effect: a hook that resembles `useEffect`
+  // - ref: a hook that resembles `useRef`
   //
   // The definition is almost the same as the `memo` config
   // but you need to define the kind of the hook
@@ -124,17 +125,15 @@ Here's an example preset:
 By default, `forgetti` will optimize all known JS expressions except for the following:
 
 - Functions and arrows
-  The optimization step is basically an auto-memoized callback. It will only change
-  if the values it is using has changed.
+  - The optimization step is basically an auto-memoized callback. It will only change if the values it is using has changed.
 - Literals
-  Literals are skipped (except `undefined`)
+  - Literals are skipped (except `undefined`)
 - Guaranteed literals
-  Some expressions are guaranteed literals (e.g. `1 + 2`) and so the cache will store these
-  as a constant.
+  - Some expressions are guaranteed literals (e.g. `1 + 2`) and so the cache will store these as a constant.
 - Conditional expresisons a.k.a. ternary
-  This compiler converts this into an if-statement so that it can generate branched caching.
+  - This compiler converts this into an if-statement so that it can generate branched caching.
 - Logical expressions a.k.a. `||`, `&&` and `??`
-  Almost same process as ternaries, this is to allow short-circuiting while also generating branched caching.
+  - Almost same process as ternaries, this is to allow short-circuiting while also generating branched caching.
 
 ### Branched Caching
 
@@ -181,7 +180,7 @@ function Example(props) {
 }
 ```
 
-> **NOTE**
+> **Note**
 > With branched caching, nested branches are also supported by default.
 
 List of supported branch statements:
@@ -190,7 +189,7 @@ List of supported branch statements:
 - `try-catch-finally`
 - `switch-case`
 
-> **NOTE**
+> **Note**
 > Branched statements are usually illegal in a hook-based system (like React), but a `memo` or `callback` call inside the branches are allowed.
 
 #### Loops
