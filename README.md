@@ -18,6 +18,17 @@ yarn add forgetti
 pnpm add forgetti
 ```
 
+## What is this?
+
+Forgetti is an auto-memoization Babel plugin I made for a hook-based flow like React hooks. This plugin was inspired by React Forget.
+
+## Why
+
+> **Note**
+> Please watch the video. Video explains about the problems it solves and benefits it delivers
+
+[![React without memo](https://img.youtube.com/vi/lGEMwh32soc/0.jpg)](https://www.youtube.com/watch?v=lGEMwh32soc "React without memo")
+
 ## Demos
 
 - React [![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?style=flat-square&logo=codesandbox)](https://codesandbox.io/s/github/LXSMNSYC/forgetti/tree/main/examples/react)
@@ -235,13 +246,6 @@ List of supported loop statements:
 - `for-in`
 - `while`
 - `do-while`
-
-## Why
-
-> **Note**
-> Please watch the video. Video explains about the problems it solves and benefits it delivers
-
-[![React without memo](https://img.youtube.com/vi/lGEMwh32soc/0.jpg)](https://www.youtube.com/watch?v=lGEMwh32soc "React without memo")
 
 ## Sponsors
 
