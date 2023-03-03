@@ -2,9 +2,9 @@ import * as babel from '@babel/core';
 import * as t from '@babel/types';
 import { forEach } from './core/arrays';
 import {
-  isValidImportSpecifier,
   isComponent,
   isComponentNameValid,
+  getImportSpecifierName,
 } from './core/checks';
 import Optimizer from './core/optimizer';
 import { PRESETS, Options } from './core/presets';
@@ -27,13 +27,13 @@ function extractImportIdentifiers(
         if (t.isImportSpecifier(specifier)) {
           if (
             registration.kind === 'named'
-            && isValidImportSpecifier(specifier, registration.name)
+            && getImportSpecifierName(specifier) === registration.name
           ) {
             ctx.registrations.hooks.set(specifier.local, registration);
           }
           if (
             registration.kind === 'default'
-            && isValidImportSpecifier(specifier, 'default')
+            && getImportSpecifierName(specifier) === 'default'
           ) {
             ctx.registrations.hooks.set(specifier.local, registration);
           }
@@ -59,14 +59,14 @@ function extractImportIdentifiers(
         if (t.isImportSpecifier(specifier)) {
           if (
             registration.kind === 'named'
-            && isValidImportSpecifier(specifier, registration.name)
+            && getImportSpecifierName(specifier) === registration.name
           ) {
             ctx.registrations.hocs.set(specifier.local, registration);
           }
           // For `import { default as x }`
           if (
             registration.kind === 'default'
-            && isValidImportSpecifier(specifier, 'default')
+            && getImportSpecifierName(specifier) === 'default'
           ) {
             ctx.registrations.hocs.set(specifier.local, registration);
           }

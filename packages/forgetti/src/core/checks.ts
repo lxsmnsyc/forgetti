@@ -2,14 +2,11 @@ import * as t from '@babel/types';
 import * as babel from '@babel/core';
 import { ComponentNode, StateContext } from './types';
 
-export function isValidImportSpecifier(
-  specifier: t.ImportSpecifier,
-  name: string,
-): boolean {
-  return (
-    (t.isIdentifier(specifier.imported) && specifier.imported.name === name)
-    || (t.isStringLiteral(specifier.imported) && specifier.imported.value === name)
-  );
+export function getImportSpecifierName(specifier: t.ImportSpecifier): string {
+  if (t.isIdentifier(specifier.imported)) {
+    return specifier.imported.name;
+  }
+  return specifier.imported.value;
 }
 
 export function isComponent(node: t.Node): node is ComponentNode {
