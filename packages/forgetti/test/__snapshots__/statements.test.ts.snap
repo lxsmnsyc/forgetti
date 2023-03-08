@@ -144,6 +144,20 @@ function Example(props) {
 }"
 `;
 
+exports[`statements > should optimize throw statements 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+function Example(props) {
+  let _c = _useMemo(() => new Array(4), []);
+  let _eq = Object.is(_c[0], props),
+    _v = _eq ? _c[0] : _c[0] = props;
+  let _v2 = _eq ? _c[1] : _c[1] = _v.message;
+  let _eq2 = Object.is(_c[2], _v2),
+    _v3 = _eq2 ? _c[2] : _c[2] = _v2;
+  let _v4 = _eq2 ? _c[3] : _c[3] = createError(_v3);
+  throw _v4;
+}"
+`;
+
 exports[`statements > should optimize try statements 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 function Example(props) {

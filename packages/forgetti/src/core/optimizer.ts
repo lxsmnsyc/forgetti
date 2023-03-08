@@ -962,6 +962,14 @@ export default class Optimizer {
     this.scope.push(path.node);
   }
 
+  optimizeThrowStatement(
+    path: babel.NodePath<t.ThrowStatement>,
+  ) {
+    const optimized = this.optimizeExpression(path.get('argument'));
+    path.node.argument = optimized.expr;
+    this.scope.push(path.node);
+  }
+
   private optimizeBlock(
     path: babel.NodePath<t.BlockStatement>,
   ) {
@@ -1097,6 +1105,8 @@ export default class Optimizer {
       this.optimizeVariableDeclaration(path);
     } else if (isPathValid(path, t.isReturnStatement)) {
       this.optimizeReturnStatement(path);
+    } else if (isPathValid(path, t.isThrowStatement)) {
+      this.optimizeThrowStatement(path);
     } else if (isPathValid(path, t.isBlockStatement)) {
       this.optimizeBlockStatement(path, topBlock);
     } else if (isPathValid(path, t.isIfStatement)) {

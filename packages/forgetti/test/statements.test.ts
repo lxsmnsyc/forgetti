@@ -120,4 +120,12 @@ describe('statements', () => {
   `;
     expect(await compile(code)).toMatchSnapshot();
   });
+  it('should optimize throw statements', async () => {
+    const code = `
+  function Example(props) {
+    throw createError(props.message);
+  }
+  `;
+    expect(await compile(code)).toMatchSnapshot();
+  });
 });
