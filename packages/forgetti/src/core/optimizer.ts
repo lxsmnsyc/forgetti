@@ -132,12 +132,14 @@ export default class Optimizer {
       this.scope.setOptimized(vid, optimized);
     }
 
-    const update = t.assignmentExpression('=', pos, current);
-
     const init = (
       condition
-        ? t.conditionalExpression(eqid, pos, update)
-        : t.logicalExpression('||', pos, update)
+        ? t.conditionalExpression(
+          eqid,
+          pos,
+          t.assignmentExpression('=', pos, current),
+        )
+        : t.assignmentExpression('||=', pos, current)
     );
 
     declaration.push(t.variableDeclarator(vid, init));

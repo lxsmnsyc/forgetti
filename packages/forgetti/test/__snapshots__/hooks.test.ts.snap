@@ -5,7 +5,7 @@ exports[`hooks > should optimize useCallback 1`] = `
 import { useCallback } from 'react';
 function Example(props) {
   let _c = _useMemo(() => new Array(2), []);
-  let _v = _c[0] || (_c[0] = [example]);
+  let _v = _c[0] ||= [example];
   let _v2 = _v ? _c[1] : _c[1] = () => props.value();
   return _v2;
 }"
@@ -16,7 +16,7 @@ exports[`hooks > should optimize useEffect 1`] = `
 import { useEffect } from 'react';
 function Example(props) {
   let _c = _useMemo(() => new Array(1), []);
-  let _v = _c[0] || (_c[0] = [example]);
+  let _v = _c[0] ||= [example];
   useEffect(() => props.value(), [_v]);
 }"
 `;
@@ -26,7 +26,7 @@ exports[`hooks > should optimize useMemo 1`] = `
 import { useMemo } from 'react';
 function Example(props) {
   let _c = _useMemo(() => new Array(2), []);
-  let _v = _c[0] || (_c[0] = [example]);
+  let _v = _c[0] ||= [example];
   let _v2 = _v ? _c[1] : _c[1] = (() => props.value())();
   return _v2;
 }"
@@ -37,9 +37,9 @@ exports[`hooks > should optimize useRef 1`] = `
 import { useRef } from 'react';
 function Example(props) {
   let _c = _useMemo(() => new Array(1), []);
-  let _v = _c[0] || (_c[0] = {
+  let _v = _c[0] ||= {
     current: props.value
-  });
+  };
   return _v;
 }"
 `;

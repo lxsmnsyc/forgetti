@@ -69,13 +69,13 @@ export default class OptimizerScope {
       return t.variableDeclaration('let', [
         t.variableDeclarator(
           this.createHeader(),
-          t.logicalExpression(
-            '||',
+          t.assignmentExpression(
+            '||=',
             pos,
-            t.assignmentExpression('=', pos, t.newExpression(
+            t.newExpression(
               t.identifier('Array'),
               [t.numericLiteral(this.indeces)],
-            )),
+            ),
           ),
         ),
       ]);
@@ -130,10 +130,10 @@ export default class OptimizerScope {
     return t.variableDeclaration('let', [
       t.variableDeclarator(
         this.createHeader(),
-        t.logicalExpression(
-          '||',
+        t.assignmentExpression(
+          '||=',
           pos,
-          t.assignmentExpression('=', pos, t.arrayExpression()),
+          t.arrayExpression(),
         ),
       ),
       t.variableDeclarator(id, t.numericLiteral(0)),
@@ -149,16 +149,12 @@ export default class OptimizerScope {
       t.variableDeclarator(localIndex, t.updateExpression('++', index)),
       t.variableDeclarator(
         this.createLoopHeader(),
-        t.logicalExpression(
-          '||',
+        t.assignmentExpression(
+          '||=',
           pos,
-          t.assignmentExpression(
-            '=',
-            pos,
-            t.newExpression(
-              t.identifier('Array'),
-              [t.numericLiteral(this.indeces)],
-            ),
+          t.newExpression(
+            t.identifier('Array'),
+            [t.numericLiteral(this.indeces)],
           ),
         ),
       ),
