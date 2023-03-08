@@ -170,7 +170,7 @@ function Example(props) {
     _v2 = _eq ? _c[1] : _c[1] = () => {
       console.log(props.message);
     };
-  return _v2;
+  const callback = _v2;
 }"
 `;
 
