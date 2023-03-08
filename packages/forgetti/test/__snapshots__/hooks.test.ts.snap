@@ -4,17 +4,15 @@ exports[`hooks > should optimize useCallback 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 import { useCallback } from 'react';
 function Example(props) {
-  let _c = _useMemo(() => new Array(6), []),
+  let _c = _useMemo(() => new Array(5), []),
     _eq = Object.is(_c[0], props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = _v.value,
     _eq2 = Object.is(_c[2], _v2),
     _v3 = _eq2 ? _c[2] : _c[2] = _v2,
     _v4 = _eq2 ? _c[3] : _c[3] = [_v3],
-    _eq3 = Object.is(_c[4], _v4),
-    _v5 = _eq3 ? _c[4] : _c[4] = _v4,
-    _v6 = _eq3 ? _c[5] : _c[5] = () => props.value();
-  return _v6;
+    _v5 = _eq2 ? _c[4] : _c[4] = () => props.value();
+  return _v5;
 }"
 `;
 
@@ -37,17 +35,15 @@ exports[`hooks > should optimize useMemo 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 import { useMemo } from 'react';
 function Example(props) {
-  let _c = _useMemo(() => new Array(6), []),
+  let _c = _useMemo(() => new Array(5), []),
     _eq = Object.is(_c[0], props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = _v.value,
     _eq2 = Object.is(_c[2], _v2),
     _v3 = _eq2 ? _c[2] : _c[2] = _v2,
     _v4 = _eq2 ? _c[3] : _c[3] = [_v3],
-    _eq3 = Object.is(_c[4], _v4),
-    _v5 = _eq3 ? _c[4] : _c[4] = _v4,
-    _v6 = _eq3 ? _c[5] : _c[5] = (() => props.value())();
-  return _v6;
+    _v5 = _eq2 ? _c[4] : _c[4] = (() => props.value())();
+  return _v5;
 }"
 `;
 
