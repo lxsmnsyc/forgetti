@@ -50,62 +50,71 @@ Forgetti only optimizes component functions (if it is valid based on the compone
 
 There's four kinds of memoizations that Forgetti produces, and relies on the fundamental concept between a value and its relation to its dependencies:
 
-- Constants
-  - If an expression has zero dependencies, it is memoized as a constant value. This behavior is similar to a lazy useRef.
-  ```js
-  function Example() {
-    const value = [1, 2, 3, 4];
-  }
-  // Compiles into
-  import { useMemo as _useMemo } from "react";
-  function Example() {
-    let _c = _useMemo(() => new Array(1), []),
-      _v = _c[0] ||= [1, 2, 3, 4];
-    const value = _v;
-  }
-  ```
-  - The expression itself may unwrap into multiple constant values if the entire expression is constant itself
-  ```js
-  function Example() {
-  const message = `${getGreeting()}, ${getReceiver()}`;
-  }
-  // Compiles into
-  import { useMemo as _useMemo } from "react";
-  function Example() {
-    let _c = _useMemo(() => new Array(3), []),
-      _v = _c[0] ||= getGreeting(),
-      _v2 = _c[1] ||= getReceiver(),
-      _v3 = _c[2] ||= `${_v}, ${_v2}`;
-    const message = _v3;
-  }
-  ```
-- Dependencies and Dependent values
-  - A dependency is a memoized form of reference. Forgetti memoizes these values to mark if the dependency value has changed. Aside the memoization step, a variable for checking the condition is also yielded.
-  - If an expression has one or more dependencies, the condition yielded by the dependencies is combined, which makes the dependent value yield the combined condition as its own conditon. If the condition is falsy, the dependent value produces a new value for its own. This process is similar to `useMemo` but without having to rely on dependency lists.
-  ```js
-  function Example(props) {
-    const message = `${props.greeting}, ${props.message}`;
-  }
-  // Compiles into
-  import { useMemo as _useMemo } from "react";
-  function Example(props) {
-    let _c = _useMemo(() => new Array(6), []),
-      _eq = Object.is(_c[0], props),
-      _v = _eq ? _c[0] : _c[0] = props,
-      _v2 = _eq ? _c[1] : _c[1] = _v.greeting,
-      _eq2 = Object.is(_c[2], _v2),
-      _v3 = _eq2 ? _c[2] : _c[2] = _v2,
-      _v4 = _eq ? _c[3] : _c[3] = _v.message,
-      _eq3 = Object.is(_c[4], _v4),
-      _v5 = _eq3 ? _c[4] : _c[4] = _v4,
-      _eq4 = _eq2 && _eq3,
-      _v6 = _eq4 ? _c[5] : _c[5] = `${_v3}, ${_v5}`;
-    const message = _v6;
-  }
-  ```
-- Hooks have their own optimization step so that the expression would be consistent between function calls.
+#### Constants
+
+If an expression has zero dependencies, it is memoized as a constant value. This behavior is similar to a lazy useRef.
+
+```js
+function Example() {
+  const value = [1, 2, 3, 4];
+}
+// Compiles into
+import { useMemo as _useMemo } from "react";
+function Example() {
+  let _c = _useMemo(() => new Array(1), []),
+    _v = _c[0] ||= [1, 2, 3, 4];
+  const value = _v;
+}
+```
+
+The expression itself may unwrap into multiple constant values if the entire expression is constant itself.
+
+```js
+function Example() {
+const message = `${getGreeting()}, ${getReceiver()}`;
+}
+// Compiles into
+import { useMemo as _useMemo } from "react";
+function Example() {
+  let _c = _useMemo(() => new Array(3), []),
+    _v = _c[0] ||= getGreeting(),
+    _v2 = _c[1] ||= getReceiver(),
+    _v3 = _c[2] ||= `${_v}, ${_v2}`;
+  const message = _v3;
+}
+```
+
+#### Dependencies and Dependent values
+
+A dependency is a memoized form of reference. Forgetti memoizes these values to mark if the dependency value has changed. Aside the memoization step, a variable for checking the condition is also yielded.
+
+If an expression has one or more dependencies, the condition yielded by the dependencies is combined, which makes the dependent value yield the combined condition as its own conditon. If the condition is falsy, the dependent value produces a new value for its own. This process is similar to `useMemo` but without having to rely on dependency lists.
+
+```js
+function Example(props) {
+  const message = `${props.greeting}, ${props.message}`;
+}
+// Compiles into
+import { useMemo as _useMemo } from "react";
+function Example(props) {
+  let _c = _useMemo(() => new Array(6), []),
+    _eq = Object.is(_c[0], props),
+    _v = _eq ? _c[0] : _c[0] = props,
+    _v2 = _eq ? _c[1] : _c[1] = _v.greeting,
+    _eq2 = Object.is(_c[2], _v2),
+    _v3 = _eq2 ? _c[2] : _c[2] = _v2,
+    _v4 = _eq ? _c[3] : _c[3] = _v.message,
+    _eq3 = Object.is(_c[4], _v4),
+    _v5 = _eq3 ? _c[4] : _c[4] = _v4,
+    _eq4 = _eq2 && _eq3,
+    _v6 = _eq4 ? _c[5] : _c[5] = `${_v3}, ${_v5}`;
+  const message = _v6;
+}
+```
 
 ### Hooks
+
+Hooks have their own optimization step so that the expression would be consistent between function calls.
 
 #### `ref`
 
@@ -314,7 +323,6 @@ function Example(props) {
 }
 ```
 
-
 ### Statements
 
 The following statements are optimized:
@@ -384,6 +392,7 @@ List of supported branch statements:
 - `if-else`
 - `try-catch-finally`
 - `switch-case`
+- block statements
 - labeled statements
 
 > **Note**
