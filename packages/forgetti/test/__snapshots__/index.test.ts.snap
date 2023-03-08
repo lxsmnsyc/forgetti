@@ -3,26 +3,26 @@
 exports[`statements > should optimize for-of statements 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 function Example(props) {
-  let _c = _useMemo(() => new Array(5), []);
-  let _eq = Object.is(_c[0], props),
-    _v4 = _eq ? _c[0] : _c[0] = props;
-  let _v5 = _eq ? _c[1] : _c[1] = _v4.a;
-  let _v3;
+  let _c = _useMemo(() => new Array(5), []),
+    _eq = Object.is(_c[0], props),
+    _v4 = _eq ? _c[0] : _c[0] = props,
+    _v5 = _eq ? _c[1] : _c[1] = _v4.a,
+    _v3;
   if (_v5) {
-    let _c2 = _c[2] ||= new Array(1);
-    let _v6 = _eq ? _c2[0] : _c2[0] = _v4.b;
+    let _c2 = _c[2] ||= new Array(1),
+      _v6 = _eq ? _c2[0] : _c2[0] = _v4.b;
     _v3 = _v6;
   } else _v3 = _v5;
   let _v2;
   if (_v3) {
-    let _c3 = _c[3] ||= new Array(1);
-    let _v7 = _eq ? _c3[0] : _c3[0] = _v4.c;
+    let _c3 = _c[3] ||= new Array(1),
+      _v7 = _eq ? _c3[0] : _c3[0] = _v4.c;
     _v2 = _v7;
   } else _v2 = _v3;
   let _v;
   if (_v2) {
-    let _c4 = _c[4] ||= new Array(1);
-    let _v8 = _eq ? _c4[0] : _c4[0] = _v4.d;
+    let _c4 = _c[4] ||= new Array(1),
+      _v8 = _eq ? _c4[0] : _c4[0] = _v4.d;
     _v = _v8;
   } else _v = _v2;
   return _v;
