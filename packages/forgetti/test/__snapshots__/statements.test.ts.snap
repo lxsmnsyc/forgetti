@@ -104,6 +104,26 @@ function Example(props) {
 }"
 `;
 
+exports[`statements > should optimize labeled statements 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+function Example(props) {
+  let _c3 = _useMemo(() => new Array(2), []);
+  foo: {
+    let _c2 = _c3[0] ||= new Array(1);
+    {
+      let _c = _c2[0] ||= new Array(2);
+      let _v = _c[0] ||= console.log(\\"face\\");
+      _v;
+      break foo;
+      let _v2 = _c[1] ||= console.log(\\"this will not be executed\\");
+      _v2;
+    }
+  }
+  let _v3 = _c3[1] ||= console.log(\\"swap\\");
+  _v3;
+}"
+`;
+
 exports[`statements > should optimize switch statements 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 function Example(props) {

@@ -128,4 +128,17 @@ describe('statements', () => {
   `;
     expect(await compile(code)).toMatchSnapshot();
   });
+  it('should optimize labeled statements', async () => {
+    const code = `
+  function Example(props) {
+    foo: {
+      console.log("face");
+      break foo;
+      console.log("this will not be executed");
+    }
+    console.log("swap");
+  }
+  `;
+    expect(await compile(code)).toMatchSnapshot();
+  });
 });

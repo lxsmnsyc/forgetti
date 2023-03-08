@@ -1095,6 +1095,19 @@ export default class Optimizer {
     this.scope.push(path.node);
   }
 
+  optimizeLabeledStatement(
+    path: babel.NodePath<t.LabeledStatement>,
+  ) {
+    const parent = this.scope;
+    const block = new OptimizerScope(this.ctx, path, parent);
+    this.scope = block;
+    this.optimizeStatement(path.get('body'));
+    this.scope = parent;
+    path.node.body = t.blockStatement(block.getStatements());
+    // this.optimizeStatement(path.get('body'));
+    this.scope.push(path.node);
+  }
+
   optimizeStatement(
     path: babel.NodePath<t.Statement>,
     topBlock = false,
@@ -1119,6 +1132,8 @@ export default class Optimizer {
       this.optimizeSwitchStatement(path);
     } else if (isPathValid(path, t.isTryStatement)) {
       this.optimizeTryStatement(path);
+    } else if (isPathValid(path, t.isLabeledStatement)) {
+      this.optimizeLabeledStatement(path);
     } else {
       this.scope.push(path.node);
     }
