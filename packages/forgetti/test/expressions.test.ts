@@ -98,7 +98,7 @@ async function Example(props) {
   it('should optimize function expressions', async () => {
     const code = `
 function Example(props) {
-  return () => {
+  const callback = () => {
     console.log(props.message);
   };
 }

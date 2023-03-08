@@ -132,12 +132,14 @@ export default class Optimizer {
       this.scope.setOptimized(vid, optimized);
     }
 
-    const update = t.assignmentExpression('=', pos, current);
-
     const init = (
       condition
-        ? t.conditionalExpression(eqid, pos, update)
-        : t.logicalExpression('||', pos, update)
+        ? t.conditionalExpression(
+          eqid,
+          pos,
+          t.assignmentExpression('=', pos, current),
+        )
+        : t.assignmentExpression('||=', pos, current)
     );
 
     declaration.push(t.variableDeclarator(vid, init));
@@ -357,8 +359,8 @@ export default class Optimizer {
     const [callback, dependencies] = path.get('arguments');
     if (isPathValid(callback, t.isExpression)) {
       if (isPathValid(dependencies, t.isExpression)) {
-        const optimizedArray = this.optimizeExpression(dependencies);
-        return this.createMemo(callback.node, optimizedArray.expr);
+        const dependency = this.optimizeExpression(dependencies);
+        return this.createMemo(callback.node, dependency.deps);
       }
     }
     return optimizedExpr(path.node);
@@ -370,11 +372,8 @@ export default class Optimizer {
     const [callback, dependencies] = path.get('arguments');
     if (isPathValid(callback, t.isExpression)) {
       if (isPathValid(dependencies, t.isExpression)) {
-        const optimizedArray = this.optimizeExpression(dependencies);
-        return this.createMemo(
-          t.callExpression(callback.node, []),
-          optimizedArray.expr,
-        );
+        const dependency = this.optimizeExpression(dependencies);
+        return this.createMemo(t.callExpression(callback.node, []), dependency.deps);
       }
     }
     return optimizedExpr(path.node);
@@ -960,6 +959,14 @@ export default class Optimizer {
     this.scope.push(path.node);
   }
 
+  optimizeThrowStatement(
+    path: babel.NodePath<t.ThrowStatement>,
+  ) {
+    const optimized = this.optimizeExpression(path.get('argument'));
+    path.node.argument = optimized.expr;
+    this.scope.push(path.node);
+  }
+
   private optimizeBlock(
     path: babel.NodePath<t.BlockStatement>,
   ) {
@@ -1085,6 +1092,18 @@ export default class Optimizer {
     this.scope.push(path.node);
   }
 
+  optimizeLabeledStatement(
+    path: babel.NodePath<t.LabeledStatement>,
+  ) {
+    const parent = this.scope;
+    const block = new OptimizerScope(this.ctx, path, parent);
+    this.scope = block;
+    this.optimizeStatement(path.get('body'));
+    this.scope = parent;
+    path.node.body = t.blockStatement(block.getStatements());
+    this.scope.push(path.node);
+  }
+
   optimizeStatement(
     path: babel.NodePath<t.Statement>,
     topBlock = false,
@@ -1095,6 +1114,8 @@ export default class Optimizer {
       this.optimizeVariableDeclaration(path);
     } else if (isPathValid(path, t.isReturnStatement)) {
       this.optimizeReturnStatement(path);
+    } else if (isPathValid(path, t.isThrowStatement)) {
+      this.optimizeThrowStatement(path);
     } else if (isPathValid(path, t.isBlockStatement)) {
       this.optimizeBlockStatement(path, topBlock);
     } else if (isPathValid(path, t.isIfStatement)) {
@@ -1107,6 +1128,8 @@ export default class Optimizer {
       this.optimizeSwitchStatement(path);
     } else if (isPathValid(path, t.isTryStatement)) {
       this.optimizeTryStatement(path);
+    } else if (isPathValid(path, t.isLabeledStatement)) {
+      this.optimizeLabeledStatement(path);
     } else {
       this.scope.push(path.node);
     }

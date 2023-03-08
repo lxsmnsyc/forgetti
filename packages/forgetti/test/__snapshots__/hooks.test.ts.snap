@@ -4,10 +4,15 @@ exports[`hooks > should optimize useCallback 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 import { useCallback } from 'react';
 function Example(props) {
-  let _c = _useMemo(() => new Array(2), []);
-  let _v = _c[0] || (_c[0] = [example]);
-  let _v2 = _v ? _c[1] : _c[1] = () => props.value();
-  return _v2;
+  let _c = _useMemo(() => new Array(5), []),
+    _eq = Object.is(_c[0], props),
+    _v = _eq ? _c[0] : _c[0] = props,
+    _v2 = _eq ? _c[1] : _c[1] = _v.value,
+    _eq2 = Object.is(_c[2], _v2),
+    _v3 = _eq2 ? _c[2] : _c[2] = _v2,
+    _v4 = _eq2 ? _c[3] : _c[3] = [_v3],
+    _v5 = _eq2 ? _c[4] : _c[4] = () => props.value();
+  return _v5;
 }"
 `;
 
@@ -15,9 +20,14 @@ exports[`hooks > should optimize useEffect 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 import { useEffect } from 'react';
 function Example(props) {
-  let _c = _useMemo(() => new Array(1), []);
-  let _v = _c[0] || (_c[0] = [example]);
-  useEffect(() => props.value(), [_v]);
+  let _c = _useMemo(() => new Array(4), []),
+    _eq = Object.is(_c[0], props),
+    _v = _eq ? _c[0] : _c[0] = props,
+    _v2 = _eq ? _c[1] : _c[1] = _v.example,
+    _eq2 = Object.is(_c[2], _v2),
+    _v3 = _eq2 ? _c[2] : _c[2] = _v2,
+    _v4 = _eq2 ? _c[3] : _c[3] = [_v3];
+  useEffect(() => props.value(), [_v4]);
 }"
 `;
 
@@ -25,10 +35,15 @@ exports[`hooks > should optimize useMemo 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 import { useMemo } from 'react';
 function Example(props) {
-  let _c = _useMemo(() => new Array(2), []);
-  let _v = _c[0] || (_c[0] = [example]);
-  let _v2 = _v ? _c[1] : _c[1] = (() => props.value())();
-  return _v2;
+  let _c = _useMemo(() => new Array(5), []),
+    _eq = Object.is(_c[0], props),
+    _v = _eq ? _c[0] : _c[0] = props,
+    _v2 = _eq ? _c[1] : _c[1] = _v.value,
+    _eq2 = Object.is(_c[2], _v2),
+    _v3 = _eq2 ? _c[2] : _c[2] = _v2,
+    _v4 = _eq2 ? _c[3] : _c[3] = [_v3],
+    _v5 = _eq2 ? _c[4] : _c[4] = (() => props.value())();
+  return _v5;
 }"
 `;
 
@@ -36,10 +51,10 @@ exports[`hooks > should optimize useRef 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 import { useRef } from 'react';
 function Example(props) {
-  let _c = _useMemo(() => new Array(1), []);
-  let _v = _c[0] || (_c[0] = {
-    current: props.value
-  });
+  let _c = _useMemo(() => new Array(1), []),
+    _v = _c[0] ||= {
+      current: props.value
+    };
   return _v;
 }"
 `;

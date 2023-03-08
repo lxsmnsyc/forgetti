@@ -36,7 +36,7 @@ function Example(props) {
     const code = `
 import { useMemo } from 'react';
 function Example(props) {
-  return useMemo(() => props.value(), [example]);
+  return useMemo(() => props.value(), [props.value]);
 }
 `;
     expect(await compile(code)).toMatchSnapshot();
@@ -45,7 +45,7 @@ function Example(props) {
     const code = `
 import { useCallback } from 'react';
 function Example(props) {
-  return useCallback(() => props.value(), [example]);
+  return useCallback(() => props.value(), [props.value]);
 }
 `;
     expect(await compile(code)).toMatchSnapshot();
@@ -54,7 +54,7 @@ function Example(props) {
     const code = `
 import { useEffect } from 'react';
 function Example(props) {
-  useEffect(() => props.value(), [example]);
+  useEffect(() => props.value(), [props.example]);
 }
 `;
     expect(await compile(code)).toMatchSnapshot();

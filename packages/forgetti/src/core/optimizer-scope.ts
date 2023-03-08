@@ -3,6 +3,23 @@ import * as t from '@babel/types';
 import { addDefault, addNamed } from '@babel/helper-module-imports';
 import { OptimizedExpression, StateContext } from './types';
 
+function mergeVariableDeclaration(statements: t.Statement[]) {
+  let stack: t.VariableDeclarator[] = [];
+  const newStatements: t.Statement[] = [];
+  for (const value of statements) {
+    if (t.isVariableDeclaration(value) && value.kind === 'let') {
+      stack.push(...value.declarations);
+    } else {
+      if (stack.length) {
+        newStatements.push(t.variableDeclaration('let', stack));
+        stack = [];
+      }
+      newStatements.push(value);
+    }
+  }
+  return newStatements;
+}
+
 export default class OptimizerScope {
   memo: t.Identifier | undefined;
 
@@ -69,13 +86,13 @@ export default class OptimizerScope {
       return t.variableDeclaration('let', [
         t.variableDeclarator(
           this.createHeader(),
-          t.logicalExpression(
-            '||',
+          t.assignmentExpression(
+            '||=',
             pos,
-            t.assignmentExpression('=', pos, t.newExpression(
+            t.newExpression(
               t.identifier('Array'),
               [t.numericLiteral(this.indeces)],
-            )),
+            ),
           ),
         ),
       ]);
@@ -130,10 +147,10 @@ export default class OptimizerScope {
     return t.variableDeclaration('let', [
       t.variableDeclarator(
         this.createHeader(),
-        t.logicalExpression(
-          '||',
+        t.assignmentExpression(
+          '||=',
           pos,
-          t.assignmentExpression('=', pos, t.arrayExpression()),
+          t.arrayExpression(),
         ),
       ),
       t.variableDeclarator(id, t.numericLiteral(0)),
@@ -149,16 +166,12 @@ export default class OptimizerScope {
       t.variableDeclarator(localIndex, t.updateExpression('++', index)),
       t.variableDeclarator(
         this.createLoopHeader(),
-        t.logicalExpression(
-          '||',
+        t.assignmentExpression(
+          '||=',
           pos,
-          t.assignmentExpression(
-            '=',
-            pos,
-            t.newExpression(
-              t.identifier('Array'),
-              [t.numericLiteral(this.indeces)],
-            ),
+          t.newExpression(
+            t.identifier('Array'),
+            [t.numericLiteral(this.indeces)],
           ),
         ),
       ),
@@ -171,12 +184,12 @@ export default class OptimizerScope {
       ? this.getLoopDeclaration()
       : this.getMemoDeclaration();
     if (header) {
-      return [
+      return mergeVariableDeclaration([
         header,
         ...result,
-      ];
+      ]);
     }
-    return result;
+    return mergeVariableDeclaration(result);
   }
 
   push(...statements: t.Statement[]) {
