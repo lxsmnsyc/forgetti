@@ -359,8 +359,14 @@ export default class Optimizer {
     const [callback, dependencies] = path.get('arguments');
     if (isPathValid(callback, t.isExpression)) {
       if (isPathValid(dependencies, t.isExpression)) {
-        const optimizedArray = this.optimizeExpression(dependencies);
-        return this.createMemo(callback.node, optimizedArray.expr);
+        const dependency = this.createDependency(dependencies);
+        if (dependency) {
+          return this.createMemo(
+            callback.node,
+            dependency.deps,
+          );
+        }
+        return this.createMemo(callback.node, true);
       }
     }
     return optimizedExpr(path.node);
@@ -372,11 +378,14 @@ export default class Optimizer {
     const [callback, dependencies] = path.get('arguments');
     if (isPathValid(callback, t.isExpression)) {
       if (isPathValid(dependencies, t.isExpression)) {
-        const optimizedArray = this.optimizeExpression(dependencies);
-        return this.createMemo(
-          t.callExpression(callback.node, []),
-          optimizedArray.expr,
-        );
+        const dependency = this.createDependency(dependencies);
+        if (dependency) {
+          return this.createMemo(
+            t.callExpression(callback.node, []),
+            dependency.deps,
+          );
+        }
+        return this.createMemo(t.callExpression(callback.node, []), true);
       }
     }
     return optimizedExpr(path.node);
