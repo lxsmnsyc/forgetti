@@ -239,6 +239,21 @@ function Example(props) {
 
 ### Expressions
 
+All expressions are covered with the exception of the following:
+
+- `this`
+- `super`
+- `import`
+- `import.meta`
+- class expressions
+- `yield`
+- `await`
+- `++` and `--`
+- [function bind](https://github.com/tc39/proposal-bind-operator)
+- [do expressions](https://github.com/tc39/proposal-do-expressions)
+- [pipeline operators](https://github.com/tc39/proposal-pipeline-operator/wiki#overview-of-previous-proposals)
+- [module expressions](https://github.com/tc39/proposal-module-expressions)
+
 #### Functions and arrows
 
 The optimization step is basically an auto-memoized callback. It will only change if the values it is using has changed.
