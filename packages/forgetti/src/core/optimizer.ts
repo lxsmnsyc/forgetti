@@ -1104,7 +1104,6 @@ export default class Optimizer {
     this.optimizeStatement(path.get('body'));
     this.scope = parent;
     path.node.body = t.blockStatement(block.getStatements());
-    // this.optimizeStatement(path.get('body'));
     this.scope.push(path.node);
   }
 
