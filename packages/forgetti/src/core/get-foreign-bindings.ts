@@ -1,6 +1,5 @@
 import * as babel from '@babel/core';
 import * as t from '@babel/types';
-import { map } from './arrays';
 
 function isForeignBinding(
   source: babel.NodePath,
@@ -59,5 +58,9 @@ export default function getForeignBindings(path: babel.NodePath): t.Identifier[]
     },
   });
 
-  return map([...identifiers], (value) => t.identifier(value));
+  const result: t.Identifier[] = [];
+  for (const identifier of identifiers) {
+    result.push(t.identifier(identifier));
+  }
+  return result;
 }

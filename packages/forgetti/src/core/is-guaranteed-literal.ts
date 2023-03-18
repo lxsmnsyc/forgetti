@@ -1,17 +1,22 @@
 import * as t from '@babel/types';
-import { every } from './arrays';
 import { isNestedExpression } from './checks';
 
 export default function isGuaranteedLiteral(node: t.Node): node is t.Literal {
   if (t.isLiteral(node)) {
     // Check if it is template literal but with only static expressions
     if (t.isTemplateLiteral(node)) {
-      return every(node.expressions, (expr) => {
+      let expr: t.Expression | t.TSType;
+      for (let i = 0, len = node.expressions.length; i < len; i++) {
+        expr = node.expressions[i];
         if (t.isExpression(expr)) {
-          return isGuaranteedLiteral(expr);
+          if (!isGuaranteedLiteral(expr)) {
+            return false;
+          }
+        } else {
+          return false;
         }
-        return false;
-      });
+      }
+      return true;
     }
     return true;
   }

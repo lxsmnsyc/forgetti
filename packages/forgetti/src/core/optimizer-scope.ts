@@ -6,7 +6,9 @@ import { OptimizedExpression, StateContext } from './types';
 function mergeVariableDeclaration(statements: t.Statement[]) {
   let stack: t.VariableDeclarator[] = [];
   const newStatements: t.Statement[] = [];
-  for (const value of statements) {
+  let value: t.Statement;
+  for (let i = 0, len = statements.length; i < len; i++) {
+    value = statements[i];
     if (t.isVariableDeclaration(value) && value.kind === 'let') {
       stack.push(...value.declarations);
     } else {
