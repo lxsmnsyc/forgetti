@@ -53,34 +53,55 @@ export default class Optimizer {
     this.scope = new OptimizerScope(ctx, path);
   }
 
+  /**
+   * This method declares the memoized value
+   * - if the dependencies is an expression, the expression is used
+   *   as the memoization condition
+   * - if the dependencies is an array, the array is combined with
+   *   logical AND into a single expression
+   * - if the dependencies is `true`, then this expression is to be
+   *   memoized as a "constant" (aka one-time generation)
+   * - if the dependencies is `false`, then it means that it is being
+   *   used as a dependency and so it must be compared to its memoized
+   *   version.
+   */
   createMemo(
     current: t.Expression,
     dependencies?: t.Expression | t.Expression[] | boolean,
   ): OptimizedExpression {
+    // Check if the identifier is an already optimized
+    // identifier so that we can skip it.
     if (t.isIdentifier(current)) {
       const optimized = this.scope.getOptimized(current);
       if (optimized) {
         return optimized;
       }
     }
+    // Creates the cache header
     const header = (
       this.scope.isInLoop
         ? this.scope.createLoopHeader()
         : this.scope.createHeader()
     );
+    // Get the memo index
     const index = this.scope.createIndex();
+    // Generate the access expression
     const pos = t.memberExpression(header, index, true);
+    // Generate the `v` identifier
     const vid = this.path.scope.generateUidIdentifier('v');
 
     let condition: t.Expression | undefined;
 
+    // Dependencies is an array of conditions
     if (Array.isArray(dependencies)) {
+      // Makes sure to dedupe
       const newSet = new Set<t.Identifier>();
       let dependency: t.Expression;
       for (let i = 0, len = dependencies.length; i < len; i++) {
         dependency = dependencies[i];
         if (condition && dependency) {
           if (t.isIdentifier(dependency)) {
+            // dependency is already part of the condition, skip
             if (!newSet.has(dependency)) {
               condition = t.logicalExpression('&&', condition, dependency);
               newSet.add(dependency);
@@ -98,8 +119,10 @@ export default class Optimizer {
     } else if (dependencies === true) {
       // Do nothing
     } else if (dependencies) {
+      // just reuse the dependency
       condition = dependencies;
     } else {
+      // Compare memoized version to incoming version
       condition = t.callExpression(
         t.memberExpression(t.identifier('Object'), t.identifier('is')),
         [pos, current],
@@ -108,26 +131,34 @@ export default class Optimizer {
 
     let eqid: t.Expression;
 
+    // Generates the condition expression
     if (condition == null) {
+      // Specifies that this memoization mode
+      // is a "constant"
+      // so we don't need to generate an extra
+      // declaration
       eqid = pos;
     } else if (t.isIdentifier(condition)) {
+      // Reuse the identifier
       eqid = condition;
     } else {
+      // Generate a new identifier for the condition
       eqid = this.path.scope.generateUidIdentifier('eq');
     }
 
+    // Generates the variable declaration
     const declaration: t.VariableDeclarator[] = [];
-
     if (condition && !t.isIdentifier(condition)) {
       declaration.push(t.variableDeclarator(eqid, condition));
     }
 
     const optimized = optimizedExpr(vid, condition ? eqid : undefined);
-
+    // Register as a constant
     if (condition == null) {
       this.scope.addConstant(vid);
     }
 
+    // Mark the identifier as optimized
     if (t.isIdentifier(current)) {
       this.scope.setOptimized(current, optimized);
       this.scope.setOptimized(vid, optimized);
@@ -152,18 +183,31 @@ export default class Optimizer {
 
   dependency = new WeakMap<t.Expression, OptimizedExpression>();
 
+  /**
+   * Registers a dependency
+   */
   createDependency<T extends t.Expression>(path: babel.NodePath<T>) {
+    // Get optimized expression
     const optimized = this.optimizeExpression(path);
+    // If the expression is a constant
+    // ignore this dependency
     if (optimized.constant) {
       return undefined;
     }
+    // If the expression is an identifier
+    // and potentially optimized as a constant
+    // then just return it
     if (t.isIdentifier(optimized.expr) && this.scope.hasConstant(optimized.expr)) {
       return optimized;
     }
+    // If the node itself is a "dependency"
+    // then this is basically redundant work, skipping
     const result = this.dependency.get(path.node);
     if (result) {
       return result;
     }
+    // The value has been optimized but value isn't referentially
+    // compared, so generate a referential-comparison memo
     const record = this.createMemo(optimized.expr, false);
     this.dependency.set(path.node, record);
     return record;
@@ -173,12 +217,18 @@ export default class Optimizer {
     path: babel.NodePath,
     id: t.Identifier,
   ) {
+    // Check if scope has the binding (no globals)
+    // we only want to memoize identifiers
+    // that are part of the render evaluation
     if (path.scope.hasBinding(id.name, true)) {
       const binding = path.scope.getBindingIdentifier(id.name);
       if (binding) {
+        // Memoize as a "dependency"
         return this.createMemo(binding, false);
       }
     }
+    // Identifier is marked as optimized
+    // but we just basically "skip"
     return optimizedExpr(id, undefined, true);
   }
 
@@ -191,12 +241,15 @@ export default class Optimizer {
   memoizeMemberExpression(
     path: babel.NodePath<t.MemberExpression>,
   ) {
+    // Create dependencies
     const condition = createDependencies();
+    // Mark source as a dependency
     const source = this.createDependency(path.get('object'));
     if (source) {
       path.node.object = source.expr;
       mergeDependencies(condition, source.deps);
     }
+    // Only memoize computed properties (obviously)
     if (path.node.computed) {
       const propertyPath = path.get('property');
       if (isPathValid(propertyPath, t.isExpression)) {
@@ -218,6 +271,9 @@ export default class Optimizer {
     path: babel.NodePath<t.MemberExpression | t.OptionalMemberExpression>,
   ) {
     const result = this.memoizeMemberExpression(path as babel.NodePath<t.MemberExpression>);
+    // Memoize the entire expression as a whole
+    // The method above only memoized part of the expression
+    // but it is also needed to get its dependencies
     return this.createMemo(result.expr, result.deps);
   }
 
