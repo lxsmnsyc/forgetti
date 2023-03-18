@@ -2,6 +2,8 @@ import * as babel from '@babel/core';
 import * as t from '@babel/types';
 import { isNestedExpression, isPathValid } from './checks';
 import getForeignBindings from './get-foreign-bindings';
+import getImportIdentifier from './get-import-identifier';
+import { RUNTIME_EQUALS } from './imports';
 import isGuaranteedLiteral from './is-guaranteed-literal';
 import OptimizerScope from './optimizer-scope';
 import { ComponentNode, OptimizedExpression, StateContext } from './types';
@@ -124,7 +126,7 @@ export default class Optimizer {
     } else {
       // Compare memoized version to incoming version
       condition = t.callExpression(
-        t.memberExpression(t.identifier('Object'), t.identifier('is')),
+        getImportIdentifier(this.ctx, this.path, RUNTIME_EQUALS),
         [pos, current],
       );
     }

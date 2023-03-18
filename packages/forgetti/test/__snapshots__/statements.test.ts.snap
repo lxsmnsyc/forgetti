@@ -2,15 +2,17 @@
 
 exports[`statements > should optimize do-while statements 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c2 = _useMemo(() => new Array(1), []),
+  let _c2 = _$$cache(_useMemo, 1),
     i = 0,
     _c = _c2[0] ||= [],
     _id = 0;
   do {
     let _lid = _id++,
       _l = _c[_lid] ||= new Array(2),
-      _eq = Object.is(_l[0], i),
+      _eq = _$$equals(_l[0], i),
       _v = _eq ? _l[0] : _l[0] = i,
       _v2 = _eq ? _l[1] : _l[1] = console.log(_v);
     _v2;
@@ -22,14 +24,16 @@ function Example(props) {
 
 exports[`statements > should optimize for statements 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c2 = _useMemo(() => new Array(1), []),
+  let _c2 = _$$cache(_useMemo, 1),
     _c = _c2[0] ||= [],
     _id = 0;
   for (let i = 0; i < 10; i += 1) {
     let _lid = _id++,
       _l = _c[_lid] ||= new Array(2),
-      _eq = Object.is(_l[0], i),
+      _eq = _$$equals(_l[0], i),
       _v = _eq ? _l[0] : _l[0] = i,
       _v2 = _eq ? _l[1] : _l[1] = console.log(_v);
     _v2;
@@ -39,9 +43,11 @@ function Example(props) {
 
 exports[`statements > should optimize for-in statements 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _useMemo(() => new Array(3), []),
-    _eq = Object.is(_c[0], props),
+  let _c = _$$cache(_useMemo, 3),
+    _eq = _$$equals(_c[0], props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = _v.arr,
     _c2 = _c[2] ||= [],
@@ -49,7 +55,7 @@ function Example(props) {
   for (const x in _v2) {
     let _lid = _id++,
       _l = _c2[_lid] ||= new Array(2),
-      _eq2 = Object.is(_l[0], x),
+      _eq2 = _$$equals(_l[0], x),
       _v3 = _eq2 ? _l[0] : _l[0] = x,
       _v4 = _eq2 ? _l[1] : _l[1] = console.log(_v3);
     _v4;
@@ -59,9 +65,11 @@ function Example(props) {
 
 exports[`statements > should optimize for-of statements 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _useMemo(() => new Array(3), []),
-    _eq = Object.is(_c[0], props),
+  let _c = _$$cache(_useMemo, 3),
+    _eq = _$$equals(_c[0], props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = _v.arr,
     _c2 = _c[2] ||= [],
@@ -69,7 +77,7 @@ function Example(props) {
   for (const x of _v2) {
     let _lid = _id++,
       _l = _c2[_lid] ||= new Array(2),
-      _eq2 = Object.is(_l[0], x),
+      _eq2 = _$$equals(_l[0], x),
       _v3 = _eq2 ? _l[0] : _l[0] = x,
       _v4 = _eq2 ? _l[1] : _l[1] = console.log(_v3);
     _v4;
@@ -79,24 +87,26 @@ function Example(props) {
 
 exports[`statements > should optimize if statements 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _useMemo(() => new Array(5), []),
-    _eq = Object.is(_c[0], props),
+  let _c = _$$cache(_useMemo, 5),
+    _eq = _$$equals(_c[0], props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = _v.type,
-    _eq2 = Object.is(_c[2], _v2),
+    _eq2 = _$$equals(_c[2], _v2),
     _v3 = _eq2 ? _c[2] : _c[2] = _v2;
   if (_v3 === 'a') {
     let _c2 = _c[3] ||= new Array(3),
       _v4 = _eq ? _c2[0] : _c2[0] = _v.value,
-      _eq3 = Object.is(_c2[1], _v4),
+      _eq3 = _$$equals(_c2[1], _v4),
       _v5 = _eq3 ? _c2[1] : _c2[1] = _v4,
       _v6 = _eq3 ? _c2[2] : _c2[2] = examples.a(_v5);
     return _v6;
   } else {
     let _c3 = _c[4] ||= new Array(3),
       _v7 = _eq ? _c3[0] : _c3[0] = _v.value,
-      _eq4 = Object.is(_c3[1], _v7),
+      _eq4 = _$$equals(_c3[1], _v7),
       _v8 = _eq4 ? _c3[1] : _c3[1] = _v7,
       _v9 = _eq4 ? _c3[2] : _c3[2] = examples.b(_v8);
     return _v9;
@@ -106,8 +116,9 @@ function Example(props) {
 
 exports[`statements > should optimize labeled statements 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c3 = _useMemo(() => new Array(2), []);
+  let _c3 = _$$cache(_useMemo, 2);
   foo: {
     let _c2 = _c3[0] ||= new Array(1);
     {
@@ -126,37 +137,39 @@ function Example(props) {
 
 exports[`statements > should optimize switch statements 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _useMemo(() => new Array(6), []),
-    _eq = Object.is(_c[0], props),
+  let _c = _$$cache(_useMemo, 6),
+    _eq = _$$equals(_c[0], props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = _v.type;
   switch (_v2) {
     case 'a':
       let _c2 = _c[2] ||= new Array(3),
         _v3 = _eq ? _c2[0] : _c2[0] = _v.value,
-        _eq2 = Object.is(_c2[1], _v3),
+        _eq2 = _$$equals(_c2[1], _v3),
         _v4 = _eq2 ? _c2[1] : _c2[1] = _v3,
         _v5 = _eq2 ? _c2[2] : _c2[2] = examples.a(_v4);
       return _v5;
     case 'b':
       let _c3 = _c[3] ||= new Array(3),
         _v6 = _eq ? _c3[0] : _c3[0] = _v.value,
-        _eq3 = Object.is(_c3[1], _v6),
+        _eq3 = _$$equals(_c3[1], _v6),
         _v7 = _eq3 ? _c3[1] : _c3[1] = _v6,
         _v8 = _eq3 ? _c3[2] : _c3[2] = examples.b(_v7);
       return _v8;
     case 'c':
       let _c4 = _c[4] ||= new Array(3),
         _v9 = _eq ? _c4[0] : _c4[0] = _v.value,
-        _eq4 = Object.is(_c4[1], _v9),
+        _eq4 = _$$equals(_c4[1], _v9),
         _v10 = _eq4 ? _c4[1] : _c4[1] = _v9,
         _v11 = _eq4 ? _c4[2] : _c4[2] = examples.c(_v10);
       return _v11;
     default:
       let _c5 = _c[5] ||= new Array(3),
         _v12 = _eq ? _c5[0] : _c5[0] = _v.value,
-        _eq5 = Object.is(_c5[1], _v12),
+        _eq5 = _$$equals(_c5[1], _v12),
         _v13 = _eq5 ? _c5[1] : _c5[1] = _v12,
         _v14 = _eq5 ? _c5[2] : _c5[2] = examples.default(_v13);
       return _v14;
@@ -166,12 +179,14 @@ function Example(props) {
 
 exports[`statements > should optimize throw statements 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _useMemo(() => new Array(4), []),
-    _eq = Object.is(_c[0], props),
+  let _c = _$$cache(_useMemo, 4),
+    _eq = _$$equals(_c[0], props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = _v.message,
-    _eq2 = Object.is(_c[2], _v2),
+    _eq2 = _$$equals(_c[2], _v2),
     _v3 = _eq2 ? _c[2] : _c[2] = _v2,
     _v4 = _eq2 ? _c[3] : _c[3] = createError(_v3);
   throw _v4;
@@ -180,26 +195,28 @@ function Example(props) {
 
 exports[`statements > should optimize try statements 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c2 = _useMemo(() => new Array(3), []);
+  let _c2 = _$$cache(_useMemo, 3);
   try {
     let _c = _c2[0] ||= new Array(2),
-      _eq = Object.is(_c[0], props),
+      _eq = _$$equals(_c[0], props),
       _v = _eq ? _c[0] : _c[0] = props,
       _v2 = _eq ? _c[1] : _c[1] = _v.a();
     _v2;
   } catch (e) {
     let _c3 = _c2[1] ||= new Array(3),
-      _eq2 = Object.is(_c3[0], props),
+      _eq2 = _$$equals(_c3[0], props),
       _v3 = _eq2 ? _c3[0] : _c3[0] = props,
-      _eq3 = Object.is(_c3[1], e),
+      _eq3 = _$$equals(_c3[1], e),
       _v4 = _eq3 ? _c3[1] : _c3[1] = e,
       _eq4 = _eq2 && _eq3,
       _v5 = _eq4 ? _c3[2] : _c3[2] = _v3.b(_v4);
     _v5;
   } finally {
     let _c4 = _c2[2] ||= new Array(2),
-      _eq5 = Object.is(_c4[0], props),
+      _eq5 = _$$equals(_c4[0], props),
       _v6 = _eq5 ? _c4[0] : _c4[0] = props,
       _v7 = _eq5 ? _c4[1] : _c4[1] = _v6.c();
     _v7;
@@ -209,15 +226,17 @@ function Example(props) {
 
 exports[`statements > should optimize while statements 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c2 = _useMemo(() => new Array(1), []),
+  let _c2 = _$$cache(_useMemo, 1),
     i = 0,
     _c = _c2[0] ||= [],
     _id = 0;
   while (i < props.x) {
     let _lid = _id++,
       _l = _c[_lid] ||= new Array(2),
-      _eq = Object.is(_l[0], i),
+      _eq = _$$equals(_l[0], i),
       _v = _eq ? _l[0] : _l[0] = i,
       _v2 = _eq ? _l[1] : _l[1] = console.log(_v);
     _v2;
