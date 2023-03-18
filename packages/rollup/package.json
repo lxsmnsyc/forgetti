@@ -52,8 +52,7 @@
     "type-check": "pridepack check",
     "lint": "pridepack lint",
     "clean": "pridepack clean",
-    "watch": "pridepack watch",
-    "test": "vitest"
+    "watch": "pridepack watch"
   },
   "description": "Solve your hook spaghetti. Inspired by React Forget",
   "repository": {
