@@ -30,8 +30,8 @@
   "name": "vite-plugin-forgetti",
   "devDependencies": {
     "@types/babel__core": "^7.20.0",
-    "@types/node": "^18.13.0",
-    "eslint": "^8.34.0",
+    "@types/node": "^18.15.3",
+    "eslint": "^8.36.0",
     "eslint-config-lxsmnsyc": "^0.4.8",
     "pridepack": "2.4.1",
     "tslib": "^2.5.0",
@@ -39,8 +39,8 @@
     "vite": "^4.1.4"
   },
   "dependencies": {
-    "@babel/core": "^7.20.12",
-    "@babel/preset-typescript": "^7.18.6",
+    "@babel/core": "^7.21.3",
+    "@babel/preset-typescript": "^7.21.0",
     "@rollup/pluginutils": "^5.0.2",
     "forgetti": "0.3.0"
   },
