@@ -1,6 +1,6 @@
 export function $$equals(a: unknown, b: unknown): boolean {
   // eslint-disable-next-line no-self-compare
-  return a !== b || (a !== a && b !== b);
+  return a === b || (a !== a && b !== b);
 }
 
 export type MemoHook = <T>(callback: () => T, dependencies: unknown[]) => T;

@@ -40,11 +40,11 @@
   "dependencies": {
     "@babel/core": "^7.21.3",
     "@babel/preset-typescript": "^7.21.0",
-    "@rollup/pluginutils": "^5.0.2",
-    "forgetti": "0.3.0"
+    "@rollup/pluginutils": "^5.0.2"
   },
   "peerDependencies": {
-    "rollup": "^3"
+    "rollup": "^3",
+    "forgetti": "0.3.0"
   },
   "scripts": {
     "prepublish": "pridepack clean && pridepack build",

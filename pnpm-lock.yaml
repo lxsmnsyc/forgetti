@@ -19,11 +19,13 @@ importers:
       '@preact/preset-vite': ^2.5.0
       eslint: ^8.34.0
       eslint-config-lxsmnsyc: ^0.5.1
+      forgetti: 0.3.0
       preact: ^10.13.0
       typescript: ^4.9.5
       vite: ^4.1.2
       vite-plugin-forgetti: 0.3.0
     dependencies:
+      forgetti: link:../../packages/forgetti
       preact: 10.13.0
     devDependencies:
       '@preact/preset-vite': 2.5.0_preact@10.13.0+vite@4.1.4
@@ -40,12 +42,14 @@ importers:
       '@vitejs/plugin-react': ^3.1.0
       eslint: ^8.34.0
       eslint-config-lxsmnsyc: ^0.5.1
+      forgetti: 0.3.0
       react: ^18.2.0
       react-dom: ^18.2.0
       typescript: ^4.9.5
       vite: ^4.1.2
       vite-plugin-forgetti: 0.3.0
     dependencies:
+      forgetti: link:../../packages/forgetti
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
@@ -98,7 +102,6 @@ importers:
       '@types/node': ^18.13.0
       eslint: ^8.34.0
       eslint-config-lxsmnsyc: ^0.5.1
-      forgetti: 0.3.0
       pridepack: 2.4.1
       rollup: ^3.15.0
       tslib: ^2.5.0
@@ -107,7 +110,6 @@ importers:
       '@babel/core': 7.21.3
       '@babel/preset-typescript': 7.21.0_@babel+core@7.21.3
       '@rollup/pluginutils': 5.0.2_rollup@3.15.0
-      forgetti: link:../forgetti
     devDependencies:
       '@types/babel__core': 7.20.0
       '@types/node': 18.13.0
@@ -136,12 +138,12 @@ importers:
       '@babel/core': 7.21.3
       '@babel/preset-typescript': 7.21.0_@babel+core@7.21.3
       '@rollup/pluginutils': 5.0.2
-      forgetti: link:../forgetti
     devDependencies:
       '@types/babel__core': 7.20.0
       '@types/node': 18.15.3
       eslint: 8.36.0
       eslint-config-lxsmnsyc: 0.5.1_vgl77cfdswitgr47lm5swmv43m
+      forgetti: link:../forgetti
       pridepack: 2.4.1_a37tusewm2jlajv35tjly5qag4
       tslib: 2.5.0
       typescript: 4.9.5

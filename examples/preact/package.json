@@ -15,6 +15,7 @@
     "vite-plugin-forgetti": "0.3.0"
   },
   "dependencies": {
+    "forgetti": "0.3.0",
     "preact": "^10.13.0"
   },
   "version": "0.3.0"
