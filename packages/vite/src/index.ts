@@ -38,8 +38,6 @@ function repushPlugin(plugins: Plugin[], plugin: Plugin, pluginNames: string[]) 
 const DEFAULT_INCLUDE = 'src/**/*.{jsx,tsx,ts,js,mjs,cjs}';
 const DEFAULT_EXCLUDE = 'node_modules/**/*.{jsx,tsx,ts,js,mjs,cjs}';
 
-const IS_TS = /\.[mc]?ts|tsx$/i;
-
 export default function forgettiPlugin(
   options: ForgettiPluginOptions = { preset: 'react' },
 ): Plugin {
@@ -47,7 +45,7 @@ export default function forgettiPlugin(
     options.filter?.include || DEFAULT_INCLUDE,
     options.filter?.exclude || DEFAULT_EXCLUDE,
   );
-  const preset = options.preset;
+  const { preset } = options;
   const plugin: Plugin = {
     name: 'forgetti',
     enforce: 'pre',
@@ -60,20 +58,20 @@ export default function forgettiPlugin(
         'vite:react-babel',
         'vite:react-jsx',
         // https://github.com/preactjs/preset-vite/blob/main/src/index.ts
-        "vite:preact-jsx",
+        'vite:preact-jsx',
       ]);
     },
     async transform(code, id) {
       if (filter(id)) {
-        const plugins: NonNullable<NonNullable<babel.TransformOptions['parserOpts']>['plugins']> = ['jsx'] ;
-
-        if (IS_TS.test(id)) {
+        const pluginOption = [forgettiBabel, { preset }];
+        const plugins: NonNullable<NonNullable<babel.TransformOptions['parserOpts']>['plugins']> = ['jsx'];
+        if (/\.[mc]?tsx?$/i.test(id)) {
           plugins.push('typescript');
         }
         const result = await babel.transformAsync(code, {
           ...options.babel,
           plugins: [
-            [forgettiBabel, { preset }],
+            pluginOption,
             ...(options.babel?.plugins || []),
           ],
           parserOpts: {
@@ -93,7 +91,7 @@ export default function forgettiPlugin(
 
         if (result) {
           return {
-            code: result.code ?? '',
+            code: result.code || '',
             map: result.map,
           };
         }
