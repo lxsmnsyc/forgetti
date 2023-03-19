@@ -2,7 +2,6 @@ import forgettiBabel, { Options } from 'forgetti';
 import { Plugin } from 'rollup';
 import { createFilter, FilterPattern } from '@rollup/pluginutils';
 import * as babel from '@babel/core';
-import ts from '@babel/preset-typescript';
 import path from 'path';
 
 export interface ForgettiPluginFilter {
@@ -18,6 +17,8 @@ export interface ForgettiPluginOptions extends Options {
 const DEFAULT_INCLUDE = 'src/**/*.{jsx,tsx,ts,js,mjs,cjs}';
 const DEFAULT_EXCLUDE = 'node_modules/**/*.{jsx,tsx,ts,js,mjs,cjs}';
 
+const IS_TS = /\.[mc]?ts|tsx$/i;
+
 export default function forgettiPlugin(
   options: ForgettiPluginOptions = { preset: 'react' },
 ): Plugin {
@@ -30,16 +31,23 @@ export default function forgettiPlugin(
     name: 'forgetti',
     async transform(code, id) {
       if (filter(id)) {
+        const plugins: NonNullable<NonNullable<babel.TransformOptions['parserOpts']>['plugins']> = ['jsx'] ;
+        if (IS_TS.test(id)) {
+          plugins.push('typescript');
+        }
         const result = await babel.transformAsync(code, {
           ...options.babel,
-          presets: [
-            [ts],
-            ...(options.babel?.presets ?? []),
-          ],
           plugins: [
             [forgettiBabel, { preset }],
-            ...(options.babel?.plugins ?? []),
+            ...(options.babel?.plugins || []),
           ],
+          parserOpts: {
+            ...(options.babel?.parserOpts || {}),
+            plugins: [
+              ...(options.babel?.parserOpts?.plugins || []),
+              ...plugins,
+            ],
+          },
           filename: path.basename(id),
           ast: false,
           sourceMaps: true,

@@ -40,7 +40,6 @@
   },
   "dependencies": {
     "@babel/core": "^7.21.3",
-    "@babel/preset-typescript": "^7.21.0",
     "@rollup/pluginutils": "^5.0.2"
   },
   "peerDependencies": {
