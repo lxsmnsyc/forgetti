@@ -102,6 +102,7 @@ importers:
       '@types/node': ^18.13.0
       eslint: ^8.34.0
       eslint-config-lxsmnsyc: ^0.5.1
+      forgetti: 0.3.0
       pridepack: 2.4.1
       rollup: ^3.15.0
       tslib: ^2.5.0
@@ -115,6 +116,7 @@ importers:
       '@types/node': 18.13.0
       eslint: 8.34.0
       eslint-config-lxsmnsyc: 0.5.1_7kw3g6rralp5ps6mg3uyzz6azm
+      forgetti: link:../forgetti
       pridepack: 2.4.1_64oh6xetmihmk3s5lpnh2fqrua
       rollup: 3.15.0
       tslib: 2.5.0

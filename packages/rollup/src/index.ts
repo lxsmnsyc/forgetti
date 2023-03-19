@@ -2,8 +2,8 @@ import forgettiBabel, { Options } from 'forgetti';
 import { Plugin } from 'rollup';
 import { createFilter, FilterPattern } from '@rollup/pluginutils';
 import * as babel from '@babel/core';
-import path from 'path';
 import ts from '@babel/preset-typescript';
+import path from 'path';
 
 export interface ForgettiPluginFilter {
   include?: FilterPattern;
@@ -41,6 +41,11 @@ export default function forgettiPlugin(
             ...(options.babel?.plugins ?? []),
           ],
           filename: path.basename(id),
+          ast: false,
+          sourceMaps: true,
+          configFile: false,
+          babelrc: false,
+          sourceFileName: id,
         });
 
         if (result) {
