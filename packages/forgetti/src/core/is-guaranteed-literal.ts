@@ -10,6 +10,15 @@ export default function isGuaranteedLiteral(node: t.Node): node is t.Literal {
     case 'RegExpLiteral':
     case 'StringLiteral':
       return true;
+    case 'Identifier':
+      switch (node.name) {
+        case 'undefined':
+        case 'NaN':
+        case 'Infinity':
+          return true;
+        default:
+          return false;
+      }
     case 'TemplateLiteral': {
       let expr: t.Expression | t.TSType;
       for (let i = 0, len = node.expressions.length; i < len; i++) {

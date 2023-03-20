@@ -938,7 +938,14 @@ export default class Optimizer {
     }
     // if (t.isIdentifier(path.node)) {
     if (isPathValid(path, t.isIdentifier)) {
-      return this.optimizeIdentifier(path);
+      switch (path.node.name) {
+        case 'undefined':
+        case 'NaN':
+        case 'Infinity':
+          return optimizedExpr(path.node, undefined, true);
+        default:
+          return this.optimizeIdentifier(path);
+      }
     }
     if (
       isPathValid(path, t.isMemberExpression)
