@@ -3,18 +3,21 @@ import * as babel from '@babel/core';
 import { ComponentNode, StateContext } from './types';
 
 export function getImportSpecifierName(specifier: t.ImportSpecifier): string {
-  if (t.isIdentifier(specifier.imported)) {
+  if (specifier.imported.type === 'Identifier') {
     return specifier.imported.name;
   }
   return specifier.imported.value;
 }
 
 export function isComponent(node: t.Node): node is ComponentNode {
-  return (
-    t.isArrowFunctionExpression(node)
-    || t.isFunctionExpression(node)
-    || t.isFunctionDeclaration(node)
-  );
+  switch (node.type) {
+    case 'ArrowFunctionExpression':
+    case 'FunctionExpression':
+    case 'FunctionDeclaration':
+      return true;
+    default:
+      return false;
+  }
 }
 
 export function isComponentNameValid(
@@ -23,7 +26,7 @@ export function isComponentNameValid(
   checkName = false,
 ) {
   if (checkName) {
-    if (t.isFunctionExpression(node) || t.isFunctionDeclaration(node)) {
+    if (node.type !== 'ArrowFunctionExpression') {
       return (
         node.id
         && (

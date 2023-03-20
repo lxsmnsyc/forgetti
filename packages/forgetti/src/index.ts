@@ -26,30 +26,37 @@ function registerHookSpecifiers(
   let specifier: typeof path.node.specifiers[0];
   for (let i = 0, len = path.node.specifiers.length; i < len; i++) {
     specifier = path.node.specifiers[i];
-    if (t.isImportSpecifier(specifier)) {
-      if (
-        hook.kind === 'named'
-        && getImportSpecifierName(specifier) === hook.name
-      ) {
-        ctx.registrations.hooks.set(specifier.local, hook);
+    switch (specifier.type) {
+      case 'ImportDefaultSpecifier':
+        if (hook.kind === 'default' && specifier.local.name === hook.name) {
+          ctx.registrations.hooks.set(specifier.local, hook);
+        }
+        break;
+      case 'ImportNamespaceSpecifier': {
+        let current = ctx.registrations.hooksNamespaces.get(specifier.local);
+        if (!current) {
+          current = [];
+        }
+        current.push(hook);
+        ctx.registrations.hooksNamespaces.set(specifier.local, current);
       }
-      if (
-        hook.kind === 'default'
-        && getImportSpecifierName(specifier) === 'default'
-      ) {
-        ctx.registrations.hooks.set(specifier.local, hook);
-      }
-    } else if (t.isImportDefaultSpecifier(specifier)) {
-      if (hook.kind === 'default' && specifier.local.name === hook.name) {
-        ctx.registrations.hooks.set(specifier.local, hook);
-      }
-    } else if (t.isImportNamespaceSpecifier(specifier)) {
-      let current = ctx.registrations.hooksNamespaces.get(specifier.local);
-      if (!current) {
-        current = [];
-      }
-      current.push(hook);
-      ctx.registrations.hooksNamespaces.set(specifier.local, current);
+        break;
+      case 'ImportSpecifier':
+        if (
+          (
+            hook.kind === 'named'
+            && getImportSpecifierName(specifier) === hook.name
+          )
+          || (
+            hook.kind === 'default'
+            && getImportSpecifierName(specifier) === 'default'
+          )
+        ) {
+          ctx.registrations.hooks.set(specifier.local, hook);
+        }
+        break;
+      default:
+        break;
     }
   }
 }
@@ -62,31 +69,37 @@ function registerHOCSpecifiers(
   let specifier: typeof path.node.specifiers[0];
   for (let i = 0, len = path.node.specifiers.length; i < len; i++) {
     specifier = path.node.specifiers[i];
-    if (t.isImportSpecifier(specifier)) {
-      if (
-        hoc.kind === 'named'
-        && getImportSpecifierName(specifier) === hoc.name
-      ) {
-        ctx.registrations.hocs.set(specifier.local, hoc);
+    switch (specifier.type) {
+      case 'ImportDefaultSpecifier':
+        if (hoc.kind === 'default' && specifier.local.name === hoc.name) {
+          ctx.registrations.hocs.set(specifier.local, hoc);
+        }
+        break;
+      case 'ImportNamespaceSpecifier': {
+        let current = ctx.registrations.hocsNamespaces.get(specifier.local);
+        if (!current) {
+          current = [];
+        }
+        current.push(hoc);
+        ctx.registrations.hocsNamespaces.set(specifier.local, current);
       }
-      // For `import { default as x }`
-      if (
-        hoc.kind === 'default'
-        && getImportSpecifierName(specifier) === 'default'
-      ) {
-        ctx.registrations.hocs.set(specifier.local, hoc);
-      }
-    } else if (t.isImportDefaultSpecifier(specifier)) {
-      if (hoc.kind === 'default' && specifier.local.name === hoc.name) {
-        ctx.registrations.hocs.set(specifier.local, hoc);
-      }
-    } else if (t.isImportNamespaceSpecifier(specifier)) {
-      let current = ctx.registrations.hocsNamespaces.get(specifier.local);
-      if (!current) {
-        current = [];
-      }
-      current.push(hoc);
-      ctx.registrations.hocsNamespaces.set(specifier.local, current);
+        break;
+      case 'ImportSpecifier':
+        if (
+          (
+            hoc.kind === 'named'
+            && getImportSpecifierName(specifier) === hoc.name
+          )
+          || (
+            hoc.kind === 'default'
+            && getImportSpecifierName(specifier) === 'default'
+          )
+        ) {
+          ctx.registrations.hocs.set(specifier.local, hoc);
+        }
+        break;
+      default:
+        break;
     }
   }
 }
@@ -142,7 +155,7 @@ function transformHOC(
   }
   // Check if callee is potentially a named or default import
   const trueID = unwrapNode(path.node.callee, t.isIdentifier);
-  if (t.isIdentifier(trueID)) {
+  if (trueID) {
     const binding = path.scope.getBindingIdentifier(trueID.name);
     if (binding) {
       const registration = ctx.registrations.hocs.get(binding);
