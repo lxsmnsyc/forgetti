@@ -7,14 +7,17 @@
 ## Install
 
 ```bash
+npm install forgetti
 npm install --D vite-plugin-forgetti
 ```
 
 ```bash
+yarn add forgetti
 yarn add -D vite-plugin-forgetti
 ```
 
 ```bash
+pnpm add forgetti
 pnpm add -D vite-plugin-forgetti
 ```
 

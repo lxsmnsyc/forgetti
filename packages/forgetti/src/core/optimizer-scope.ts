@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import * as t from '@babel/types';
-import { addDefault, addNamed } from '@babel/helper-module-imports';
 import { OptimizedExpression, StateContext } from './types';
+import getImportIdentifier from './get-import-identifier';
+import { RUNTIME_CACHE } from './imports';
 
 function mergeVariableDeclaration(statements: t.Statement[]) {
   let stack: t.VariableDeclarator[] = [];
   const newStatements: t.Statement[] = [];
-  for (const value of statements) {
+  let value: t.Statement;
+  for (let i = 0, len = statements.length; i < len; i++) {
+    value = statements[i];
     if (t.isVariableDeclaration(value) && value.kind === 'let') {
       stack.push(...value.declarations);
     } else {
@@ -45,20 +48,6 @@ export default class OptimizerScope {
     this.path = path;
     this.parent = parent;
     this.isInLoop = isInLoop;
-  }
-
-  getMemoIdentifier() {
-    const { name, source, kind } = this.ctx.preset.memo;
-    const target = `memo/${source}[${name}]`;
-    const current = this.ctx.hooks.get(target);
-    if (current) {
-      return current;
-    }
-    const newID = (kind === 'named')
-      ? addNamed(this.path, name, source)
-      : addDefault(this.path, source);
-    this.ctx.hooks.set(target, newID);
-    return newID;
   }
 
   createHeader() {
@@ -101,16 +90,18 @@ export default class OptimizerScope {
       t.variableDeclarator(
         this.memo,
         t.callExpression(
-          this.getMemoIdentifier(),
+          getImportIdentifier(
+            this.ctx,
+            this.path,
+            RUNTIME_CACHE,
+          ),
           [
-            t.arrowFunctionExpression(
-              [],
-              t.newExpression(
-                t.identifier('Array'),
-                [t.numericLiteral(this.indeces)],
-              ),
+            getImportIdentifier(
+              this.ctx,
+              this.path,
+              this.ctx.preset.memo,
             ),
-            t.arrayExpression(),
+            t.numericLiteral(this.indeces),
           ],
         ),
       ),

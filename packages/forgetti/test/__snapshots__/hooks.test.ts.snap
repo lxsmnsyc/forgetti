@@ -2,13 +2,15 @@
 
 exports[`hooks > should optimize useCallback 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { useCallback } from 'react';
 function Example(props) {
-  let _c = _useMemo(() => new Array(5), []),
-    _eq = Object.is(_c[0], props),
+  let _c = _$$cache(_useMemo, 5),
+    _eq = _$$equals(_c[0], props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = _v.value,
-    _eq2 = Object.is(_c[2], _v2),
+    _eq2 = _$$equals(_c[2], _v2),
     _v3 = _eq2 ? _c[2] : _c[2] = _v2,
     _v4 = _eq2 ? _c[3] : _c[3] = [_v3],
     _v5 = _eq2 ? _c[4] : _c[4] = () => props.value();
@@ -18,13 +20,15 @@ function Example(props) {
 
 exports[`hooks > should optimize useEffect 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { useEffect } from 'react';
 function Example(props) {
-  let _c = _useMemo(() => new Array(4), []),
-    _eq = Object.is(_c[0], props),
+  let _c = _$$cache(_useMemo, 4),
+    _eq = _$$equals(_c[0], props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = _v.example,
-    _eq2 = Object.is(_c[2], _v2),
+    _eq2 = _$$equals(_c[2], _v2),
     _v3 = _eq2 ? _c[2] : _c[2] = _v2,
     _v4 = _eq2 ? _c[3] : _c[3] = [_v3];
   useEffect(() => props.value(), [_v4]);
@@ -33,13 +37,15 @@ function Example(props) {
 
 exports[`hooks > should optimize useMemo 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { useMemo } from 'react';
 function Example(props) {
-  let _c = _useMemo(() => new Array(5), []),
-    _eq = Object.is(_c[0], props),
+  let _c = _$$cache(_useMemo, 5),
+    _eq = _$$equals(_c[0], props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = _v.value,
-    _eq2 = Object.is(_c[2], _v2),
+    _eq2 = _$$equals(_c[2], _v2),
     _v3 = _eq2 ? _c[2] : _c[2] = _v2,
     _v4 = _eq2 ? _c[3] : _c[3] = [_v3],
     _v5 = _eq2 ? _c[4] : _c[4] = (() => props.value())();
@@ -49,9 +55,10 @@ function Example(props) {
 
 exports[`hooks > should optimize useRef 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { useRef } from 'react';
 function Example(props) {
-  let _c = _useMemo(() => new Array(1), []),
+  let _c = _$$cache(_useMemo, 1),
     _v = _c[0] ||= {
       current: props.value
     };

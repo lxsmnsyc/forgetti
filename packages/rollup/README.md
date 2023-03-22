@@ -7,14 +7,17 @@
 ## Install
 
 ```bash
+npm install forgetti
 npm install --D rollup-plugin-forgetti
 ```
 
 ```bash
+yarn add forgetti
 yarn add -D rollup-plugin-forgetti
 ```
 
 ```bash
+pnpm add forgetti
 pnpm add -D rollup-plugin-forgetti
 ```
 

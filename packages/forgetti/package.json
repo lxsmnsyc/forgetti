@@ -14,21 +14,21 @@
     "pridepack"
   ],
   "devDependencies": {
-    "@babel/core": "^7.20.12",
+    "@babel/core": "^7.21.3",
     "@types/babel__core": "^7.20.0",
     "@types/babel__traverse": "^7.18.3",
-    "@types/node": "^18.13.0",
-    "eslint": "^8.32.0",
-    "eslint-config-lxsmnsyc": "^0.4.8",
-    "pridepack": "2.4.0",
+    "@types/node": "^18.15.3",
+    "eslint": "^8.36.0",
+    "eslint-config-lxsmnsyc": "^0.5.1",
+    "pridepack": "2.4.2",
     "tslib": "^2.5.0",
     "typescript": "^4.9.4",
     "vitest": "^0.28.1"
   },
   "dependencies": {
     "@babel/helper-module-imports": "^7.18.6",
-    "@babel/traverse": "^7.20.13",
-    "@babel/types": "^7.20.7"
+    "@babel/traverse": "^7.21.3",
+    "@babel/types": "^7.21.3"
   },
   "peerDependencies": {
     "@babel/core": "^7"
@@ -59,9 +59,13 @@
   "author": "Alexis Munsayac",
   "private": false,
   "typesVersions": {
-    "*": {}
+    "*": {
+      "runtime": [
+        "./dist/types/runtime/index.d.ts"
+      ]
+    }
   },
-  "types": "./dist/types/index.d.ts",
+  "types": "./dist/types/src/index.d.ts",
   "main": "./dist/cjs/production/index.cjs",
   "module": "./dist/esm/production/index.mjs",
   "exports": {
@@ -72,7 +76,16 @@
       },
       "require": "./dist/cjs/production/index.cjs",
       "import": "./dist/esm/production/index.mjs",
-      "types": "./dist/types/index.d.ts"
+      "types": "./dist/types/src/index.d.ts"
+    },
+    "./runtime": {
+      "development": {
+        "require": "./dist/cjs/development/runtime.cjs",
+        "import": "./dist/esm/development/runtime.mjs"
+      },
+      "require": "./dist/cjs/production/runtime.cjs",
+      "import": "./dist/esm/production/runtime.mjs",
+      "types": "./dist/types/runtime/index.d.ts"
     }
   }
 }
