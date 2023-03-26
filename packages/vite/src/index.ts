@@ -25,11 +25,11 @@ function repushPlugin(plugins: Plugin[], plugin: Plugin, pluginNames: string[]) 
     if (namesSet.has(current.name) && baseIndex === -1) {
       baseIndex = i;
     }
-    if (current.name === 'forgetti') {
+    if (current.name === plugin.name) {
       targetIndex = i;
     }
   }
-  if (baseIndex !== -1 && targetIndex !== -1) {
+  if (baseIndex !== -1 && targetIndex !== -1 && baseIndex < targetIndex) {
     plugins.splice(targetIndex, 1);
     plugins.splice(baseIndex, 0, plugin);
   }
