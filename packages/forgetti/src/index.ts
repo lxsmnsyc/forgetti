@@ -138,7 +138,7 @@ type Argument =
 function transformFunction(
   ctx: StateContext,
   path: babel.NodePath<Argument>,
-  checkName = false,
+  checkName: boolean,
 ) {
   const unwrapped = unwrapPath(path, isComponent);
   if (unwrapped && isComponentNameValid(ctx, unwrapped.node, checkName)) {
@@ -160,7 +160,7 @@ function transformHOC(
     if (binding) {
       const registration = ctx.registrations.hocs.get(binding);
       if (registration) {
-        transformFunction(ctx, path.get('arguments')[0]);
+        transformFunction(ctx, path.get('arguments')[0], false);
       }
     }
   // Check if callee is potentially a namespace import
@@ -182,7 +182,7 @@ function transformHOC(
           for (let i = 0, len = registrations.length; i < len; i++) {
             registration = registrations[i];
             if (registration && registration.name === propName) {
-              transformFunction(ctx, path.get('arguments')[0]);
+              transformFunction(ctx, path.get('arguments')[0], false);
             }
           }
         }
@@ -245,10 +245,10 @@ export default function forgettiPlugin(): babel.PluginObj<State> {
             transformHOC(ctx, path);
           },
           FunctionDeclaration(path) {
-            transformFunction(ctx, path);
+            transformFunction(ctx, path, true);
           },
           FunctionExpression(path) {
-            transformFunction(ctx, path);
+            transformFunction(ctx, path, true);
           },
           VariableDeclarator(path) {
             transformVariableDeclarator(ctx, path);

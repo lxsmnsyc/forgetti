@@ -23,7 +23,7 @@ export function isComponent(node: t.Node): node is ComponentNode {
 export function isComponentNameValid(
   ctx: StateContext,
   node: ComponentNode,
-  checkName = false,
+  checkName: boolean,
 ) {
   if (checkName) {
     if (node.type !== 'ArrowFunctionExpression') {
