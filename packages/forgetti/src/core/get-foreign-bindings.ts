@@ -44,15 +44,20 @@ export default function getForeignBindings(path: babel.NodePath): t.Identifier[]
       ) {
         identifiers.add(p.node.name);
       }
-      // for the JSX, only use JSXMemberExpression's object
-      // as a foreign binding
-      if (t.isJSXElement(p.node) && t.isJSXMemberExpression(p.node.openingElement.name)) {
-        let base: t.JSXMemberExpression | t.JSXIdentifier = p.node.openingElement.name;
-        while (t.isJSXMemberExpression(base)) {
-          base = base.object;
-        }
-        if (isForeignBinding(path, p, base.name)) {
-          identifiers.add(base.name);
+      if (t.isJSXElement(p.node)) {
+        if (t.isJSXMemberExpression(p.node.openingElement.name)) {
+          let base: t.JSXMemberExpression | t.JSXIdentifier = p.node.openingElement.name;
+          while (t.isJSXMemberExpression(base)) {
+            base = base.object;
+          }
+          if (isForeignBinding(path, p, base.name)) {
+            identifiers.add(base.name);
+          }
+        } else if (t.isJSXIdentifier(p.node.openingElement.name)) {
+          const literal = p.node.openingElement.name.name;
+          if (/^[A-Z]/.test(literal) && isForeignBinding(path, p, literal)) {
+            identifiers.add(literal);
+          }
         }
       }
     },
