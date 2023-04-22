@@ -722,7 +722,7 @@ export default class Optimizer {
         const dependencies = createDependencies();
         let binding: t.Identifier;
         for (let k = 0, klen = bindings.length; k < klen; k++) {
-          binding = bindings[i];
+          binding = bindings[k];
           const optimized = this.memoizeIdentifier(path, binding);
           mergeDependencies(dependencies, optimized.deps);
         }
