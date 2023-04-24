@@ -417,10 +417,11 @@ export default class Optimizer {
   ) {
     const [callback, dependencies] = path.get('arguments');
     if (isPathValid(callback, t.isExpression)) {
-      if (isPathValid(dependencies, t.isExpression)) {
+      if (dependencies && isPathValid(dependencies, t.isExpression)) {
         const dependency = this.optimizeExpression(dependencies);
         return this.createMemo(callback.node, dependency.expr);
       }
+      return this.optimizeExpression(callback);
     }
     return optimizedExpr(path.node);
   }
@@ -430,10 +431,12 @@ export default class Optimizer {
   ) {
     const [callback, dependencies] = path.get('arguments');
     if (isPathValid(callback, t.isExpression)) {
-      if (isPathValid(dependencies, t.isExpression)) {
+      if (dependencies && isPathValid(dependencies, t.isExpression)) {
         const dependency = this.optimizeExpression(dependencies);
         return this.createMemo(t.callExpression(callback.node, []), dependency.expr);
       }
+      const optimized = this.optimizeExpression(callback);
+      return this.createMemo(t.callExpression(optimized.expr, []), optimized.deps);
     }
     return optimizedExpr(path.node);
   }

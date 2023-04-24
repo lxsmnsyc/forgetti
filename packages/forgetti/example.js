@@ -21,11 +21,11 @@ async function compile(code) {
 }
 
 console.log(await compile(`
-import { useCallback, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 export default function Example(props) {
   const [count, setCount] = useState(0);
-  const handleIncrement = useCallback(() => setCount(c => c + 1), [count, props.test]);
+  const handleIncrement = useMemo(() => setCount(c => c + 1));
 
   return (
     <button onClick={handleIncrement}>{count}</button>
