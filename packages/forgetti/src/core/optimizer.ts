@@ -217,14 +217,8 @@ export default class Optimizer {
 
   memoizeIdentifier(
     path: babel.NodePath,
-    id: t.Identifier | undefined,
+    id: t.Identifier,
   ) {
-    // For some reason, "id" could be undefined. Might be an edge case in large projects
-    // For now we just "skip"
-    if (!id) {
-      return optimizedExpr(id, undefined, true);
-    }
-
     // Check if scope has the binding (no globals)
     // we only want to memoize identifiers
     // that are part of the render evaluation
