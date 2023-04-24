@@ -419,7 +419,7 @@ export default class Optimizer {
     if (isPathValid(callback, t.isExpression)) {
       if (isPathValid(dependencies, t.isExpression)) {
         const dependency = this.optimizeExpression(dependencies);
-        return this.createMemo(callback.node, dependency.deps);
+        return this.createMemo(callback.node, dependency.expr);
       }
     }
     return optimizedExpr(path.node);
@@ -432,7 +432,7 @@ export default class Optimizer {
     if (isPathValid(callback, t.isExpression)) {
       if (isPathValid(dependencies, t.isExpression)) {
         const dependency = this.optimizeExpression(dependencies);
-        return this.createMemo(t.callExpression(callback.node, []), dependency.deps);
+        return this.createMemo(t.callExpression(callback.node, []), dependency.expr);
       }
     }
     return optimizedExpr(path.node);

@@ -21,9 +21,14 @@ async function compile(code) {
 }
 
 console.log(await compile(`
-function Example(props) {
-  for (const x in props.arr) {
-    console.log(x);
-  }
+import { useCallback, useState } from 'react';
+
+export default function Example(props) {
+  const [count, setCount] = useState(0);
+  const handleIncrement = useCallback(() => setCount(c => c + 1), [count, props.test]);
+
+  return (
+    <button onClick={handleIncrement}>{count}</button>
+  );
 }
 `));
