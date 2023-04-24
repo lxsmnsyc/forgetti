@@ -9,6 +9,7 @@ import isGuaranteedLiteral from './is-guaranteed-literal';
 import OptimizerScope from './optimizer-scope';
 import type { ComponentNode, OptimizedExpression, StateContext } from './types';
 import unwrapNode from './unwrap-node';
+import isOptimizable from './is-optimizable';
 
 function optimizedExpr(
   expr: t.Expression,
@@ -158,7 +159,6 @@ export default class Optimizer {
     const optimized = optimizedExpr(
       vid,
       condition == null ? [] : eqid,
-      condition == null,
     );
     // Register as a constant
     if (condition == null) {
@@ -238,7 +238,7 @@ export default class Optimizer {
     }
     // Identifier is marked as optimized
     // but we just basically "skip"
-    return optimizedExpr(id, undefined, true);
+    return optimizedExpr(id, [], true);
   }
 
   optimizeIdentifier(
@@ -250,29 +250,35 @@ export default class Optimizer {
   memoizeMemberExpression(
     path: babel.NodePath<t.MemberExpression>,
   ): { expr: t.MemberExpression; deps: t.Expression[] } {
-    // Create dependencies
-    const condition = createDependencies();
-    // Mark source as a dependency
-    const source = this.createDependency(path.get('object'));
-    if (source) {
-      path.node.object = source.expr;
-      mergeDependencies(condition, source.deps);
-    }
-    // Only memoize computed properties (obviously)
-    if (path.node.computed) {
-      const propertyPath = path.get('property');
-      if (isPathValid(propertyPath, t.isExpression)) {
-        const property = this.createDependency(propertyPath);
-        if (property) {
-          path.node.property = property.expr;
-          mergeDependencies(condition, property.deps);
+    if (isOptimizable(path, path.node)) {
+      // Create dependencies
+      const condition = createDependencies();
+      // Mark source as a dependency
+      const source = this.createDependency(path.get('object'));
+      if (source) {
+        path.node.object = source.expr;
+        mergeDependencies(condition, source.deps);
+      }
+      // Only memoize computed properties (obviously)
+      if (path.node.computed) {
+        const propertyPath = path.get('property');
+        if (isPathValid(propertyPath, t.isExpression)) {
+          const property = this.createDependency(propertyPath);
+          if (property) {
+            path.node.property = property.expr;
+            mergeDependencies(condition, property.deps);
+          }
         }
       }
-    }
 
+      return {
+        expr: path.node,
+        deps: condition,
+      };
+    }
     return {
       expr: path.node,
-      deps: condition,
+      deps: [],
     };
   }
 
@@ -332,7 +338,7 @@ export default class Optimizer {
     path: babel.NodePath<t.BinaryExpression>,
   ): OptimizedExpression {
     if (path.node.operator === '|>') {
-      return optimizedExpr(path.node, undefined, true);
+      return optimizedExpr(path.node);
     }
     const leftPath = path.get('left');
 
@@ -1276,13 +1282,18 @@ export default class Optimizer {
   }
 
   optimize(): void {
-    if (isPathValid(this.path, t.isArrowFunctionExpression)) {
-      this.optimizeArrowComponent(this.path);
-    } else if (
-      isPathValid(this.path, t.isFunctionExpression)
-      || isPathValid(this.path, t.isFunctionDeclaration)
-    ) {
-      this.optimizeFunctionComponent(this.path);
+    switch (this.path.type) {
+      case 'ArrowFunctionExpression':
+        this.optimizeArrowComponent(this.path as babel.NodePath<t.ArrowFunctionExpression>);
+        break;
+      case 'FunctionDeclaration':
+      case 'FunctionExpression':
+        this.optimizeFunctionComponent(
+          this.path as babel.NodePath<t.FunctionExpression | t.FunctionDeclaration>,
+        );
+        break;
+      default:
+        break;
     }
   }
 }
