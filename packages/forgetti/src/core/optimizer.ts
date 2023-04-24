@@ -403,11 +403,19 @@ export default class Optimizer {
   optimizeEffect(
     path: babel.NodePath<t.CallExpression | t.OptionalCallExpression>,
   ) {
-    const [, dependencies] = path.get('arguments');
-    if (dependencies && isPathValid(dependencies, t.isExpression)) {
-      const optimizedArray = this.optimizeExpression(dependencies);
-      path.node.arguments[1] = t.arrayExpression([optimizedArray.expr]);
-      return optimizedExpr(path.node, optimizedArray.deps);
+    const [callback, dependencies] = path.get('arguments');
+    if (isPathValid(callback, t.isExpression)) {
+      if (dependencies && isPathValid(dependencies, t.isExpression)) {
+        const optimizedArray = this.optimizeExpression(dependencies);
+        path.node.arguments[1] = t.arrayExpression([optimizedArray.expr]);
+        return optimizedExpr(path.node, optimizedArray.deps);
+      }
+      const optimized = this.optimizeExpression(callback);
+      path.node.arguments = [
+        optimized.expr,
+        t.arrayExpression([optimized.expr]),
+      ];
+      return optimizedExpr(path.node, optimized.deps);
     }
     return optimizedExpr(path.node);
   }
