@@ -18,6 +18,32 @@ function Example(props) {
 }"
 `;
 
+exports[`hooks > should optimize useCallback with 0 dependencies 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { useCallback } from 'react';
+function Example(props) {
+  let _c = _$$cache(_useMemo, 2),
+    _v = _c[0] ||= [],
+    _v2 = _c[1] ||= () => props.value();
+  return _v2;
+}"
+`;
+
+exports[`hooks > should optimize useCallback with auto dependencies 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$equals as _$$equals } from \\"forgetti/runtime\\";
+import { useCallback } from 'react';
+function Example(props) {
+  let _c = _$$cache(_useMemo, 2),
+    _eq = _$$equals(_c[0], props),
+    _v = _eq ? _c[0] : _c[0] = props,
+    _v2 = _eq ? _c[1] : _c[1] = () => props.value();
+  return _v2;
+}"
+`;
+
 exports[`hooks > should optimize useEffect 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
@@ -32,6 +58,31 @@ function Example(props) {
     _v3 = _eq2 ? _c[2] : _c[2] = _v2,
     _v4 = _eq2 ? _c[3] : _c[3] = [_v3];
   useEffect(() => props.value(), [_v4]);
+}"
+`;
+
+exports[`hooks > should optimize useEffect with 0 dependencies 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { useEffect } from 'react';
+function Example(props) {
+  let _c = _$$cache(_useMemo, 1),
+    _v = _c[0] ||= [];
+  useEffect(() => props.value(), [_v]);
+}"
+`;
+
+exports[`hooks > should optimize useEffect with auto dependencies 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$equals as _$$equals } from \\"forgetti/runtime\\";
+import { useEffect } from 'react';
+function Example(props) {
+  let _c = _$$cache(_useMemo, 2),
+    _eq = _$$equals(_c[0], props),
+    _v = _eq ? _c[0] : _c[0] = props,
+    _v2 = _eq ? _c[1] : _c[1] = () => props.value();
+  useEffect(_v2, [_v2]);
 }"
 `;
 
@@ -50,6 +101,33 @@ function Example(props) {
     _v4 = _eq2 ? _c[3] : _c[3] = [_v3],
     _v5 = _eq2 ? _c[4] : _c[4] = (() => props.value())();
   return _v5;
+}"
+`;
+
+exports[`hooks > should optimize useMemo with 0 dependencies 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { useMemo } from 'react';
+function Example(props) {
+  let _c = _$$cache(_useMemo, 2),
+    _v = _c[0] ||= [],
+    _v2 = _c[1] ||= (() => props.value())();
+  return _v2;
+}"
+`;
+
+exports[`hooks > should optimize useMemo with auto dependencies 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$equals as _$$equals } from \\"forgetti/runtime\\";
+import { useMemo } from 'react';
+function Example(props) {
+  let _c = _$$cache(_useMemo, 3),
+    _eq = _$$equals(_c[0], props),
+    _v = _eq ? _c[0] : _c[0] = props,
+    _v2 = _eq ? _c[1] : _c[1] = () => props.value(),
+    _v3 = _eq ? _c[2] : _c[2] = _v2();
+  return _v3;
 }"
 `;
 

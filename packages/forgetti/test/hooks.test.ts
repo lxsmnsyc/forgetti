@@ -41,6 +41,24 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
+  it('should optimize useMemo with 0 dependencies', async () => {
+    const code = `
+import { useMemo } from 'react';
+function Example(props) {
+  return useMemo(() => props.value(), []);
+}
+`;
+    expect(await compile(code)).toMatchSnapshot();
+  });
+  it('should optimize useMemo with auto dependencies', async () => {
+    const code = `
+import { useMemo } from 'react';
+function Example(props) {
+  return useMemo(() => props.value());
+}
+`;
+    expect(await compile(code)).toMatchSnapshot();
+  });
   it('should optimize useCallback', async () => {
     const code = `
 import { useCallback } from 'react';
@@ -50,11 +68,47 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
+  it('should optimize useCallback with 0 dependencies', async () => {
+    const code = `
+import { useCallback } from 'react';
+function Example(props) {
+  return useCallback(() => props.value(), []);
+}
+`;
+    expect(await compile(code)).toMatchSnapshot();
+  });
+  it('should optimize useCallback with auto dependencies', async () => {
+    const code = `
+import { useCallback } from 'react';
+function Example(props) {
+  return useCallback(() => props.value());
+}
+`;
+    expect(await compile(code)).toMatchSnapshot();
+  });
   it('should optimize useEffect', async () => {
     const code = `
 import { useEffect } from 'react';
 function Example(props) {
   useEffect(() => props.value(), [props.example]);
+}
+`;
+    expect(await compile(code)).toMatchSnapshot();
+  });
+  it('should optimize useEffect with 0 dependencies', async () => {
+    const code = `
+import { useEffect } from 'react';
+function Example(props) {
+  useEffect(() => props.value(), []);
+}
+`;
+    expect(await compile(code)).toMatchSnapshot();
+  });
+  it('should optimize useEffect with auto dependencies', async () => {
+    const code = `
+import { useEffect } from 'react';
+function Example(props) {
+  useEffect(() => props.value());
 }
 `;
     expect(await compile(code)).toMatchSnapshot();
