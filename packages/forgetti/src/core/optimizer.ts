@@ -154,7 +154,11 @@ export default class Optimizer {
       declaration.push(t.variableDeclarator(eqid, condition));
     }
 
-    const optimized = optimizedExpr(vid, condition ? eqid : undefined);
+    const optimized = optimizedExpr(
+      vid,
+      condition == null ? [] : eqid,
+      condition == null,
+    );
     // Register as a constant
     if (condition == null) {
       this.scope.addConstant(vid);
@@ -427,7 +431,7 @@ export default class Optimizer {
     if (isPathValid(callback, t.isExpression)) {
       if (dependencies && isPathValid(dependencies, t.isExpression)) {
         const dependency = this.optimizeExpression(dependencies);
-        return this.createMemo(callback.node, dependency.deps || []);
+        return this.createMemo(callback.node, dependency.deps);
       }
       return this.optimizeExpression(callback);
     }
@@ -441,10 +445,10 @@ export default class Optimizer {
     if (isPathValid(callback, t.isExpression)) {
       if (dependencies && isPathValid(dependencies, t.isExpression)) {
         const dependency = this.optimizeExpression(dependencies);
-        return this.createMemo(t.callExpression(callback.node, []), dependency.deps || []);
+        return this.createMemo(t.callExpression(callback.node, []), dependency.deps);
       }
       const optimized = this.optimizeExpression(callback);
-      return this.createMemo(t.callExpression(optimized.expr, []), optimized.deps || []);
+      return this.createMemo(t.callExpression(optimized.expr, []), optimized.deps);
     }
     return optimizedExpr(path.node);
   }
