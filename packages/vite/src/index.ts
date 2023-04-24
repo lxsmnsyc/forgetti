@@ -1,6 +1,8 @@
-import forgettiBabel, { Options } from 'forgetti';
-import { Plugin } from 'vite';
-import { createFilter, FilterPattern } from '@rollup/pluginutils';
+import type { Options } from 'forgetti';
+import forgettiBabel from 'forgetti';
+import type { Plugin } from 'vite';
+import type { FilterPattern } from '@rollup/pluginutils';
+import { createFilter } from '@rollup/pluginutils';
 import * as babel from '@babel/core';
 import path from 'path';
 
@@ -15,7 +17,7 @@ export interface ForgettiPluginOptions extends Options {
 }
 
 // From: https://github.com/bluwy/whyframe/blob/master/packages/jsx/src/index.js#L27-L37
-function repushPlugin(plugins: Plugin[], plugin: Plugin, pluginNames: string[]) {
+function repushPlugin(plugins: Plugin[], plugin: Plugin, pluginNames: string[]): void {
   const namesSet = new Set(pluginNames);
 
   let baseIndex = -1;

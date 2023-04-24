@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import * as t from '@babel/types';
-import { OptimizedExpression, StateContext } from './types';
+import type { OptimizedExpression, StateContext } from './types';
 import getImportIdentifier from './get-import-identifier';
 import { RUNTIME_CACHE } from './imports';
 
-function mergeVariableDeclaration(statements: t.Statement[]) {
+function mergeVariableDeclaration(statements: t.Statement[]): t.Statement[] {
   let stack: t.VariableDeclarator[] = [];
   const newStatements: t.Statement[] = [];
   let value: t.Statement;
@@ -50,20 +50,20 @@ export default class OptimizerScope {
     this.isInLoop = isInLoop;
   }
 
-  createHeader() {
+  createHeader(): t.Identifier {
     if (!this.memo) {
       this.memo = this.path.scope.generateUidIdentifier('c');
     }
     return this.memo;
   }
 
-  createIndex() {
+  createIndex(): t.NumericLiteral {
     const current = this.indeces;
     this.indeces += 1;
     return t.numericLiteral(current);
   }
 
-  getMemoDeclaration() {
+  getMemoDeclaration(): t.VariableDeclaration | undefined {
     if (!this.memo) {
       return undefined;
     }
@@ -112,21 +112,21 @@ export default class OptimizerScope {
 
   loopIndex: t.Identifier | undefined;
 
-  createLoopHeader() {
+  createLoopHeader(): t.Identifier {
     if (!this.loop) {
       this.loop = this.path.scope.generateUidIdentifier('l');
     }
     return this.loop;
   }
 
-  createLoopIndex() {
+  createLoopIndex(): t.Identifier {
     if (!this.loopIndex) {
       this.loopIndex = this.path.scope.generateUidIdentifier('id');
     }
     return this.loopIndex;
   }
 
-  getLoopMemoDeclaration() {
+  getLoopMemoDeclaration(): t.VariableDeclaration | undefined {
     if (!this.parent) {
       return undefined;
     }
@@ -148,7 +148,7 @@ export default class OptimizerScope {
     ]);
   }
 
-  getLoopDeclaration() {
+  getLoopDeclaration(): t.VariableDeclaration {
     const header = this.createHeader();
     const index = this.createLoopIndex();
     const localIndex = this.path.scope.generateUidIdentifier('lid');
@@ -169,7 +169,7 @@ export default class OptimizerScope {
     ]);
   }
 
-  getStatements() {
+  getStatements(): t.Statement[] {
     const result = [...this.statements];
     const header = this.isInLoop
       ? this.getLoopDeclaration()
@@ -183,17 +183,17 @@ export default class OptimizerScope {
     return mergeVariableDeclaration(result);
   }
 
-  push(...statements: t.Statement[]) {
+  push(...statements: t.Statement[]): void {
     this.statements = this.statements.concat(statements);
   }
 
   optimizedID = new WeakMap<t.Identifier, OptimizedExpression>();
 
-  setOptimized(key: t.Identifier, value: OptimizedExpression) {
+  setOptimized(key: t.Identifier, value: OptimizedExpression): void {
     this.optimizedID.set(key, value);
   }
 
-  getOptimized(key: t.Identifier) {
+  getOptimized(key: t.Identifier): OptimizedExpression | undefined {
     let current: OptimizerScope | undefined = this;
     while (current) {
       const result = current.optimizedID.get(key);
@@ -205,7 +205,7 @@ export default class OptimizerScope {
     return undefined;
   }
 
-  deleteOptimized(key: t.Identifier) {
+  deleteOptimized(key: t.Identifier): void {
     let current: OptimizerScope | undefined = this;
     while (current) {
       if (current.optimizedID.has(key)) {
@@ -218,7 +218,7 @@ export default class OptimizerScope {
 
   constants = new WeakSet<t.Identifier>();
 
-  addConstant(value: t.Identifier) {
+  addConstant(value: t.Identifier): void {
     this.constants.add(value);
   }
 

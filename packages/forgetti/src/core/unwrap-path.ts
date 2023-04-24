@@ -1,4 +1,4 @@
-import * as t from '@babel/types';
+import type * as t from '@babel/types';
 import { isNestedExpression, isPathValid } from './checks';
 
 type TypeFilter<V extends t.Node> = (node: t.Node) => node is V;

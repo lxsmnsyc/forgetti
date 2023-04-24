@@ -1,5 +1,5 @@
-import * as t from '@babel/types';
-import {
+import type * as t from '@babel/types';
+import type {
   HookRegistration,
   ImportRegistration,
   Options,
@@ -27,11 +27,11 @@ export interface StateContext {
   filters: {
     component: RegExp;
     hook?: RegExp;
-  }
+  };
 }
 
 export interface OptimizedExpression {
   expr: t.Expression;
   deps?: t.Expression | t.Expression[];
-  constant?: boolean,
+  constant?: boolean;
 }

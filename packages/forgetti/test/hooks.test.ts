@@ -1,13 +1,14 @@
 /* eslint-disable no-template-curly-in-string */
 import * as babel from '@babel/core';
 import { describe, expect, it } from 'vitest';
-import plugin, { Options } from '../src';
+import type { Options } from '../src';
+import plugin from '../src';
 
 const options: Options = {
   preset: 'react',
 };
 
-async function compile(code: string) {
+async function compile(code: string): Promise<string> {
   const result = await babel.transformAsync(code, {
     plugins: [
       [plugin, options],

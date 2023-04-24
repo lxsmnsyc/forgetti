@@ -1,6 +1,8 @@
-import forgettiBabel, { Options } from 'forgetti';
-import { Plugin } from 'rollup';
-import { createFilter, FilterPattern } from '@rollup/pluginutils';
+import type { Options } from 'forgetti';
+import forgettiBabel from 'forgetti';
+import type { Plugin, TransformResult } from 'rollup';
+import type { FilterPattern } from '@rollup/pluginutils';
+import { createFilter } from '@rollup/pluginutils';
 import * as babel from '@babel/core';
 import path from 'path';
 
@@ -27,7 +29,7 @@ export default function forgettiPlugin(
   const { preset } = options;
   return {
     name: 'forgetti',
-    async transform(code, id) {
+    async transform(code, id): Promise<TransformResult> {
       if (filter(id)) {
         const pluginOption = [forgettiBabel, { preset }];
         const plugins: NonNullable<NonNullable<babel.TransformOptions['parserOpts']>['plugins']> = ['jsx'];
