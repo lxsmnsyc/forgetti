@@ -1231,30 +1231,46 @@ export default class Optimizer {
     path: babel.NodePath<t.Statement>,
     topBlock = false,
   ): void {
-    if (isPathValid(path, t.isExpressionStatement)) {
-      this.optimizeExpressionStatement(path);
-    } else if (isPathValid(path, t.isVariableDeclaration)) {
-      this.optimizeVariableDeclaration(path);
-    } else if (isPathValid(path, t.isReturnStatement)) {
-      this.optimizeReturnStatement(path);
-    } else if (isPathValid(path, t.isThrowStatement)) {
-      this.optimizeThrowStatement(path);
-    } else if (isPathValid(path, t.isBlockStatement)) {
-      this.optimizeBlockStatement(path, topBlock);
-    } else if (isPathValid(path, t.isIfStatement)) {
-      this.optimizeIfStatement(path);
-    } else if (isPathValid(path, t.isForXStatement)) {
-      this.optimizeForXStatement(path);
-    } else if (isPathValid(path, t.isLoop)) {
-      this.optimizeLoopStatement(path);
-    } else if (isPathValid(path, t.isSwitchStatement)) {
-      this.optimizeSwitchStatement(path);
-    } else if (isPathValid(path, t.isTryStatement)) {
-      this.optimizeTryStatement(path);
-    } else if (isPathValid(path, t.isLabeledStatement)) {
-      this.optimizeLabeledStatement(path);
-    } else {
-      this.scope.push(path.node);
+    switch (path.type) {
+      case 'ExpressionStatement':
+        this.optimizeExpressionStatement(path as babel.NodePath<t.ExpressionStatement>);
+        break;
+      case 'VariableDeclaration':
+        this.optimizeVariableDeclaration(path as babel.NodePath<t.VariableDeclaration>);
+        break;
+      case 'ReturnStatement':
+        this.optimizeReturnStatement(path as babel.NodePath<t.ReturnStatement>);
+        break;
+      case 'ThrowStatement':
+        this.optimizeThrowStatement(path as babel.NodePath<t.ThrowStatement>);
+        break;
+      case 'BlockStatement':
+        this.optimizeBlockStatement(path as babel.NodePath<t.BlockStatement>, topBlock);
+        break;
+      case 'IfStatement':
+        this.optimizeIfStatement(path as babel.NodePath<t.IfStatement>);
+        break;
+      case 'ForInStatement':
+      case 'ForOfStatement':
+      case 'ForStatement':
+        this.optimizeForXStatement(path as babel.NodePath<t.ForXStatement>);
+        break;
+      case 'WhileStatement':
+      case 'DoWhileStatement':
+        this.optimizeLoopStatement(path as babel.NodePath<t.Loop>);
+        break;
+      case 'SwitchStatement':
+        this.optimizeSwitchStatement(path as babel.NodePath<t.SwitchStatement>);
+        break;
+      case 'TryStatement':
+        this.optimizeTryStatement(path as babel.NodePath<t.TryStatement>);
+        break;
+      case 'LabeledStatement':
+        this.optimizeLabeledStatement(path as babel.NodePath<t.LabeledStatement>);
+        break;
+      default:
+        this.scope.push(path.node);
+        break;
     }
   }
 
