@@ -256,6 +256,7 @@ export default function forgettiPlugin(): babel.PluginObj<State> {
           },
           VariableDeclarator(path) {
             transformVariableDeclarator(ctx, path);
+            path.skip();
           },
         });
       },
