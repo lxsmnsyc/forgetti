@@ -1252,9 +1252,9 @@ export default class Optimizer {
         break;
       case 'ForInStatement':
       case 'ForOfStatement':
-      case 'ForStatement':
         this.optimizeForXStatement(path as babel.NodePath<t.ForXStatement>);
         break;
+      case 'ForStatement':
       case 'WhileStatement':
       case 'DoWhileStatement':
         this.optimizeLoopStatement(path as babel.NodePath<t.Loop>);
