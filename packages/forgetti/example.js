@@ -21,9 +21,17 @@ async function compile(code) {
 }
 
 console.log(await compile(`
-function Example(props) {
-  for (const x in props.arr) {
-    console.log(x);
-  }
+import { useEffect, useState } from 'react';
+
+export default function Example(props) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    console.log(count);
+  });
+
+  return (
+    <button onClick={handleIncrement}>{count}</button>
+  );
 }
 `));

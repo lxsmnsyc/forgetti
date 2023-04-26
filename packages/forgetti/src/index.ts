@@ -1,4 +1,5 @@
-import * as babel from '@babel/core';
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
+import type * as babel from '@babel/core';
 import * as t from '@babel/types';
 import {
   isComponent,
@@ -6,23 +7,26 @@ import {
   getImportSpecifierName,
 } from './core/checks';
 import Optimizer from './core/optimizer';
-import {
-  PRESETS,
-  Options,
+import type {
   HookRegistration,
   ImportRegistration,
+
+  Options,
 } from './core/presets';
-import { StateContext, State } from './core/types';
+import {
+  PRESETS,
+} from './core/presets';
+import type { StateContext, State } from './core/types';
 import unwrapNode from './core/unwrap-node';
 import unwrapPath from './core/unwrap-path';
 
-export { Options };
+export type { Options };
 
 function registerHookSpecifiers(
   ctx: StateContext,
   path: babel.NodePath<t.ImportDeclaration>,
   hook: HookRegistration,
-) {
+): void {
   let specifier: typeof path.node.specifiers[0];
   for (let i = 0, len = path.node.specifiers.length; i < len; i++) {
     specifier = path.node.specifiers[i];
@@ -65,7 +69,7 @@ function registerHOCSpecifiers(
   ctx: StateContext,
   path: babel.NodePath<t.ImportDeclaration>,
   hoc: ImportRegistration,
-) {
+): void {
   let specifier: typeof path.node.specifiers[0];
   for (let i = 0, len = path.node.specifiers.length; i < len; i++) {
     specifier = path.node.specifiers[i];
@@ -107,7 +111,7 @@ function registerHOCSpecifiers(
 function extractImportIdentifiers(
   ctx: StateContext,
   path: babel.NodePath<t.ImportDeclaration>,
-) {
+): void {
   const mod = path.node.source.value;
 
   // Identify hooks
@@ -139,7 +143,7 @@ function transformFunction(
   ctx: StateContext,
   path: babel.NodePath<Argument>,
   checkName: boolean,
-) {
+): void {
   const unwrapped = unwrapPath(path, isComponent);
   if (unwrapped && isComponentNameValid(ctx, unwrapped.node, checkName)) {
     new Optimizer(ctx, unwrapped).optimize();
@@ -149,7 +153,7 @@ function transformFunction(
 function transformHOC(
   ctx: StateContext,
   path: babel.NodePath<t.CallExpression>,
-) {
+): void {
   if (path.node.arguments.length === 0) {
     return;
   }
@@ -194,7 +198,7 @@ function transformHOC(
 function transformVariableDeclarator(
   ctx: StateContext,
   path: babel.NodePath<t.VariableDeclarator>,
-) {
+): void {
   if (!path.node.init) {
     return;
   }
@@ -213,7 +217,7 @@ export default function forgettiPlugin(): babel.PluginObj<State> {
   return {
     name: 'forgetti',
     visitor: {
-      Program(programPath, { opts }) {
+      Program(programPath, { opts }): void {
         const preset = typeof opts.preset === 'string' ? PRESETS[opts.preset] : opts.preset;
         const ctx: StateContext = {
           hooks: new Map(),
@@ -252,6 +256,7 @@ export default function forgettiPlugin(): babel.PluginObj<State> {
           },
           VariableDeclarator(path) {
             transformVariableDeclarator(ctx, path);
+            path.skip();
           },
         });
       },

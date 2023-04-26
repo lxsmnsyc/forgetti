@@ -1,4 +1,4 @@
-import { ImportRegistration } from './presets';
+import type { ImportRegistration } from './presets';
 
 export const RUNTIME_EQUALS: ImportRegistration = {
   name: '$$equals',

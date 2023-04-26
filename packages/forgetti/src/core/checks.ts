@@ -1,6 +1,6 @@
-import * as t from '@babel/types';
-import * as babel from '@babel/core';
-import { ComponentNode, StateContext } from './types';
+import type * as t from '@babel/types';
+import type * as babel from '@babel/core';
+import type { ComponentNode, StateContext } from './types';
 
 export function getImportSpecifierName(specifier: t.ImportSpecifier): string {
   if (specifier.imported.type === 'Identifier') {
@@ -24,14 +24,14 @@ export function isComponentNameValid(
   ctx: StateContext,
   node: ComponentNode,
   checkName: boolean,
-) {
+): boolean {
   if (checkName) {
     if (node.type !== 'ArrowFunctionExpression') {
       return (
-        node.id
+        !!node.id
         && (
           ctx.filters.component.test(node.id.name)
-          || (ctx.filters.hook && ctx.filters.hook.test(node.id.name))
+          || (!!ctx.filters.hook && ctx.filters.hook.test(node.id.name))
         )
       );
     }
@@ -59,11 +59,16 @@ export type NestedExpression =
   | t.TSTypeAssertion;
 
 export function isNestedExpression(node: t.Node): node is NestedExpression {
-  return t.isParenthesizedExpression(node)
-    || t.isTypeCastExpression(node)
-    || t.isTSAsExpression(node)
-    || t.isTSSatisfiesExpression(node)
-    || t.isTSNonNullExpression(node)
-    || t.isTSTypeAssertion(node)
-    || t.isTSInstantiationExpression(node);
+  switch (node.type) {
+    case 'ParenthesizedExpression':
+    case 'TypeCastExpression':
+    case 'TSAsExpression':
+    case 'TSSatisfiesExpression':
+    case 'TSNonNullExpression':
+    case 'TSTypeAssertion':
+    case 'TSInstantiationExpression':
+      return true;
+    default:
+      return false;
+  }
 }

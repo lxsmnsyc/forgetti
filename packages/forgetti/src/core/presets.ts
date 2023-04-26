@@ -19,8 +19,8 @@ export interface Preset {
   memo: ImportRegistration;
   hooks: HookRegistration[];
   hocs: ImportRegistration[];
-  componentFilter: { source: string, flags: string };
-  hookFilter?: { source: string, flags: string };
+  componentFilter: { source: string; flags: string };
+  hookFilter?: { source: string; flags: string };
 }
 
 export interface Options {
