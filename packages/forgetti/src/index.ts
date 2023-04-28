@@ -146,6 +146,9 @@ function transformFunction(
 ): void {
   const unwrapped = unwrapPath(path, isComponent);
   if (unwrapped && isComponentNameValid(ctx, unwrapped.node, checkName)) {
+    if (!checkName && unwrapped.node.type !== 'ArrowFunctionExpression') {
+      unwrapped.node.id = undefined;
+    }
     new Optimizer(ctx, unwrapped).optimize();
   }
 }
@@ -256,7 +259,6 @@ export default function forgettiPlugin(): babel.PluginObj<State> {
           },
           VariableDeclarator(path) {
             transformVariableDeclarator(ctx, path);
-            path.skip();
           },
         });
       },

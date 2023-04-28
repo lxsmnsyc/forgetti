@@ -21,17 +21,13 @@ async function compile(code) {
 }
 
 console.log(await compile(`
-import { useEffect, useState } from 'react';
-
-export default function Example(props) {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    console.log(count);
-  });
+export const Example = function Example() {
+  const value = [1, 2, 3, 4];
 
   return (
-    <button onClick={handleIncrement}>{count}</button>
+    <div>
+      {value.map(i => <p key={i}>{i}</p>)}
+    </div>
   );
-}
+};
 `));

@@ -1278,15 +1278,13 @@ export default class Optimizer {
   optimizeArrowComponent(
     path: babel.NodePath<t.ArrowFunctionExpression>,
   ): void {
-    path.replaceWith(
-      t.functionExpression(
-        path.scope.generateUidIdentifier('Component'),
-        path.node.params,
-        t.isStatement(path.node.body) ? path.node.body : t.blockStatement([
-          t.returnStatement(path.node.body),
-        ]),
-      ),
-    );
+    path.node.body = t.isStatement(path.node.body)
+      ? path.node.body
+      : t.blockStatement([
+        t.returnStatement(path.node.body),
+      ]);
+    this.optimizeBlock(path.get('body') as babel.NodePath<t.BlockStatement>);
+    path.node.body = t.blockStatement(this.scope.getStatements());
   }
 
   optimizeFunctionComponent(
@@ -1294,7 +1292,6 @@ export default class Optimizer {
   ): void {
     this.optimizeBlock(path.get('body'));
     path.node.body = t.blockStatement(this.scope.getStatements());
-    path.skip();
   }
 
   optimize(): void {
