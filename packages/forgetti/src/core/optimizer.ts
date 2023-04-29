@@ -357,7 +357,7 @@ export default class Optimizer {
       mergeDependencies(dependencies, right.deps);
     }
 
-    return optimizedExpr(path.node, dependencies);
+    return this.createMemo(path.node, dependencies);
   }
 
   optimizeLogicalExpression(
@@ -408,7 +408,7 @@ export default class Optimizer {
     const optimized = this.createDependency(path.get('argument'));
     if (optimized) {
       path.node.argument = optimized.expr;
-      return optimizedExpr(path.node, optimized.deps);
+      return this.createMemo(path.node, optimized.deps);
     }
     return optimizedExpr(path.node);
   }

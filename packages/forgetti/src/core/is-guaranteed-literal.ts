@@ -57,11 +57,8 @@ export default function isGuaranteedLiteral(node: t.Node): node is t.Literal {
       if (node.operator === '|>') {
         return false;
       }
-      if (t.isExpression(node.left)) {
-        return isGuaranteedLiteral(node.left);
-      }
-      if (t.isExpression(node.right)) {
-        return isGuaranteedLiteral(node.right);
+      if (t.isExpression(node.left) && t.isExpression(node.right)) {
+        return isGuaranteedLiteral(node.left) && isGuaranteedLiteral(node.right);
       }
       return false;
     case 'LogicalExpression':

@@ -90,26 +90,27 @@ exports[`statements > should optimize if statements 1`] = `
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 5),
+  let _c = _$$cache(_useMemo, 6),
     _eq = _$$equals(_c[0], props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = _v.type,
     _eq2 = _$$equals(_c[2], _v2),
-    _v3 = _eq2 ? _c[2] : _c[2] = _v2;
-  if (_v3 === 'a') {
-    let _c2 = _c[3] ||= new Array(3),
-      _v4 = _eq ? _c2[0] : _c2[0] = _v.value,
-      _eq3 = _$$equals(_c2[1], _v4),
-      _v5 = _eq3 ? _c2[1] : _c2[1] = _v4,
-      _v6 = _eq3 ? _c2[2] : _c2[2] = examples.a(_v5);
-    return _v6;
+    _v3 = _eq2 ? _c[2] : _c[2] = _v2,
+    _v4 = _eq2 ? _c[3] : _c[3] = _v3 === 'a';
+  if (_v4) {
+    let _c2 = _c[4] ||= new Array(3),
+      _v5 = _eq ? _c2[0] : _c2[0] = _v.value,
+      _eq3 = _$$equals(_c2[1], _v5),
+      _v6 = _eq3 ? _c2[1] : _c2[1] = _v5,
+      _v7 = _eq3 ? _c2[2] : _c2[2] = examples.a(_v6);
+    return _v7;
   } else {
-    let _c3 = _c[4] ||= new Array(3),
-      _v7 = _eq ? _c3[0] : _c3[0] = _v.value,
-      _eq4 = _$$equals(_c3[1], _v7),
-      _v8 = _eq4 ? _c3[1] : _c3[1] = _v7,
-      _v9 = _eq4 ? _c3[2] : _c3[2] = examples.b(_v8);
-    return _v9;
+    let _c3 = _c[5] ||= new Array(3),
+      _v8 = _eq ? _c3[0] : _c3[0] = _v.value,
+      _eq4 = _$$equals(_c3[1], _v8),
+      _v9 = _eq4 ? _c3[1] : _c3[1] = _v8,
+      _v10 = _eq4 ? _c3[2] : _c3[2] = examples.b(_v9);
+    return _v10;
   }
 }"
 `;
