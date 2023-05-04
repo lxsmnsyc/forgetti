@@ -38,26 +38,33 @@ export default function getForeignBindings(path: babel.NodePath): t.Identifier[]
     Expression(p) {
       // Check identifiers that aren't in a TS expression
       if (
-        t.isIdentifier(p.node)
+        p.node.type === 'Identifier'
         && !isInTypescript(p)
         && isForeignBinding(path, p, p.node.name)
       ) {
         identifiers.add(p.node.name);
       }
-      if (t.isJSXElement(p.node)) {
-        if (t.isJSXMemberExpression(p.node.openingElement.name)) {
-          let base: t.JSXMemberExpression | t.JSXIdentifier = p.node.openingElement.name;
-          while (t.isJSXMemberExpression(base)) {
-            base = base.object;
+      if (p.node.type === 'JSXElement') {
+        switch (p.node.openingElement.name.type) {
+          case 'JSXIdentifier': {
+            const literal = p.node.openingElement.name.name;
+            if (/^[A-Z]/.test(literal) && isForeignBinding(path, p, literal)) {
+              identifiers.add(literal);
+            }
           }
-          if (isForeignBinding(path, p, base.name)) {
-            identifiers.add(base.name);
+            break;
+          case 'JSXMemberExpression': {
+            let base: t.JSXMemberExpression | t.JSXIdentifier = p.node.openingElement.name;
+            while (base.type === 'JSXMemberExpression') {
+              base = base.object;
+            }
+            if (isForeignBinding(path, p, base.name)) {
+              identifiers.add(base.name);
+            }
           }
-        } else if (t.isJSXIdentifier(p.node.openingElement.name)) {
-          const literal = p.node.openingElement.name.name;
-          if (/^[A-Z]/.test(literal) && isForeignBinding(path, p, literal)) {
-            identifiers.add(literal);
-          }
+            break;
+          default:
+            break;
         }
       }
     },
