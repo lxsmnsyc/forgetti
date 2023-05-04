@@ -129,7 +129,7 @@ export default class Optimizer {
       // Compare memoized version to incoming version
       condition = t.callExpression(
         getImportIdentifier(this.ctx, this.path, RUNTIME_EQUALS),
-        [pos, current],
+        [header, index, current],
       );
     }
 
