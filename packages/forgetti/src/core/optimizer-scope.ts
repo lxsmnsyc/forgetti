@@ -2,7 +2,7 @@
 import * as t from '@babel/types';
 import type { OptimizedExpression, StateContext } from './types';
 import getImportIdentifier from './get-import-identifier';
-import { RUNTIME_CACHE } from './imports';
+import { RUNTIME_BRANCH, RUNTIME_CACHE } from './imports';
 
 function mergeVariableDeclaration(statements: t.Statement[]): t.Statement[] {
   let stack: t.VariableDeclarator[] = [];
@@ -70,18 +70,17 @@ export default class OptimizerScope {
     if (this.parent) {
       const header = this.parent.createHeader();
       const index = this.parent.createIndex();
-      const pos = t.memberExpression(header, index, true);
 
       return t.variableDeclaration('let', [
         t.variableDeclarator(
           this.createHeader(),
-          t.assignmentExpression(
-            '||=',
-            pos,
-            t.newExpression(
-              t.identifier('Array'),
-              [t.numericLiteral(this.indeces)],
+          t.callExpression(
+            getImportIdentifier(
+              this.ctx,
+              this.path,
+              RUNTIME_BRANCH,
             ),
+            [header, index, t.numericLiteral(this.indeces)],
           ),
         ),
       ]);
@@ -133,15 +132,17 @@ export default class OptimizerScope {
     const header = this.parent.createHeader();
     const index = this.parent.createIndex();
     const id = this.createLoopIndex();
-    const pos = t.memberExpression(header, index, true);
 
     return t.variableDeclaration('let', [
       t.variableDeclarator(
         this.createHeader(),
-        t.assignmentExpression(
-          '||=',
-          pos,
-          t.arrayExpression(),
+        t.callExpression(
+          getImportIdentifier(
+            this.ctx,
+            this.path,
+            RUNTIME_BRANCH,
+          ),
+          [header, index, t.numericLiteral(0)],
         ),
       ),
       t.variableDeclarator(id, t.numericLiteral(0)),
@@ -152,18 +153,17 @@ export default class OptimizerScope {
     const header = this.createHeader();
     const index = this.createLoopIndex();
     const localIndex = this.path.scope.generateUidIdentifier('lid');
-    const pos = t.memberExpression(header, localIndex, true);
     return t.variableDeclaration('let', [
       t.variableDeclarator(localIndex, t.updateExpression('++', index)),
       t.variableDeclarator(
         this.createLoopHeader(),
-        t.assignmentExpression(
-          '||=',
-          pos,
-          t.newExpression(
-            t.identifier('Array'),
-            [t.numericLiteral(this.indeces)],
+        t.callExpression(
+          getImportIdentifier(
+            this.ctx,
+            this.path,
+            RUNTIME_BRANCH,
           ),
+          [header, localIndex, t.numericLiteral(this.indeces)],
         ),
       ),
     ]);

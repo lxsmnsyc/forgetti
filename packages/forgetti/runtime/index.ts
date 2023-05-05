@@ -12,3 +12,8 @@ export type MemoHook = <T>(callback: () => T, dependencies: unknown[]) => T;
 export function $$cache(hook: MemoHook, size: number): unknown[] {
   return hook(() => new Array<unknown>(size), []);
 }
+
+export function $$branch(parent: unknown[], index: number, size: number): unknown[] {
+  parent[index] ||= new Array(size);
+  return parent[index] as unknown[];
+}
