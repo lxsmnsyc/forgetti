@@ -10,7 +10,7 @@ function mergeVariableDeclaration(statements: t.Statement[]): t.Statement[] {
   let value: t.Statement;
   for (let i = 0, len = statements.length; i < len; i++) {
     value = statements[i];
-    if (t.isVariableDeclaration(value) && value.kind === 'let') {
+    if (value.type === 'VariableDeclaration' && value.kind === 'let') {
       stack.push(...value.declarations);
     } else {
       if (stack.length) {

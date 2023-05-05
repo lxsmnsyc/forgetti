@@ -176,7 +176,7 @@ function transformHOC(
   if (
     trueMember
     && !trueMember.computed
-    && t.isIdentifier(trueMember.property)
+    && trueMember.property.type === 'Identifier'
   ) {
     const obj = unwrapNode(trueMember.object, t.isIdentifier);
     if (obj) {
@@ -202,10 +202,7 @@ function transformVariableDeclarator(
   ctx: StateContext,
   path: babel.NodePath<t.VariableDeclarator>,
 ): void {
-  if (!path.node.init) {
-    return;
-  }
-  if (!t.isIdentifier(path.node.id)) {
+  if (!path.node.init || path.node.id.type !== 'Identifier') {
     return;
   }
   if (

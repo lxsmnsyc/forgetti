@@ -75,7 +75,7 @@ export default class Optimizer {
   ): OptimizedExpression {
     // Check if the identifier is an already optimized
     // identifier so that we can skip it.
-    if (t.isIdentifier(current)) {
+    if (current.type === 'Identifier') {
       const optimized = this.scope.getOptimized(current);
       if (optimized) {
         return optimized;
@@ -104,7 +104,7 @@ export default class Optimizer {
       for (let i = 0, len = dependencies.length; i < len; i++) {
         dependency = dependencies[i];
         if (condition && dependency) {
-          if (t.isIdentifier(dependency)) {
+          if (dependency.type === 'Identifier') {
             // dependency is already part of the condition, skip
             if (!newSet.has(dependency)) {
               condition = t.logicalExpression('&&', condition, dependency);
@@ -115,7 +115,7 @@ export default class Optimizer {
           }
         } else if (dependency) {
           condition = dependency;
-          if (t.isIdentifier(dependency)) {
+          if (dependency.type === 'Identifier') {
             newSet.add(dependency);
           }
         }
@@ -129,7 +129,7 @@ export default class Optimizer {
       // Compare memoized version to incoming version
       condition = t.callExpression(
         getImportIdentifier(this.ctx, this.path, RUNTIME_EQUALS),
-        [pos, current],
+        [header, index, current],
       );
     }
 
@@ -142,7 +142,7 @@ export default class Optimizer {
       // so we don't need to generate an extra
       // declaration
       eqid = pos;
-    } else if (t.isIdentifier(condition)) {
+    } else if (condition.type === 'Identifier') {
       // Reuse the identifier
       eqid = condition;
     } else {
@@ -152,7 +152,7 @@ export default class Optimizer {
 
     // Generates the variable declaration
     const declaration: t.VariableDeclarator[] = [];
-    if (condition && !t.isIdentifier(condition)) {
+    if (condition && condition.type !== 'Identifier') {
       declaration.push(t.variableDeclarator(eqid, condition));
     }
 
@@ -166,7 +166,7 @@ export default class Optimizer {
     }
 
     // Mark the identifier as optimized
-    if (t.isIdentifier(current)) {
+    if (current.type === 'Identifier') {
       this.scope.setOptimized(current, optimized);
       this.scope.setOptimized(vid, optimized);
     }
@@ -206,7 +206,7 @@ export default class Optimizer {
     // If the expression is an identifier
     // and potentially optimized as a constant
     // then just return it
-    if (t.isIdentifier(optimized.expr) && this.scope.hasConstant(optimized.expr)) {
+    if (optimized.expr.type === 'Identifier' && this.scope.hasConstant(optimized.expr)) {
       return optimized;
     }
     // If the node itself is a "dependency"
@@ -468,10 +468,16 @@ export default class Optimizer {
     const arg = path.node.arguments[0];
     let init: t.Expression | undefined;
     if (arg) {
-      if (t.isExpression(arg)) {
-        init = arg;
-      } else if (t.isSpreadElement(arg)) {
-        init = t.memberExpression(arg.argument, t.numericLiteral(0), true);
+      switch (arg.type) {
+        case 'SpreadElement':
+          init = t.memberExpression(arg.argument, t.numericLiteral(0), true);
+          break;
+        case 'ArgumentPlaceholder':
+        case 'JSXNamespacedName':
+          break;
+        default:
+          init = arg;
+          break;
       }
     }
     const expr = t.objectExpression([
@@ -953,7 +959,7 @@ export default class Optimizer {
       path = path.get('expression');
     }
     // No need to optimize
-    if (t.isLiteral(path.node) && !t.isTemplateLiteral(path.node)) {
+    if (t.isLiteral(path.node) && path.node.type !== 'TemplateLiteral') {
       return optimizedExpr(path.node, undefined, true);
     }
     // Only optimize for complex values

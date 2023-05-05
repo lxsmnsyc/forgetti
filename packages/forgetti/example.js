@@ -21,13 +21,9 @@ async function compile(code) {
 }
 
 console.log(await compile(`
-export const Example = function Example() {
-  const value = [1, 2, 3, 4];
-
-  return (
-    <div>
-      {value.map(i => <p key={i}>{i}</p>)}
-    </div>
-  );
-};
+function Example(props) {
+  for (const x in props.arr) {
+    console.log(x);
+  }
+}
 `));
