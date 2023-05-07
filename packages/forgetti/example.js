@@ -21,9 +21,7 @@ async function compile(code) {
 }
 
 console.log(await compile(`
-function Example(props) {
-  for (const x in props.arr) {
-    console.log(x);
-  }
+function Example() {
+  console.log(process.env.NODE_ENV);
 }
 `));

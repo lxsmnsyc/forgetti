@@ -2,14 +2,13 @@
 import type * as babel from '@babel/core';
 import * as t from '@babel/types';
 import { isNestedExpression, isPathValid } from './checks';
-import getForeignBindings from './get-foreign-bindings';
+import getForeignBindings, { isForeignBinding } from './get-foreign-bindings';
 import getImportIdentifier from './get-import-identifier';
 import { RUNTIME_EQUALS } from './imports';
-import isGuaranteedLiteral from './is-guaranteed-literal';
 import OptimizerScope from './optimizer-scope';
 import type { ComponentNode, OptimizedExpression, StateContext } from './types';
 import unwrapNode from './unwrap-node';
-import isOptimizable from './is-optimizable';
+import isConstant from './is-constant';
 
 function optimizedExpr(
   expr: t.Expression,
@@ -226,15 +225,16 @@ export default class Optimizer {
     path: babel.NodePath,
     id: t.Identifier,
   ): OptimizedExpression {
+    if (isForeignBinding(this.path, path, id.name)) {
+      return optimizedExpr(id, [], true);
+    }
     // Check if scope has the binding (no globals)
     // we only want to memoize identifiers
     // that are part of the render evaluation
-    if (path.scope.hasBinding(id.name, true)) {
-      const binding = path.scope.getBindingIdentifier(id.name);
-      if (binding) {
-        // Memoize as a "dependency"
-        return this.createMemo(binding, false);
-      }
+    const binding = path.scope.getBindingIdentifier(id.name);
+    if (binding) {
+      // Memoize as a "dependency"
+      return this.createMemo(binding, false);
     }
     // Identifier is marked as optimized
     // but we just basically "skip"
@@ -250,7 +250,7 @@ export default class Optimizer {
   memoizeMemberExpression(
     path: babel.NodePath<t.MemberExpression>,
   ): { expr: t.MemberExpression; deps: t.Expression[] } {
-    if (isOptimizable(path, path.node)) {
+    if (!isConstant(this, path)) {
       // Create dependencies
       const condition = createDependencies();
       // Mark source as a dependency
@@ -963,19 +963,11 @@ export default class Optimizer {
       return optimizedExpr(path.node, undefined, true);
     }
     // Only optimize for complex values
-    if (isPathValid(path, isGuaranteedLiteral)) {
+    if (isConstant(this, path)) {
       return this.createMemo(path.node, true);
     }
-    // if (t.isIdentifier(path.node)) {
     if (isPathValid(path, t.isIdentifier)) {
-      switch (path.node.name) {
-        case 'undefined':
-        case 'NaN':
-        case 'Infinity':
-          return optimizedExpr(path.node, undefined, true);
-        default:
-          return this.optimizeIdentifier(path);
-      }
+      return this.optimizeIdentifier(path);
     }
     if (
       isPathValid(path, t.isMemberExpression)

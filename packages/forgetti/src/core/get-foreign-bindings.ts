@@ -1,7 +1,7 @@
 import type * as babel from '@babel/core';
 import * as t from '@babel/types';
 
-function isForeignBinding(
+export function isForeignBinding(
   source: babel.NodePath,
   current: babel.NodePath,
   name: string,
