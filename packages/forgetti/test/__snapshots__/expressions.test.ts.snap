@@ -108,21 +108,6 @@ function Example(props) {
 }"
 `;
 
-exports[`expressions > should optimize await/yield expressions 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
-import { $$cache as _$$cache } from \\"forgetti/runtime\\";
-import { $$equals as _$$equals } from \\"forgetti/runtime\\";
-async function Example(props) {
-  let _c = _$$cache(_useMemo, 3),
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props,
-    _v2 = _eq ? _c[1] : _c[1] = _v.call(),
-    _eq2 = _$$equals(_c, 2, _v2),
-    _v3 = _eq2 ? _c[2] : _c[2] = _v2;
-  return await _v3;
-}"
-`;
-
 exports[`expressions > should optimize binary expressions 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
@@ -200,7 +185,7 @@ exports[`expressions > should optimize guaranteed literals 1`] = `
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 function Example(props) {
   let _c = _$$cache(_useMemo, 1),
-    _v = _c[0] ||= 1 + 2;
+    _v = 0 in _c ? _c[0] : _c[0] = 1 + 2;
   return _v;
 }"
 `;
@@ -255,11 +240,12 @@ exports[`expressions > should optimize new expressions 1`] = `
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 2),
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props,
-    _v2 = _eq ? _c[1] : _c[1] = new X(_v);
-  return _v2;
+  let _c = _$$cache(_useMemo, 3),
+    _v = 0 in _c ? _c[0] : _c[0] = X,
+    _eq = _$$equals(_c, 1, props),
+    _v2 = _eq ? _c[1] : _c[1] = props,
+    _v3 = _eq ? _c[2] : _c[2] = new _v(_v2);
+  return _v3;
 }"
 `;
 

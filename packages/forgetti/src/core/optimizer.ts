@@ -868,6 +868,12 @@ export default class Optimizer {
             mergeDependencies(conditions, optimized.deps);
           }
         }
+      } else if (isPathValid(child, t.isJSXSpreadChild)) {
+        const optimized = this.createDependency(child.get('expression'));
+        if (optimized) {
+          child.node.expression = optimized.expr;
+          mergeDependencies(conditions, optimized.deps);
+        }
       }
     }
 

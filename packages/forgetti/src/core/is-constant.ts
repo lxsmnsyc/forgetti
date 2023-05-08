@@ -233,8 +233,137 @@ function isObjectExpressionConstant(
         return false;
       }
     }
+    if (isPathValid(property, t.isObjectMethod)) {
+      // TODO
+    }
   }
   return true;
+}
+
+function isNewExpressionConstant(
+  instance: OptimizerInstance,
+  path: babel.NodePath<t.NewExpression>,
+): boolean {
+  const callee = path.get('callee');
+  if (isPathValid(callee, t.isExpression) && isConstant(instance, callee)) {
+    const args = path.get('arguments');
+    for (let i = 0, len = args.length; i < len; i++) {
+      const arg = args[i];
+      if (isPathValid(arg, t.isExpression) && !isConstant(instance, arg)) {
+        return false;
+      }
+      if (isPathValid(arg, t.isSpreadElement) && !isConstant(instance, arg.get('argument'))) {
+        return false;
+      }
+    }
+    return true;
+  }
+  return false;
+}
+
+function isSequenceExpressionConstant(
+  instance: OptimizerInstance,
+  path: babel.NodePath<t.SequenceExpression>,
+): boolean {
+  const exprs = path.get('expressions');
+  for (let i = 0, len = exprs.length; i < len; i++) {
+    if (!isConstant(instance, exprs[i])) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function isTaggedTemplateExpressionConstant(
+  instance: OptimizerInstance,
+  path: babel.NodePath<t.TaggedTemplateExpression>,
+): boolean {
+  return isConstant(instance, path.get('tag'))
+    && isConstant(instance, path.get('quasi'));
+}
+
+function isJSXChildrenConstant(
+  instance: OptimizerInstance,
+  path: babel.NodePath<t.JSXFragment | t.JSXElement>,
+): boolean {
+  const children = path.get('children');
+  for (let i = 0, len = children.length; i < len; i++) {
+    const child = children[i];
+    if (isPathValid(child, t.isJSXElement) && !isJSXElementConstant(instance, child)) {
+      return false;
+    }
+    if (isPathValid(child, t.isJSXFragment) && !isJSXChildrenConstant(instance, child)) {
+      return false;
+    }
+    if (isPathValid(child, t.isJSXSpreadChild) && !isConstant(instance, child.get('expression'))) {
+      return false;
+    }
+    if (isPathValid(child, t.isJSXExpressionContainer)) {
+      const expr = child.get('expression');
+      if (isPathValid(expr, t.isExpression) && !isConstant(instance, expr)) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+function isJSXNameConstant(
+  instance: OptimizerInstance,
+  path: babel.NodePath<t.JSXIdentifier | t.JSXMemberExpression | t.JSXNamespacedName>,
+): boolean {
+  if (isPathValid(path, t.isJSXNamespacedName)) {
+    return true;
+  }
+  if (isPathValid(path, t.isJSXMemberExpression)) {
+    return isJSXNameConstant(instance, path.get('object'));
+  }
+  if (isPathValid(path, t.isJSXIdentifier)) {
+    if (/^[A-Z]/.test(path.node.name)) {
+      return isForeignBinding(instance.path, path, path.node.name);
+    }
+  }
+  return true;
+}
+
+function isJSXOpeningElementConstant(
+  instance: OptimizerInstance,
+  path: babel.NodePath<t.JSXOpeningElement>,
+): boolean {
+  if (isJSXNameConstant(instance, path.get('name'))) {
+    const attrs = path.get('attributes');
+    for (let i = 0, len = attrs.length; i < len; i++) {
+      const attr = attrs[i];
+      if (isPathValid(attr, t.isJSXAttribute)) {
+        const value = attr.get('value');
+        if (isPathValid(value, t.isJSXElement) && !isJSXElementConstant(instance, value)) {
+          return false;
+        }
+        if (isPathValid(value, t.isJSXFragment) && !isJSXChildrenConstant(instance, value)) {
+          return false;
+        }
+        if (isPathValid(value, t.isJSXExpressionContainer)) {
+          const expr = value.get('expression');
+          if (isPathValid(expr, t.isExpression) && !isConstant(instance, expr)) {
+            return false;
+          }
+        }
+      }
+      if (isPathValid(attr, t.isJSXSpreadAttribute) && !isConstant(instance, attr.get('argument'))) {
+        return false;
+      }
+    }
+    return true;
+  }
+  return false;
+}
+
+function isJSXElementConstant(
+  instance: OptimizerInstance,
+  path: babel.NodePath<t.JSXElement>,
+): boolean {
+  return isJSXOpeningElementConstant(instance, path.get('openingElement'))
+    && isJSXChildrenConstant(instance, path);
 }
 
 export default function isConstant(
@@ -291,24 +420,19 @@ export default function isConstant(
     return isObjectExpressionConstant(instance, path);
   }
   if (isPathValid(path, t.isNewExpression)) {
-    // TODO
-    return false;
+    return isNewExpressionConstant(instance, path);
   }
   if (isPathValid(path, t.isSequenceExpression)) {
-    // TODO
-    return false;
+    return isSequenceExpressionConstant(instance, path);
   }
   if (isPathValid(path, t.isTaggedTemplateExpression)) {
-    // TODO
-    return false;
+    return isTaggedTemplateExpressionConstant(instance, path);
   }
   if (isPathValid(path, t.isJSXFragment)) {
-    // TODO
-    return false;
+    return isJSXChildrenConstant(instance, path);
   }
   if (isPathValid(path, t.isJSXElement)) {
-    // TODO
-    return false;
+    return isJSXElementConstant(instance, path);
   }
   if (isPathValid(path, t.isImport)) {
     return true;
