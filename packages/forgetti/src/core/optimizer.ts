@@ -611,19 +611,6 @@ export default class Optimizer {
     return optimizedExpr(path.node);
   }
 
-  optimizeAwaitYieldExpression(
-    path: babel.NodePath<t.AwaitExpression | t.YieldExpression>,
-  ): OptimizedExpression {
-    if (path.node.argument) {
-      const optimized = this.createDependency(path.get('argument') as babel.NodePath<t.Expression>);
-      if (optimized) {
-        path.node.argument = optimized.expr;
-        return optimizedExpr(path.node, optimized.deps);
-      }
-    }
-    return optimizedExpr(path.node);
-  }
-
   optimizeFunctionExpression(
     path: babel.NodePath<t.ArrowFunctionExpression | t.FunctionExpression>,
   ): OptimizedExpression {
@@ -988,9 +975,6 @@ export default class Optimizer {
       || isPathValid(path, t.isOptionalCallExpression)
     ) {
       return this.optimizeCallExpression(path);
-    }
-    if (isPathValid(path, t.isAwaitExpression) || isPathValid(path, t.isYieldExpression)) {
-      return this.optimizeAwaitYieldExpression(path);
     }
     if (
       isPathValid(path, t.isFunctionExpression)
