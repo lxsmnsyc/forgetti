@@ -170,14 +170,10 @@ export default class Optimizer {
       this.scope.setOptimized(vid, optimized);
     }
 
-    const init = (
-      condition
-        ? t.conditionalExpression(
-          eqid,
-          pos,
-          t.assignmentExpression('=', pos, current),
-        )
-        : t.assignmentExpression('||=', pos, current)
+    const init = t.conditionalExpression(
+      condition ? eqid : t.binaryExpression('in', index, header),
+      pos,
+      t.assignmentExpression('=', pos, current),
     );
 
     declaration.push(t.variableDeclarator(vid, init));
