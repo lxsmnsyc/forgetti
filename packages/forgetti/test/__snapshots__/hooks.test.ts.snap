@@ -1,5 +1,14 @@
 // Vitest Snapshot v1
 
+exports[`hooks > should correct transform nested hooks call (issue #14) 1`] = `
+"import { useDeferredValue } from 'react';
+import { useAtomValue } from 'jotai';
+import { stateAtom } from 'whatever';
+function Example(props) {
+  return useDeferredValue(useAtomValue(stateAtom));
+}"
+`;
+
 exports[`hooks > should optimize useCallback 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";

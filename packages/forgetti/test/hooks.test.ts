@@ -114,4 +114,15 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
+  it('should correct transform nested hooks call (issue #14)', async () => {
+    const code = `
+import { useDeferredValue } from 'react';
+import { useAtomValue } from 'jotai';
+import { stateAtom } from 'whatever';
+function Example(props) {
+  return useDeferredValue(useAtomValue(stateAtom));
+}
+`;
+    expect(await compile(code)).toMatchSnapshot();
+  });
 });

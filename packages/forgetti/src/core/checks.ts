@@ -72,3 +72,22 @@ export function isNestedExpression(node: t.Node): node is NestedExpression {
       return false;
   }
 }
+
+/** Check whether a Node is CallExpression and a React Hook call */
+export function isCallExpressionAndHook(ctx: StateContext, node: t.Node): node is t.CallExpression {
+  if (node.type !== 'CallExpression') {
+    return false;
+  }
+
+  // A simple check to see if "node.callee" is an Identifier
+  // TypeScript is able to infer the type of "node.callee" to Identifier or V8IntrinsicIdentifier
+  if (!('name' in node.callee)) {
+    return false;
+  }
+
+  // Check if callee is a react hook
+  if (!ctx.filters.hook) {
+    return false;
+  }
+  return ctx.filters.hook.test(node.callee.name);
+}
