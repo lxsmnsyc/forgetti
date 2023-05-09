@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import type * as babel from '@babel/core';
 import * as t from '@babel/types';
-import { isCallExpressionAndHook, isNestedExpression, isPathValid } from './checks';
+import { isExpressionAndHook, isNestedExpression, isPathValid } from './checks';
 import getForeignBindings, { isForeignBinding } from './get-foreign-bindings';
 import getImportIdentifier from './get-import-identifier';
 import { RUNTIME_EQUALS } from './imports';
@@ -561,7 +561,7 @@ export default class Optimizer {
         for (let i = 0, len = argumentsPath.length; i < len; i++) {
           argument = argumentsPath[i];
           if (isPathValid(argument, t.isExpression)) {
-            if (isCallExpressionAndHook(this.ctx, argument.node)) {
+            if (isExpressionAndHook(this.ctx, argument.node)) {
               continue;
             }
 
@@ -571,6 +571,10 @@ export default class Optimizer {
               path.node.arguments[i] = optimized.expr;
             }
           } else if (isPathValid(argument, t.isSpreadElement)) {
+            if (isExpressionAndHook(this.ctx, argument.node.argument)) {
+              continue;
+            }
+
             const optimized = this.createDependency(argument.get('argument'));
             if (optimized) {
               mergeDependencies(dependencies, optimized.deps);
