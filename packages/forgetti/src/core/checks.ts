@@ -73,59 +73,27 @@ export function isNestedExpression(node: t.Node): node is NestedExpression {
   }
 }
 
-/** Check whether a Node is CallExpression and a React Hook call */
-export function isExpressionAndHook(
+export function isHookCall(
   ctx: StateContext,
-  node: t.Expression | t.SpreadElement,
+  path: babel.NodePath<any>,
 ): boolean {
-  switch (node.type) {
-    case 'CallExpression':
-      // A simple check to see if "node.callee" is an Identifier
-      // TypeScript can infer the type of "node.callee" to Identifier or V8IntrinsicIdentifier
-      if (!('name' in node.callee)) {
-        return false;
-      }
-
-      // Check if callee is a react hook
-      if (!ctx.filters.hook) {
-        return false;
-      }
-      return ctx.filters.hook.test(node.callee.name);
-    case 'SpreadElement':
-      return isExpressionAndHook(ctx, node.argument);
-    case 'ArrayExpression':
-      return node.elements.some((element) => {
-        if (!element) return false;
-        return isExpressionAndHook(ctx, element);
-      });
-    case 'ObjectExpression':
-      return node.properties.some((property) => {
-        if (!property) return false;
-        if (property.type === 'ObjectProperty') {
-          return (
-            (t.isExpression(property.value) && isExpressionAndHook(ctx, property.value))
-            || (t.isSpreadElement(property.key) && isExpressionAndHook(ctx, property.key))
-          );
-        }
-        if (property.type === 'SpreadElement') {
-          return isExpressionAndHook(ctx, property);
-        }
-        return false;
-      });
-    case 'TemplateLiteral':
-      return node.expressions.some((expression) => {
-        if (!expression) return false;
-        if (!t.isExpression(expression)) return false;
-        return isExpressionAndHook(ctx, expression);
-      });
-    case 'BinaryExpression':
-      return (
-        (t.isExpression(node.left) && isExpressionAndHook(ctx, node.left))
-      || (t.isExpression(node.right) && isExpressionAndHook(ctx, node.right))
-      );
-    case 'AssignmentExpression':
-      return (t.isExpression(node.right) && isExpressionAndHook(ctx, node.right));
-    default:
+  if (isPathValid(path, t.isCallExpression)) {
+    // A simple check to see if "node.callee" is an Identifier
+    // TypeScript can infer the type of "node.callee" to Identifier or V8IntrinsicIdentifier
+    if (!('name' in path.node.callee)) {
       return false;
+    }
+
+    // Check if callee is a react hook
+    if (!ctx.filters.hook) {
+      return false;
+    }
+    return ctx.filters.hook.test(path.node.callee.name);
   }
+
+  if (isPathValid(path, t.isSpreadElement)) {
+    return isHookCall(ctx, path.get('argument'));
+  }
+
+  return false;
 }

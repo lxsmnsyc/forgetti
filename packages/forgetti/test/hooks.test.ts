@@ -150,7 +150,12 @@ import { useA, useB, useC } from 'whatever'
 
 function Example(props) {
   let a = null;
-  return { [useA()]: useB(), ...useC(), [\`testA\${useH()}testB\`]: useI() === useJ() }
+  return {
+    [useA()]: useB(),
+    ...useC(),
+    [\`testA\${useH()}testB\`]: useI() === useJ(),
+    a: useK() ? 'a' : 'b'
+  }
 }
 `;
     expect(await compile(code)).toMatchSnapshot();

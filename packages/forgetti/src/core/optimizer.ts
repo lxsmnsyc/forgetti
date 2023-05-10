@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import type * as babel from '@babel/core';
 import * as t from '@babel/types';
-import { isExpressionAndHook, isNestedExpression, isPathValid } from './checks';
+import { isHookCall, isNestedExpression, isPathValid } from './checks';
 import getForeignBindings, { isForeignBinding } from './get-foreign-bindings';
 import getImportIdentifier from './get-import-identifier';
 import { RUNTIME_EQUALS } from './imports';
@@ -337,6 +337,11 @@ export default class Optimizer {
       return optimizedExpr(path.node);
     }
     const leftPath = path.get('left');
+    const rightPath = path.get('right');
+
+    if (isHookCall(this.ctx, leftPath) || isHookCall(this.ctx, rightPath)) {
+      return optimizedExpr(path.node);
+    }
 
     const dependencies = createDependencies();
 
@@ -347,7 +352,7 @@ export default class Optimizer {
         mergeDependencies(dependencies, left.deps);
       }
     }
-    const right = this.createDependency(path.get('right'));
+    const right = this.createDependency(rightPath);
     if (right) {
       path.node.right = right.expr;
       mergeDependencies(dependencies, right.deps);
@@ -514,7 +519,7 @@ export default class Optimizer {
         if (this.ctx.filters.hook?.test(trueID.name)) {
           isHook = true;
         }
-      // Check if callee is potentially a namespace import
+        // Check if callee is potentially a namespace import
       }
       const trueMember = unwrapNode(calleePath.node, t.isMemberExpression);
       if (
@@ -557,24 +562,23 @@ export default class Optimizer {
       if (isHook) {
         const argumentsPath = path.get('arguments');
         const dependencies = createDependencies();
-        let argument: typeof argumentsPath[0];
-        for (let i = 0, len = argumentsPath.length; i < len; i++) {
-          argument = argumentsPath[i];
-          if (isPathValid(argument, t.isExpression)) {
-            if (isExpressionAndHook(this.ctx, argument.node)) {
-              continue;
-            }
 
+        const originalNode = t.cloneNode(path.node);
+
+        for (let i = 0, len = argumentsPath.length; i < len; i++) {
+          const argument = argumentsPath[i];
+
+          if (isHookCall(this.ctx, argument)) {
+            return optimizedExpr(originalNode);
+          }
+
+          if (isPathValid(argument, t.isExpression)) {
             const optimized = this.createDependency(argument);
             if (optimized) {
               mergeDependencies(dependencies, optimized.deps);
               path.node.arguments[i] = optimized.expr;
             }
           } else if (isPathValid(argument, t.isSpreadElement)) {
-            if (isExpressionAndHook(this.ctx, argument.node.argument)) {
-              continue;
-            }
-
             const optimized = this.createDependency(argument.get('argument'));
             if (optimized) {
               mergeDependencies(dependencies, optimized.deps);
@@ -659,12 +663,19 @@ export default class Optimizer {
   optimizeAssignmentExpression(
     path: babel.NodePath<t.AssignmentExpression>,
   ): OptimizedExpression {
+    const rightPath = path.get('right');
+    // Bail out early if right value is a hook call
+    if (isHookCall(this.ctx, rightPath)) {
+      return optimizedExpr(path.node);
+    }
+
     // TODO Work on left node
     const dependencies = createDependencies();
     const left = this.optimizeLVal(path.get('left'), true);
     path.node.left = left.expr;
     mergeDependencies(dependencies, left.deps);
-    const right = this.createDependency(path.get('right'));
+
+    const right = this.createDependency(rightPath);
     if (right) {
       path.node.right = right.expr;
       mergeDependencies(dependencies, right.deps);
@@ -681,11 +692,18 @@ export default class Optimizer {
   optimizeArrayExpression(
     path: babel.NodePath<t.ArrayExpression | t.TupleExpression>,
   ): OptimizedExpression {
+    const originalNode = t.cloneNode(path.node);
+
     const condition = createDependencies();
     const elementsPath = path.get('elements');
-    let element: typeof elementsPath[0];
+
     for (let i = 0, len = elementsPath.length; i < len; i++) {
-      element = elementsPath[i];
+      const element = elementsPath[i];
+
+      if (isHookCall(this.ctx, element)) {
+        return optimizedExpr(originalNode);
+      }
+
       if (isPathValid(element, t.isExpression)) {
         const optimized = this.createDependency(element);
         if (optimized) {
@@ -706,13 +724,21 @@ export default class Optimizer {
   optimizeObjectExpression(
     path: babel.NodePath<t.ObjectExpression | t.RecordExpression>,
   ): OptimizedExpression {
+    // get a copy of input nodepath before mutating it
+    const orginalNode = t.cloneNode(path.node);
+
     const condition = createDependencies();
     const elementsPath = path.get('properties');
-    let element: typeof elementsPath[0];
+
     for (let i = 0, len = elementsPath.length; i < len; i++) {
-      element = elementsPath[i];
+      const element = elementsPath[i];
       if (isPathValid(element, t.isObjectProperty)) {
         const valuePath = element.get('value');
+
+        // There is a hook inside the object value, bailed out
+        if (isHookCall(this.ctx, valuePath)) {
+          return optimizedExpr(orginalNode);
+        }
 
         if (isPathValid(valuePath, t.isExpression)) {
           const optimized = this.optimizeExpression(valuePath);
@@ -724,6 +750,11 @@ export default class Optimizer {
 
         if (element.node.computed) {
           const keyPath = element.get('key');
+
+          if (isHookCall(this.ctx, keyPath)) {
+            return optimizedExpr(orginalNode);
+          }
+
           if (isPathValid(keyPath, t.isExpression)) {
             const optimized = this.createDependency(keyPath);
             if (optimized) {
@@ -733,6 +764,10 @@ export default class Optimizer {
           }
         }
       } else if (isPathValid(element, t.isSpreadElement)) {
+        if (isHookCall(this.ctx, element)) {
+          return optimizedExpr(orginalNode);
+        }
+
         const optimized = this.createDependency(element.get('argument'));
         if (optimized) {
           mergeDependencies(condition, optimized.deps);
