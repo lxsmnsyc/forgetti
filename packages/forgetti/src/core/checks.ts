@@ -75,7 +75,7 @@ export function isNestedExpression(node: t.Node): node is NestedExpression {
 
 export function isHookCall(
   ctx: StateContext,
-  path: babel.NodePath<any>,
+  path: babel.NodePath<t.Node | null>,
 ): boolean {
   if (isPathValid(path, t.isCallExpression)) {
     // A simple check to see if "node.callee" is an Identifier
