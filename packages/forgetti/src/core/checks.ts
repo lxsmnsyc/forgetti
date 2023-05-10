@@ -78,68 +78,54 @@ export function isExpressionAndHook(
   ctx: StateContext,
   node: t.Expression | t.SpreadElement,
 ): boolean {
-  if (node.type === 'SpreadElement') {
-    return isExpressionAndHook(ctx, node.argument);
-  }
-
-  if (node.type === 'CallExpression') {
-    // A simple check to see if "node.callee" is an Identifier
-    // TypeScript is able to infer the type of "node.callee" to Identifier or V8IntrinsicIdentifier
-    if (!('name' in node.callee)) {
-      return false;
-    }
-
-    // Check if callee is a react hook
-    if (!ctx.filters.hook) {
-      return false;
-    }
-    return ctx.filters.hook.test(node.callee.name);
-  }
-
-  if (node.type === 'ArrayExpression') {
-    return node.elements.some((element) => {
-      if (!element) return false;
-      return isExpressionAndHook(ctx, element);
-    });
-  }
-
-  if (node.type === 'ObjectExpression') {
-    return node.properties.some((property) => {
-      if (!property) return false;
-
-      if (property.type === 'ObjectProperty') {
-        return (
-          (t.isExpression(property.value) && isExpressionAndHook(ctx, property.value))
-          || (t.isSpreadElement(property.key) && isExpressionAndHook(ctx, property.key))
-        );
+  switch (node.type) {
+    case 'CallExpression':
+      // A simple check to see if "node.callee" is an Identifier
+      // TypeScript can infer the type of "node.callee" to Identifier or V8IntrinsicIdentifier
+      if (!('name' in node.callee)) {
+        return false;
       }
 
-      if (property.type === 'SpreadElement') {
-        return isExpressionAndHook(ctx, property);
+      // Check if callee is a react hook
+      if (!ctx.filters.hook) {
+        return false;
       }
-
-      return false;
-    });
-  }
-
-  if (node.type === 'TemplateLiteral') {
-    return node.expressions.some((expression) => {
-      if (!expression) return false;
-      if (!t.isExpression(expression)) return false;
-      return isExpressionAndHook(ctx, expression);
-    });
-  }
-
-  if (node.type === 'BinaryExpression') {
-    return (
-      (t.isExpression(node.left) && isExpressionAndHook(ctx, node.left))
+      return ctx.filters.hook.test(node.callee.name);
+    case 'SpreadElement':
+      return isExpressionAndHook(ctx, node.argument);
+    case 'ArrayExpression':
+      return node.elements.some((element) => {
+        if (!element) return false;
+        return isExpressionAndHook(ctx, element);
+      });
+    case 'ObjectExpression':
+      return node.properties.some((property) => {
+        if (!property) return false;
+        if (property.type === 'ObjectProperty') {
+          return (
+            (t.isExpression(property.value) && isExpressionAndHook(ctx, property.value))
+            || (t.isSpreadElement(property.key) && isExpressionAndHook(ctx, property.key))
+          );
+        }
+        if (property.type === 'SpreadElement') {
+          return isExpressionAndHook(ctx, property);
+        }
+        return false;
+      });
+    case 'TemplateLiteral':
+      return node.expressions.some((expression) => {
+        if (!expression) return false;
+        if (!t.isExpression(expression)) return false;
+        return isExpressionAndHook(ctx, expression);
+      });
+    case 'BinaryExpression':
+      return (
+        (t.isExpression(node.left) && isExpressionAndHook(ctx, node.left))
       || (t.isExpression(node.right) && isExpressionAndHook(ctx, node.right))
-    );
+      );
+    case 'AssignmentExpression':
+      return (t.isExpression(node.right) && isExpressionAndHook(ctx, node.right));
+    default:
+      return false;
   }
-
-  if (node.type === 'AssignmentExpression') {
-    return (t.isExpression(node.right) && isExpressionAndHook(ctx, node.right));
-  }
-
-  return false;
 }
