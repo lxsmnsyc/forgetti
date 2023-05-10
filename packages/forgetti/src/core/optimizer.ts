@@ -338,7 +338,6 @@ export default class Optimizer {
       return optimizedExpr(path.node);
     }
     const leftPath = path.get('left');
-    const rightPath = path.get('right');
 
     const dependencies = createDependencies();
 
@@ -349,7 +348,7 @@ export default class Optimizer {
         mergeDependencies(dependencies, left.deps);
       }
     }
-    const right = this.createDependency(rightPath);
+    const right = this.createDependency(path.get('right'));
     if (right) {
       path.node.right = right.expr;
       mergeDependencies(dependencies, right.deps);
@@ -654,15 +653,13 @@ export default class Optimizer {
   optimizeAssignmentExpression(
     path: babel.NodePath<t.AssignmentExpression>,
   ): OptimizedExpression {
-    const rightPath = path.get('right');
-
     // TODO Work on left node
     const dependencies = createDependencies();
     const left = this.optimizeLVal(path.get('left'), true);
     path.node.left = left.expr;
     mergeDependencies(dependencies, left.deps);
 
-    const right = this.createDependency(rightPath);
+    const right = this.createDependency(path.get('right'));
     if (right) {
       path.node.right = right.expr;
       mergeDependencies(dependencies, right.deps);
