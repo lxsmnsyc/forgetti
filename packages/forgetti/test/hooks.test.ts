@@ -144,4 +144,15 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
+  it('should correct transform derived hooks call', async () => {
+    const code = `
+import { useA, useB, useC } from 'whatever'
+
+function Example(props) {
+  let a = null;
+  return { [useA()]: useB(), ...useC(), [\`testA\${useH()}testB\`]: useI() === useJ() }
+}
+`;
+    expect(await compile(code)).toMatchSnapshot();
+  });
 });

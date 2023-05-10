@@ -12,6 +12,27 @@ function Example(props) {
 }"
 `;
 
+exports[`hooks > should correct transform derived hooks call 1`] = `
+"import { useMemo as _useMemo } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$equals as _$$equals } from \\"forgetti/runtime\\";
+import { useA, useB, useC } from 'whatever';
+function Example(props) {
+  let _c = _$$cache(_useMemo, 3),
+    a = null,
+    _eq = _$$equals(_c, 0, useA()),
+    _v = _eq ? _c[0] : _c[0] = useA(),
+    _eq2 = _$$equals(_c, 1, useC()),
+    _v2 = _eq2 ? _c[1] : _c[1] = useC(),
+    _eq3 = _eq && _eq2,
+    _v3 = _eq3 ? _c[2] : _c[2] = {
+      [_v]: useB(),
+      ..._v2
+    };
+  return _v3;
+}"
+`;
+
 exports[`hooks > should correct transform nested hooks call (issue #14) 1`] = `
 "import { useDeferredValue } from 'react';
 import { useAtomValue } from 'jotai';
