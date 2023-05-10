@@ -20,7 +20,9 @@ function Example(props) {
     [useA()]: useB(),
     ...useC(),
     [\`testA\${useH()}testB\`]: useI() === useJ(),
-    a: useK() ? 'a' : 'b'
+    a: useK() ? 'a' : 'b',
+    b: <div>{useL()}</div>,
+    c: <>{useM()}{useN()}</>
   };
 }"
 `;

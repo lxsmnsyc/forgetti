@@ -72,28 +72,3 @@ export function isNestedExpression(node: t.Node): node is NestedExpression {
       return false;
   }
 }
-
-export function isHookCall(
-  ctx: StateContext,
-  path: babel.NodePath<t.Node | null>,
-): boolean {
-  if (isPathValid(path, t.isCallExpression)) {
-    // A simple check to see if "node.callee" is an Identifier
-    // TypeScript can infer the type of "node.callee" to Identifier or V8IntrinsicIdentifier
-    if (!('name' in path.node.callee)) {
-      return false;
-    }
-
-    // Check if callee is a react hook
-    if (!ctx.filters.hook) {
-      return false;
-    }
-    return ctx.filters.hook.test(path.node.callee.name);
-  }
-
-  if (isPathValid(path, t.isSpreadElement)) {
-    return isHookCall(ctx, path.get('argument'));
-  }
-
-  return false;
-}
