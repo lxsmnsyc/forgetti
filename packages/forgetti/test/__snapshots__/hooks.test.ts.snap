@@ -1,5 +1,32 @@
 // Vitest Snapshot v1
 
+exports[`hooks > should correct transform any nested hooks call 1`] = `
+"import { useA, useB, useC, useD, useE, useF, useG, useH } from 'whatever';
+function Example(props) {
+  let a = null;
+  return useA(useB(), [useC(), 'array'], {
+    d: useD(),
+    [useE()]: useF(),
+    ...useG()
+  }, \`testA\${useH()}testB\`, useI() === useJ(), a = useK(), ...useJ());
+}"
+`;
+
+exports[`hooks > should correct transform derived hooks call 1`] = `
+"import { useA, useB, useC } from 'whatever';
+function Example(props) {
+  let a = null;
+  return {
+    [useA()]: useB(),
+    ...useC(),
+    [\`testA\${useH()}testB\`]: useI() === useJ(),
+    a: useK() ? 'a' : 'b',
+    b: <div>{useL()}</div>,
+    c: <>{useM()}{useN()}</>
+  };
+}"
+`;
+
 exports[`hooks > should correct transform nested hooks call (issue #14) 1`] = `
 "import { useDeferredValue } from 'react';
 import { useAtomValue } from 'jotai';

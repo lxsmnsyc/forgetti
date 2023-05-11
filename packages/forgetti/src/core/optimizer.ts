@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import type * as babel from '@babel/core';
 import * as t from '@babel/types';
-import { isCallExpressionAndHook, isNestedExpression, isPathValid } from './checks';
+import { isNestedExpression, isPathValid } from './checks';
 import getForeignBindings, { isForeignBinding } from './get-foreign-bindings';
 import getImportIdentifier from './get-import-identifier';
 import { RUNTIME_EQUALS } from './imports';
@@ -9,6 +9,7 @@ import OptimizerScope from './optimizer-scope';
 import type { ComponentNode, OptimizedExpression, StateContext } from './types';
 import unwrapNode from './unwrap-node';
 import isConstant from './is-constant';
+import isContainsHook from './is-contains-hook';
 
 function optimizedExpr(
   expr: t.Expression,
@@ -514,7 +515,7 @@ export default class Optimizer {
         if (this.ctx.filters.hook?.test(trueID.name)) {
           isHook = true;
         }
-      // Check if callee is potentially a namespace import
+        // Check if callee is potentially a namespace import
       }
       const trueMember = unwrapNode(calleePath.node, t.isMemberExpression);
       if (
@@ -557,14 +558,11 @@ export default class Optimizer {
       if (isHook) {
         const argumentsPath = path.get('arguments');
         const dependencies = createDependencies();
-        let argument: typeof argumentsPath[0];
-        for (let i = 0, len = argumentsPath.length; i < len; i++) {
-          argument = argumentsPath[i];
-          if (isPathValid(argument, t.isExpression)) {
-            if (isCallExpressionAndHook(this.ctx, argument.node)) {
-              continue;
-            }
 
+        for (let i = 0, len = argumentsPath.length; i < len; i++) {
+          const argument = argumentsPath[i];
+
+          if (isPathValid(argument, t.isExpression)) {
             const optimized = this.createDependency(argument);
             if (optimized) {
               mergeDependencies(dependencies, optimized.deps);
@@ -660,6 +658,7 @@ export default class Optimizer {
     const left = this.optimizeLVal(path.get('left'), true);
     path.node.left = left.expr;
     mergeDependencies(dependencies, left.deps);
+
     const right = this.createDependency(path.get('right'));
     if (right) {
       path.node.right = right.expr;
@@ -679,9 +678,10 @@ export default class Optimizer {
   ): OptimizedExpression {
     const condition = createDependencies();
     const elementsPath = path.get('elements');
-    let element: typeof elementsPath[0];
+
     for (let i = 0, len = elementsPath.length; i < len; i++) {
-      element = elementsPath[i];
+      const element = elementsPath[i];
+
       if (isPathValid(element, t.isExpression)) {
         const optimized = this.createDependency(element);
         if (optimized) {
@@ -704,9 +704,9 @@ export default class Optimizer {
   ): OptimizedExpression {
     const condition = createDependencies();
     const elementsPath = path.get('properties');
-    let element: typeof elementsPath[0];
+
     for (let i = 0, len = elementsPath.length; i < len; i++) {
-      element = elementsPath[i];
+      const element = elementsPath[i];
       if (isPathValid(element, t.isObjectProperty)) {
         const valuePath = element.get('value');
 
@@ -720,6 +720,7 @@ export default class Optimizer {
 
         if (element.node.computed) {
           const keyPath = element.get('key');
+
           if (isPathValid(keyPath, t.isExpression)) {
             const optimized = this.createDependency(keyPath);
             if (optimized) {
@@ -954,6 +955,10 @@ export default class Optimizer {
     // No need to optimize
     if (t.isLiteral(path.node) && path.node.type !== 'TemplateLiteral') {
       return optimizedExpr(path.node, undefined, true);
+    }
+    // Bail out any optimization if the expression contains hooks
+    if (isContainsHook(this, path)) {
+      return optimizedExpr(path.node);
     }
     // Only optimize for complex values
     if (isConstant(this, path)) {

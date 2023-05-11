@@ -125,4 +125,41 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
+  it('should correct transform any nested hooks call', async () => {
+    const code = `
+import { useA, useB, useC, useD, useE, useF, useG, useH } from 'whatever'
+
+function Example(props) {
+  let a = null;
+  return useA(
+    useB(),
+    [useC(), 'array'],
+    { d: useD(), [useE()]: useF(), ...useG() },
+    \`testA\${useH()}testB\`,
+    useI() === useJ(),
+    (a = useK()),
+    ...useJ()
+  );
+}
+`;
+    expect(await compile(code)).toMatchSnapshot();
+  });
+  it('should correct transform derived hooks call', async () => {
+    const code = `
+import { useA, useB, useC } from 'whatever'
+
+function Example(props) {
+  let a = null;
+  return {
+    [useA()]: useB(),
+    ...useC(),
+    [\`testA\${useH()}testB\`]: useI() === useJ(),
+    a: useK() ? 'a' : 'b',
+    b: <div>{useL()}</div>,
+    c: <>{useM()}{useN()}</>
+  }
+}
+`;
+    expect(await compile(code)).toMatchSnapshot();
+  });
 });
