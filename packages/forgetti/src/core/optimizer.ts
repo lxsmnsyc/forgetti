@@ -230,7 +230,6 @@ export default class Optimizer {
         )],
       ),
     );
-    console.log(id.name);
     return optimizedExpr(id);
   }
 
