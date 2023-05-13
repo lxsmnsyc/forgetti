@@ -17,8 +17,8 @@ function Example(props) {
       _v = _eq ? _l[0] : _l[0] = i,
       _v2 = _eq ? _l[1] : _l[1] = console.log(_v);
     _v2;
-    let _v3 = i += 1;
-    _v3;
+    const _hoisted = i += 1;
+    _hoisted;
   } while (i < props.x);
 }"
 `;
@@ -251,8 +251,8 @@ function Example(props) {
       _v = _eq ? _l[0] : _l[0] = i,
       _v2 = _eq ? _l[1] : _l[1] = console.log(_v);
     _v2;
-    let _v3 = i += 1;
-    _v3;
+    const _hoisted = i += 1;
+    _hoisted;
   }
 }"
 `;

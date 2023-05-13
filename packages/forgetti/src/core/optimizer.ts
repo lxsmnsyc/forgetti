@@ -217,10 +217,10 @@ export default class Optimizer {
     return record;
   }
 
-  hoistCallExpression(
-    path: babel.NodePath<t.CallExpression | t.OptionalCallExpression>,
-  ): OptimizedExpression {
-    const id = path.scope.generateUidIdentifier('hook');
+  hoistExpression(
+    path: babel.NodePath<t.Expression>,
+  ): t.Identifier {
+    const id = path.scope.generateUidIdentifier('hoisted');
     this.scope.push(
       t.variableDeclaration(
         'const',
@@ -230,7 +230,7 @@ export default class Optimizer {
         )],
       ),
     );
-    return optimizedExpr(id);
+    return id;
   }
 
   memoizeIdentifier(
@@ -602,7 +602,7 @@ export default class Optimizer {
         }
       }
       if (isHook) {
-        return this.hoistCallExpression(path);
+        return optimizedExpr(this.hoistExpression(path), condition);
       }
       return this.createMemo(path.node, condition);
     }
@@ -649,7 +649,6 @@ export default class Optimizer {
   optimizeAssignmentExpression(
     path: babel.NodePath<t.AssignmentExpression>,
   ): OptimizedExpression {
-    // TODO Work on left node
     const dependencies = createDependencies();
     const left = this.optimizeLVal(path.get('left'), true);
     path.node.left = left.expr;
@@ -660,13 +659,7 @@ export default class Optimizer {
       path.node.right = right.expr;
       mergeDependencies(dependencies, right.deps);
     }
-
-    const variable = path.scope.generateUidIdentifier('v');
-    this.scope.push(
-      t.variableDeclaration('let', [t.variableDeclarator(variable, path.node)]),
-    );
-
-    return optimizedExpr(variable, dependencies);
+    return optimizedExpr(this.hoistExpression(path), dependencies);
   }
 
   optimizeArrayExpression(

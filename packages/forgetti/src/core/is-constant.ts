@@ -409,10 +409,6 @@ export default function isConstant(
   ) {
     return isFunctionExpressionConstant(instance, path);
   }
-  if (isPathValid(path, t.isAssignmentExpression)) {
-    // TODO
-    return false;
-  }
   if (isPathValid(path, t.isArrayExpression) || isPathValid(path, t.isTupleExpression)) {
     return isArrayExpressionConstant(instance, path);
   }

@@ -21,7 +21,10 @@ async function compile(code) {
 }
 
 console.log(await compile(`
+import { useRef } from 'react';
+
 function Example() {
-  console.log(process.env.NODE_ENV);
+  let a, b, c;
+  a = b = c = Math.random();
 }
 `));
