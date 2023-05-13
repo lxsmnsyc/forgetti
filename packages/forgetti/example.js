@@ -21,10 +21,9 @@ async function compile(code) {
 }
 
 console.log(await compile(`
-import { useRef } from 'react';
-
-function Example() {
-  let a, b, c;
-  a = b = c = Math.random();
+function Example(props) {
+  for (const x in props.arr) {
+    console.log(x);
+  }
 }
 `));
