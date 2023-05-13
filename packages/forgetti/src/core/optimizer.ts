@@ -9,7 +9,6 @@ import OptimizerScope from './optimizer-scope';
 import type { ComponentNode, OptimizedExpression, StateContext } from './types';
 import unwrapNode from './unwrap-node';
 import isConstant from './is-constant';
-import isContainsHook from './is-contains-hook';
 
 function optimizedExpr(
   expr: t.Expression,
@@ -216,6 +215,23 @@ export default class Optimizer {
     const record = this.createMemo(optimized.expr, false);
     this.dependency.set(path.node, record);
     return record;
+  }
+
+  hoistCallExpression(
+    path: babel.NodePath<t.CallExpression | t.OptionalCallExpression>,
+  ): OptimizedExpression {
+    const id = path.scope.generateUidIdentifier('hook');
+    this.scope.push(
+      t.variableDeclaration(
+        'const',
+        [t.variableDeclarator(
+          id,
+          path.node,
+        )],
+      ),
+    );
+    console.log(id.name);
+    return optimizedExpr(id);
   }
 
   memoizeIdentifier(
@@ -554,41 +570,19 @@ export default class Optimizer {
           isHook = true;
         }
       }
-
-      if (isHook) {
-        const argumentsPath = path.get('arguments');
-        const dependencies = createDependencies();
-
-        for (let i = 0, len = argumentsPath.length; i < len; i++) {
-          const argument = argumentsPath[i];
-
-          if (isPathValid(argument, t.isExpression)) {
-            const optimized = this.createDependency(argument);
-            if (optimized) {
-              mergeDependencies(dependencies, optimized.deps);
-              path.node.arguments[i] = optimized.expr;
-            }
-          } else if (isPathValid(argument, t.isSpreadElement)) {
-            const optimized = this.createDependency(argument.get('argument'));
-            if (optimized) {
-              mergeDependencies(dependencies, optimized.deps);
-              argument.node.argument = optimized.expr;
-            }
-          }
-        }
-        return optimizedExpr(path.node);
-      }
       // Build dependencies
       const condition = createDependencies();
-      const callee = (
-        (isPathValid(calleePath, t.isMemberExpression)
-          || isPathValid(calleePath, t.isOptionalMemberExpression))
-          ? this.memoizeMemberExpression(calleePath as babel.NodePath<t.MemberExpression>)
-          : this.createDependency(calleePath)
-      );
-      if (callee) {
-        path.node.callee = callee.expr;
-        mergeDependencies(condition, callee.deps);
+      if (!isHook) {
+        const callee = (
+          (isPathValid(calleePath, t.isMemberExpression)
+            || isPathValid(calleePath, t.isOptionalMemberExpression))
+            ? this.memoizeMemberExpression(calleePath as babel.NodePath<t.MemberExpression>)
+            : this.createDependency(calleePath)
+        );
+        if (callee) {
+          path.node.callee = callee.expr;
+          mergeDependencies(condition, callee.deps);
+        }
       }
       const argumentsPath = path.get('arguments');
       let argument: typeof argumentsPath[0];
@@ -607,6 +601,9 @@ export default class Optimizer {
             argument.node.argument = optimized.expr;
           }
         }
+      }
+      if (isHook) {
+        return this.hoistCallExpression(path);
       }
       return this.createMemo(path.node, condition);
     }
@@ -708,16 +705,6 @@ export default class Optimizer {
     for (let i = 0, len = elementsPath.length; i < len; i++) {
       const element = elementsPath[i];
       if (isPathValid(element, t.isObjectProperty)) {
-        const valuePath = element.get('value');
-
-        if (isPathValid(valuePath, t.isExpression)) {
-          const optimized = this.optimizeExpression(valuePath);
-          if (optimized) {
-            mergeDependencies(condition, optimized.deps);
-            element.node.value = optimized.expr;
-          }
-        }
-
         if (element.node.computed) {
           const keyPath = element.get('key');
 
@@ -727,6 +714,15 @@ export default class Optimizer {
               mergeDependencies(condition, optimized.deps);
               element.node.key = optimized.expr;
             }
+          }
+        }
+        const valuePath = element.get('value');
+
+        if (isPathValid(valuePath, t.isExpression)) {
+          const optimized = this.optimizeExpression(valuePath);
+          if (optimized) {
+            mergeDependencies(condition, optimized.deps);
+            element.node.value = optimized.expr;
           }
         }
       } else if (isPathValid(element, t.isSpreadElement)) {
@@ -955,10 +951,6 @@ export default class Optimizer {
     // No need to optimize
     if (t.isLiteral(path.node) && path.node.type !== 'TemplateLiteral') {
       return optimizedExpr(path.node, undefined, true);
-    }
-    // Bail out any optimization if the expression contains hooks
-    if (isContainsHook(this, path)) {
-      return optimizedExpr(path.node);
     }
     // Only optimize for complex values
     if (isConstant(this, path)) {
