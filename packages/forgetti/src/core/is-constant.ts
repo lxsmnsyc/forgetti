@@ -126,9 +126,9 @@ function isCallExpressionConstant(
         if (registration) {
           return false;
         }
-        if (instance.ctx.filters.hook?.test(trueID.name)) {
-          return false;
-        }
+      }
+      if (instance.ctx.filters.hook?.test(trueID.name)) {
+        return false;
       }
     }
     const trueMember = unwrapNode(callee.node, t.isMemberExpression);
