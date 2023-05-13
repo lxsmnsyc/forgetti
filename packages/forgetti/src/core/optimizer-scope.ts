@@ -67,6 +67,9 @@ export default class OptimizerScope {
     if (!this.memo) {
       return undefined;
     }
+    // This is for generating branched caching.
+    // Parent means that we want to create the cache
+    // from the parent (or root)
     if (this.parent) {
       const header = this.parent.createHeader();
       const index = this.parent.createIndex();
@@ -142,9 +145,11 @@ export default class OptimizerScope {
             this.path,
             RUNTIME_BRANCH,
           ),
+          // Looped branches cannot be statically analyzed
           [header, index, t.numericLiteral(0)],
         ),
       ),
+      // This is for tracking the dynamic size
       t.variableDeclarator(id, t.numericLiteral(0)),
     ]);
   }

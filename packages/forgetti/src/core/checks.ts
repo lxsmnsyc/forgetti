@@ -26,16 +26,12 @@ export function isComponentNameValid(
   checkName: boolean,
 ): boolean {
   if (checkName) {
-    if (node.type !== 'ArrowFunctionExpression') {
-      return (
-        !!node.id
-        && (
-          ctx.filters.component.test(node.id.name)
-          || (!!ctx.filters.hook && ctx.filters.hook.test(node.id.name))
-        )
+    return node.type !== 'ArrowFunctionExpression'
+      && !!node.id
+      && (
+        ctx.filters.component.test(node.id.name)
+        || (!!ctx.filters.hook && ctx.filters.hook.test(node.id.name))
       );
-    }
-    return false;
   }
   return true;
 }
