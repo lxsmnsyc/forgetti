@@ -22,6 +22,8 @@ function getBooleanishState(node: t.Expression): LiteralState {
           return 'falsy';
         case 'undefined':
           return 'nullish';
+        case 'Infinity':
+          return 'truthy';
         default:
           return 'indeterminate';
       }
