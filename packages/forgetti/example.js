@@ -21,9 +21,9 @@ async function compile(code) {
 }
 
 console.log(await compile(`
-import { useRef } from 'react';
-
 function Example(props) {
-  const example = useRef(initialValue);
+  for (const x in props.arr) {
+    console.log(x);
+  }
 }
 `));
