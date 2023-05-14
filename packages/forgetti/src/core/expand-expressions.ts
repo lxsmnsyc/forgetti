@@ -38,8 +38,9 @@ export function expandExpressions(
   path.traverse({
     AssignmentExpression(p) {
       const parent = p.getFunctionParent();
+      const statement = p.getStatementParent();
 
-      if (parent === path) {
+      if (parent === path && statement && isStatementValid(statement)) {
         if (
           p.parentPath.isVariableDeclarator()
           && p.parentPath.node.id.type === 'Identifier'
@@ -47,24 +48,22 @@ export function expandExpressions(
         ) {
           return;
         }
-        const statement = p.getStatementParent();
-        if (statement && isStatementValid(statement)) {
-          const id = p.scope.generateUidIdentifier('hoisted');
-          hoistedVars.add(id.name);
-          statement.insertBefore(
-            t.variableDeclaration(
-              'let',
-              [t.variableDeclarator(id, p.node)],
-            ),
-          );
-          p.replaceWith(id);
-        }
+        const id = p.scope.generateUidIdentifier('hoisted');
+        hoistedVars.add(id.name);
+        statement.insertBefore(
+          t.variableDeclaration(
+            'let',
+            [t.variableDeclarator(id, p.node)],
+          ),
+        );
+        p.replaceWith(id);
       }
     },
     CallExpression(p) {
       const parent = p.getFunctionParent();
+      const statement = p.getStatementParent();
 
-      if (parent === path) {
+      if (parent === path && statement && isStatementValid(statement)) {
         if (
           p.parentPath.isVariableDeclarator()
           && p.parentPath.node.id.type === 'Identifier'
@@ -117,18 +116,15 @@ export function expandExpressions(
           }
 
           if (isHook) {
-            const statement = p.getStatementParent();
-            if (statement && isStatementValid(statement)) {
-              const id = p.scope.generateUidIdentifier('hoisted');
-              hoistedVars.add(id.name);
-              statement.insertBefore(
-                t.variableDeclaration(
-                  'let',
-                  [t.variableDeclarator(id, p.node)],
-                ),
-              );
-              p.replaceWith(id);
-            }
+            const id = p.scope.generateUidIdentifier('hoisted');
+            hoistedVars.add(id.name);
+            statement.insertBefore(
+              t.variableDeclaration(
+                'let',
+                [t.variableDeclarator(id, p.node)],
+              ),
+            );
+            p.replaceWith(id);
           }
         }
       }
