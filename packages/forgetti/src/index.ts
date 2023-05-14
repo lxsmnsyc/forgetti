@@ -19,6 +19,9 @@ import {
 import type { StateContext, State } from './core/types';
 import unwrapNode from './core/unwrap-node';
 import unwrapPath from './core/unwrap-path';
+import { expandExpressions } from './core/expand-expressions';
+import { inlineExpressions } from './core/inline-expressions';
+import { simplifyExpressions } from './core/simplify-expressions';
 
 export type { Options };
 
@@ -149,7 +152,15 @@ function transformFunction(
     if (!checkName && unwrapped.node.type !== 'ArrowFunctionExpression') {
       unwrapped.node.id = undefined;
     }
+    // inline expressions
+    inlineExpressions(unwrapped);
+    // expand for assignment and hook calls
+    expandExpressions(ctx, unwrapped);
+    simplifyExpressions(unwrapped);
+    // optimize
     new Optimizer(ctx, unwrapped).optimize();
+    // inline again
+    inlineExpressions(unwrapped);
   }
 }
 

@@ -22,6 +22,6 @@ async function compile(code) {
 
 console.log(await compile(`
 function Example() {
-  console.log(process.env.NODE_ENV);
+  return !!!!!!!!!!(void 0);
 }
 `));

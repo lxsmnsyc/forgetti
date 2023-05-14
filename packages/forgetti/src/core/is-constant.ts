@@ -126,9 +126,9 @@ function isCallExpressionConstant(
         if (registration) {
           return false;
         }
-        if (instance.ctx.filters.hook?.test(trueID.name)) {
-          return false;
-        }
+      }
+      if (instance.ctx.filters.hook?.test(trueID.name)) {
+        return false;
       }
     }
     const trueMember = unwrapNode(callee.node, t.isMemberExpression);
@@ -408,10 +408,6 @@ export default function isConstant(
     || isPathValid(path, t.isArrowFunctionExpression)
   ) {
     return isFunctionExpressionConstant(instance, path);
-  }
-  if (isPathValid(path, t.isAssignmentExpression)) {
-    // TODO
-    return false;
   }
   if (isPathValid(path, t.isArrayExpression) || isPathValid(path, t.isTupleExpression)) {
     return isArrayExpressionConstant(instance, path);
