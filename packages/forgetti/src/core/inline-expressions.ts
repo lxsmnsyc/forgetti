@@ -60,4 +60,5 @@ export function inlineExpressions(
       }
     },
   });
+  path.scope.crawl();
 }
