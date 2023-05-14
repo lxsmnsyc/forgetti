@@ -18,17 +18,11 @@ function Example(props) {
     _hoisted9 = useI(),
     _hoisted10 = useJ(),
     _hoisted13 = useK(),
-    _eq = _$$equals(_c, 0, _hoisted13),
-    _v = _eq ? _c[0] : _c[0] = _hoisted13,
-    _hoisted11 = a = _v,
+    _hoisted11 = a = _$$equals(_c, 0, _hoisted13) ? _c[0] : _c[0] = _hoisted13,
     _hoisted12 = useJ(),
-    _eq2 = _$$equals(_c, 1, _hoisted2),
-    _v2 = _eq2 ? _c[1] : _c[1] = _hoisted2,
     _eq3 = _$$equals(_c, 2, _hoisted3),
     _v3 = _eq3 ? _c[2] : _c[2] = _hoisted3,
     _v4 = _eq3 ? _c[3] : _c[3] = [_v3, 'array'],
-    _eq4 = _$$equals(_c, 4, _v4),
-    _v5 = _eq4 ? _c[4] : _c[4] = _v4,
     _eq5 = _$$equals(_c, 5, _hoisted4),
     _v6 = _eq5 ? _c[5] : _c[5] = _hoisted4,
     _eq6 = _$$equals(_c, 6, _hoisted5),
@@ -37,35 +31,21 @@ function Example(props) {
     _v8 = _eq7 ? _c[7] : _c[7] = _hoisted6,
     _eq8 = _$$equals(_c, 8, _hoisted7),
     _v9 = _eq8 ? _c[8] : _c[8] = _hoisted7,
-    _eq9 = _eq5 && _eq6 && _eq7 && _eq8,
-    _v10 = _eq9 ? _c[9] : _c[9] = {
+    _v10 = _eq5 && _eq6 && _eq7 && _eq8 ? _c[9] : _c[9] = {
       d: _v6,
       [_v7]: _v8,
       ..._v9
     },
-    _eq10 = _$$equals(_c, 10, _v10),
-    _v11 = _eq10 ? _c[10] : _c[10] = _v10,
     _eq11 = _$$equals(_c, 11, _hoisted8),
     _v12 = _eq11 ? _c[11] : _c[11] = _hoisted8,
     _v13 = _eq11 ? _c[12] : _c[12] = \`testA\${_v12}testB\`,
-    _eq12 = _$$equals(_c, 13, _v13),
-    _v14 = _eq12 ? _c[13] : _c[13] = _v13,
     _eq13 = _$$equals(_c, 14, _hoisted9),
     _v15 = _eq13 ? _c[14] : _c[14] = _hoisted9,
     _eq14 = _$$equals(_c, 15, _hoisted10),
     _v16 = _eq14 ? _c[15] : _c[15] = _hoisted10,
-    _eq15 = _eq13 && _eq14,
-    _v17 = _eq15 ? _c[16] : _c[16] = _v15 === _v16,
-    _eq16 = _$$equals(_c, 17, _v17),
-    _v18 = _eq16 ? _c[17] : _c[17] = _v17,
-    _eq17 = _$$equals(_c, 18, _hoisted11),
-    _v19 = _eq17 ? _c[18] : _c[18] = _hoisted11,
-    _eq18 = _$$equals(_c, 19, _hoisted12),
-    _v20 = _eq18 ? _c[19] : _c[19] = _hoisted12,
-    _hoisted = useA(_v2, _v5, _v11, _v14, _v18, _v19, ..._v20),
-    _eq19 = _$$equals(_c, 20, _hoisted),
-    _v21 = _eq19 ? _c[20] : _c[20] = _hoisted;
-  return _v21;
+    _v17 = _eq13 && _eq14 ? _c[16] : _c[16] = _v15 === _v16,
+    _hoisted = useA(_$$equals(_c, 1, _hoisted2) ? _c[1] : _c[1] = _hoisted2, _$$equals(_c, 4, _v4) ? _c[4] : _c[4] = _v4, _$$equals(_c, 10, _v10) ? _c[10] : _c[10] = _v10, _$$equals(_c, 13, _v13) ? _c[13] : _c[13] = _v13, _$$equals(_c, 17, _v17) ? _c[17] : _c[17] = _v17, _$$equals(_c, 18, _hoisted11) ? _c[18] : _c[18] = _hoisted11, ...(_$$equals(_c, 19, _hoisted12) ? _c[19] : _c[19] = _hoisted12));
+  return _$$equals(_c, 20, _hoisted) ? _c[20] : _c[20] = _hoisted;
 }"
 `;
 
@@ -104,10 +84,8 @@ function Example(props) {
     _v8 = _eq7 ? _c[7] : _c[7] = _hoisted6,
     _eq8 = _eq6 && _eq7,
     _v9 = _eq8 ? _c[8] : _c[8] = _v7 === _v8,
-    _eq9 = _$$equals(_c, 9, _hoisted7),
-    _v11 = _eq9 ? _c[9] : _c[9] = _hoisted7,
     _v10;
-  if (_v11) {
+  if (_$$equals(_c, 9, _hoisted7) ? _c[9] : _c[9] = _hoisted7) {
     _v10 = 'a';
   } else {
     _v10 = 'b';
@@ -120,17 +98,15 @@ function Example(props) {
     _eq12 = _$$equals(_c, 13, _hoisted10),
     _v15 = _eq12 ? _c[13] : _c[13] = _hoisted10,
     _eq13 = _eq11 && _eq12,
-    _v16 = _eq13 ? _c[14] : _c[14] = <>{_v14}{_v15}</>,
-    _eq14 = _eq && _eq2 && _eq3 && _eq5 && _eq8 && _eq10 && _eq13,
-    _v17 = _eq14 ? _c[15] : _c[15] = {
-      [_v]: _v2,
-      ..._v3,
-      [_v6]: _v9,
-      a: _v10,
-      b: _v13,
-      c: _v16
-    };
-  return _v17;
+    _v16 = _eq13 ? _c[14] : _c[14] = <>{_v14}{_v15}</>;
+  return _eq && _eq2 && _eq3 && _eq5 && _eq8 && _eq10 && _eq13 ? _c[15] : _c[15] = {
+    [_v]: _v2,
+    ..._v3,
+    [_v6]: _v9,
+    a: _v10,
+    b: _v13,
+    c: _v16
+  };
 }"
 `;
 
@@ -143,14 +119,9 @@ import { useAtomValue } from 'jotai';
 import { stateAtom } from 'whatever';
 function Example(props) {
   let _c = _$$cache(_useMemo, 3),
-    _v = 0 in _c ? _c[0] : _c[0] = stateAtom,
-    _hoisted2 = useAtomValue(_v),
-    _eq = _$$equals(_c, 1, _hoisted2),
-    _v2 = _eq ? _c[1] : _c[1] = _hoisted2,
-    _hoisted = useDeferredValue(_v2),
-    _eq2 = _$$equals(_c, 2, _hoisted),
-    _v3 = _eq2 ? _c[2] : _c[2] = _hoisted;
-  return _v3;
+    _hoisted2 = useAtomValue(0 in _c ? _c[0] : _c[0] = stateAtom),
+    _hoisted = useDeferredValue(_$$equals(_c, 1, _hoisted2) ? _c[1] : _c[1] = _hoisted2);
+  return _$$equals(_c, 2, _hoisted) ? _c[2] : _c[2] = _hoisted;
 }"
 `;
 
@@ -167,11 +138,8 @@ function Example(props) {
     _eq2 = _$$equals(_c, 2, _v2),
     _v3 = _eq2 ? _c[2] : _c[2] = _v2,
     _v4 = _eq2 ? _c[3] : _c[3] = [_v3],
-    _v5 = _eq2 ? _c[4] : _c[4] = () => props.value(),
-    _hoisted = _v5,
-    _eq3 = _$$equals(_c, 5, _hoisted),
-    _v6 = _eq3 ? _c[5] : _c[5] = _hoisted;
-  return _v6;
+    _hoisted = _eq2 ? _c[4] : _c[4] = () => props.value();
+  return _$$equals(_c, 5, _hoisted) ? _c[5] : _c[5] = _hoisted;
 }"
 `;
 
@@ -183,11 +151,8 @@ import { useCallback } from 'react';
 function Example(props) {
   let _c = _$$cache(_useMemo, 3),
     _v = 0 in _c ? _c[0] : _c[0] = [],
-    _v2 = 1 in _c ? _c[1] : _c[1] = () => props.value(),
-    _hoisted = _v2,
-    _eq = _$$equals(_c, 2, _hoisted),
-    _v3 = _eq ? _c[2] : _c[2] = _hoisted;
-  return _v3;
+    _hoisted = 1 in _c ? _c[1] : _c[1] = () => props.value();
+  return _$$equals(_c, 2, _hoisted) ? _c[2] : _c[2] = _hoisted;
 }"
 `;
 
@@ -200,11 +165,8 @@ function Example(props) {
   let _c = _$$cache(_useMemo, 3),
     _eq = _$$equals(_c, 0, props),
     _v = _eq ? _c[0] : _c[0] = props,
-    _v2 = _eq ? _c[1] : _c[1] = () => props.value(),
-    _hoisted = _v2,
-    _eq2 = _$$equals(_c, 2, _hoisted),
-    _v3 = _eq2 ? _c[2] : _c[2] = _hoisted;
-  return _v3;
+    _hoisted = _eq ? _c[1] : _c[1] = () => props.value();
+  return _$$equals(_c, 2, _hoisted) ? _c[2] : _c[2] = _hoisted;
 }"
 `;
 
@@ -220,11 +182,8 @@ function Example(props) {
     _v2 = _eq ? _c[1] : _c[1] = _v.example,
     _eq2 = _$$equals(_c, 2, _v2),
     _v3 = _eq2 ? _c[2] : _c[2] = _v2,
-    _v4 = _eq2 ? _c[3] : _c[3] = [_v3],
-    _hoisted = useEffect(() => props.value(), [_v4]),
-    _eq3 = _$$equals(_c, 4, _hoisted),
-    _v5 = _eq3 ? _c[4] : _c[4] = _hoisted;
-  _v5;
+    _hoisted = useEffect(() => props.value(), [_eq2 ? _c[3] : _c[3] = [_v3]]);
+  _$$equals(_c, 4, _hoisted) ? _c[4] : _c[4] = _hoisted;
 }"
 `;
 
@@ -235,11 +194,8 @@ import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { useEffect } from 'react';
 function Example(props) {
   let _c = _$$cache(_useMemo, 2),
-    _v = 0 in _c ? _c[0] : _c[0] = [],
-    _hoisted = useEffect(() => props.value(), [_v]),
-    _eq = _$$equals(_c, 1, _hoisted),
-    _v2 = _eq ? _c[1] : _c[1] = _hoisted;
-  _v2;
+    _hoisted = useEffect(() => props.value(), [0 in _c ? _c[0] : _c[0] = []]);
+  _$$equals(_c, 1, _hoisted) ? _c[1] : _c[1] = _hoisted;
 }"
 `;
 
@@ -253,10 +209,8 @@ function Example(props) {
     _eq = _$$equals(_c, 0, props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = () => props.value(),
-    _hoisted = useEffect(_v2, [_v2]),
-    _eq2 = _$$equals(_c, 2, _hoisted),
-    _v3 = _eq2 ? _c[2] : _c[2] = _hoisted;
-  _v3;
+    _hoisted = useEffect(_v2, [_v2]);
+  _$$equals(_c, 2, _hoisted) ? _c[2] : _c[2] = _hoisted;
 }"
 `;
 
@@ -273,11 +227,8 @@ function Example(props) {
     _eq2 = _$$equals(_c, 2, _v2),
     _v3 = _eq2 ? _c[2] : _c[2] = _v2,
     _v4 = _eq2 ? _c[3] : _c[3] = [_v3],
-    _v5 = _eq2 ? _c[4] : _c[4] = (() => props.value())(),
-    _hoisted = _v5,
-    _eq3 = _$$equals(_c, 5, _hoisted),
-    _v6 = _eq3 ? _c[5] : _c[5] = _hoisted;
-  return _v6;
+    _hoisted = _eq2 ? _c[4] : _c[4] = (() => props.value())();
+  return _$$equals(_c, 5, _hoisted) ? _c[5] : _c[5] = _hoisted;
 }"
 `;
 
@@ -289,11 +240,8 @@ import { useMemo } from 'react';
 function Example(props) {
   let _c = _$$cache(_useMemo, 3),
     _v = 0 in _c ? _c[0] : _c[0] = [],
-    _v2 = 1 in _c ? _c[1] : _c[1] = (() => props.value())(),
-    _hoisted = _v2,
-    _eq = _$$equals(_c, 2, _hoisted),
-    _v3 = _eq ? _c[2] : _c[2] = _hoisted;
-  return _v3;
+    _hoisted = 1 in _c ? _c[1] : _c[1] = (() => props.value())();
+  return _$$equals(_c, 2, _hoisted) ? _c[2] : _c[2] = _hoisted;
 }"
 `;
 
@@ -307,11 +255,8 @@ function Example(props) {
     _eq = _$$equals(_c, 0, props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = () => props.value(),
-    _v3 = _eq ? _c[2] : _c[2] = _v2(),
-    _hoisted = _v3,
-    _eq2 = _$$equals(_c, 3, _hoisted),
-    _v4 = _eq2 ? _c[3] : _c[3] = _hoisted;
-  return _v4;
+    _hoisted = _eq ? _c[2] : _c[2] = _v2();
+  return _$$equals(_c, 3, _hoisted) ? _c[3] : _c[3] = _hoisted;
 }"
 `;
 
@@ -322,12 +267,9 @@ import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { useRef } from 'react';
 function Example(props) {
   let _c = _$$cache(_useMemo, 2),
-    _v = 0 in _c ? _c[0] : _c[0] = {
+    _hoisted = 0 in _c ? _c[0] : _c[0] = {
       current: props.value
-    },
-    _hoisted = _v,
-    _eq = _$$equals(_c, 1, _hoisted),
-    _v2 = _eq ? _c[1] : _c[1] = _hoisted;
-  return _v2;
+    };
+  return _$$equals(_c, 1, _hoisted) ? _c[1] : _c[1] = _hoisted;
 }"
 `;

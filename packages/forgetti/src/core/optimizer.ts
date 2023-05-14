@@ -1246,6 +1246,7 @@ export default class Optimizer {
       ]);
     this.optimizeBlock(path.get('body') as babel.NodePath<t.BlockStatement>);
     path.node.body = t.blockStatement(this.scope.getStatements());
+    path.scope.crawl();
   }
 
   optimizeFunctionComponent(
@@ -1253,6 +1254,7 @@ export default class Optimizer {
   ): void {
     this.optimizeBlock(path.get('body'));
     path.node.body = t.blockStatement(this.scope.getStatements());
+    path.scope.crawl();
   }
 
   optimize(): void {

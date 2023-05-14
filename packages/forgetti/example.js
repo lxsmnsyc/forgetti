@@ -21,9 +21,9 @@ async function compile(code) {
 }
 
 console.log(await compile(`
-function Example(props) {
-  for (const x in props.arr) {
-    console.log(x);
-  }
+function Example() {
+  const a = Math.random();
+  const b = Math.random();
+  console.log(a + b);
 }
 `));

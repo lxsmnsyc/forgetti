@@ -14,19 +14,16 @@ function Example(props) {
     _v4 = _eq ? _c[3] : _c[3] = _v.title,
     _eq3 = _$$equals(_c, 4, _v4),
     _v5 = _eq3 ? _c[4] : _c[4] = _v4,
-    _eq4 = _eq2 && _eq3,
-    _v6 = _eq4 ? _c[5] : _c[5] = <h1 title={_v3}>Title: {_v5}</h1>,
+    _v6 = _eq2 && _eq3 ? _c[5] : _c[5] = <h1 title={_v3}>Title: {_v5}</h1>,
     _eq5 = _$$equals(_c, 6, _v6),
     _v7 = _eq5 ? _c[6] : _c[6] = _v6,
     _v8 = _eq ? _c[7] : _c[7] = _v.children,
     _eq6 = _$$equals(_c, 8, _v8),
-    _v9 = _eq6 ? _c[8] : _c[8] = _v8,
-    _eq7 = _eq5 && _eq6,
-    _v10 = _eq7 ? _c[9] : _c[9] = <div>
+    _v9 = _eq6 ? _c[8] : _c[8] = _v8;
+  return _eq5 && _eq6 ? _c[9] : _c[9] = <div>
       {_v7}
       {_v9}
     </div>;
-  return _v10;
 }"
 `;
 
@@ -44,19 +41,16 @@ function Example(props) {
     _v4 = _eq ? _c[3] : _c[3] = _v.title,
     _eq3 = _$$equals(_c, 4, _v4),
     _v5 = _eq3 ? _c[4] : _c[4] = _v4,
-    _eq4 = _eq2 && _eq3,
-    _v6 = _eq4 ? _c[5] : _c[5] = <h1 title={_v3}>Title: {_v5}</h1>,
+    _v6 = _eq2 && _eq3 ? _c[5] : _c[5] = <h1 title={_v3}>Title: {_v5}</h1>,
     _eq5 = _$$equals(_c, 6, _v6),
     _v7 = _eq5 ? _c[6] : _c[6] = _v6,
     _v8 = _eq ? _c[7] : _c[7] = _v.children,
     _eq6 = _$$equals(_c, 8, _v8),
-    _v9 = _eq6 ? _c[8] : _c[8] = _v8,
-    _eq7 = _eq5 && _eq6,
-    _v10 = _eq7 ? _c[9] : _c[9] = <>
+    _v9 = _eq6 ? _c[8] : _c[8] = _v8;
+  return _eq5 && _eq6 ? _c[9] : _c[9] = <>
       {_v7}
       {_v9}
     </>;
-  return _v10;
 }"
 `;
 
@@ -76,10 +70,8 @@ function Example(props) {
     _v5 = _eq3 ? _c[4] : _c[4] = _v4,
     _v6 = _eq ? _c[5] : _c[5] = _v.c,
     _eq4 = _$$equals(_c, 6, _v6),
-    _v7 = _eq4 ? _c[6] : _c[6] = _v6,
-    _eq5 = _eq2 && _eq3 && _eq4,
-    _v8 = _eq5 ? _c[7] : _c[7] = [_v3, _v5, ..._v7];
-  return _v8;
+    _v7 = _eq4 ? _c[6] : _c[6] = _v6;
+  return _eq2 && _eq3 && _eq4 ? _c[7] : _c[7] = [_v3, _v5, ..._v7];
 }"
 `;
 
@@ -95,18 +87,10 @@ function Example(props) {
     _eq = _$$equals(_c, 0, props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = _v.x,
-    _eq2 = _$$equals(_c, 2, _v2),
-    _v3 = _eq2 ? _c[2] : _c[2] = _v2,
-    _hoisted3 = c = _v3,
-    _eq3 = _$$equals(_c, 3, _hoisted3),
-    _v4 = _eq3 ? _c[3] : _c[3] = _hoisted3,
-    _hoisted2 = b = _v4,
-    _eq4 = _$$equals(_c, 4, _hoisted2),
-    _v5 = _eq4 ? _c[4] : _c[4] = _hoisted2,
-    _hoisted = a = _v5,
-    _eq5 = _$$equals(_c, 5, _hoisted),
-    _v6 = _eq5 ? _c[5] : _c[5] = _hoisted;
-  _v6;
+    _hoisted3 = c = _$$equals(_c, 2, _v2) ? _c[2] : _c[2] = _v2,
+    _hoisted2 = b = _$$equals(_c, 3, _hoisted3) ? _c[3] : _c[3] = _hoisted3,
+    _hoisted = a = _$$equals(_c, 4, _hoisted2) ? _c[4] : _c[4] = _hoisted2;
+  _$$equals(_c, 5, _hoisted) ? _c[5] : _c[5] = _hoisted;
 }"
 `;
 
@@ -123,10 +107,8 @@ function Example(props) {
     _v3 = _eq2 ? _c[2] : _c[2] = _v2,
     _v4 = _eq ? _c[3] : _c[3] = _v.b,
     _eq3 = _$$equals(_c, 4, _v4),
-    _v5 = _eq3 ? _c[4] : _c[4] = _v4,
-    _eq4 = _eq2 && _eq3,
-    _v6 = _eq4 ? _c[5] : _c[5] = _v3 + _v5;
-  return _v6;
+    _v5 = _eq3 ? _c[4] : _c[4] = _v4;
+  return _eq2 && _eq3 ? _c[5] : _c[5] = _v3 + _v5;
 }"
 `;
 
@@ -137,9 +119,8 @@ import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
   let _c = _$$cache(_useMemo, 2),
     _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props,
-    _v2 = _eq ? _c[1] : _c[1] = _v.call();
-  return _v2;
+    _v = _eq ? _c[0] : _c[0] = props;
+  return _eq ? _c[1] : _c[1] = _v.call();
 }"
 `;
 
@@ -152,16 +133,13 @@ function Example(props) {
   let _c = _$$cache(_useMemo, 4),
     _eq = _$$equals(_c, 0, props),
     _v2 = _eq ? _c[0] : _c[0] = props,
-    _v3 = _eq ? _c[1] : _c[1] = _v2.a,
     _v;
-  if (_v3) {
-    let _c2 = _$$branch(_c, 2, 1),
-      _v4 = _eq ? _c2[0] : _c2[0] = _v2.b;
-    _v = _v4;
+  if (_eq ? _c[1] : _c[1] = _v2.a) {
+    let _c2 = _$$branch(_c, 2, 1);
+    _v = _eq ? _c2[0] : _c2[0] = _v2.b;
   } else {
-    let _c3 = _$$branch(_c, 3, 1),
-      _v5 = _eq ? _c3[0] : _c3[0] = _v2.c;
-    _v = _v5;
+    let _c3 = _$$branch(_c, 3, 1);
+    _v = _eq ? _c3[0] : _c3[0] = _v2.c;
   }
   return _v;
 }"
@@ -174,11 +152,10 @@ import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
   let _c = _$$cache(_useMemo, 2),
     _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props,
-    _v2 = _eq ? _c[1] : _c[1] = () => {
-      console.log(props.message);
-    };
-  const callback = _v2;
+    _v = _eq ? _c[0] : _c[0] = props;
+  const callback = _eq ? _c[1] : _c[1] = () => {
+    console.log(props.message);
+  };
 }"
 `;
 
@@ -186,9 +163,8 @@ exports[`expressions > should optimize guaranteed literals 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 1),
-    _v = 0 in _c ? _c[0] : _c[0] = 1 + 2;
-  return _v;
+  let _c = _$$cache(_useMemo, 1);
+  return 0 in _c ? _c[0] : _c[0] = 1 + 2;
 }"
 `;
 
@@ -197,10 +173,8 @@ exports[`expressions > should optimize identifiers 1`] = `
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 1),
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props;
-  return _v;
+  let _c = _$$cache(_useMemo, 1);
+  return _$$equals(_c, 0, props) ? _c[0] : _c[0] = props;
 }"
 `;
 
@@ -216,9 +190,8 @@ function Example(props) {
     _v3 = _eq ? _c[1] : _c[1] = _v2.a,
     _v;
   if (_v3) {
-    let _c2 = _$$branch(_c, 2, 1),
-      _v4 = _eq ? _c2[0] : _c2[0] = _v2.b;
-    _v = _v4;
+    let _c2 = _$$branch(_c, 2, 1);
+    _v = _eq ? _c2[0] : _c2[0] = _v2.b;
   } else _v = _v3;
   return _v;
 }"
@@ -231,9 +204,8 @@ import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
   let _c = _$$cache(_useMemo, 2),
     _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props,
-    _v2 = _eq ? _c[1] : _c[1] = _v.example;
-  return _v2;
+    _v = _eq ? _c[0] : _c[0] = props;
+  return _eq ? _c[1] : _c[1] = _v.example;
 }"
 `;
 
@@ -245,9 +217,8 @@ function Example(props) {
   let _c = _$$cache(_useMemo, 3),
     _v = 0 in _c ? _c[0] : _c[0] = X,
     _eq = _$$equals(_c, 1, props),
-    _v2 = _eq ? _c[1] : _c[1] = props,
-    _v3 = _eq ? _c[2] : _c[2] = new _v(_v2);
-  return _v3;
+    _v2 = _eq ? _c[1] : _c[1] = props;
+  return _eq ? _c[2] : _c[2] = new _v(_v2);
 }"
 `;
 
@@ -263,14 +234,12 @@ function Example(props) {
     _v3 = _eq ? _c[2] : _c[2] = _v.b,
     _v4 = _eq ? _c[3] : _c[3] = _v.c,
     _eq2 = _$$equals(_c, 4, _v4),
-    _v5 = _eq2 ? _c[4] : _c[4] = _v4,
-    _eq3 = _eq && _eq2,
-    _v6 = _eq3 ? _c[5] : _c[5] = {
-      a: _v2,
-      b: _v3,
-      ..._v5
-    };
-  return _v6;
+    _v5 = _eq2 ? _c[4] : _c[4] = _v4;
+  return _eq && _eq2 ? _c[5] : _c[5] = {
+    a: _v2,
+    b: _v3,
+    ..._v5
+  };
 }"
 `;
 
@@ -281,10 +250,8 @@ import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
   let _c = _$$cache(_useMemo, 3),
     _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props,
-    _v2 = _eq ? _c[1] : _c[1] = _v.a(),
-    _v3 = _eq ? _c[2] : _c[2] = _v.b();
-  return _v2, _v3;
+    _v = _eq ? _c[0] : _c[0] = props;
+  return _eq ? _c[1] : _c[1] = _v.a(), _eq ? _c[2] : _c[2] = _v.b();
 }"
 `;
 
@@ -304,10 +271,8 @@ function Example(props) {
     _v5 = _eq3 ? _c[4] : _c[4] = _v4,
     _v6 = _eq ? _c[5] : _c[5] = _v.b(),
     _eq4 = _$$equals(_c, 6, _v6),
-    _v7 = _eq4 ? _c[6] : _c[6] = _v6,
-    _eq5 = _eq2 && _eq3 && _eq4,
-    _v8 = _eq5 ? _c[7] : _c[7] = _v3\`\${_v5}, \${_v7}\`;
-  return _v8;
+    _v7 = _eq4 ? _c[6] : _c[6] = _v6;
+  return _eq2 && _eq3 && _eq4 ? _c[7] : _c[7] = _v3\`\${_v5}, \${_v7}\`;
 }"
 `;
 
@@ -324,10 +289,8 @@ function Example(props) {
     _v3 = _eq2 ? _c[2] : _c[2] = _v2,
     _v4 = _eq ? _c[3] : _c[3] = _v.b(),
     _eq3 = _$$equals(_c, 4, _v4),
-    _v5 = _eq3 ? _c[4] : _c[4] = _v4,
-    _eq4 = _eq2 && _eq3,
-    _v6 = _eq4 ? _c[5] : _c[5] = \`\${_v3}, \${_v5}\`;
-  return _v6;
+    _v5 = _eq3 ? _c[4] : _c[4] = _v4;
+  return _eq2 && _eq3 ? _c[5] : _c[5] = \`\${_v3}, \${_v5}\`;
 }"
 `;
 
@@ -341,8 +304,7 @@ function Example(props) {
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = _v.a,
     _eq2 = _$$equals(_c, 2, _v2),
-    _v3 = _eq2 ? _c[2] : _c[2] = _v2,
-    _v4 = _eq2 ? _c[3] : _c[3] = !_v3;
-  return _v4;
+    _v3 = _eq2 ? _c[2] : _c[2] = _v2;
+  return _eq2 ? _c[3] : _c[3] = !_v3;
 }"
 `;

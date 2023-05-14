@@ -5,6 +5,22 @@ import type { ComponentNode, StateContext } from './types';
 import { isPathValid } from './checks';
 import unwrapNode from './unwrap-node';
 
+function isStatementValid(path: babel.NodePath): boolean {
+  if (path) {
+    switch (path.node.type) {
+      case 'ForInStatement':
+      case 'ForOfStatement':
+      case 'ForStatement':
+      case 'WhileStatement':
+      case 'DoWhileStatement':
+        return false;
+      default:
+        return true;
+    }
+  }
+  return false;
+}
+
 export function expandExpressions(
   ctx: StateContext,
   path: babel.NodePath<ComponentNode>,
@@ -32,7 +48,7 @@ export function expandExpressions(
           return;
         }
         const statement = p.getStatementParent();
-        if (statement) {
+        if (statement && isStatementValid(statement)) {
           const id = p.scope.generateUidIdentifier('hoisted');
           hoistedVars.add(id.name);
           statement.insertBefore(
@@ -102,7 +118,7 @@ export function expandExpressions(
 
           if (isHook) {
             const statement = p.getStatementParent();
-            if (statement) {
+            if (statement && isStatementValid(statement)) {
               const id = p.scope.generateUidIdentifier('hoisted');
               hoistedVars.add(id.name);
               statement.insertBefore(
