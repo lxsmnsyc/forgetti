@@ -2,7 +2,7 @@
 import type * as babel from '@babel/core';
 import type { ComponentNode } from './types';
 
-function isInConditional(path: babel.NodePath): boolean {
+function isInValidExpression(path: babel.NodePath): boolean {
   let current = path.parentPath;
   let prev = path;
   while (current) {
@@ -12,6 +12,12 @@ function isInConditional(path: babel.NodePath): boolean {
         current.get('consequent').node === prev.node
         || current.get('alternate').node === prev.node
       )
+    ) {
+      return true;
+    }
+    if (
+      current.isLogicalExpression()
+      && current.get('right').node === prev.node
     ) {
       return true;
     }
@@ -40,7 +46,7 @@ export function inlineExpressions(
                 && binding.path.get('id').isIdentifier()
                 && binding.path.scope.getBlockParent() === ref.scope.getBlockParent()
                 && binding.path.node.init
-                && !isInConditional(ref)
+                && !isInValidExpression(ref)
               ) {
                 ref.replaceWith(binding.path.node.init);
                 binding.path.remove();
