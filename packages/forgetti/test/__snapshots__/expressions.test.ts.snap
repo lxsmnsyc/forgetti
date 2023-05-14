@@ -88,7 +88,7 @@ exports[`expressions > should optimize assignment expressions 1`] = `
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 5),
+  let _c = _$$cache(_useMemo, 6),
     a,
     b,
     c,
@@ -97,14 +97,16 @@ function Example(props) {
     _v2 = _eq ? _c[1] : _c[1] = _v.x,
     _eq2 = _$$equals(_c, 2, _v2),
     _v3 = _eq2 ? _c[2] : _c[2] = _v2,
-    _hoisted = c = _v3,
-    _eq3 = _$$equals(_c, 3, _hoisted),
-    _v4 = _eq3 ? _c[3] : _c[3] = _hoisted,
+    _hoisted3 = c = _v3,
+    _eq3 = _$$equals(_c, 3, _hoisted3),
+    _v4 = _eq3 ? _c[3] : _c[3] = _hoisted3,
     _hoisted2 = b = _v4,
     _eq4 = _$$equals(_c, 4, _hoisted2),
     _v5 = _eq4 ? _c[4] : _c[4] = _hoisted2,
-    _hoisted3 = a = _v5;
-  _hoisted3;
+    _hoisted = a = _v5,
+    _eq5 = _$$equals(_c, 5, _hoisted),
+    _v6 = _eq5 ? _c[5] : _c[5] = _hoisted;
+  _v6;
 }"
 `;
 

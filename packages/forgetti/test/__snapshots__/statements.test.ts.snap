@@ -12,13 +12,15 @@ function Example(props) {
     _id = 0;
   do {
     let _lid = _id++,
-      _l = _$$branch(_c, _lid, 2),
+      _l = _$$branch(_c, _lid, 3),
       _eq = _$$equals(_l, 0, i),
       _v = _eq ? _l[0] : _l[0] = i,
       _v2 = _eq ? _l[1] : _l[1] = console.log(_v);
     _v2;
-    let _hoisted = i += 1;
-    _hoisted;
+    let _hoisted = i += 1,
+      _eq2 = _$$equals(_l, 2, _hoisted),
+      _v3 = _eq2 ? _l[2] : _l[2] = _hoisted;
+    _v3;
   } while (i < props.x);
 }"
 `;
@@ -30,9 +32,10 @@ import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
   let _c2 = _$$cache(_useMemo, 1),
+    _hoisted = i += 1,
     _c = _$$branch(_c2, 0, 0),
     _id = 0;
-  for (let i = 0; i < 10; i += 1) {
+  for (let i = 0; i < 10; _hoisted) {
     let _lid = _id++,
       _l = _$$branch(_c, _lid, 2),
       _eq = _$$equals(_l, 0, i),
@@ -246,13 +249,15 @@ function Example(props) {
     _id = 0;
   while (i < props.x) {
     let _lid = _id++,
-      _l = _$$branch(_c, _lid, 2),
+      _l = _$$branch(_c, _lid, 3),
       _eq = _$$equals(_l, 0, i),
       _v = _eq ? _l[0] : _l[0] = i,
       _v2 = _eq ? _l[1] : _l[1] = console.log(_v);
     _v2;
-    let _hoisted = i += 1;
-    _hoisted;
+    let _hoisted = i += 1,
+      _eq2 = _$$equals(_l, 2, _hoisted),
+      _v3 = _eq2 ? _l[2] : _l[2] = _hoisted;
+    _v3;
   }
 }"
 `;

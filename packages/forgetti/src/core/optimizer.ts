@@ -217,22 +217,6 @@ export default class Optimizer {
     return record;
   }
 
-  hoistExpression(
-    path: babel.NodePath<t.Expression>,
-  ): t.Identifier {
-    const id = path.scope.generateUidIdentifier('hoisted');
-    this.scope.push(
-      t.variableDeclaration(
-        'let',
-        [t.variableDeclarator(
-          id,
-          path.node,
-        )],
-      ),
-    );
-    return id;
-  }
-
   memoizeIdentifier(
     path: babel.NodePath,
     id: t.Identifier,
@@ -602,7 +586,7 @@ export default class Optimizer {
         }
       }
       if (isHook) {
-        return optimizedExpr(this.hoistExpression(path), condition);
+        return optimizedExpr(path.node, condition);
       }
       return this.createMemo(path.node, condition);
     }
@@ -659,7 +643,7 @@ export default class Optimizer {
       path.node.right = right.expr;
       mergeDependencies(dependencies, right.deps);
     }
-    return optimizedExpr(this.hoistExpression(path), dependencies);
+    return optimizedExpr(path.node, dependencies);
   }
 
   optimizeArrayExpression(
