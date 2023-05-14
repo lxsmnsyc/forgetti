@@ -13,18 +13,18 @@ function isInValidExpression(path: babel.NodePath): boolean {
         || current.get('alternate').node === prev.node
       )
     ) {
-      return true;
+      return false;
     }
     if (
       current.isLogicalExpression()
       && current.get('right').node === prev.node
     ) {
-      return true;
+      return false;
     }
     prev = current;
     current = current.parentPath;
   }
-  return false;
+  return true;
 }
 
 export function inlineExpressions(
@@ -42,11 +42,11 @@ export function inlineExpressions(
               // move the node to the reference
               const ref = binding.referencePaths[0];
               if (
-                binding.path.isVariableDeclarator()
+                isInValidExpression(ref)
+                && binding.path.isVariableDeclarator()
+                && binding.path.node.init
                 && binding.path.get('id').isIdentifier()
                 && binding.path.scope.getBlockParent() === ref.scope.getBlockParent()
-                && binding.path.node.init
-                && !isInValidExpression(ref)
               ) {
                 ref.replaceWith(binding.path.node.init);
                 binding.path.remove();

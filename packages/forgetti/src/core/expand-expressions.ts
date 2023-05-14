@@ -21,6 +21,31 @@ function isStatementValid(path: babel.NodePath): boolean {
   return false;
 }
 
+function isInValidExpression(path: babel.NodePath): boolean {
+  let current = path.parentPath;
+  let prev = path;
+  while (current) {
+    if (
+      current.isConditionalExpression()
+      && (
+        current.get('consequent').node === prev.node
+        || current.get('alternate').node === prev.node
+      )
+    ) {
+      return false;
+    }
+    if (
+      current.isLogicalExpression()
+      && current.get('right').node === prev.node
+    ) {
+      return false;
+    }
+    prev = current;
+    current = current.parentPath;
+  }
+  return true;
+}
+
 export function expandExpressions(
   ctx: StateContext,
   path: babel.NodePath<ComponentNode>,
@@ -40,14 +65,17 @@ export function expandExpressions(
       const parent = p.getFunctionParent();
       const statement = p.getStatementParent();
 
-      if (parent === path && statement && isStatementValid(statement)) {
-        if (
+      if (
+        parent === path
+        && statement
+        && isStatementValid(statement)
+        && isInValidExpression(p)
+        && !(
           p.parentPath.isVariableDeclarator()
           && p.parentPath.node.id.type === 'Identifier'
           && hoistedVars.has(p.parentPath.node.id.name)
-        ) {
-          return;
-        }
+        )
+      ) {
         const id = p.scope.generateUidIdentifier('hoisted');
         hoistedVars.add(id.name);
         statement.insertBefore(
