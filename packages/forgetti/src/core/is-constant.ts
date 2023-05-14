@@ -6,7 +6,7 @@ import { isNestedExpression, isPathValid } from './checks';
 import type OptimizerScope from './optimizer-scope';
 import getForeignBindings, { isForeignBinding } from './get-foreign-bindings';
 import type { ComponentNode, StateContext } from './types';
-import unwrapNode from './unwrap-node';
+import { getHookCallType } from './get-hook-call-type';
 
 interface OptimizerInstance {
   ctx: StateContext;
@@ -116,62 +116,27 @@ function isCallExpressionConstant(
   instance: OptimizerInstance,
   path: babel.NodePath<t.CallExpression | t.OptionalCallExpression>,
 ): boolean {
-  const callee = path.get('callee');
-  if (isPathValid(callee, t.isExpression)) {
-    const trueID = unwrapNode(callee.node, t.isIdentifier);
-    if (trueID) {
-      const binding = path.scope.getBindingIdentifier(trueID.name);
-      if (binding) {
-        const registration = instance.ctx.registrations.hooks.get(binding);
-        if (registration) {
-          return false;
-        }
-      }
-      if (instance.ctx.filters.hook?.test(trueID.name)) {
-        return false;
-      }
-    }
-    const trueMember = unwrapNode(callee.node, t.isMemberExpression);
+  const hookType = getHookCallType(instance.ctx, path);
+  if (hookType === 'none') {
+    const callee = path.get('callee');
     if (
-      trueMember
-      && !trueMember.computed
-      && t.isIdentifier(trueMember.property)
+      isPathValid(callee, t.isExpression)
+      && !isConstant(instance, callee)
     ) {
-      const obj = unwrapNode(trueMember.object, t.isIdentifier);
-      if (obj) {
-        const binding = path.scope.getBindingIdentifier(obj.name);
-        if (binding) {
-          const registrations = instance.ctx.registrations.hooksNamespaces.get(binding);
-          if (registrations) {
-            let registration: typeof registrations[0];
-            for (let i = 0, len = registrations.length; i < len; i += 1) {
-              registration = registrations[i];
-              if (registration.name === trueMember.property.name) {
-                return false;
-              }
-            }
-          }
-        }
+      return false;
+    }
+    const args = path.get('arguments');
+    for (let i = 0, len = args.length; i < len; i++) {
+      const arg = args[i];
+      if (isPathValid(arg, t.isExpression) && !isConstant(instance, arg)) {
+        return false;
       }
-      if (instance.ctx.filters.hook?.test(trueMember.property.name)) {
+      if (isPathValid(arg, t.isSpreadElement) && !isConstant(instance, arg.get('argument'))) {
         return false;
       }
     }
-    if (!isConstant(instance, callee)) {
-      return false;
-    }
   }
-  const args = path.get('arguments');
-  for (let i = 0, len = args.length; i < len; i++) {
-    const arg = args[i];
-    if (isPathValid(arg, t.isExpression) && !isConstant(instance, arg)) {
-      return false;
-    }
-    if (isPathValid(arg, t.isSpreadElement) && !isConstant(instance, arg.get('argument'))) {
-      return false;
-    }
-  }
-  return true;
+  return false;
 }
 
 function isFunctionExpressionConstant(

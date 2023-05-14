@@ -7,8 +7,8 @@ import getImportIdentifier from './get-import-identifier';
 import { RUNTIME_EQUALS } from './imports';
 import OptimizerScope from './optimizer-scope';
 import type { ComponentNode, OptimizedExpression, StateContext } from './types';
-import unwrapNode from './unwrap-node';
 import isConstant from './is-constant';
+import { getHookCallType } from './get-hook-call-type';
 
 function optimizedExpr(
   expr: t.Expression,
@@ -488,109 +488,61 @@ export default class Optimizer {
   optimizeCallExpression(
     path: babel.NodePath<t.CallExpression | t.OptionalCallExpression>,
   ): OptimizedExpression {
-    const calleePath = path.get('callee');
-    if (isPathValid(calleePath, t.isExpression)) {
-      let isHook = false;
-      const trueID = unwrapNode(calleePath.node, t.isIdentifier);
-      if (trueID) {
-        const binding = path.scope.getBindingIdentifier(trueID.name);
-        if (binding) {
-          const registration = this.ctx.registrations.hooks.get(binding);
-          if (registration) {
-            switch (registration.type) {
-              case 'callback':
-                return this.optimizeCallback(path);
-              case 'effect':
-                return this.optimizeEffect(path);
-              case 'memo':
-                return this.optimizeMemo(path);
-              case 'ref':
-                return this.optimizeRef(path);
-              default:
-                isHook = true;
+    const hookType = getHookCallType(this.ctx, path);
+    switch (hookType) {
+      case 'callback':
+        return this.optimizeCallback(path);
+      case 'effect':
+        return this.optimizeEffect(path);
+      case 'memo':
+        return this.optimizeMemo(path);
+      case 'ref':
+        return this.optimizeRef(path);
+      case 'custom':
+      case 'none': {
+        // Build dependencies
+        const condition = createDependencies();
+        if (hookType === 'none') {
+          const callee = path.get('callee');
+          if (isPathValid(callee, t.isMemberExpression)) {
+            const optimizedCallee = (
+              (isPathValid(callee, t.isMemberExpression)
+                || isPathValid(callee, t.isOptionalMemberExpression))
+                ? this.memoizeMemberExpression(callee)
+                : this.createDependency(callee)
+            );
+            if (optimizedCallee) {
+              path.node.callee = optimizedCallee.expr;
+              mergeDependencies(condition, optimizedCallee.deps);
             }
           }
         }
-        if (this.ctx.filters.hook?.test(trueID.name)) {
-          isHook = true;
-        }
-        // Check if callee is potentially a namespace import
-      }
-      const trueMember = unwrapNode(calleePath.node, t.isMemberExpression);
-      if (
-        trueMember
-        && !trueMember.computed
-        && t.isIdentifier(trueMember.property)
-      ) {
-        const obj = unwrapNode(trueMember.object, t.isIdentifier);
-        if (obj) {
-          const binding = path.scope.getBindingIdentifier(obj.name);
-          if (binding) {
-            const registrations = this.ctx.registrations.hooksNamespaces.get(binding);
-            if (registrations) {
-              let registration: typeof registrations[0];
-              for (let i = 0, len = registrations.length; i < len; i += 1) {
-                registration = registrations[i];
-                if (registration.name === trueMember.property.name) {
-                  switch (registration.type) {
-                    case 'callback':
-                      return this.optimizeCallback(path);
-                    case 'effect':
-                      return this.optimizeEffect(path);
-                    case 'memo':
-                      return this.optimizeMemo(path);
-                    case 'ref':
-                      return this.optimizeRef(path);
-                    default:
-                      break;
-                  }
-                }
-              }
+        const argumentsPath = path.get('arguments');
+        let argument: typeof argumentsPath[0];
+        for (let i = 0, len = argumentsPath.length; i < len; i++) {
+          argument = argumentsPath[i];
+          if (isPathValid(argument, t.isExpression)) {
+            const optimized = this.createDependency(argument);
+            if (optimized) {
+              mergeDependencies(condition, optimized.deps);
+              path.node.arguments[i] = optimized.expr;
+            }
+          } else if (isPathValid(argument, t.isSpreadElement)) {
+            const optimized = this.createDependency(argument.get('argument'));
+            if (optimized) {
+              mergeDependencies(condition, optimized.deps);
+              argument.node.argument = optimized.expr;
             }
           }
         }
-        if (this.ctx.filters.hook?.test(trueMember.property.name)) {
-          isHook = true;
+        if (hookType === 'custom') {
+          return optimizedExpr(path.node, condition);
         }
+        return this.createMemo(path.node, condition);
       }
-      // Build dependencies
-      const condition = createDependencies();
-      if (!isHook) {
-        const callee = (
-          (isPathValid(calleePath, t.isMemberExpression)
-            || isPathValid(calleePath, t.isOptionalMemberExpression))
-            ? this.memoizeMemberExpression(calleePath as babel.NodePath<t.MemberExpression>)
-            : this.createDependency(calleePath)
-        );
-        if (callee) {
-          path.node.callee = callee.expr;
-          mergeDependencies(condition, callee.deps);
-        }
-      }
-      const argumentsPath = path.get('arguments');
-      let argument: typeof argumentsPath[0];
-      for (let i = 0, len = argumentsPath.length; i < len; i++) {
-        argument = argumentsPath[i];
-        if (isPathValid(argument, t.isExpression)) {
-          const optimized = this.createDependency(argument);
-          if (optimized) {
-            mergeDependencies(condition, optimized.deps);
-            path.node.arguments[i] = optimized.expr;
-          }
-        } else if (isPathValid(argument, t.isSpreadElement)) {
-          const optimized = this.createDependency(argument.get('argument'));
-          if (optimized) {
-            mergeDependencies(condition, optimized.deps);
-            argument.node.argument = optimized.expr;
-          }
-        }
-      }
-      if (isHook) {
-        return optimizedExpr(path.node, condition);
-      }
-      return this.createMemo(path.node, condition);
+      default:
+        return optimizedExpr(path.node);
     }
-    return optimizedExpr(path.node);
   }
 
   optimizeFunctionExpression(

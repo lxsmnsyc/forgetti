@@ -21,8 +21,9 @@ async function compile(code) {
 }
 
 console.log(await compile(`
-function Example() {
-  let a;
-  return Math.random() > 0.5 ? a = Math.random() : a = Date.now();
+import { useRef } from 'react';
+
+function Example(props) {
+  const example = useRef(initialValue);
 }
 `));
