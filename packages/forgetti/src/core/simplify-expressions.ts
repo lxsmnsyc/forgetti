@@ -100,12 +100,15 @@ export function simplifyExpressions(path: babel.NodePath<ComponentNode>): void {
     },
     UnaryExpression: {
       exit(p) {
+        const state = getBooleanishState(p.node.argument);
         switch (p.node.operator) {
           case 'void':
-            p.replaceWith(t.identifier('undefined'));
+            if (state !== 'indeterminate') {
+              p.replaceWith(t.identifier('undefined'));
+            }
             break;
           case '!':
-            switch (getBooleanishState(p.node.argument)) {
+            switch (state) {
               case 'truthy':
                 p.replaceWith(t.booleanLiteral(false));
                 break;
