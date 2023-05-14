@@ -223,7 +223,7 @@ export default class Optimizer {
     const id = path.scope.generateUidIdentifier('hoisted');
     this.scope.push(
       t.variableDeclaration(
-        'const',
+        'let',
         [t.variableDeclarator(
           id,
           path.node,

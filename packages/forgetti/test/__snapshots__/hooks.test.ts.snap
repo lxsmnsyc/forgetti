@@ -7,23 +7,23 @@ import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { useA, useB, useC, useD, useE, useF, useG, useH } from 'whatever';
 function Example(props) {
   let _c = _$$cache(_useMemo, 18),
-    a = null;
-  const _hoisted = useB();
-  let _eq = _$$equals(_c, 0, _hoisted),
-    _v = _eq ? _c[0] : _c[0] = _hoisted;
-  const _hoisted2 = useC();
-  let _eq2 = _$$equals(_c, 1, _hoisted2),
+    a = null,
+    _hoisted = useB(),
+    _eq = _$$equals(_c, 0, _hoisted),
+    _v = _eq ? _c[0] : _c[0] = _hoisted,
+    _hoisted2 = useC(),
+    _eq2 = _$$equals(_c, 1, _hoisted2),
     _v2 = _eq2 ? _c[1] : _c[1] = _hoisted2,
     _v3 = _eq2 ? _c[2] : _c[2] = [_v2, 'array'],
     _eq3 = _$$equals(_c, 3, _v3),
-    _v4 = _eq3 ? _c[3] : _c[3] = _v3;
-  const _hoisted3 = useD();
-  const _hoisted4 = useE();
-  let _eq4 = _$$equals(_c, 4, _hoisted4),
-    _v5 = _eq4 ? _c[4] : _c[4] = _hoisted4;
-  const _hoisted5 = useF();
-  const _hoisted6 = useG();
-  let _eq5 = _$$equals(_c, 5, _hoisted6),
+    _v4 = _eq3 ? _c[3] : _c[3] = _v3,
+    _hoisted3 = useD(),
+    _hoisted4 = useE(),
+    _eq4 = _$$equals(_c, 4, _hoisted4),
+    _v5 = _eq4 ? _c[4] : _c[4] = _hoisted4,
+    _hoisted5 = useF(),
+    _hoisted6 = useG(),
+    _eq5 = _$$equals(_c, 5, _hoisted6),
     _v6 = _eq5 ? _c[5] : _c[5] = _hoisted6,
     _eq6 = _eq4 && _eq5,
     _v7 = _eq6 ? _c[6] : _c[6] = {
@@ -32,33 +32,33 @@ function Example(props) {
       ..._v6
     },
     _eq7 = _$$equals(_c, 7, _v7),
-    _v8 = _eq7 ? _c[7] : _c[7] = _v7;
-  const _hoisted7 = useH();
-  let _eq8 = _$$equals(_c, 8, _hoisted7),
+    _v8 = _eq7 ? _c[7] : _c[7] = _v7,
+    _hoisted7 = useH(),
+    _eq8 = _$$equals(_c, 8, _hoisted7),
     _v9 = _eq8 ? _c[8] : _c[8] = _hoisted7,
     _v10 = _eq8 ? _c[9] : _c[9] = \`testA\${_v9}testB\`,
     _eq9 = _$$equals(_c, 10, _v10),
-    _v11 = _eq9 ? _c[10] : _c[10] = _v10;
-  const _hoisted8 = useI();
-  let _eq10 = _$$equals(_c, 11, _hoisted8),
-    _v12 = _eq10 ? _c[11] : _c[11] = _hoisted8;
-  const _hoisted9 = useJ();
-  let _eq11 = _$$equals(_c, 12, _hoisted9),
+    _v11 = _eq9 ? _c[10] : _c[10] = _v10,
+    _hoisted8 = useI(),
+    _eq10 = _$$equals(_c, 11, _hoisted8),
+    _v12 = _eq10 ? _c[11] : _c[11] = _hoisted8,
+    _hoisted9 = useJ(),
+    _eq11 = _$$equals(_c, 12, _hoisted9),
     _v13 = _eq11 ? _c[12] : _c[12] = _hoisted9,
     _eq12 = _eq10 && _eq11,
     _v14 = _eq12 ? _c[13] : _c[13] = _v12 === _v13,
     _eq13 = _$$equals(_c, 14, _v14),
-    _v15 = _eq13 ? _c[14] : _c[14] = _v14;
-  const _hoisted10 = useK();
-  let _eq14 = _$$equals(_c, 15, _hoisted10),
-    _v16 = _eq14 ? _c[15] : _c[15] = _hoisted10;
-  const _hoisted11 = a = _v16;
-  let _eq15 = _$$equals(_c, 16, _hoisted11),
-    _v17 = _eq15 ? _c[16] : _c[16] = _hoisted11;
-  const _hoisted12 = useJ();
-  let _eq16 = _$$equals(_c, 17, _hoisted12),
-    _v18 = _eq16 ? _c[17] : _c[17] = _hoisted12;
-  const _hoisted13 = useA(_v, _v4, _v8, _v11, _v15, _v17, ..._v18);
+    _v15 = _eq13 ? _c[14] : _c[14] = _v14,
+    _hoisted10 = useK(),
+    _eq14 = _$$equals(_c, 15, _hoisted10),
+    _v16 = _eq14 ? _c[15] : _c[15] = _hoisted10,
+    _hoisted11 = a = _v16,
+    _eq15 = _$$equals(_c, 16, _hoisted11),
+    _v17 = _eq15 ? _c[16] : _c[16] = _hoisted11,
+    _hoisted12 = useJ(),
+    _eq16 = _$$equals(_c, 17, _hoisted12),
+    _v18 = _eq16 ? _c[17] : _c[17] = _hoisted12,
+    _hoisted13 = useA(_v, _v4, _v8, _v11, _v15, _v17, ..._v18);
   return _hoisted13;
 }"
 `;
@@ -70,44 +70,44 @@ import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { useA, useB, useC } from 'whatever';
 function Example(props) {
   let _c = _$$cache(_useMemo, 14),
-    a = null;
-  const _hoisted = useA();
-  let _eq = _$$equals(_c, 0, _hoisted),
-    _v = _eq ? _c[0] : _c[0] = _hoisted;
-  const _hoisted2 = useB();
-  const _hoisted3 = useC();
-  let _eq2 = _$$equals(_c, 1, _hoisted3),
-    _v2 = _eq2 ? _c[1] : _c[1] = _hoisted3;
-  const _hoisted4 = useH();
-  let _eq3 = _$$equals(_c, 2, _hoisted4),
+    a = null,
+    _hoisted = useA(),
+    _eq = _$$equals(_c, 0, _hoisted),
+    _v = _eq ? _c[0] : _c[0] = _hoisted,
+    _hoisted2 = useB(),
+    _hoisted3 = useC(),
+    _eq2 = _$$equals(_c, 1, _hoisted3),
+    _v2 = _eq2 ? _c[1] : _c[1] = _hoisted3,
+    _hoisted4 = useH(),
+    _eq3 = _$$equals(_c, 2, _hoisted4),
     _v3 = _eq3 ? _c[2] : _c[2] = _hoisted4,
     _v4 = _eq3 ? _c[3] : _c[3] = \`testA\${_v3}testB\`,
     _eq4 = _$$equals(_c, 4, _v4),
-    _v5 = _eq4 ? _c[4] : _c[4] = _v4;
-  const _hoisted5 = useI();
-  let _eq5 = _$$equals(_c, 5, _hoisted5),
-    _v6 = _eq5 ? _c[5] : _c[5] = _hoisted5;
-  const _hoisted6 = useJ();
-  let _eq6 = _$$equals(_c, 6, _hoisted6),
+    _v5 = _eq4 ? _c[4] : _c[4] = _v4,
+    _hoisted5 = useI(),
+    _eq5 = _$$equals(_c, 5, _hoisted5),
+    _v6 = _eq5 ? _c[5] : _c[5] = _hoisted5,
+    _hoisted6 = useJ(),
+    _eq6 = _$$equals(_c, 6, _hoisted6),
     _v7 = _eq6 ? _c[6] : _c[6] = _hoisted6,
     _eq7 = _eq5 && _eq6,
-    _v8 = _eq7 ? _c[7] : _c[7] = _v6 === _v7;
-  const _hoisted7 = useK();
-  let _v9;
+    _v8 = _eq7 ? _c[7] : _c[7] = _v6 === _v7,
+    _hoisted7 = useK(),
+    _v9;
   if (_hoisted7) {
     _v9 = 'a';
   } else {
     _v9 = 'b';
   }
-  const _hoisted8 = useL();
-  let _eq8 = _$$equals(_c, 8, _hoisted8),
+  let _hoisted8 = useL(),
+    _eq8 = _$$equals(_c, 8, _hoisted8),
     _v10 = _eq8 ? _c[8] : _c[8] = _hoisted8,
-    _v11 = _eq8 ? _c[9] : _c[9] = <div>{_v10}</div>;
-  const _hoisted9 = useM();
-  let _eq9 = _$$equals(_c, 10, _hoisted9),
-    _v12 = _eq9 ? _c[10] : _c[10] = _hoisted9;
-  const _hoisted10 = useN();
-  let _eq10 = _$$equals(_c, 11, _hoisted10),
+    _v11 = _eq8 ? _c[9] : _c[9] = <div>{_v10}</div>,
+    _hoisted9 = useM(),
+    _eq9 = _$$equals(_c, 10, _hoisted9),
+    _v12 = _eq9 ? _c[10] : _c[10] = _hoisted9,
+    _hoisted10 = useN(),
+    _eq10 = _$$equals(_c, 11, _hoisted10),
     _v13 = _eq10 ? _c[11] : _c[11] = _hoisted10,
     _eq11 = _eq9 && _eq10,
     _v14 = _eq11 ? _c[12] : _c[12] = <>{_v12}{_v13}</>,
@@ -133,11 +133,11 @@ import { useAtomValue } from 'jotai';
 import { stateAtom } from 'whatever';
 function Example(props) {
   let _c = _$$cache(_useMemo, 2),
-    _v = 0 in _c ? _c[0] : _c[0] = stateAtom;
-  const _hoisted = useAtomValue(_v);
-  let _eq = _$$equals(_c, 1, _hoisted),
-    _v2 = _eq ? _c[1] : _c[1] = _hoisted;
-  const _hoisted2 = useDeferredValue(_v2);
+    _v = 0 in _c ? _c[0] : _c[0] = stateAtom,
+    _hoisted = useAtomValue(_v),
+    _eq = _$$equals(_c, 1, _hoisted),
+    _v2 = _eq ? _c[1] : _c[1] = _hoisted,
+    _hoisted2 = useDeferredValue(_v2);
   return _hoisted2;
 }"
 `;

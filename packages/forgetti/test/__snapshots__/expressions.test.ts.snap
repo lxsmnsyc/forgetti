@@ -96,14 +96,14 @@ function Example(props) {
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = _v.x,
     _eq2 = _$$equals(_c, 2, _v2),
-    _v3 = _eq2 ? _c[2] : _c[2] = _v2;
-  const _hoisted = c = _v3;
-  let _eq3 = _$$equals(_c, 3, _hoisted),
-    _v4 = _eq3 ? _c[3] : _c[3] = _hoisted;
-  const _hoisted2 = b = _v4;
-  let _eq4 = _$$equals(_c, 4, _hoisted2),
-    _v5 = _eq4 ? _c[4] : _c[4] = _hoisted2;
-  const _hoisted3 = a = _v5;
+    _v3 = _eq2 ? _c[2] : _c[2] = _v2,
+    _hoisted = c = _v3,
+    _eq3 = _$$equals(_c, 3, _hoisted),
+    _v4 = _eq3 ? _c[3] : _c[3] = _hoisted,
+    _hoisted2 = b = _v4,
+    _eq4 = _$$equals(_c, 4, _hoisted2),
+    _v5 = _eq4 ? _c[4] : _c[4] = _hoisted2,
+    _hoisted3 = a = _v5;
   _hoisted3;
 }"
 `;
