@@ -37,6 +37,7 @@ export function inlineExpressions(
               const ref = binding.referencePaths[0];
               if (
                 binding.path.isVariableDeclarator()
+                && binding.path.get('id').isIdentifier()
                 && binding.path.scope.getBlockParent() === ref.scope.getBlockParent()
                 && binding.path.node.init
                 && !isInConditional(ref)
