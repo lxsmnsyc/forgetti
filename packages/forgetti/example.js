@@ -22,8 +22,6 @@ async function compile(code) {
 
 console.log(await compile(`
 function Example() {
-  const a = Math.random();
-  const b = Math.random();
-  console.log(a + b);
+  return !!!!!!!!!!(void 0);
 }
 `));
