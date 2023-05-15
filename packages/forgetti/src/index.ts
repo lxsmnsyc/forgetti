@@ -5,6 +5,7 @@ import {
   isComponent,
   isComponentNameValid,
   getImportSpecifierName,
+  isHookOrComponentName,
 } from './core/checks';
 import Optimizer from './core/optimizer';
 import type {
@@ -213,13 +214,7 @@ function transformVariableDeclarator(
   ctx: StateContext,
   path: babel.NodePath<t.VariableDeclarator>,
 ): void {
-  if (!path.node.init || path.node.id.type !== 'Identifier') {
-    return;
-  }
-  if (
-    ctx.filters.component.test(path.node.id.name)
-    || (ctx.filters.hook && ctx.filters.hook.test(path.node.id.name))
-  ) {
+  if (path.node.init && path.node.id.type === 'Identifier' && isHookOrComponentName(ctx, path.node.id)) {
     transformFunction(ctx, path.get('init') as babel.NodePath<Argument>, false);
   }
 }

@@ -20,20 +20,24 @@ export function isComponent(node: t.Node): node is ComponentNode {
   }
 }
 
+export function isHookName(ctx: StateContext, id: t.Identifier): boolean {
+  return !!ctx.filters.hook && ctx.filters.hook.test(id.name);
+}
+
+export function isHookOrComponentName(ctx: StateContext, id: t.Identifier): boolean {
+  return ctx.filters.component.test(id.name) || isHookName(ctx, id);
+}
+
 export function isComponentNameValid(
   ctx: StateContext,
   node: ComponentNode,
   checkName: boolean,
 ): boolean {
-  if (checkName) {
-    return node.type !== 'ArrowFunctionExpression'
-      && !!node.id
-      && (
-        ctx.filters.component.test(node.id.name)
-        || (!!ctx.filters.hook && ctx.filters.hook.test(node.id.name))
-      );
-  }
-  return true;
+  return !checkName || (
+    node.type !== 'ArrowFunctionExpression'
+    && !!node.id
+    && isHookOrComponentName(ctx, node.id)
+  );
 }
 
 type TypeFilter<V extends t.Node> = (node: t.Node) => node is V;

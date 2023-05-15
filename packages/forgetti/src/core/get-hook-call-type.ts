@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import type * as babel from '@babel/core';
 import * as t from '@babel/types';
-import { isPathValid } from './checks';
+import { isHookName, isPathValid } from './checks';
 import type { HookIdentity } from './presets';
 import unwrapNode from './unwrap-node';
 import type { StateContext } from './types';
@@ -28,7 +28,7 @@ export function getHookCallType(
         return registration.type;
       }
     }
-    return ctx.filters.hook && ctx.filters.hook.test(trueID.name) ? 'custom' : 'none';
+    return isHookName(ctx, trueID) ? 'custom' : 'none';
   }
   // Check if callee is potentially a namespace import
   const trueMember = unwrapNode(callee.node, t.isMemberExpression);
@@ -53,9 +53,7 @@ export function getHookCallType(
         }
       }
     }
-    return ctx.filters.hook && ctx.filters.hook.test(trueMember.property.name)
-      ? 'custom'
-      : 'none';
+    return isHookName(ctx, trueMember.property) ? 'custom' : 'none';
   }
   return 'none';
 }
