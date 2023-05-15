@@ -35,7 +35,7 @@ function Example(props) {
 
   it('should skip skipped function declaration', async () => {
     const code = `
-/** @@forgetti skip */ function Example(props) {
+/* @forgetti skip */ function Example(props) {
   return <h1 className={props.className}>{props.children}</h1>;
 }
 `;
@@ -53,10 +53,10 @@ const Example = function (props) {
 
   it('should skip skipped function expression', async () => {
     const code = `
-const /** @@forgetti skip */ ExampleA = function (props) {
+const /* @forgetti skip */ ExampleA = function (props) {
   return <h1 className={props.className}>{props.children}</h1>;
 }
-/** @@forgetti skip */ const ExampleB = function (props) {
+/* @forgetti skip */ const ExampleB = function (props) {
   return <h1 className={props.className}>{props.children}</h1>;
 }
 `;
@@ -74,10 +74,10 @@ const Example = props => {
 
   it('should skip skipped variable declaration', async () => {
     const code = `
-const /** @@forgetti skip */ ExampleA = props => {
+const /* @forgetti skip */ ExampleA = props => {
   return <h1 className={props.className}>{props.children}</h1>;
 }
-/** @@forgetti skip */ const ExampleB = props => {
+/* @forgetti skip */ const ExampleB = props => {
   return <h1 className={props.className}>{props.children}</h1>;
 }
 `;
