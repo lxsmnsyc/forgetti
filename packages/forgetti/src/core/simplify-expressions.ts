@@ -52,16 +52,11 @@ export function simplifyExpressions(path: babel.NodePath<ComponentNode>): void {
   path.traverse({
     ConditionalExpression: {
       exit(p) {
-        switch (getBooleanishState(p.node.test)) {
-          case 'nullish':
-          case 'falsy':
-            p.replaceWith(p.node.alternate);
-            break;
-          case 'truthy':
-            p.replaceWith(p.node.consequent);
-            break;
-          default:
-            break;
+        const state = getBooleanishState(p.node.test);
+        if (state === 'truthy') {
+          p.replaceWith(p.node.consequent);
+        } else if (state !== 'indeterminate') {
+          p.replaceWith(p.node.alternate);
         }
       },
     },
@@ -69,31 +64,13 @@ export function simplifyExpressions(path: babel.NodePath<ComponentNode>): void {
       exit(p) {
         switch (getBooleanishState(p.node.left)) {
           case 'nullish':
-            p.replaceWith(
-              p.node.operator === '??'
-                ? p.node.right
-                : p.node.left,
-            );
+            p.replaceWith(p.node.operator === '??' ? p.node.right : p.node.left);
             break;
           case 'falsy':
-            switch (p.node.operator) {
-              case '||':
-                p.replaceWith(p.node.right);
-                break;
-              default:
-                p.replaceWith(p.node.left);
-                break;
-            }
+            p.replaceWith(p.node.operator === '||' ? p.node.right : p.node.left);
             break;
           case 'truthy':
-            switch (p.node.operator) {
-              case '&&':
-                p.replaceWith(p.node.right);
-                break;
-              default:
-                p.replaceWith(p.node.left);
-                break;
-            }
+            p.replaceWith(p.node.operator === '&&' ? p.node.right : p.node.left);
             break;
           default:
             break;
@@ -110,16 +87,10 @@ export function simplifyExpressions(path: babel.NodePath<ComponentNode>): void {
             }
             break;
           case '!':
-            switch (state) {
-              case 'truthy':
-                p.replaceWith(t.booleanLiteral(false));
-                break;
-              case 'falsy':
-              case 'nullish':
-                p.replaceWith(t.booleanLiteral(true));
-                break;
-              default:
-                break;
+            if (state === 'truthy') {
+              p.replaceWith(t.booleanLiteral(false));
+            } else if (state !== 'indeterminate') {
+              p.replaceWith(t.booleanLiteral(true));
             }
             break;
           default:
