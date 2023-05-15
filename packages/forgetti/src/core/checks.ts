@@ -28,16 +28,17 @@ export function isHookOrComponentName(ctx: StateContext, id: t.Identifier): bool
   return ctx.filters.component.test(id.name) || isHookName(ctx, id);
 }
 
+const FORGETTI_SKIP = /^\s*@forgetti skip\s*$/;
+
 export function isNodeShouldBeSkipped(node: t.Node): boolean {
   // Node without leading comments shouldn't be skipped
-  if (!node.leadingComments) {
-    return false;
+  if (node.leadingComments) {
+    for (let i = 0, len = node.leadingComments.length; i < len; i++) {
+      if (FORGETTI_SKIP.test(node.leadingComments[i].value)) {
+        return true;
+      }
+    }
   }
-
-  if (node.leadingComments.some((comment) => comment.value.includes('@forgetti skip'))) {
-    return true;
-  }
-
   return false;
 }
 

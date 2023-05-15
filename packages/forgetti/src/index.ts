@@ -215,17 +215,17 @@ function transformVariableDeclarator(
   ctx: StateContext,
   path: babel.NodePath<t.VariableDeclarator>,
 ): void {
-  if (path.node.init && path.node.id.type === 'Identifier' && isHookOrComponentName(ctx, path.node.id)) {
-    if (
+  if (
+    path.node.init
+    && path.node.id.type === 'Identifier'
+    && isHookOrComponentName(ctx, path.node.id)
+    && !isNodeShouldBeSkipped(path.node)
+    && (
       path.parent.type === 'VariableDeclaration'
-      && isNodeShouldBeSkipped(path.parent)
-    ) {
-      return;
-    }
-    if (isNodeShouldBeSkipped(path.node)) {
-      return;
-    }
-
+        ? !isNodeShouldBeSkipped(path.parent)
+        : true
+    )
+  ) {
     transformFunction(ctx, path.get('init') as babel.NodePath<Argument>, false);
   }
 }
