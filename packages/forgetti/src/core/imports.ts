@@ -11,3 +11,9 @@ export const RUNTIME_CACHE: ImportRegistration = {
   source: 'forgetti/runtime',
   kind: 'named',
 };
+
+export const RUNTIME_BRANCH: ImportRegistration = {
+  name: '$$branch',
+  source: 'forgetti/runtime',
+  kind: 'named',
+};

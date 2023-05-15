@@ -2,14 +2,13 @@
 import type * as babel from '@babel/core';
 import * as t from '@babel/types';
 import { isNestedExpression, isPathValid } from './checks';
-import getForeignBindings from './get-foreign-bindings';
+import getForeignBindings, { isForeignBinding } from './get-foreign-bindings';
 import getImportIdentifier from './get-import-identifier';
 import { RUNTIME_EQUALS } from './imports';
-import isGuaranteedLiteral from './is-guaranteed-literal';
 import OptimizerScope from './optimizer-scope';
 import type { ComponentNode, OptimizedExpression, StateContext } from './types';
-import unwrapNode from './unwrap-node';
-import isOptimizable from './is-optimizable';
+import isConstant from './is-constant';
+import { getHookCallType } from './get-hook-call-type';
 
 function optimizedExpr(
   expr: t.Expression,
@@ -50,6 +49,8 @@ export default class Optimizer {
   path: babel.NodePath<ComponentNode>;
 
   scope: OptimizerScope;
+
+  nodeConstantCheckCache = new WeakMap<babel.NodePath<t.Expression>, boolean>();
 
   constructor(ctx: StateContext, path: babel.NodePath<ComponentNode>) {
     this.ctx = ctx;
@@ -171,14 +172,10 @@ export default class Optimizer {
       this.scope.setOptimized(vid, optimized);
     }
 
-    const init = (
-      condition
-        ? t.conditionalExpression(
-          eqid,
-          pos,
-          t.assignmentExpression('=', pos, current),
-        )
-        : t.assignmentExpression('||=', pos, current)
+    const init = t.conditionalExpression(
+      condition ? eqid : t.binaryExpression('in', index, header),
+      pos,
+      t.assignmentExpression('=', pos, current),
     );
 
     declaration.push(t.variableDeclarator(vid, init));
@@ -226,15 +223,16 @@ export default class Optimizer {
     path: babel.NodePath,
     id: t.Identifier,
   ): OptimizedExpression {
+    if (isForeignBinding(this.path, path, id.name)) {
+      return optimizedExpr(id, [], true);
+    }
     // Check if scope has the binding (no globals)
     // we only want to memoize identifiers
     // that are part of the render evaluation
-    if (path.scope.hasBinding(id.name, true)) {
-      const binding = path.scope.getBindingIdentifier(id.name);
-      if (binding) {
-        // Memoize as a "dependency"
-        return this.createMemo(binding, false);
-      }
+    const binding = path.scope.getBindingIdentifier(id.name);
+    if (binding) {
+      // Memoize as a "dependency"
+      return this.createMemo(binding, false);
     }
     // Identifier is marked as optimized
     // but we just basically "skip"
@@ -250,35 +248,35 @@ export default class Optimizer {
   memoizeMemberExpression(
     path: babel.NodePath<t.MemberExpression>,
   ): { expr: t.MemberExpression; deps: t.Expression[] } {
-    if (isOptimizable(path, path.node)) {
-      // Create dependencies
-      const condition = createDependencies();
-      // Mark source as a dependency
-      const source = this.createDependency(path.get('object'));
-      if (source) {
-        path.node.object = source.expr;
-        mergeDependencies(condition, source.deps);
-      }
-      // Only memoize computed properties (obviously)
-      if (path.node.computed) {
-        const propertyPath = path.get('property');
-        if (isPathValid(propertyPath, t.isExpression)) {
-          const property = this.createDependency(propertyPath);
-          if (property) {
-            path.node.property = property.expr;
-            mergeDependencies(condition, property.deps);
-          }
-        }
-      }
-
+    if (isConstant(this, path)) {
       return {
         expr: path.node,
-        deps: condition,
+        deps: [],
       };
     }
+    // Create dependencies
+    const condition = createDependencies();
+    // Mark source as a dependency
+    const source = this.createDependency(path.get('object'));
+    if (source) {
+      path.node.object = source.expr;
+      mergeDependencies(condition, source.deps);
+    }
+    // Only memoize computed properties (obviously)
+    if (path.node.computed) {
+      const propertyPath = path.get('property');
+      if (isPathValid(propertyPath, t.isExpression)) {
+        const property = this.createDependency(propertyPath);
+        if (property) {
+          path.node.property = property.expr;
+          mergeDependencies(condition, property.deps);
+        }
+      }
+    }
+
     return {
       expr: path.node,
-      deps: [],
+      deps: condition,
     };
   }
 
@@ -492,140 +490,61 @@ export default class Optimizer {
   optimizeCallExpression(
     path: babel.NodePath<t.CallExpression | t.OptionalCallExpression>,
   ): OptimizedExpression {
-    const calleePath = path.get('callee');
-    if (isPathValid(calleePath, t.isExpression)) {
-      let isHook = false;
-      const trueID = unwrapNode(calleePath.node, t.isIdentifier);
-      if (trueID) {
-        const binding = path.scope.getBindingIdentifier(trueID.name);
-        if (binding) {
-          const registration = this.ctx.registrations.hooks.get(binding);
-          if (registration) {
-            switch (registration.type) {
-              case 'callback':
-                return this.optimizeCallback(path);
-              case 'effect':
-                return this.optimizeEffect(path);
-              case 'memo':
-                return this.optimizeMemo(path);
-              case 'ref':
-                return this.optimizeRef(path);
-              default:
-                isHook = true;
+    const hookType = getHookCallType(this.ctx, path);
+    switch (hookType) {
+      case 'callback':
+        return this.optimizeCallback(path);
+      case 'effect':
+        return this.optimizeEffect(path);
+      case 'memo':
+        return this.optimizeMemo(path);
+      case 'ref':
+        return this.optimizeRef(path);
+      case 'custom':
+      case 'none': {
+        // Build dependencies
+        const condition = createDependencies();
+        if (hookType === 'none') {
+          const callee = path.get('callee');
+          if (isPathValid(callee, t.isMemberExpression)) {
+            const optimizedCallee = (
+              (isPathValid(callee, t.isMemberExpression)
+                || isPathValid(callee, t.isOptionalMemberExpression))
+                ? this.memoizeMemberExpression(callee)
+                : this.createDependency(callee)
+            );
+            if (optimizedCallee) {
+              path.node.callee = optimizedCallee.expr;
+              mergeDependencies(condition, optimizedCallee.deps);
             }
           }
         }
-        if (this.ctx.filters.hook?.test(trueID.name)) {
-          isHook = true;
-        }
-      // Check if callee is potentially a namespace import
-      }
-      const trueMember = unwrapNode(calleePath.node, t.isMemberExpression);
-      if (
-        trueMember
-        && !trueMember.computed
-        && t.isIdentifier(trueMember.property)
-      ) {
-        const obj = unwrapNode(trueMember.object, t.isIdentifier);
-        if (obj) {
-          const binding = path.scope.getBindingIdentifier(obj.name);
-          if (binding) {
-            const registrations = this.ctx.registrations.hooksNamespaces.get(binding);
-            if (registrations) {
-              let registration: typeof registrations[0];
-              for (let i = 0, len = registrations.length; i < len; i += 1) {
-                registration = registrations[i];
-                if (registration.name === trueMember.property.name) {
-                  switch (registration.type) {
-                    case 'callback':
-                      return this.optimizeCallback(path);
-                    case 'effect':
-                      return this.optimizeEffect(path);
-                    case 'memo':
-                      return this.optimizeMemo(path);
-                    case 'ref':
-                      return this.optimizeRef(path);
-                    default:
-                      break;
-                  }
-                }
-              }
-            }
-          }
-        }
-        if (this.ctx.filters.hook?.test(trueMember.property.name)) {
-          isHook = true;
-        }
-      }
-
-      if (isHook) {
         const argumentsPath = path.get('arguments');
-        const dependencies = createDependencies();
         let argument: typeof argumentsPath[0];
         for (let i = 0, len = argumentsPath.length; i < len; i++) {
           argument = argumentsPath[i];
           if (isPathValid(argument, t.isExpression)) {
             const optimized = this.createDependency(argument);
             if (optimized) {
-              mergeDependencies(dependencies, optimized.deps);
+              mergeDependencies(condition, optimized.deps);
               path.node.arguments[i] = optimized.expr;
             }
           } else if (isPathValid(argument, t.isSpreadElement)) {
             const optimized = this.createDependency(argument.get('argument'));
             if (optimized) {
-              mergeDependencies(dependencies, optimized.deps);
+              mergeDependencies(condition, optimized.deps);
               argument.node.argument = optimized.expr;
             }
           }
         }
-        return optimizedExpr(path.node);
-      }
-      // Build dependencies
-      const condition = createDependencies();
-      const callee = (
-        (isPathValid(calleePath, t.isMemberExpression)
-          || isPathValid(calleePath, t.isOptionalMemberExpression))
-          ? this.memoizeMemberExpression(calleePath as babel.NodePath<t.MemberExpression>)
-          : this.createDependency(calleePath)
-      );
-      if (callee) {
-        path.node.callee = callee.expr;
-        mergeDependencies(condition, callee.deps);
-      }
-      const argumentsPath = path.get('arguments');
-      let argument: typeof argumentsPath[0];
-      for (let i = 0, len = argumentsPath.length; i < len; i++) {
-        argument = argumentsPath[i];
-        if (isPathValid(argument, t.isExpression)) {
-          const optimized = this.createDependency(argument);
-          if (optimized) {
-            mergeDependencies(condition, optimized.deps);
-            path.node.arguments[i] = optimized.expr;
-          }
-        } else if (isPathValid(argument, t.isSpreadElement)) {
-          const optimized = this.createDependency(argument.get('argument'));
-          if (optimized) {
-            mergeDependencies(condition, optimized.deps);
-            argument.node.argument = optimized.expr;
-          }
+        if (hookType === 'custom') {
+          return optimizedExpr(path.node, condition);
         }
+        return this.createMemo(path.node, condition);
       }
-      return this.createMemo(path.node, condition);
+      default:
+        return optimizedExpr(path.node);
     }
-    return optimizedExpr(path.node);
-  }
-
-  optimizeAwaitYieldExpression(
-    path: babel.NodePath<t.AwaitExpression | t.YieldExpression>,
-  ): OptimizedExpression {
-    if (path.node.argument) {
-      const optimized = this.createDependency(path.get('argument') as babel.NodePath<t.Expression>);
-      if (optimized) {
-        path.node.argument = optimized.expr;
-        return optimizedExpr(path.node, optimized.deps);
-      }
-    }
-    return optimizedExpr(path.node);
   }
 
   optimizeFunctionExpression(
@@ -668,23 +587,17 @@ export default class Optimizer {
   optimizeAssignmentExpression(
     path: babel.NodePath<t.AssignmentExpression>,
   ): OptimizedExpression {
-    // TODO Work on left node
     const dependencies = createDependencies();
     const left = this.optimizeLVal(path.get('left'), true);
     path.node.left = left.expr;
     mergeDependencies(dependencies, left.deps);
+
     const right = this.createDependency(path.get('right'));
     if (right) {
       path.node.right = right.expr;
       mergeDependencies(dependencies, right.deps);
     }
-
-    const variable = path.scope.generateUidIdentifier('v');
-    this.scope.push(
-      t.variableDeclaration('let', [t.variableDeclarator(variable, path.node)]),
-    );
-
-    return optimizedExpr(variable, dependencies);
+    return optimizedExpr(path.node, dependencies);
   }
 
   optimizeArrayExpression(
@@ -692,9 +605,10 @@ export default class Optimizer {
   ): OptimizedExpression {
     const condition = createDependencies();
     const elementsPath = path.get('elements');
-    let element: typeof elementsPath[0];
+
     for (let i = 0, len = elementsPath.length; i < len; i++) {
-      element = elementsPath[i];
+      const element = elementsPath[i];
+
       if (isPathValid(element, t.isExpression)) {
         const optimized = this.createDependency(element);
         if (optimized) {
@@ -717,10 +631,21 @@ export default class Optimizer {
   ): OptimizedExpression {
     const condition = createDependencies();
     const elementsPath = path.get('properties');
-    let element: typeof elementsPath[0];
+
     for (let i = 0, len = elementsPath.length; i < len; i++) {
-      element = elementsPath[i];
+      const element = elementsPath[i];
       if (isPathValid(element, t.isObjectProperty)) {
+        if (element.node.computed) {
+          const keyPath = element.get('key');
+
+          if (isPathValid(keyPath, t.isExpression)) {
+            const optimized = this.createDependency(keyPath);
+            if (optimized) {
+              mergeDependencies(condition, optimized.deps);
+              element.node.key = optimized.expr;
+            }
+          }
+        }
         const valuePath = element.get('value');
 
         if (isPathValid(valuePath, t.isExpression)) {
@@ -728,17 +653,6 @@ export default class Optimizer {
           if (optimized) {
             mergeDependencies(condition, optimized.deps);
             element.node.value = optimized.expr;
-          }
-        }
-
-        if (element.node.computed) {
-          const keyPath = element.get('key');
-          if (isPathValid(keyPath, t.isExpression)) {
-            const optimized = this.createDependency(keyPath);
-            if (optimized) {
-              mergeDependencies(condition, optimized.deps);
-              element.node.key = optimized.expr;
-            }
           }
         }
       } else if (isPathValid(element, t.isSpreadElement)) {
@@ -885,6 +799,12 @@ export default class Optimizer {
             mergeDependencies(conditions, optimized.deps);
           }
         }
+      } else if (isPathValid(child, t.isJSXSpreadChild)) {
+        const optimized = this.createDependency(child.get('expression'));
+        if (optimized) {
+          child.node.expression = optimized.expr;
+          mergeDependencies(conditions, optimized.deps);
+        }
       }
     }
 
@@ -963,19 +883,11 @@ export default class Optimizer {
       return optimizedExpr(path.node, undefined, true);
     }
     // Only optimize for complex values
-    if (isPathValid(path, isGuaranteedLiteral)) {
+    if (isConstant(this, path)) {
       return this.createMemo(path.node, true);
     }
-    // if (t.isIdentifier(path.node)) {
     if (isPathValid(path, t.isIdentifier)) {
-      switch (path.node.name) {
-        case 'undefined':
-        case 'NaN':
-        case 'Infinity':
-          return optimizedExpr(path.node, undefined, true);
-        default:
-          return this.optimizeIdentifier(path);
-      }
+      return this.optimizeIdentifier(path);
     }
     if (
       isPathValid(path, t.isMemberExpression)
@@ -1000,9 +912,6 @@ export default class Optimizer {
       || isPathValid(path, t.isOptionalCallExpression)
     ) {
       return this.optimizeCallExpression(path);
-    }
-    if (isPathValid(path, t.isAwaitExpression) || isPathValid(path, t.isYieldExpression)) {
-      return this.optimizeAwaitYieldExpression(path);
     }
     if (
       isPathValid(path, t.isFunctionExpression)
@@ -1291,6 +1200,7 @@ export default class Optimizer {
       ]);
     this.optimizeBlock(path.get('body') as babel.NodePath<t.BlockStatement>);
     path.node.body = t.blockStatement(this.scope.getStatements());
+    path.scope.crawl();
   }
 
   optimizeFunctionComponent(
@@ -1298,6 +1208,7 @@ export default class Optimizer {
   ): void {
     this.optimizeBlock(path.get('body'));
     path.node.body = t.blockStatement(this.scope.getStatements());
+    path.scope.crawl();
   }
 
   optimize(): void {

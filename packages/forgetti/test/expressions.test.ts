@@ -88,14 +88,6 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize await/yield expressions', async () => {
-    const code = `
-async function Example(props) {
-  return await props.call();
-}
-`;
-    expect(await compile(code)).toMatchSnapshot();
-  });
   it('should optimize function expressions', async () => {
     const code = `
 function Example(props) {

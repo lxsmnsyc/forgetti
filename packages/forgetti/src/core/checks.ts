@@ -20,24 +20,39 @@ export function isComponent(node: t.Node): node is ComponentNode {
   }
 }
 
-export function isComponentNameValid(
+export function isHookName(ctx: StateContext, id: t.Identifier): boolean {
+  return !!ctx.filters.hook && ctx.filters.hook.test(id.name);
+}
+
+export function isHookOrComponentName(ctx: StateContext, id: t.Identifier): boolean {
+  return ctx.filters.component.test(id.name) || isHookName(ctx, id);
+}
+
+const FORGETTI_SKIP = /^\s*@forgetti skip\s*$/;
+
+export function isNodeShouldBeSkipped(node: t.Node): boolean {
+  // Node without leading comments shouldn't be skipped
+  if (node.leadingComments) {
+    for (let i = 0, len = node.leadingComments.length; i < len; i++) {
+      if (FORGETTI_SKIP.test(node.leadingComments[i].value)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+export function isComponentValid(
   ctx: StateContext,
   node: ComponentNode,
   checkName: boolean,
 ): boolean {
-  if (checkName) {
-    if (node.type !== 'ArrowFunctionExpression') {
-      return (
-        !!node.id
-        && (
-          ctx.filters.component.test(node.id.name)
-          || (!!ctx.filters.hook && ctx.filters.hook.test(node.id.name))
-        )
-      );
-    }
-    return false;
-  }
-  return true;
+  return !checkName || (
+    node.type !== 'ArrowFunctionExpression'
+    && !!node.id
+    && isHookOrComponentName(ctx, node.id)
+    && !isNodeShouldBeSkipped(node)
+  );
 }
 
 type TypeFilter<V extends t.Node> = (node: t.Node) => node is V;

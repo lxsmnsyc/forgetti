@@ -3,8 +3,10 @@ import type * as babel from '@babel/core';
 import * as t from '@babel/types';
 import {
   isComponent,
-  isComponentNameValid,
+  isComponentValid,
   getImportSpecifierName,
+  isHookOrComponentName,
+  isNodeShouldBeSkipped,
 } from './core/checks';
 import Optimizer from './core/optimizer';
 import type {
@@ -19,6 +21,9 @@ import {
 import type { StateContext, State } from './core/types';
 import unwrapNode from './core/unwrap-node';
 import unwrapPath from './core/unwrap-path';
+import { expandExpressions } from './core/expand-expressions';
+import { inlineExpressions } from './core/inline-expressions';
+import { simplifyExpressions } from './core/simplify-expressions';
 
 export type { Options };
 
@@ -145,11 +150,19 @@ function transformFunction(
   checkName: boolean,
 ): void {
   const unwrapped = unwrapPath(path, isComponent);
-  if (unwrapped && isComponentNameValid(ctx, unwrapped.node, checkName)) {
+  if (unwrapped && isComponentValid(ctx, unwrapped.node, checkName)) {
     if (!checkName && unwrapped.node.type !== 'ArrowFunctionExpression') {
       unwrapped.node.id = undefined;
     }
+    // inline expressions
+    inlineExpressions(unwrapped);
+    // expand for assignment and hook calls
+    expandExpressions(ctx, unwrapped);
+    simplifyExpressions(unwrapped);
+    // optimize
     new Optimizer(ctx, unwrapped).optimize();
+    // inline again
+    inlineExpressions(unwrapped);
   }
 }
 
@@ -202,12 +215,16 @@ function transformVariableDeclarator(
   ctx: StateContext,
   path: babel.NodePath<t.VariableDeclarator>,
 ): void {
-  if (!path.node.init || path.node.id.type !== 'Identifier') {
-    return;
-  }
   if (
-    ctx.filters.component.test(path.node.id.name)
-    || (ctx.filters.hook && ctx.filters.hook.test(path.node.id.name))
+    path.node.init
+    && path.node.id.type === 'Identifier'
+    && isHookOrComponentName(ctx, path.node.id)
+    && !isNodeShouldBeSkipped(path.node)
+    && (
+      path.parent.type === 'VariableDeclaration'
+        ? !isNodeShouldBeSkipped(path.parent)
+        : true
+    )
   ) {
     transformFunction(ctx, path.get('init') as babel.NodePath<Argument>, false);
   }

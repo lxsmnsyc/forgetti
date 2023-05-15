@@ -29,7 +29,7 @@ function Decrement({ action }: { action: () => void }) {
 export default function App() {
   const [count, setCount] = useState(0);
   const increment = () => setCount((c) => c + 1);
-  const decrement = () => setCount((c) => c + 1);
+  const decrement = () => setCount((c) => c - 1);
   const example = useMemo(() => setCount, [setCount]);
 
   useWhy('App#example', example);

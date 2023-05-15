@@ -3,6 +3,7 @@
 exports[`statements > should optimize for-of statements 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
   let _c = _$$cache(_useMemo, 5),
@@ -11,21 +12,18 @@ function Example(props) {
     _v5 = _eq ? _c[1] : _c[1] = _v4.a,
     _v3;
   if (_v5) {
-    let _c2 = _c[2] ||= new Array(1),
-      _v6 = _eq ? _c2[0] : _c2[0] = _v4.b;
-    _v3 = _v6;
+    let _c2 = _$$branch(_c, 2, 1);
+    _v3 = _eq ? _c2[0] : _c2[0] = _v4.b;
   } else _v3 = _v5;
   let _v2;
   if (_v3) {
-    let _c3 = _c[3] ||= new Array(1),
-      _v7 = _eq ? _c3[0] : _c3[0] = _v4.c;
-    _v2 = _v7;
+    let _c3 = _$$branch(_c, 3, 1);
+    _v2 = _eq ? _c3[0] : _c3[0] = _v4.c;
   } else _v2 = _v3;
   let _v;
   if (_v2) {
-    let _c4 = _c[4] ||= new Array(1),
-      _v8 = _eq ? _c4[0] : _c4[0] = _v4.d;
-    _v = _v8;
+    let _c4 = _$$branch(_c, 4, 1);
+    _v = _eq ? _c4[0] : _c4[0] = _v4.d;
   } else _v = _v2;
   return _v;
 }"
