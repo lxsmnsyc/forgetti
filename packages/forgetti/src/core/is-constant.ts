@@ -201,7 +201,13 @@ function isObjectExpressionConstant(
       }
     }
     if (isPathValid(property, t.isObjectMethod)) {
-      // TODO
+      const bindings = getForeignBindings(property);
+      for (let k = 0, klen = bindings.length; k < klen; k++) {
+        const binding = bindings[k];
+        if (!isIdentifierConstant(instance, property, binding)) {
+          return false;
+        }
+      }
     }
   }
   return true;
