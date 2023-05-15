@@ -246,35 +246,35 @@ export default class Optimizer {
   memoizeMemberExpression(
     path: babel.NodePath<t.MemberExpression>,
   ): { expr: t.MemberExpression; deps: t.Expression[] } {
-    if (!isConstant(this, path)) {
-      // Create dependencies
-      const condition = createDependencies();
-      // Mark source as a dependency
-      const source = this.createDependency(path.get('object'));
-      if (source) {
-        path.node.object = source.expr;
-        mergeDependencies(condition, source.deps);
-      }
-      // Only memoize computed properties (obviously)
-      if (path.node.computed) {
-        const propertyPath = path.get('property');
-        if (isPathValid(propertyPath, t.isExpression)) {
-          const property = this.createDependency(propertyPath);
-          if (property) {
-            path.node.property = property.expr;
-            mergeDependencies(condition, property.deps);
-          }
-        }
-      }
-
+    if (isConstant(this, path)) {
       return {
         expr: path.node,
-        deps: condition,
+        deps: [],
       };
     }
+    // Create dependencies
+    const condition = createDependencies();
+    // Mark source as a dependency
+    const source = this.createDependency(path.get('object'));
+    if (source) {
+      path.node.object = source.expr;
+      mergeDependencies(condition, source.deps);
+    }
+    // Only memoize computed properties (obviously)
+    if (path.node.computed) {
+      const propertyPath = path.get('property');
+      if (isPathValid(propertyPath, t.isExpression)) {
+        const property = this.createDependency(propertyPath);
+        if (property) {
+          path.node.property = property.expr;
+          mergeDependencies(condition, property.deps);
+        }
+      }
+    }
+
     return {
       expr: path.node,
-      deps: [],
+      deps: condition,
     };
   }
 
