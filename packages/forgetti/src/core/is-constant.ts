@@ -12,6 +12,7 @@ interface OptimizerInstance {
   ctx: StateContext;
   scope: OptimizerScope;
   path: babel.NodePath<ComponentNode>;
+  nodeConstantCheckCache: WeakMap<babel.NodePath<t.Expression>, boolean>;
 }
 
 function isTemplateLiteralConstant(
@@ -332,7 +333,7 @@ function isJSXElementConstant(
     && isJSXChildrenConstant(instance, path);
 }
 
-export default function isConstant(
+function uncachedIsConstant(
   instance: OptimizerInstance,
   path: babel.NodePath<t.Expression>,
 ): boolean {
@@ -403,4 +404,16 @@ export default function isConstant(
     return true;
   }
   return false;
+}
+
+export default function isConstant(
+  instance: OptimizerInstance,
+  path: babel.NodePath<t.Expression>,
+): boolean {
+  if (instance.nodeConstantCheckCache.has(path)) {
+    return instance.nodeConstantCheckCache.get(path)!;
+  }
+  const result = uncachedIsConstant(instance, path);
+  instance.nodeConstantCheckCache.set(path, result);
+  return result;
 }

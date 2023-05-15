@@ -50,6 +50,8 @@ export default class Optimizer {
 
   scope: OptimizerScope;
 
+  nodeConstantCheckCache = new WeakMap<babel.NodePath<t.Expression>, boolean>();
+
   constructor(ctx: StateContext, path: babel.NodePath<ComponentNode>) {
     this.ctx = ctx;
     this.path = path;
