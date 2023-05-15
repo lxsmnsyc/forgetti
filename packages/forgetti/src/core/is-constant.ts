@@ -135,6 +135,7 @@ function isCallExpressionConstant(
         return false;
       }
     }
+    return true;
   }
   return false;
 }
