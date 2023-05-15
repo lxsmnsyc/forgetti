@@ -28,7 +28,20 @@ export function isHookOrComponentName(ctx: StateContext, id: t.Identifier): bool
   return ctx.filters.component.test(id.name) || isHookName(ctx, id);
 }
 
-export function isComponentNameValid(
+export function isNodeShouldBeSkipped(node: t.Node): boolean {
+  // Node without leading comments shouldn't be skipped
+  if (!node.leadingComments) {
+    return false;
+  }
+
+  if (node.leadingComments.some((comment) => comment.value.includes('@forgetti skip'))) {
+    return true;
+  }
+
+  return false;
+}
+
+export function isComponentValid(
   ctx: StateContext,
   node: ComponentNode,
   checkName: boolean,
@@ -37,6 +50,7 @@ export function isComponentNameValid(
     node.type !== 'ArrowFunctionExpression'
     && !!node.id
     && isHookOrComponentName(ctx, node.id)
+    && !isNodeShouldBeSkipped(node)
   );
 }
 
