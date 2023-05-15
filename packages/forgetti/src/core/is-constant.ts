@@ -12,6 +12,7 @@ interface OptimizerInstance {
   ctx: StateContext;
   scope: OptimizerScope;
   path: babel.NodePath<ComponentNode>;
+  nodeConstantCheckCache: WeakMap<babel.NodePath<t.Expression>, boolean>;
 }
 
 function isTemplateLiteralConstant(
@@ -404,25 +405,14 @@ function uncachedIsConstant(
   return false;
 }
 
-type OptimizerCache = WeakMap<babel.NodePath<t.Expression>, boolean>;
-const cacheMap = new WeakMap<OptimizerInstance, OptimizerCache>();
-
 export default function isConstant(
   instance: OptimizerInstance,
   path: babel.NodePath<t.Expression>,
 ): boolean {
-  let optimizerCache: OptimizerCache;
-  if (cacheMap.has(instance)) {
-    optimizerCache = cacheMap.get(instance)!;
-  } else {
-    optimizerCache = new WeakMap();
-    cacheMap.set(instance, optimizerCache);
-  }
-
-  if (optimizerCache.has(path)) {
-    return optimizerCache.get(path)!;
+  if (instance.nodeConstantCheckCache.has(path)) {
+    return instance.nodeConstantCheckCache.get(path)!;
   }
   const result = uncachedIsConstant(instance, path);
-  optimizerCache.set(path, result);
+  instance.nodeConstantCheckCache.set(path, result);
   return result;
 }
