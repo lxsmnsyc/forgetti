@@ -49,12 +49,10 @@ export function expandExpressions(
   ctx: StateContext,
   path: babel.NodePath<ComponentNode>,
 ): void {
-  if (path.node.type === 'ArrowFunctionExpression') {
-    if (path.node.body.type !== 'BlockStatement') {
-      path.node.body = t.blockStatement(
-        [t.returnStatement(path.node.body)],
-      );
-    }
+  if (path.node.type === 'ArrowFunctionExpression' && path.node.body.type !== 'BlockStatement') {
+    path.node.body = t.blockStatement(
+      [t.returnStatement(path.node.body)],
+    );
   }
 
   const hoistedVars = new Set();
