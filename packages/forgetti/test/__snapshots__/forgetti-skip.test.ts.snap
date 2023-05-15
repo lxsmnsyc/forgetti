@@ -55,7 +55,8 @@ const Example = props => {
 `;
 
 exports[`forgetti skip > should skip skipped function declaration 1`] = `
-"/* @forgetti skip */function Example(props) {
+"/* @forgetti skip */
+function Example(props) {
   return <h1 className={props.className}>{props.children}</h1>;
 }"
 `;

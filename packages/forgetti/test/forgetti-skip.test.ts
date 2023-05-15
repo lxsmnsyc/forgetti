@@ -35,7 +35,8 @@ function Example(props) {
 
   it('should skip skipped function declaration', async () => {
     const code = `
-/* @forgetti skip */ function Example(props) {
+/* @forgetti skip */
+function Example(props) {
   return <h1 className={props.className}>{props.children}</h1>;
 }
 `;

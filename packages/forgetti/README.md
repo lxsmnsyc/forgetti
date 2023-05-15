@@ -447,6 +447,17 @@ List of supported loop statements:
 - `while`
 - `do-while`
 
+## `/* @forgetti skip */`
+
+To disable optimization for an specific component, you can include the comment `/* @forgetti skip */` before the component.
+
+```js
+/* @forgetti skip */
+function UnoptimizedComponent(props) {
+  return <h1 className={props.className}>{props.children}</h1>;
+}
+```
+
 ## Configuration
 
 Configuration only has one property: `preset`. This property can either be `"react"`, `"preact"` or your custom preset.
