@@ -3,9 +3,10 @@ import type * as babel from '@babel/core';
 import * as t from '@babel/types';
 import {
   isComponent,
-  isComponentNameValid,
+  isComponentValid,
   getImportSpecifierName,
   isHookOrComponentName,
+  isNodeShouldBeSkipped,
 } from './core/checks';
 import Optimizer from './core/optimizer';
 import type {
@@ -149,7 +150,7 @@ function transformFunction(
   checkName: boolean,
 ): void {
   const unwrapped = unwrapPath(path, isComponent);
-  if (unwrapped && isComponentNameValid(ctx, unwrapped.node, checkName)) {
+  if (unwrapped && isComponentValid(ctx, unwrapped.node, checkName)) {
     if (!checkName && unwrapped.node.type !== 'ArrowFunctionExpression') {
       unwrapped.node.id = undefined;
     }
@@ -215,6 +216,16 @@ function transformVariableDeclarator(
   path: babel.NodePath<t.VariableDeclarator>,
 ): void {
   if (path.node.init && path.node.id.type === 'Identifier' && isHookOrComponentName(ctx, path.node.id)) {
+    if (
+      path.parent.type === 'VariableDeclaration'
+      && isNodeShouldBeSkipped(path.parent)
+    ) {
+      return;
+    }
+    if (isNodeShouldBeSkipped(path.node)) {
+      return;
+    }
+
     transformFunction(ctx, path.get('init') as babel.NodePath<Argument>, false);
   }
 }
