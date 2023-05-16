@@ -21,9 +21,39 @@ async function compile(code) {
 }
 
 console.log(await compile(`
-function Example(props) {
-  for (const x in props.arr) {
-    console.log(x);
-  }
+import { useMemo, useState } from 'react';
+
+function Count({ value }) {
+  return <h1>{\`Count: \${value}\`}</h1>;
+}
+
+function Button({ action, title }) {
+  return (
+    <button type="button" onClick={action}>
+      {title}
+    </button>
+  );
+}
+
+function Increment({ action }) {
+  return <Button action={action} title="Increment" />;
+}
+
+function Decrement({ action }) {
+  return <Button action={action} title="Decrement" />;
+}
+
+export default function App() {
+  const [count, setCount] = useState(0);
+  const increment = () => setCount((c) => c + 1);
+  const decrement = () => setCount((c) => c - 1);
+
+  return (
+    <>
+      <Count value={count} />
+      <Increment action={increment} />
+      <Decrement action={decrement} />
+    </>
+  );
 }
 `));

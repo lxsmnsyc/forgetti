@@ -17,7 +17,9 @@ export interface State extends babel.PluginPass {
 }
 
 export interface StateContext {
+  preset: Preset;
   imports: Map<string, t.Identifier>;
+  memoComponent?: t.Identifier;
   registrations: {
     named: {
       hooks: Map<t.Identifier, HookRegistration>;
@@ -28,7 +30,6 @@ export interface StateContext {
       hocs: Map<t.Identifier, ImportRegistration[]>;
     };
   };
-  preset: Preset;
   filters: {
     component: RegExp;
     hook?: RegExp;

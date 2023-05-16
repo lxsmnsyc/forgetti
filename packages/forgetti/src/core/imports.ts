@@ -17,3 +17,9 @@ export const RUNTIME_BRANCH: ImportRegistration = {
   source: 'forgetti/runtime',
   kind: 'named',
 };
+
+export const RUNTIME_MEMO: ImportRegistration = {
+  name: '$$memo',
+  source: 'forgetti/runtime',
+  kind: 'named',
+};

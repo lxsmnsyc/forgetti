@@ -4,7 +4,7 @@ import * as t from '@babel/types';
 import { isNestedExpression, isPathValid } from './checks';
 import getForeignBindings, { isForeignBinding } from './get-foreign-bindings';
 import getImportIdentifier from './get-import-identifier';
-import { RUNTIME_EQUALS } from './imports';
+import { RUNTIME_EQUALS, RUNTIME_MEMO } from './imports';
 import OptimizerScope from './optimizer-scope';
 import type { ComponentNode, OptimizedExpression, StateContext } from './types';
 import isConstant from './is-constant';
@@ -811,12 +811,57 @@ export default class Optimizer {
     return conditions;
   }
 
+  getMemoComponent(): t.Identifier {
+    if (this.ctx.memoComponent) {
+      return this.ctx.memoComponent;
+    }
+    const id = this.path.scope.generateUidIdentifier('Memo');
+    this.ctx.memoComponent = id;
+    this.path.scope.getProgramParent().push({
+      kind: 'const',
+      id,
+      init: t.callExpression(
+        getImportIdentifier(
+          this.ctx,
+          this.path,
+          RUNTIME_MEMO,
+        ),
+        [
+          getImportIdentifier(
+            this.ctx,
+            this.path,
+            this.ctx.preset.runtime.memo,
+          ),
+        ],
+      ),
+    });
+    return id;
+  }
+
+  getMemoJSX(node: t.JSXFragment | t.JSXElement): t.JSXElement {
+    const id = this.getMemoComponent();
+    return t.jsxElement(
+      t.jsxOpeningElement(
+        t.jsxIdentifier(id.name),
+        [
+          t.jsxAttribute(
+            t.jsxIdentifier('value'),
+            t.jsxExpressionContainer(node),
+          ),
+        ],
+        true,
+      ),
+      undefined,
+      [],
+    );
+  }
+
   optimizeJSXFragment(
     path: babel.NodePath<t.JSXFragment>,
   ): OptimizedExpression {
     if (this.ctx.preset.optimizeJSX) {
       const dependencies = this.memoizeJSXChildren(path);
-      return this.createMemo(path.node, dependencies);
+      return this.createMemo(this.getMemoJSX(path.node), dependencies);
     }
     return optimizedExpr(path.node);
   }
@@ -867,7 +912,7 @@ export default class Optimizer {
       if (path.node.children.length) {
         mergeDependencies(dependencies, this.memoizeJSXChildren(path));
       }
-      return this.createMemo(path.node, dependencies);
+      return this.createMemo(this.getMemoJSX(path.node), dependencies);
     }
     return optimizedExpr(path.node);
   }

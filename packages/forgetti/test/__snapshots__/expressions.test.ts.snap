@@ -3,7 +3,10 @@
 exports[`expressions > should optimize JSX Element 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { memo as _memo } from \\"react\\";
+import { $$memo as _$$memo } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
+const _Memo = _$$memo(_memo);
 function Example(props) {
   let _c = _$$cache(_useMemo, 10),
     _eq = _$$equals(_c, 0, props),
@@ -14,23 +17,26 @@ function Example(props) {
     _v4 = _eq ? _c[3] : _c[3] = _v.title,
     _eq3 = _$$equals(_c, 4, _v4),
     _v5 = _eq3 ? _c[4] : _c[4] = _v4,
-    _v6 = _eq2 && _eq3 ? _c[5] : _c[5] = <h1 title={_v3}>Title: {_v5}</h1>,
+    _v6 = _eq2 && _eq3 ? _c[5] : _c[5] = <_Memo value={<h1 title={_v3}>Title: {_v5}</h1>} />,
     _eq5 = _$$equals(_c, 6, _v6),
     _v7 = _eq5 ? _c[6] : _c[6] = _v6,
     _v8 = _eq ? _c[7] : _c[7] = _v.children,
     _eq6 = _$$equals(_c, 8, _v8),
     _v9 = _eq6 ? _c[8] : _c[8] = _v8;
-  return _eq5 && _eq6 ? _c[9] : _c[9] = <div>
+  return _eq5 && _eq6 ? _c[9] : _c[9] = <_Memo value={<div>
       {_v7}
       {_v9}
-    </div>;
+    </div>} />;
 }"
 `;
 
 exports[`expressions > should optimize JSX Fragment 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { memo as _memo } from \\"react\\";
+import { $$memo as _$$memo } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
+const _Memo = _$$memo(_memo);
 function Example(props) {
   let _c = _$$cache(_useMemo, 10),
     _eq = _$$equals(_c, 0, props),
@@ -41,16 +47,16 @@ function Example(props) {
     _v4 = _eq ? _c[3] : _c[3] = _v.title,
     _eq3 = _$$equals(_c, 4, _v4),
     _v5 = _eq3 ? _c[4] : _c[4] = _v4,
-    _v6 = _eq2 && _eq3 ? _c[5] : _c[5] = <h1 title={_v3}>Title: {_v5}</h1>,
+    _v6 = _eq2 && _eq3 ? _c[5] : _c[5] = <_Memo value={<h1 title={_v3}>Title: {_v5}</h1>} />,
     _eq5 = _$$equals(_c, 6, _v6),
     _v7 = _eq5 ? _c[6] : _c[6] = _v6,
     _v8 = _eq ? _c[7] : _c[7] = _v.children,
     _eq6 = _$$equals(_c, 8, _v8),
     _v9 = _eq6 ? _c[8] : _c[8] = _v8;
-  return _eq5 && _eq6 ? _c[9] : _c[9] = <>
+  return _eq5 && _eq6 ? _c[9] : _c[9] = <_Memo value={<>
       {_v7}
       {_v9}
-    </>;
+    </>} />;
 }"
 `;
 

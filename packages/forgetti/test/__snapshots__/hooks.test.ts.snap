@@ -52,7 +52,10 @@ function Example(props) {
 exports[`hooks > should correct transform derived hooks call 1`] = `
 "import { useMemo as _useMemo } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { memo as _memo } from \\"react\\";
+import { $$memo as _$$memo } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
+const _Memo = _$$memo(_memo);
 import { useA, useB, useC } from 'whatever';
 function Example(props) {
   let _c = _$$cache(_useMemo, 16),
@@ -92,13 +95,13 @@ function Example(props) {
   }
   let _eq10 = _$$equals(_c, 10, _hoisted8),
     _v12 = _eq10 ? _c[10] : _c[10] = _hoisted8,
-    _v13 = _eq10 ? _c[11] : _c[11] = <div>{_v12}</div>,
+    _v13 = _eq10 ? _c[11] : _c[11] = <_Memo value={<div>{_v12}</div>} />,
     _eq11 = _$$equals(_c, 12, _hoisted9),
     _v14 = _eq11 ? _c[12] : _c[12] = _hoisted9,
     _eq12 = _$$equals(_c, 13, _hoisted10),
     _v15 = _eq12 ? _c[13] : _c[13] = _hoisted10,
     _eq13 = _eq11 && _eq12,
-    _v16 = _eq13 ? _c[14] : _c[14] = <>{_v14}{_v15}</>;
+    _v16 = _eq13 ? _c[14] : _c[14] = <_Memo value={<>{_v14}{_v15}</>} />;
   return _eq && _eq2 && _eq3 && _eq5 && _eq8 && _eq10 && _eq13 ? _c[15] : _c[15] = {
     [_v]: _v2,
     ..._v3,
