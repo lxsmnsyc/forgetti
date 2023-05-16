@@ -1,12 +1,12 @@
 // Vitest Snapshot v1
 
 exports[`hooks > should correct transform any nested hooks call 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { useA, useB, useC, useD, useE, useF, useG, useH } from 'whatever';
 function Example(props) {
-  let _c = _$$cache(_useMemo, 21),
+  let _c = _$$cache(_useRef, 21),
     a = null,
     _hoisted2 = useB(),
     _hoisted3 = useC(),
@@ -50,7 +50,7 @@ function Example(props) {
 `;
 
 exports[`hooks > should correct transform derived hooks call 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { memo as _memo } from \\"react\\";
 import { $$memo as _$$memo } from \\"forgetti/runtime\\";
@@ -58,7 +58,7 @@ import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 const _Memo = _$$memo(_memo);
 import { useA, useB, useC } from 'whatever';
 function Example(props) {
-  let _c = _$$cache(_useMemo, 16),
+  let _c = _$$cache(_useRef, 16),
     a = null,
     _hoisted = useA(),
     _hoisted2 = useB(),
@@ -114,14 +114,14 @@ function Example(props) {
 `;
 
 exports[`hooks > should correct transform nested hooks call (issue #14) 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { useDeferredValue } from 'react';
 import { useAtomValue } from 'jotai';
 import { stateAtom } from 'whatever';
 function Example(props) {
-  let _c = _$$cache(_useMemo, 3),
+  let _c = _$$cache(_useRef, 3),
     _hoisted2 = useAtomValue(0 in _c ? _c[0] : _c[0] = stateAtom),
     _hoisted = useDeferredValue(_$$equals(_c, 1, _hoisted2) ? _c[1] : _c[1] = _hoisted2);
   return _$$equals(_c, 2, _hoisted) ? _c[2] : _c[2] = _hoisted;
@@ -129,12 +129,12 @@ function Example(props) {
 `;
 
 exports[`hooks > should optimize useCallback 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { useCallback } from 'react';
 function Example(props) {
-  let _c = _$$cache(_useMemo, 5),
+  let _c = _$$cache(_useRef, 5),
     _eq = _$$equals(_c, 0, props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = _v.value,
@@ -146,23 +146,23 @@ function Example(props) {
 `;
 
 exports[`hooks > should optimize useCallback with 0 dependencies 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { useCallback } from 'react';
 function Example(props) {
-  let _c = _$$cache(_useMemo, 2),
+  let _c = _$$cache(_useRef, 2),
     _v = 0 in _c ? _c[0] : _c[0] = [];
   return 1 in _c ? _c[1] : _c[1] = () => props.value();
 }"
 `;
 
 exports[`hooks > should optimize useCallback with auto dependencies 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { useCallback } from 'react';
 function Example(props) {
-  let _c = _$$cache(_useMemo, 2),
+  let _c = _$$cache(_useRef, 2),
     _eq = _$$equals(_c, 0, props),
     _v = _eq ? _c[0] : _c[0] = props;
   return _eq ? _c[1] : _c[1] = () => props.value();
@@ -170,12 +170,12 @@ function Example(props) {
 `;
 
 exports[`hooks > should optimize useEffect 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { useEffect } from 'react';
 function Example(props) {
-  let _c = _$$cache(_useMemo, 5),
+  let _c = _$$cache(_useRef, 5),
     _eq = _$$equals(_c, 0, props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = _v.example,
@@ -187,24 +187,24 @@ function Example(props) {
 `;
 
 exports[`hooks > should optimize useEffect with 0 dependencies 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { useEffect } from 'react';
 function Example(props) {
-  let _c = _$$cache(_useMemo, 2),
+  let _c = _$$cache(_useRef, 2),
     _hoisted = useEffect(() => props.value(), [0 in _c ? _c[0] : _c[0] = []]);
   _$$equals(_c, 1, _hoisted) ? _c[1] : _c[1] = _hoisted;
 }"
 `;
 
 exports[`hooks > should optimize useEffect with auto dependencies 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { useEffect } from 'react';
 function Example(props) {
-  let _c = _$$cache(_useMemo, 3),
+  let _c = _$$cache(_useRef, 3),
     _eq = _$$equals(_c, 0, props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = () => props.value(),
@@ -214,12 +214,12 @@ function Example(props) {
 `;
 
 exports[`hooks > should optimize useMemo 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { useMemo } from 'react';
 function Example(props) {
-  let _c = _$$cache(_useMemo, 5),
+  let _c = _$$cache(_useRef, 5),
     _eq = _$$equals(_c, 0, props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = _v.value,
@@ -231,23 +231,23 @@ function Example(props) {
 `;
 
 exports[`hooks > should optimize useMemo with 0 dependencies 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { useMemo } from 'react';
 function Example(props) {
-  let _c = _$$cache(_useMemo, 2),
+  let _c = _$$cache(_useRef, 2),
     _v = 0 in _c ? _c[0] : _c[0] = [];
   return 1 in _c ? _c[1] : _c[1] = (() => props.value())();
 }"
 `;
 
 exports[`hooks > should optimize useMemo with auto dependencies 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { useMemo } from 'react';
 function Example(props) {
-  let _c = _$$cache(_useMemo, 3),
+  let _c = _$$cache(_useRef, 3),
     _eq = _$$equals(_c, 0, props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = () => props.value();
@@ -256,11 +256,11 @@ function Example(props) {
 `;
 
 exports[`hooks > should optimize useRef 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { useRef } from 'react';
 function Example(props) {
-  let _c = _$$cache(_useMemo, 1);
+  let _c = _$$cache(_useRef, 1);
   return 0 in _c ? _c[0] : _c[0] = {
     current: props.value
   };

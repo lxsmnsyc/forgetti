@@ -1,13 +1,13 @@
 // Vitest Snapshot v1
 
 exports[`statements > should optimize do-while statements 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
   let i = 0,
-    _c = _$$branch(_$$cache(_useMemo, 1), 0, 0),
+    _c = _$$branch(_$$cache(_useRef, 1), 0, 0),
     _id = 0;
   do {
     let _l = _$$branch(_c, _id++, 3),
@@ -21,12 +21,12 @@ function Example(props) {
 `;
 
 exports[`statements > should optimize for statements 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$branch(_$$cache(_useMemo, 1), 0, 0),
+  let _c = _$$branch(_$$cache(_useRef, 1), 0, 0),
     _id = 0;
   for (let i = 0; i < 10; i += 1) {
     let _l = _$$branch(_c, _id++, 2),
@@ -38,12 +38,12 @@ function Example(props) {
 `;
 
 exports[`statements > should optimize for-in statements 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 3),
+  let _c = _$$cache(_useRef, 3),
     _eq = _$$equals(_c, 0, props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = _v.arr,
@@ -59,12 +59,12 @@ function Example(props) {
 `;
 
 exports[`statements > should optimize for-of statements 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 3),
+  let _c = _$$cache(_useRef, 3),
     _eq = _$$equals(_c, 0, props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = _v.arr,
@@ -80,12 +80,12 @@ function Example(props) {
 `;
 
 exports[`statements > should optimize if statements 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 6),
+  let _c = _$$cache(_useRef, 6),
     _eq = _$$equals(_c, 0, props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = _v.type,
@@ -108,11 +108,11 @@ function Example(props) {
 `;
 
 exports[`statements > should optimize labeled statements 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c3 = _$$cache(_useMemo, 2);
+  let _c3 = _$$cache(_useRef, 2);
   foo: {
     let _c2 = _$$branch(_c3, 0, 1);
     {
@@ -127,12 +127,12 @@ function Example(props) {
 `;
 
 exports[`statements > should optimize switch statements 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 6),
+  let _c = _$$cache(_useRef, 6),
     _eq = _$$equals(_c, 0, props),
     _v = _eq ? _c[0] : _c[0] = props;
   switch (_eq ? _c[1] : _c[1] = _v.type) {
@@ -165,11 +165,11 @@ function Example(props) {
 `;
 
 exports[`statements > should optimize throw statements 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 4),
+  let _c = _$$cache(_useRef, 4),
     _eq = _$$equals(_c, 0, props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = _v.message,
@@ -180,12 +180,12 @@ function Example(props) {
 `;
 
 exports[`statements > should optimize try statements 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c2 = _$$cache(_useMemo, 3);
+  let _c2 = _$$cache(_useRef, 3);
   try {
     let _c = _$$branch(_c2, 0, 2),
       _eq = _$$equals(_c, 0, props),
@@ -208,13 +208,13 @@ function Example(props) {
 `;
 
 exports[`statements > should optimize while statements 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
   let i = 0,
-    _c = _$$branch(_$$cache(_useMemo, 1), 0, 0),
+    _c = _$$branch(_$$cache(_useRef, 1), 0, 0),
     _id = 0;
   while (i < props.x) {
     let _l = _$$branch(_c, _id++, 3),

@@ -1,12 +1,12 @@
 // Vitest Snapshot v1
 
 exports[`statements > should optimize for-of statements 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 5),
+  let _c = _$$cache(_useRef, 5),
     _eq = _$$equals(_c, 0, props),
     _v4 = _eq ? _c[0] : _c[0] = props,
     _v5 = _eq ? _c[1] : _c[1] = _v4.a,

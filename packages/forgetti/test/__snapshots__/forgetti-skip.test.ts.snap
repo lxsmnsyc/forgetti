@@ -1,14 +1,14 @@
 // Vitest Snapshot v1
 
 exports[`forgetti skip > should optimize non-skipped function declaration 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { memo as _memo } from \\"react\\";
 import { $$memo as _$$memo } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 const _Memo = _$$memo(_memo);
 function Example(props) {
-  let _c = _$$cache(_useMemo, 6),
+  let _c = _$$cache(_useRef, 6),
     _eq = _$$equals(_c, 0, props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = _v.className,
@@ -22,14 +22,14 @@ function Example(props) {
 `;
 
 exports[`forgetti skip > should optimize non-skipped function expression 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { memo as _memo } from \\"react\\";
 import { $$memo as _$$memo } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 const _Memo = _$$memo(_memo);
 const Example = function (props) {
-  let _c = _$$cache(_useMemo, 6),
+  let _c = _$$cache(_useRef, 6),
     _eq = _$$equals(_c, 0, props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = _v.className,
@@ -43,14 +43,14 @@ const Example = function (props) {
 `;
 
 exports[`forgetti skip > should optimize non-skipped variable declaration 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { memo as _memo } from \\"react\\";
 import { $$memo as _$$memo } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 const _Memo = _$$memo(_memo);
 const Example = props => {
-  let _c = _$$cache(_useMemo, 6),
+  let _c = _$$cache(_useRef, 6),
     _eq = _$$equals(_c, 0, props),
     _v = _eq ? _c[0] : _c[0] = props,
     _v2 = _eq ? _c[1] : _c[1] = _v.className,
