@@ -7,10 +7,17 @@ export function $$equals(cache: unknown[], index: number, b: unknown): boolean {
   return index in cache && isEqual(cache[index], b);
 }
 
-export type MemoHook = <T>(callback: () => T, dependencies: unknown[]) => T;
+export interface Ref<T> {
+  current: T;
+}
+export type RefHook = <T>(callback: T) => Ref<T>;
 
-export function $$cache(hook: MemoHook, size: number): unknown[] {
-  return hook(() => new Array<unknown>(size), []);
+export function $$cache(hook: RefHook, size: number): unknown[] {
+  const ref = hook<unknown[] | undefined>(undefined);
+  if (!ref.current) {
+    ref.current = new Array(size);
+  }
+  return ref.current;
 }
 
 export function $$branch(parent: unknown[], index: number, size: number): unknown[] {

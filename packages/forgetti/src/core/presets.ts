@@ -25,7 +25,7 @@ export interface Preset {
     hook?: RawRegExp;
   };
   runtime: {
-    useMemo: ImportRegistration;
+    useRef: ImportRegistration;
     memo: ImportRegistration;
   };
   imports: {
@@ -57,8 +57,8 @@ export const PRESETS = {
       },
     },
     runtime: {
-      useMemo: {
-        name: 'useMemo',
+      useRef: {
+        name: 'useRef',
         source: 'react',
         kind: 'named',
       },
@@ -134,8 +134,8 @@ export const PRESETS = {
       },
     },
     runtime: {
-      useMemo: {
-        name: 'useMemo',
+      useRef: {
+        name: 'useRef',
         source: 'preact/hooks',
         kind: 'named',
       },
