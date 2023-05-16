@@ -36,12 +36,10 @@ export default function App(): JSX.Element {
   };
 
   return (
-    <div>
+    <>
       <Count value={count} />
-      <div>
-        <Increment action={increment} />
-        <Decrement action={decrement} />
-      </div>
-    </div>
+      <Increment action={increment} />
+      <Decrement action={decrement} />
+    </>
   );
 }
