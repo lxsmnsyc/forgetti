@@ -12,7 +12,6 @@ import Optimizer from './core/optimizer';
 import type {
   HookRegistration,
   ImportRegistration,
-
   Options,
 } from './core/presets';
 import {
