@@ -156,9 +156,9 @@ function transformFunction(
     }
     // inline expressions
     inlineExpressions(unwrapped);
+    simplifyExpressions(unwrapped);
     // expand for assignment and hook calls
     expandExpressions(ctx, unwrapped);
-    simplifyExpressions(unwrapped);
     // optimize
     new Optimizer(ctx, unwrapped).optimize();
     // inline again
