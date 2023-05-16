@@ -98,6 +98,27 @@ export function simplifyExpressions(path: babel.NodePath<ComponentNode>): void {
         }
       },
     },
+    IfStatement: {
+      exit(p) {
+        const state = getBooleanishState(p.node.test);
+        if (state === 'truthy') {
+          p.replaceWith(p.node.consequent);
+        } else if (state === 'indeterminate') {
+          // TODO Should simplify IfStatement?
+        } else if (p.node.alternate) {
+          p.replaceWith(p.node.alternate);
+        } else {
+          p.remove();
+        }
+      },
+    },
+    WhileStatement: {
+      exit(p) {
+        if (getBooleanishState(p.node.test) === 'falsy') {
+          p.remove();
+        }
+      },
+    },
   });
   path.scope.crawl();
 }
