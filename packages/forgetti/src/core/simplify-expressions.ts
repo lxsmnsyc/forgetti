@@ -28,13 +28,14 @@ function getBooleanishState(node: t.Expression): LiteralState {
           return 'indeterminate';
       }
     }
-    case 'ArrayExpression':
-    case 'ArrowFunctionExpression':
-    case 'RegExpLiteral':
-    case 'ObjectExpression':
-    case 'RecordExpression':
-    case 'TupleExpression':
-      return 'truthy';
+    // case 'ArrayExpression':
+    // case 'FunctionExpression':
+    // case 'ArrowFunctionExpression':
+    // case 'RegExpLiteral':
+    // case 'ObjectExpression':
+    // case 'RecordExpression':
+    // case 'TupleExpression':
+    //   return 'truthy';
     case 'ParenthesizedExpression':
     case 'TypeCastExpression':
     case 'TSAsExpression':
