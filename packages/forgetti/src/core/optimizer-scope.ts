@@ -101,7 +101,7 @@ export default class OptimizerScope {
             getImportIdentifier(
               this.ctx,
               this.path,
-              this.ctx.preset.memo,
+              this.ctx.preset.runtime.useMemo,
             ),
             t.numericLiteral(this.indeces),
           ],

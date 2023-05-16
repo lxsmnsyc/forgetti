@@ -38,16 +38,16 @@ function registerHookSpecifiers(
     switch (specifier.type) {
       case 'ImportDefaultSpecifier':
         if (hook.kind === 'default' && specifier.local.name === hook.name) {
-          ctx.registrations.hooks.set(specifier.local, hook);
+          ctx.registrations.named.hooks.set(specifier.local, hook);
         }
         break;
       case 'ImportNamespaceSpecifier': {
-        let current = ctx.registrations.hooksNamespaces.get(specifier.local);
+        let current = ctx.registrations.namespace.hooks.get(specifier.local);
         if (!current) {
           current = [];
         }
         current.push(hook);
-        ctx.registrations.hooksNamespaces.set(specifier.local, current);
+        ctx.registrations.namespace.hooks.set(specifier.local, current);
       }
         break;
       case 'ImportSpecifier':
@@ -61,7 +61,7 @@ function registerHookSpecifiers(
             && getImportSpecifierName(specifier) === 'default'
           )
         ) {
-          ctx.registrations.hooks.set(specifier.local, hook);
+          ctx.registrations.named.hooks.set(specifier.local, hook);
         }
         break;
       default:
@@ -81,16 +81,16 @@ function registerHOCSpecifiers(
     switch (specifier.type) {
       case 'ImportDefaultSpecifier':
         if (hoc.kind === 'default' && specifier.local.name === hoc.name) {
-          ctx.registrations.hocs.set(specifier.local, hoc);
+          ctx.registrations.named.hocs.set(specifier.local, hoc);
         }
         break;
       case 'ImportNamespaceSpecifier': {
-        let current = ctx.registrations.hocsNamespaces.get(specifier.local);
+        let current = ctx.registrations.namespace.hocs.get(specifier.local);
         if (!current) {
           current = [];
         }
         current.push(hoc);
-        ctx.registrations.hocsNamespaces.set(specifier.local, current);
+        ctx.registrations.namespace.hocs.set(specifier.local, current);
       }
         break;
       case 'ImportSpecifier':
@@ -104,7 +104,7 @@ function registerHOCSpecifiers(
             && getImportSpecifierName(specifier) === 'default'
           )
         ) {
-          ctx.registrations.hocs.set(specifier.local, hoc);
+          ctx.registrations.named.hocs.set(specifier.local, hoc);
         }
         break;
       default:
@@ -121,16 +121,17 @@ function extractImportIdentifiers(
 
   // Identify hooks
   let hook: HookRegistration;
-  for (let i = 0, len = ctx.preset.hooks.length; i < len; i++) {
-    hook = ctx.preset.hooks[i];
+  const { imports } = ctx.preset;
+  for (let i = 0, len = imports.hooks.length; i < len; i++) {
+    hook = imports.hooks[i];
     if (mod === hook.source) {
       registerHookSpecifiers(ctx, path, hook);
     }
   }
   // Identify hocs
   let hoc: ImportRegistration;
-  for (let i = 0, len = ctx.preset.hocs.length; i < len; i++) {
-    hoc = ctx.preset.hocs[i];
+  for (let i = 0, len = imports.hocs.length; i < len; i++) {
+    hoc = imports.hocs[i];
     if (mod === hoc.source) {
       registerHOCSpecifiers(ctx, path, hoc);
     }
@@ -178,7 +179,7 @@ function transformHOC(
   if (trueID) {
     const binding = path.scope.getBindingIdentifier(trueID.name);
     if (binding) {
-      const registration = ctx.registrations.hocs.get(binding);
+      const registration = ctx.registrations.named.hocs.get(binding);
       if (registration) {
         transformFunction(ctx, path.get('arguments')[0], false);
       }
@@ -195,7 +196,7 @@ function transformHOC(
     if (obj) {
       const binding = path.scope.getBindingIdentifier(obj.name);
       if (binding) {
-        const registrations = ctx.registrations.hocsNamespaces.get(binding);
+        const registrations = ctx.registrations.namespace.hocs.get(binding);
         if (registrations) {
           const propName = trueMember.property.name;
           let registration: typeof registrations[0];
@@ -237,18 +238,25 @@ export default function forgettiPlugin(): babel.PluginObj<State> {
       Program(programPath, { opts }): void {
         const preset = typeof opts.preset === 'string' ? PRESETS[opts.preset] : opts.preset;
         const ctx: StateContext = {
-          hooks: new Map(),
+          imports: new Map(),
           registrations: {
-            hooks: new Map(),
-            hocs: new Map(),
-            hooksNamespaces: new Map(),
-            hocsNamespaces: new Map(),
+            named: {
+              hooks: new Map(),
+              hocs: new Map(),
+            },
+            namespace: {
+              hooks: new Map(),
+              hocs: new Map(),
+            },
           },
           preset,
           filters: {
-            component: new RegExp(preset.componentFilter.source, preset.componentFilter.flags),
-            hook: preset.hookFilter
-              ? new RegExp(preset.hookFilter.source, preset.hookFilter.flags)
+            component: new RegExp(
+              preset.filters.component.source,
+              preset.filters.component.flags,
+            ),
+            hook: preset.filters.hook
+              ? new RegExp(preset.filters.hook.source, preset.filters.hook.flags)
               : undefined,
           },
         };

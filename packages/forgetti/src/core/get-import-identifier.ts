@@ -10,13 +10,13 @@ export default function getImportIdentifier(
   definition: ImportRegistration,
 ): t.Identifier {
   const target = `${definition.source}[${definition.name}]`;
-  const current = ctx.hooks.get(target);
+  const current = ctx.imports.get(target);
   if (current) {
     return current;
   }
   const newID = (definition.kind === 'named')
     ? addNamed(path, definition.name, definition.source)
     : addDefault(path, definition.source);
-  ctx.hooks.set(target, newID);
+  ctx.imports.set(target, newID);
   return newID;
 }

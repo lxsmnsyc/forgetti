@@ -17,12 +17,16 @@ export interface State extends babel.PluginPass {
 }
 
 export interface StateContext {
-  hooks: Map<string, t.Identifier>;
+  imports: Map<string, t.Identifier>;
   registrations: {
-    hooks: Map<t.Identifier, HookRegistration>;
-    hocs: Map<t.Identifier, ImportRegistration>;
-    hooksNamespaces: Map<t.Identifier, HookRegistration[]>;
-    hocsNamespaces: Map<t.Identifier, ImportRegistration[]>;
+    named: {
+      hooks: Map<t.Identifier, HookRegistration>;
+      hocs: Map<t.Identifier, ImportRegistration>;
+    };
+    namespace: {
+      hooks: Map<t.Identifier, HookRegistration[]>;
+      hocs: Map<t.Identifier, ImportRegistration[]>;
+    };
   };
   preset: Preset;
   filters: {
