@@ -4,7 +4,7 @@ import * as t from '@babel/types';
 import { isNestedExpression, isPathValid } from './checks';
 import getForeignBindings, { isForeignBinding } from './get-foreign-bindings';
 import getImportIdentifier from './get-import-identifier';
-import { RUNTIME_EQUALS, RUNTIME_MEMO } from './imports';
+import { RUNTIME_EQUALS } from './imports';
 import OptimizerScope from './optimizer-scope';
 import type { ComponentNode, OptimizedExpression, StateContext } from './types';
 import isConstant from './is-constant';
@@ -93,7 +93,7 @@ export default class Optimizer {
     // Generate the access expression
     const pos = t.memberExpression(header, index, true);
     // Generate the `v` identifier
-    const vid = this.path.scope.generateUidIdentifier('v');
+    const vid = this.path.scope.generateUidIdentifier('value');
 
     let condition: t.Expression | undefined;
 
@@ -148,7 +148,7 @@ export default class Optimizer {
       eqid = condition;
     } else {
       // Generate a new identifier for the condition
-      eqid = this.path.scope.generateUidIdentifier('eq');
+      eqid = this.path.scope.generateUidIdentifier('equals');
     }
 
     // Generates the variable declaration
@@ -293,7 +293,7 @@ export default class Optimizer {
   optimizeConditionalExpression(
     path: babel.NodePath<t.ConditionalExpression>,
   ): OptimizedExpression {
-    const id = path.scope.generateUidIdentifier('v');
+    const id = path.scope.generateUidIdentifier('value');
     const parent = this.scope;
     const optimizedTest = this.optimizeExpression(path.get('test'));
     const consequentPath = path.get('consequent');
@@ -361,7 +361,7 @@ export default class Optimizer {
   optimizeLogicalExpression(
     path: babel.NodePath<t.LogicalExpression>,
   ): OptimizedExpression {
-    const id = path.scope.generateUidIdentifier('v');
+    const id = path.scope.generateUidIdentifier('value');
     const parent = this.scope;
     const optimizedTest = this.optimizeExpression(path.get('left'));
     const alternate = new OptimizerScope(this.ctx, path, parent);
@@ -811,57 +811,12 @@ export default class Optimizer {
     return conditions;
   }
 
-  getMemoComponent(): t.Identifier {
-    if (this.ctx.memoComponent) {
-      return this.ctx.memoComponent;
-    }
-    const id = this.path.scope.generateUidIdentifier('Memo');
-    this.ctx.memoComponent = id;
-    this.path.scope.getProgramParent().push({
-      kind: 'const',
-      id,
-      init: t.callExpression(
-        getImportIdentifier(
-          this.ctx,
-          this.path,
-          RUNTIME_MEMO,
-        ),
-        [
-          getImportIdentifier(
-            this.ctx,
-            this.path,
-            this.ctx.preset.runtime.memo,
-          ),
-        ],
-      ),
-    });
-    return id;
-  }
-
-  getMemoJSX(node: t.JSXFragment | t.JSXElement): t.JSXElement {
-    const id = this.getMemoComponent();
-    return t.jsxElement(
-      t.jsxOpeningElement(
-        t.jsxIdentifier(id.name),
-        [
-          t.jsxAttribute(
-            t.jsxIdentifier('value'),
-            t.jsxExpressionContainer(node),
-          ),
-        ],
-        true,
-      ),
-      undefined,
-      [],
-    );
-  }
-
   optimizeJSXFragment(
     path: babel.NodePath<t.JSXFragment>,
   ): OptimizedExpression {
     if (this.ctx.preset.optimizeJSX) {
       const dependencies = this.memoizeJSXChildren(path);
-      return this.createMemo(this.getMemoJSX(path.node), dependencies);
+      return this.createMemo(path.node, dependencies);
     }
     return optimizedExpr(path.node);
   }
@@ -912,7 +867,7 @@ export default class Optimizer {
       if (path.node.children.length) {
         mergeDependencies(dependencies, this.memoizeJSXChildren(path));
       }
-      return this.createMemo(this.getMemoJSX(path.node), dependencies);
+      return this.createMemo(path.node, dependencies);
     }
     return optimizedExpr(path.node);
   }

@@ -26,11 +26,16 @@ export function $$branch(parent: unknown[], index: number, size: number): unknow
 }
 
 export interface MemoProps {
-  value: unknown;
+  v: unknown[];
 }
 
 function arePropsEqual(prev: MemoProps, next: MemoProps): boolean {
-  return isEqual(prev.value, next.value);
+  for (let i = 0, len = prev.v.length; i < len; i++) {
+    if (!isEqual(prev.v[i], next.v[i])) {
+      return false;
+    }
+  }
+  return true;
 }
 
 type MemoComponent = (props: MemoProps) => unknown;
@@ -40,12 +45,9 @@ export type MemoFunction = (
   arePropsEqual: (prev: MemoProps, next: MemoProps) => boolean,
 ) => MemoComponent;
 
-function MemoComp(props: MemoProps): unknown {
-  return props.value;
-}
-
 export function $$memo(
   memoFunc: MemoFunction,
+  render: (values: unknown[]) => unknown,
 ): MemoComponent {
-  return memoFunc(MemoComp, arePropsEqual);
+  return memoFunc((props: MemoProps) => render(props.v), arePropsEqual);
 }

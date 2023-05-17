@@ -23,6 +23,7 @@ import unwrapPath from './core/unwrap-path';
 import { expandExpressions } from './core/expand-expressions';
 import { inlineExpressions } from './core/inline-expressions';
 import { simplifyExpressions } from './core/simplify-expressions';
+import optimizeJSX from './core/optimize-jsx';
 
 export type { Options };
 
@@ -159,6 +160,7 @@ function transformFunction(
     simplifyExpressions(unwrapped);
     // expand for assignment and hook calls
     expandExpressions(ctx, unwrapped);
+    optimizeJSX(ctx, unwrapped);
     // optimize
     new Optimizer(ctx, unwrapped).optimize();
     // inline again

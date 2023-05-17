@@ -52,7 +52,7 @@ export default class OptimizerScope {
 
   createHeader(): t.Identifier {
     if (!this.memo) {
-      this.memo = this.path.scope.generateUidIdentifier('c');
+      this.memo = this.path.scope.generateUidIdentifier('cache');
     }
     return this.memo;
   }
@@ -116,7 +116,7 @@ export default class OptimizerScope {
 
   createLoopHeader(): t.Identifier {
     if (!this.loop) {
-      this.loop = this.path.scope.generateUidIdentifier('l');
+      this.loop = this.path.scope.generateUidIdentifier('loop');
     }
     return this.loop;
   }
@@ -157,7 +157,7 @@ export default class OptimizerScope {
   getLoopDeclaration(): t.VariableDeclaration {
     const header = this.createHeader();
     const index = this.createLoopIndex();
-    const localIndex = this.path.scope.generateUidIdentifier('lid');
+    const localIndex = this.path.scope.generateUidIdentifier('loopId');
     return t.variableDeclaration('let', [
       t.variableDeclarator(localIndex, t.updateExpression('++', index)),
       t.variableDeclarator(
