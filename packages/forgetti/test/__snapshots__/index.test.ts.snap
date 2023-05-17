@@ -6,25 +6,25 @@ import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useRef, 5),
-    _eq = _$$equals(_c, 0, props),
-    _v4 = _eq ? _c[0] : _c[0] = props,
-    _v5 = _eq ? _c[1] : _c[1] = _v4.a,
-    _v3;
-  if (_v5) {
-    let _c2 = _$$branch(_c, 2, 1);
-    _v3 = _eq ? _c2[0] : _c2[0] = _v4.b;
-  } else _v3 = _v5;
-  let _v2;
-  if (_v3) {
-    let _c3 = _$$branch(_c, 3, 1);
-    _v2 = _eq ? _c3[0] : _c3[0] = _v4.c;
-  } else _v2 = _v3;
-  let _v;
-  if (_v2) {
-    let _c4 = _$$branch(_c, 4, 1);
-    _v = _eq ? _c4[0] : _c4[0] = _v4.d;
-  } else _v = _v2;
-  return _v;
+  let _cache = _$$cache(_useRef, 5),
+    _equals = _$$equals(_cache, 0, props),
+    _value4 = _equals ? _cache[0] : _cache[0] = props,
+    _value5 = _equals ? _cache[1] : _cache[1] = _value4.a,
+    _value3;
+  if (_value5) {
+    let _cache2 = _$$branch(_cache, 2, 1);
+    _value3 = _equals ? _cache2[0] : _cache2[0] = _value4.b;
+  } else _value3 = _value5;
+  let _value2;
+  if (_value3) {
+    let _cache3 = _$$branch(_cache, 3, 1);
+    _value2 = _equals ? _cache3[0] : _cache3[0] = _value4.c;
+  } else _value2 = _value3;
+  let _value;
+  if (_value2) {
+    let _cache4 = _$$branch(_cache, 4, 1);
+    _value = _equals ? _cache4[0] : _cache4[0] = _value4.d;
+  } else _value = _value2;
+  return _value;
 }"
 `;

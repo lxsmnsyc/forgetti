@@ -7,15 +7,15 @@ import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
   let i = 0,
-    _c = _$$branch(_$$cache(_useRef, 1), 0, 0),
+    _cache = _$$branch(_$$cache(_useRef, 1), 0, 0),
     _id = 0;
   do {
-    let _l = _$$branch(_c, _id++, 3),
-      _eq = _$$equals(_l, 0, i),
-      _v = _eq ? _l[0] : _l[0] = i;
-    _eq ? _l[1] : _l[1] = console.log(_v);
+    let _loop = _$$branch(_cache, _id++, 3),
+      _equals = _$$equals(_loop, 0, i),
+      _value = _equals ? _loop[0] : _loop[0] = i;
+    _equals ? _loop[1] : _loop[1] = console.log(_value);
     let _hoisted = i += 1;
-    _$$equals(_l, 2, _hoisted) ? _l[2] : _l[2] = _hoisted;
+    _$$equals(_loop, 2, _hoisted) ? _loop[2] : _loop[2] = _hoisted;
   } while (i < props.x);
 }"
 `;
@@ -26,13 +26,13 @@ import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$branch(_$$cache(_useRef, 1), 0, 0),
+  let _cache = _$$branch(_$$cache(_useRef, 1), 0, 0),
     _id = 0;
   for (let i = 0; i < 10; i += 1) {
-    let _l = _$$branch(_c, _id++, 2),
-      _eq = _$$equals(_l, 0, i),
-      _v = _eq ? _l[0] : _l[0] = i;
-    _eq ? _l[1] : _l[1] = console.log(_v);
+    let _loop = _$$branch(_cache, _id++, 2),
+      _equals = _$$equals(_loop, 0, i),
+      _value = _equals ? _loop[0] : _loop[0] = i;
+    _equals ? _loop[1] : _loop[1] = console.log(_value);
   }
 }"
 `;
@@ -43,17 +43,17 @@ import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useRef, 3),
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props,
-    _v2 = _eq ? _c[1] : _c[1] = _v.arr,
-    _c2 = _$$branch(_c, 2, 0),
+  let _cache = _$$cache(_useRef, 3),
+    _equals = _$$equals(_cache, 0, props),
+    _value = _equals ? _cache[0] : _cache[0] = props,
+    _value2 = _equals ? _cache[1] : _cache[1] = _value.arr,
+    _cache2 = _$$branch(_cache, 2, 0),
     _id = 0;
-  for (const x in _v2) {
-    let _l = _$$branch(_c2, _id++, 2),
-      _eq2 = _$$equals(_l, 0, x),
-      _v3 = _eq2 ? _l[0] : _l[0] = x;
-    _eq2 ? _l[1] : _l[1] = console.log(_v3);
+  for (const x in _value2) {
+    let _loop = _$$branch(_cache2, _id++, 2),
+      _equals2 = _$$equals(_loop, 0, x),
+      _value3 = _equals2 ? _loop[0] : _loop[0] = x;
+    _equals2 ? _loop[1] : _loop[1] = console.log(_value3);
   }
 }"
 `;
@@ -64,17 +64,17 @@ import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useRef, 3),
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props,
-    _v2 = _eq ? _c[1] : _c[1] = _v.arr,
-    _c2 = _$$branch(_c, 2, 0),
+  let _cache = _$$cache(_useRef, 3),
+    _equals = _$$equals(_cache, 0, props),
+    _value = _equals ? _cache[0] : _cache[0] = props,
+    _value2 = _equals ? _cache[1] : _cache[1] = _value.arr,
+    _cache2 = _$$branch(_cache, 2, 0),
     _id = 0;
-  for (const x of _v2) {
-    let _l = _$$branch(_c2, _id++, 2),
-      _eq2 = _$$equals(_l, 0, x),
-      _v3 = _eq2 ? _l[0] : _l[0] = x;
-    _eq2 ? _l[1] : _l[1] = console.log(_v3);
+  for (const x of _value2) {
+    let _loop = _$$branch(_cache2, _id++, 2),
+      _equals2 = _$$equals(_loop, 0, x),
+      _value3 = _equals2 ? _loop[0] : _loop[0] = x;
+    _equals2 ? _loop[1] : _loop[1] = console.log(_value3);
   }
 }"
 `;
@@ -85,24 +85,24 @@ import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useRef, 6),
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props,
-    _v2 = _eq ? _c[1] : _c[1] = _v.type,
-    _eq2 = _$$equals(_c, 2, _v2),
-    _v3 = _eq2 ? _c[2] : _c[2] = _v2;
-  if (_eq2 ? _c[3] : _c[3] = _v3 === 'a') {
-    let _c2 = _$$branch(_c, 4, 3),
-      _v5 = _eq ? _c2[0] : _c2[0] = _v.value,
-      _eq3 = _$$equals(_c2, 1, _v5),
-      _v6 = _eq3 ? _c2[1] : _c2[1] = _v5;
-    return _eq3 ? _c2[2] : _c2[2] = examples.a(_v6);
+  let _cache = _$$cache(_useRef, 6),
+    _equals = _$$equals(_cache, 0, props),
+    _value = _equals ? _cache[0] : _cache[0] = props,
+    _value2 = _equals ? _cache[1] : _cache[1] = _value.type,
+    _equals2 = _$$equals(_cache, 2, _value2),
+    _value3 = _equals2 ? _cache[2] : _cache[2] = _value2;
+  if (_equals2 ? _cache[3] : _cache[3] = _value3 === 'a') {
+    let _cache2 = _$$branch(_cache, 4, 3),
+      _value5 = _equals ? _cache2[0] : _cache2[0] = _value.value,
+      _equals3 = _$$equals(_cache2, 1, _value5),
+      _value6 = _equals3 ? _cache2[1] : _cache2[1] = _value5;
+    return _equals3 ? _cache2[2] : _cache2[2] = examples.a(_value6);
   } else {
-    let _c3 = _$$branch(_c, 5, 3),
-      _v8 = _eq ? _c3[0] : _c3[0] = _v.value,
-      _eq4 = _$$equals(_c3, 1, _v8),
-      _v9 = _eq4 ? _c3[1] : _c3[1] = _v8;
-    return _eq4 ? _c3[2] : _c3[2] = examples.b(_v9);
+    let _cache3 = _$$branch(_cache, 5, 3),
+      _value8 = _equals ? _cache3[0] : _cache3[0] = _value.value,
+      _equals4 = _$$equals(_cache3, 1, _value8),
+      _value9 = _equals4 ? _cache3[1] : _cache3[1] = _value8;
+    return _equals4 ? _cache3[2] : _cache3[2] = examples.b(_value9);
   }
 }"
 `;
@@ -112,17 +112,17 @@ exports[`statements > should optimize labeled statements 1`] = `
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c3 = _$$cache(_useRef, 2);
+  let _cache3 = _$$cache(_useRef, 2);
   foo: {
-    let _c2 = _$$branch(_c3, 0, 1);
+    let _cache2 = _$$branch(_cache3, 0, 1);
     {
-      let _c = _$$branch(_c2, 0, 2);
-      0 in _c ? _c[0] : _c[0] = console.log(\\"face\\");
+      let _cache = _$$branch(_cache2, 0, 2);
+      0 in _cache ? _cache[0] : _cache[0] = console.log(\\"face\\");
       break foo;
-      1 in _c ? _c[1] : _c[1] = console.log(\\"this will not be executed\\");
+      1 in _cache ? _cache[1] : _cache[1] = console.log(\\"this will not be executed\\");
     }
   }
-  1 in _c3 ? _c3[1] : _c3[1] = console.log(\\"swap\\");
+  1 in _cache3 ? _cache3[1] : _cache3[1] = console.log(\\"swap\\");
 }"
 `;
 
@@ -132,34 +132,34 @@ import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useRef, 6),
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props;
-  switch (_eq ? _c[1] : _c[1] = _v.type) {
+  let _cache = _$$cache(_useRef, 6),
+    _equals = _$$equals(_cache, 0, props),
+    _value = _equals ? _cache[0] : _cache[0] = props;
+  switch (_equals ? _cache[1] : _cache[1] = _value.type) {
     case 'a':
-      let _c2 = _$$branch(_c, 2, 3),
-        _v3 = _eq ? _c2[0] : _c2[0] = _v.value,
-        _eq2 = _$$equals(_c2, 1, _v3),
-        _v4 = _eq2 ? _c2[1] : _c2[1] = _v3;
-      return _eq2 ? _c2[2] : _c2[2] = examples.a(_v4);
+      let _cache2 = _$$branch(_cache, 2, 3),
+        _value3 = _equals ? _cache2[0] : _cache2[0] = _value.value,
+        _equals2 = _$$equals(_cache2, 1, _value3),
+        _value4 = _equals2 ? _cache2[1] : _cache2[1] = _value3;
+      return _equals2 ? _cache2[2] : _cache2[2] = examples.a(_value4);
     case 'b':
-      let _c3 = _$$branch(_c, 3, 3),
-        _v6 = _eq ? _c3[0] : _c3[0] = _v.value,
-        _eq3 = _$$equals(_c3, 1, _v6),
-        _v7 = _eq3 ? _c3[1] : _c3[1] = _v6;
-      return _eq3 ? _c3[2] : _c3[2] = examples.b(_v7);
+      let _cache3 = _$$branch(_cache, 3, 3),
+        _value6 = _equals ? _cache3[0] : _cache3[0] = _value.value,
+        _equals3 = _$$equals(_cache3, 1, _value6),
+        _value7 = _equals3 ? _cache3[1] : _cache3[1] = _value6;
+      return _equals3 ? _cache3[2] : _cache3[2] = examples.b(_value7);
     case 'c':
-      let _c4 = _$$branch(_c, 4, 3),
-        _v9 = _eq ? _c4[0] : _c4[0] = _v.value,
-        _eq4 = _$$equals(_c4, 1, _v9),
-        _v10 = _eq4 ? _c4[1] : _c4[1] = _v9;
-      return _eq4 ? _c4[2] : _c4[2] = examples.c(_v10);
+      let _cache4 = _$$branch(_cache, 4, 3),
+        _value9 = _equals ? _cache4[0] : _cache4[0] = _value.value,
+        _equals4 = _$$equals(_cache4, 1, _value9),
+        _value10 = _equals4 ? _cache4[1] : _cache4[1] = _value9;
+      return _equals4 ? _cache4[2] : _cache4[2] = examples.c(_value10);
     default:
-      let _c5 = _$$branch(_c, 5, 3),
-        _v12 = _eq ? _c5[0] : _c5[0] = _v.value,
-        _eq5 = _$$equals(_c5, 1, _v12),
-        _v13 = _eq5 ? _c5[1] : _c5[1] = _v12;
-      return _eq5 ? _c5[2] : _c5[2] = examples.default(_v13);
+      let _cache5 = _$$branch(_cache, 5, 3),
+        _value12 = _equals ? _cache5[0] : _cache5[0] = _value.value,
+        _equals5 = _$$equals(_cache5, 1, _value12),
+        _value13 = _equals5 ? _cache5[1] : _cache5[1] = _value12;
+      return _equals5 ? _cache5[2] : _cache5[2] = examples.default(_value13);
   }
 }"
 `;
@@ -169,13 +169,13 @@ exports[`statements > should optimize throw statements 1`] = `
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useRef, 4),
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props,
-    _v2 = _eq ? _c[1] : _c[1] = _v.message,
-    _eq2 = _$$equals(_c, 2, _v2),
-    _v3 = _eq2 ? _c[2] : _c[2] = _v2;
-  throw _eq2 ? _c[3] : _c[3] = createError(_v3);
+  let _cache = _$$cache(_useRef, 4),
+    _equals = _$$equals(_cache, 0, props),
+    _value = _equals ? _cache[0] : _cache[0] = props,
+    _value2 = _equals ? _cache[1] : _cache[1] = _value.message,
+    _equals2 = _$$equals(_cache, 2, _value2),
+    _value3 = _equals2 ? _cache[2] : _cache[2] = _value2;
+  throw _equals2 ? _cache[3] : _cache[3] = createError(_value3);
 }"
 `;
 
@@ -185,24 +185,24 @@ import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c2 = _$$cache(_useRef, 3);
+  let _cache2 = _$$cache(_useRef, 3);
   try {
-    let _c = _$$branch(_c2, 0, 2),
-      _eq = _$$equals(_c, 0, props),
-      _v = _eq ? _c[0] : _c[0] = props;
-    _eq ? _c[1] : _c[1] = _v.a();
+    let _cache = _$$branch(_cache2, 0, 2),
+      _equals = _$$equals(_cache, 0, props),
+      _value = _equals ? _cache[0] : _cache[0] = props;
+    _equals ? _cache[1] : _cache[1] = _value.a();
   } catch (e) {
-    let _c3 = _$$branch(_c2, 1, 3),
-      _eq2 = _$$equals(_c3, 0, props),
-      _v3 = _eq2 ? _c3[0] : _c3[0] = props,
-      _eq3 = _$$equals(_c3, 1, e),
-      _v4 = _eq3 ? _c3[1] : _c3[1] = e;
-    _eq2 && _eq3 ? _c3[2] : _c3[2] = _v3.b(_v4);
+    let _cache3 = _$$branch(_cache2, 1, 3),
+      _equals2 = _$$equals(_cache3, 0, props),
+      _value3 = _equals2 ? _cache3[0] : _cache3[0] = props,
+      _equals3 = _$$equals(_cache3, 1, e),
+      _value4 = _equals3 ? _cache3[1] : _cache3[1] = e;
+    _equals2 && _equals3 ? _cache3[2] : _cache3[2] = _value3.b(_value4);
   } finally {
-    let _c4 = _$$branch(_c2, 2, 2),
-      _eq5 = _$$equals(_c4, 0, props),
-      _v6 = _eq5 ? _c4[0] : _c4[0] = props;
-    _eq5 ? _c4[1] : _c4[1] = _v6.c();
+    let _cache4 = _$$branch(_cache2, 2, 2),
+      _equals5 = _$$equals(_cache4, 0, props),
+      _value6 = _equals5 ? _cache4[0] : _cache4[0] = props;
+    _equals5 ? _cache4[1] : _cache4[1] = _value6.c();
   }
 }"
 `;
@@ -214,15 +214,15 @@ import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
   let i = 0,
-    _c = _$$branch(_$$cache(_useRef, 1), 0, 0),
+    _cache = _$$branch(_$$cache(_useRef, 1), 0, 0),
     _id = 0;
   while (i < props.x) {
-    let _l = _$$branch(_c, _id++, 3),
-      _eq = _$$equals(_l, 0, i),
-      _v = _eq ? _l[0] : _l[0] = i;
-    _eq ? _l[1] : _l[1] = console.log(_v);
+    let _loop = _$$branch(_cache, _id++, 3),
+      _equals = _$$equals(_loop, 0, i),
+      _value = _equals ? _loop[0] : _loop[0] = i;
+    _equals ? _loop[1] : _loop[1] = console.log(_value);
     let _hoisted = i += 1;
-    _$$equals(_l, 2, _hoisted) ? _l[2] : _l[2] = _hoisted;
+    _$$equals(_loop, 2, _hoisted) ? _loop[2] : _loop[2] = _hoisted;
   }
 }"
 `;
