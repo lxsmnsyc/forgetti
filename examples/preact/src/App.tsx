@@ -1,46 +1,113 @@
-/* eslint-disable react/jsx-no-constructed-context-values */
 import { useState } from 'preact/hooks';
+import './main.css';
 import type { JSX } from 'preact/jsx-runtime';
-import useWhy from './useWhy';
 
-function Count({ value }: { value: number }): JSX.Element {
-  return <h1>{`Count: ${value}`}</h1>;
+interface TodoItem {
+  id: number;
+  message: string;
 }
 
-function Button({ action, title }: { action: () => void; title: string }): JSX.Element {
-  useWhy('Button#action', action);
-  useWhy('Button#title', title);
+interface TodoListItemProps {
+  setList: (action: (list: TodoItem[]) => TodoItem[]) => void;
+  item: TodoItem;
+}
+
+function TodoListItem({ item, setList }: TodoListItemProps): JSX.Element {
+  const [done, setDone] = useState(false);
   return (
-    <button type="button" onClick={action}>
-      {title}
-    </button>
+    <div
+      className={`todo-item ${done ? 'complete' : 'pending'}`}
+    >
+      <div className="todo-item-content">
+        {item.message}
+      </div>
+      <div className="todo-item-actions">
+        <button
+          type="button"
+          className={`todo-item-toggle ${done ? 'complete' : 'pending'}`}
+          onClick={(): void => {
+            setDone(!done);
+          }}
+        >
+          {done ? 'Completed' : 'Pending'}
+        </button>
+        <button
+          type="button"
+          className="todo-item-delete"
+          onClick={(): void => {
+            setList((list) => list.filter((value) => value.id !== item.id));
+          }}
+        >
+          Delete
+        </button>
+      </div>
+    </div>
   );
 }
 
-function Increment({ action }: { action: () => void }): JSX.Element {
-  useWhy('Increment#action', action);
-  return <Button action={action} title="Increment" />;
+interface TodoListFormProps {
+  index: number;
+  setIndex: (update: number) => void;
+  setList: (action: (list: TodoItem[]) => TodoItem[]) => void;
 }
 
-function Decrement({ action }: { action: () => void }): JSX.Element {
-  useWhy('Decrement#action', action);
-  return <Button action={action} title="Decrement" />;
+function TodoListForm({ setList, index, setIndex }: TodoListFormProps): JSX.Element {
+  const [message, setMessage] = useState('');
+
+  return (
+    <form
+      className="todo-list-form"
+      onSubmit={(e): void => {
+        e.preventDefault();
+
+        setList((list) => [...list, {
+          done: false,
+          message,
+          id: index,
+        }]);
+        setIndex(index + 1);
+        setMessage('');
+      }}
+    >
+      <input
+        type="text"
+        value={message}
+        onInput={(e): void => {
+          setMessage((e.target as HTMLInputElement).value);
+        }}
+      />
+      <button
+        type="submit"
+        disabled={message === ''}
+      >
+        Add
+      </button>
+    </form>
+  );
+}
+
+function TodoList(): JSX.Element {
+  const [list, setList] = useState<TodoItem[]>([]);
+  const [index, setIndex] = useState(0);
+  return (
+    <>
+      <TodoListForm
+        setList={setList}
+        index={index}
+        setIndex={setIndex}
+      />
+      <div className="todo-list">
+        {list.map((item) => <TodoListItem key={item.id} item={item} setList={setList} />)}
+      </div>
+    </>
+  );
 }
 
 export default function App(): JSX.Element {
-  const [count, setCount] = useState(0);
-  const increment = (): void => {
-    setCount((c) => c + 1);
-  };
-  const decrement = (): void => {
-    setCount((c) => c - 1);
-  };
-
   return (
-    <>
-      <Count value={count} />
-      <Increment action={increment} />
-      <Decrement action={decrement} />
-    </>
+    <div className="app">
+      <h1>Todo List</h1>
+      <TodoList />
+    </div>
   );
 }
