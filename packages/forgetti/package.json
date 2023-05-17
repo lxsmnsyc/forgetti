@@ -42,7 +42,8 @@
     "watch": "pridepack watch",
     "start": "pridepack start",
     "dev": "pridepack dev",
-    "test": "vitest"
+    "test": "vitest",
+    "optimize": "node example > output.js"
   },
   "description": "Solve your hook spaghetti. Inspired by React Forget",
   "repository": {
