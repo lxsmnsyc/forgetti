@@ -92,17 +92,21 @@ function Example(props) {
     _eq2 = _$$equals(_c, 2, _v2),
     _v3 = _eq2 ? _c[2] : _c[2] = _v2;
   if (_eq2 ? _c[3] : _c[3] = _v3 === 'a') {
-    let _c2 = _$$branch(_c, 4, 3),
-      _v5 = _eq ? _c2[0] : _c2[0] = _v.value,
-      _eq3 = _$$equals(_c2, 1, _v5),
-      _v6 = _eq3 ? _c2[1] : _c2[1] = _v5;
-    return _eq3 ? _c2[2] : _c2[2] = examples.a(_v6);
+    let _c2 = _$$branch(_c, 4, 4),
+      _eq3 = _$$equals(_c2, 0, props),
+      _v5 = _eq3 ? _c2[0] : _c2[0] = props,
+      _v6 = _eq3 ? _c2[1] : _c2[1] = _v5.value,
+      _eq4 = _$$equals(_c2, 2, _v6),
+      _v7 = _eq4 ? _c2[2] : _c2[2] = _v6;
+    return _eq4 ? _c2[3] : _c2[3] = examples.a(_v7);
   } else {
-    let _c3 = _$$branch(_c, 5, 3),
-      _v8 = _eq ? _c3[0] : _c3[0] = _v.value,
-      _eq4 = _$$equals(_c3, 1, _v8),
-      _v9 = _eq4 ? _c3[1] : _c3[1] = _v8;
-    return _eq4 ? _c3[2] : _c3[2] = examples.b(_v9);
+    let _c3 = _$$branch(_c, 5, 4),
+      _eq5 = _$$equals(_c3, 0, props),
+      _v9 = _eq5 ? _c3[0] : _c3[0] = props,
+      _v10 = _eq5 ? _c3[1] : _c3[1] = _v9.value,
+      _eq6 = _$$equals(_c3, 2, _v10),
+      _v11 = _eq6 ? _c3[2] : _c3[2] = _v10;
+    return _eq6 ? _c3[3] : _c3[3] = examples.b(_v11);
   }
 }"
 `;
@@ -137,29 +141,37 @@ function Example(props) {
     _v = _eq ? _c[0] : _c[0] = props;
   switch (_eq ? _c[1] : _c[1] = _v.type) {
     case 'a':
-      let _c2 = _$$branch(_c, 2, 3),
-        _v3 = _eq ? _c2[0] : _c2[0] = _v.value,
-        _eq2 = _$$equals(_c2, 1, _v3),
-        _v4 = _eq2 ? _c2[1] : _c2[1] = _v3;
-      return _eq2 ? _c2[2] : _c2[2] = examples.a(_v4);
+      let _c2 = _$$branch(_c, 2, 4),
+        _eq2 = _$$equals(_c2, 0, props),
+        _v3 = _eq2 ? _c2[0] : _c2[0] = props,
+        _v4 = _eq2 ? _c2[1] : _c2[1] = _v3.value,
+        _eq3 = _$$equals(_c2, 2, _v4),
+        _v5 = _eq3 ? _c2[2] : _c2[2] = _v4;
+      return _eq3 ? _c2[3] : _c2[3] = examples.a(_v5);
     case 'b':
-      let _c3 = _$$branch(_c, 3, 3),
-        _v6 = _eq ? _c3[0] : _c3[0] = _v.value,
-        _eq3 = _$$equals(_c3, 1, _v6),
-        _v7 = _eq3 ? _c3[1] : _c3[1] = _v6;
-      return _eq3 ? _c3[2] : _c3[2] = examples.b(_v7);
+      let _c3 = _$$branch(_c, 3, 4),
+        _eq4 = _$$equals(_c3, 0, props),
+        _v7 = _eq4 ? _c3[0] : _c3[0] = props,
+        _v8 = _eq4 ? _c3[1] : _c3[1] = _v7.value,
+        _eq5 = _$$equals(_c3, 2, _v8),
+        _v9 = _eq5 ? _c3[2] : _c3[2] = _v8;
+      return _eq5 ? _c3[3] : _c3[3] = examples.b(_v9);
     case 'c':
-      let _c4 = _$$branch(_c, 4, 3),
-        _v9 = _eq ? _c4[0] : _c4[0] = _v.value,
-        _eq4 = _$$equals(_c4, 1, _v9),
-        _v10 = _eq4 ? _c4[1] : _c4[1] = _v9;
-      return _eq4 ? _c4[2] : _c4[2] = examples.c(_v10);
+      let _c4 = _$$branch(_c, 4, 4),
+        _eq6 = _$$equals(_c4, 0, props),
+        _v11 = _eq6 ? _c4[0] : _c4[0] = props,
+        _v12 = _eq6 ? _c4[1] : _c4[1] = _v11.value,
+        _eq7 = _$$equals(_c4, 2, _v12),
+        _v13 = _eq7 ? _c4[2] : _c4[2] = _v12;
+      return _eq7 ? _c4[3] : _c4[3] = examples.c(_v13);
     default:
-      let _c5 = _$$branch(_c, 5, 3),
-        _v12 = _eq ? _c5[0] : _c5[0] = _v.value,
-        _eq5 = _$$equals(_c5, 1, _v12),
-        _v13 = _eq5 ? _c5[1] : _c5[1] = _v12;
-      return _eq5 ? _c5[2] : _c5[2] = examples.default(_v13);
+      let _c5 = _$$branch(_c, 5, 4),
+        _eq8 = _$$equals(_c5, 0, props),
+        _v15 = _eq8 ? _c5[0] : _c5[0] = props,
+        _v16 = _eq8 ? _c5[1] : _c5[1] = _v15.value,
+        _eq9 = _$$equals(_c5, 2, _v16),
+        _v17 = _eq9 ? _c5[2] : _c5[2] = _v16;
+      return _eq9 ? _c5[3] : _c5[3] = examples.default(_v17);
   }
 }"
 `;
@@ -169,13 +181,14 @@ exports[`statements > should optimize throw statements 1`] = `
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 4),
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props,
-    _v2 = _eq ? _c[1] : _c[1] = _v.message,
-    _eq2 = _$$equals(_c, 2, _v2),
-    _v3 = _eq2 ? _c[2] : _c[2] = _v2;
-  throw _eq2 ? _c[3] : _c[3] = createError(_v3);
+  let _c = _$$cache(_useMemo, 5),
+    _v = 0 in _c ? _c[0] : _c[0] = createError,
+    _eq = _$$equals(_c, 1, props),
+    _v2 = _eq ? _c[1] : _c[1] = props,
+    _v3 = _eq ? _c[2] : _c[2] = _v2.message,
+    _eq2 = _$$equals(_c, 3, _v3),
+    _v4 = _eq2 ? _c[3] : _c[3] = _v3;
+  throw _eq2 ? _c[4] : _c[4] = _v(_v4);
 }"
 `;
 
