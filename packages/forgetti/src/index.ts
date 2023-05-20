@@ -151,6 +151,9 @@ function transformFunction(
 ): void {
   const unwrapped = unwrapPath(path, isComponent);
   if (unwrapped && isComponentValid(ctx, unwrapped.node, checkName)) {
+    if (unwrapped.node.async || unwrapped.node.generator) {
+      return;
+    }
     if (!checkName && unwrapped.node.type !== 'ArrowFunctionExpression') {
       unwrapped.node.id = undefined;
     }
