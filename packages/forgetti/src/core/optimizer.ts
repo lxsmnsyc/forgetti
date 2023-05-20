@@ -506,11 +506,11 @@ export default class Optimizer {
         const condition = createDependencies();
         if (hookType === 'none') {
           const callee = path.get('callee');
-          if (isPathValid(callee, t.isMemberExpression)) {
+          if (isPathValid(callee, t.isExpression)) {
             const optimizedCallee = (
               (isPathValid(callee, t.isMemberExpression)
                 || isPathValid(callee, t.isOptionalMemberExpression))
-                ? this.memoizeMemberExpression(callee)
+                ? this.memoizeMemberExpression(callee as babel.NodePath<t.MemberExpression>)
                 : this.createDependency(callee)
             );
             if (optimizedCallee) {
