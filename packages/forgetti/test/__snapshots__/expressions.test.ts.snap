@@ -141,11 +141,15 @@ function Example(props) {
     _value2 = _equals ? _cache[0] : _cache[0] = props,
     _value;
   if (_equals ? _cache[1] : _cache[1] = _value2.a) {
-    let _cache2 = _$$branch(_cache, 2, 1);
-    _value = _equals ? _cache2[0] : _cache2[0] = _value2.b;
+    let _cache2 = _$$branch(_cache, 2, 2),
+      _equals2 = _$$equals(_cache2, 0, props),
+      _value4 = _equals2 ? _cache2[0] : _cache2[0] = props;
+    _value = _equals2 ? _cache2[1] : _cache2[1] = _value4.b;
   } else {
-    let _cache3 = _$$branch(_cache, 3, 1);
-    _value = _equals ? _cache3[0] : _cache3[0] = _value2.c;
+    let _cache3 = _$$branch(_cache, 3, 2),
+      _equals3 = _$$equals(_cache3, 0, props),
+      _value6 = _equals3 ? _cache3[0] : _cache3[0] = props;
+    _value = _equals3 ? _cache3[1] : _cache3[1] = _value6.c;
   }
   return _value;
 }"
@@ -196,8 +200,10 @@ function Example(props) {
     _value3 = _equals ? _cache[1] : _cache[1] = _value2.a,
     _value;
   if (_value3) {
-    let _cache2 = _$$branch(_cache, 2, 1);
-    _value = _equals ? _cache2[0] : _cache2[0] = _value2.b;
+    let _cache2 = _$$branch(_cache, 2, 2),
+      _equals2 = _$$equals(_cache2, 0, props),
+      _value4 = _equals2 ? _cache2[0] : _cache2[0] = props;
+    _value = _equals2 ? _cache2[1] : _cache2[1] = _value4.b;
   } else _value = _value3;
   return _value;
 }"
