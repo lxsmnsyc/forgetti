@@ -60,21 +60,16 @@ import { useA, useB, useC } from 'whatever';
 function Example(props) {
   let _cache = _$$cache(_useRef, 20),
     a = null,
-    _condition;
-  if (useK()) {
-    _condition = 'a';
-  } else {
-    _condition = 'b';
-  }
-  let _hoisted = useA(),
+    _hoisted = useA(),
     _hoisted2 = useB(),
     _hoisted3 = useC(),
     _hoisted4 = useH(),
     _hoisted5 = useI(),
     _hoisted6 = useJ(),
-    _hoisted7 = useL(),
-    _hoisted8 = useM(),
-    _hoisted9 = useN(),
+    _hoisted7 = useK(),
+    _hoisted8 = useL(),
+    _hoisted9 = useM(),
+    _hoisted10 = useN(),
     _equals = _$$equals(_cache, 0, _hoisted),
     _value = _equals ? _cache[0] : _cache[0] = _hoisted,
     _equals2 = _$$equals(_cache, 1, _hoisted2),
@@ -92,29 +87,33 @@ function Example(props) {
     _value8 = _equals7 ? _cache[7] : _cache[7] = _hoisted6,
     _equals8 = _equals6 && _equals7,
     _value9 = _equals8 ? _cache[8] : _cache[8] = _value7 === _value8,
-    _equals9 = _$$equals(_cache, 9, _condition),
-    _value10 = _equals9 ? _cache[9] : _cache[9] = _condition,
-    _equals10 = _$$equals(_cache, 10, _hoisted7),
-    _value11 = _equals10 ? _cache[10] : _cache[10] = _hoisted7,
-    _value12 = _equals10 ? _cache[11] : _cache[11] = [_value11],
-    _equals11 = _$$equals(_cache, 12, _value12),
-    _value13 = _equals11 ? _cache[12] : _cache[12] = _value12,
-    _value14 = _equals11 ? _cache[13] : _cache[13] = /*@forgetti skip*/<_Memo v={_value13} />,
-    _equals12 = _$$equals(_cache, 14, _hoisted8),
-    _value15 = _equals12 ? _cache[14] : _cache[14] = _hoisted8,
-    _equals13 = _$$equals(_cache, 15, _hoisted9),
-    _value16 = _equals13 ? _cache[15] : _cache[15] = _hoisted9,
-    _value17 = _equals12 && _equals13 ? _cache[16] : _cache[16] = [_value15, _value16],
-    _equals15 = _$$equals(_cache, 17, _value17),
-    _value18 = _equals15 ? _cache[17] : _cache[17] = _value17,
-    _value19 = _equals15 ? _cache[18] : _cache[18] = /*@forgetti skip*/<_Memo2 v={_value18} />;
-  return _equals && _equals2 && _equals3 && _equals5 && _equals8 && _equals9 && _equals11 && _equals15 ? _cache[19] : _cache[19] = {
+    _value10;
+  if (_$$equals(_cache, 9, _hoisted7) ? _cache[9] : _cache[9] = _hoisted7) {
+    _value10 = 'a';
+  } else {
+    _value10 = 'b';
+  }
+  let _equals10 = _$$equals(_cache, 10, _hoisted8),
+    _value12 = _equals10 ? _cache[10] : _cache[10] = _hoisted8,
+    _value13 = _equals10 ? _cache[11] : _cache[11] = [_value12],
+    _equals11 = _$$equals(_cache, 12, _value13),
+    _value14 = _equals11 ? _cache[12] : _cache[12] = _value13,
+    _value15 = _equals11 ? _cache[13] : _cache[13] = /*@forgetti skip*/<_Memo v={_value14} />,
+    _equals12 = _$$equals(_cache, 14, _hoisted9),
+    _value16 = _equals12 ? _cache[14] : _cache[14] = _hoisted9,
+    _equals13 = _$$equals(_cache, 15, _hoisted10),
+    _value17 = _equals13 ? _cache[15] : _cache[15] = _hoisted10,
+    _value18 = _equals12 && _equals13 ? _cache[16] : _cache[16] = [_value16, _value17],
+    _equals15 = _$$equals(_cache, 17, _value18),
+    _value19 = _equals15 ? _cache[17] : _cache[17] = _value18,
+    _value20 = _equals15 ? _cache[18] : _cache[18] = /*@forgetti skip*/<_Memo2 v={_value19} />;
+  return _equals && _equals2 && _equals3 && _equals5 && _equals8 && _equals11 && _equals15 ? _cache[19] : _cache[19] = {
     [_value]: _value2,
     ..._value3,
     [_value6]: _value9,
     a: _value10,
-    b: _value14,
-    c: _value19
+    b: _value15,
+    c: _value20
   };
 }"
 `;

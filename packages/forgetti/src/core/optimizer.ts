@@ -290,6 +290,48 @@ export default class Optimizer {
     return this.createMemo(result.expr, result.deps);
   }
 
+  optimizeConditionalExpression(
+    path: babel.NodePath<t.ConditionalExpression>,
+  ): OptimizedExpression {
+    const id = path.scope.generateUidIdentifier('value');
+    const parent = this.scope;
+    const optimizedTest = this.optimizeExpression(path.get('test'));
+    const consequentPath = path.get('consequent');
+    const consequent = new OptimizerScope(this.ctx, consequentPath, parent);
+    this.scope = consequent;
+    const optimizedConsequent = this.optimizeExpression(consequentPath);
+    this.scope = parent;
+    const alternatePath = path.get('alternate');
+    const alternate = new OptimizerScope(this.ctx, alternatePath, parent);
+    this.scope = alternate;
+    const optimizedAlternate = this.optimizeExpression(alternatePath);
+    this.scope = parent;
+
+    consequent.push(
+      t.expressionStatement(
+        t.assignmentExpression('=', id, optimizedConsequent.expr),
+      ),
+    );
+    alternate.push(
+      t.expressionStatement(
+        t.assignmentExpression('=', id, optimizedAlternate.expr),
+      ),
+    );
+    this.scope.push(
+      t.variableDeclaration(
+        'let',
+        [t.variableDeclarator(id)],
+      ),
+      t.ifStatement(
+        optimizedTest.expr,
+        t.blockStatement(consequent.getStatements()),
+        t.blockStatement(alternate.getStatements()),
+      ),
+    );
+
+    return optimizedExpr(id);
+  }
+
   optimizeBinaryExpression(
     path: babel.NodePath<t.BinaryExpression>,
   ): OptimizedExpression {
@@ -314,6 +356,48 @@ export default class Optimizer {
     }
 
     return this.createMemo(path.node, dependencies);
+  }
+
+  optimizeLogicalExpression(
+    path: babel.NodePath<t.LogicalExpression>,
+  ): OptimizedExpression {
+    const id = path.scope.generateUidIdentifier('condition');
+    const parent = this.scope;
+    const left = this.optimizeExpression(path.get('left'));
+    const rightScope = new OptimizerScope(this.ctx, path, parent);
+    this.scope = rightScope;
+    const right = this.optimizeExpression(path.get('right'));
+    this.scope = parent;
+
+    let test: t.Expression = id;
+    switch (path.node.operator) {
+      case '??':
+        test = t.binaryExpression('==', id, t.nullLiteral());
+        break;
+      case '||':
+        test = t.unaryExpression('!', id);
+        break;
+      default:
+        break;
+    }
+
+    rightScope.push(
+      t.expressionStatement(
+        t.assignmentExpression('=', id, right.expr),
+      ),
+    );
+
+    this.scope.push(
+      t.variableDeclaration(
+        'let',
+        [t.variableDeclarator(id, left.expr)],
+      ),
+      t.ifStatement(
+        test,
+        t.blockStatement(rightScope.getStatements()),
+      ),
+    );
+    return optimizedExpr(id);
   }
 
   optimizeUnaryExpression(
@@ -811,8 +895,14 @@ export default class Optimizer {
     ) {
       return this.optimizeMemberExpression(path);
     }
+    if (isPathValid(path, t.isConditionalExpression)) {
+      return this.optimizeConditionalExpression(path);
+    }
     if (isPathValid(path, t.isBinaryExpression)) {
       return this.optimizeBinaryExpression(path);
+    }
+    if (isPathValid(path, t.isLogicalExpression)) {
+      return this.optimizeLogicalExpression(path);
     }
     if (isPathValid(path, t.isUnaryExpression)) {
       return this.optimizeUnaryExpression(path);

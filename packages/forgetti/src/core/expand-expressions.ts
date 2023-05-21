@@ -56,63 +56,6 @@ export function expandExpressions(
     );
   }
   path.traverse({
-    LogicalExpression(p) {
-      const parent = p.getFunctionParent();
-      const statement = p.getStatementParent();
-
-      if (
-        parent === path
-        && statement
-        && isStatementValid(statement)
-      ) {
-        const id = p.scope.generateUidIdentifier('condition');
-
-        let test: t.Expression = id;
-        switch (p.node.operator) {
-          case '??':
-            test = t.binaryExpression('==', id, t.nullLiteral());
-            break;
-          case '||':
-            test = t.unaryExpression('!', id);
-            break;
-          default:
-            break;
-        }
-        statement.insertBefore([
-          t.variableDeclaration('let', [t.variableDeclarator(id, p.node.left)]),
-          t.ifStatement(
-            test,
-            t.expressionStatement(t.assignmentExpression('=', id, p.node.right)),
-          ),
-        ]);
-        p.replaceWith(id);
-      }
-    },
-    ConditionalExpression(p) {
-      const parent = p.getFunctionParent();
-      const statement = p.getStatementParent();
-
-      if (
-        parent === path
-        && statement
-        && isStatementValid(statement)
-      ) {
-        const id = p.scope.generateUidIdentifier('condition');
-        statement.insertBefore([
-          t.variableDeclaration('let', [t.variableDeclarator(id)]),
-          t.ifStatement(
-            p.node.test,
-            t.expressionStatement(t.assignmentExpression('=', id, p.node.consequent)),
-            t.expressionStatement(t.assignmentExpression('=', id, p.node.alternate)),
-          ),
-        ]);
-        p.replaceWith(id);
-      }
-    },
-  });
-  path.scope.crawl();
-
-  path.traverse({
     AssignmentExpression(p) {
       const parent = p.getFunctionParent();
       const statement = p.getStatementParent();
