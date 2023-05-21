@@ -199,26 +199,10 @@ export default class OptimizerScope {
   }
 
   getOptimized(key: t.Identifier): OptimizedExpression | undefined {
-    // let current: OptimizerScope | undefined = this;
-    // while (current) {
-    //   const result = current.optimizedID.get(key);
-    //   if (result) {
-    //     return result;
-    //   }
-    //   current = current.parent;
-    // }
     return this.optimizedID.get(key);
   }
 
   deleteOptimized(key: t.Identifier): void {
-    // let current: OptimizerScope | undefined = this;
-    // while (current) {
-    //   if (current.optimizedID.has(key)) {
-    //     current.optimizedID.delete(key);
-    //     return;
-    //   }
-    //   current = current.parent;
-    // }
     if (this.optimizedID.has(key)) {
       this.optimizedID.delete(key);
     }
@@ -231,15 +215,6 @@ export default class OptimizerScope {
   }
 
   hasConstant(value: t.Identifier): boolean {
-    // let current: OptimizerScope | undefined = this;
-    // while (current) {
-    //   const result = current.constants.has(value);
-    //   if (result) {
-    //     return result;
-    //   }
-    //   current = current.parent;
-    // }
-    // return false;
     return this.constants.has(value);
   }
 }
