@@ -203,8 +203,13 @@ export default class OptimizerScope {
   }
 
   deleteOptimized(key: t.Identifier): void {
-    if (this.optimizedID.has(key)) {
-      this.optimizedID.delete(key);
+    let current: OptimizerScope | undefined = this;
+    while (current) {
+      if (current.optimizedID.has(key)) {
+        current.optimizedID.delete(key);
+        return;
+      }
+      current = current.parent;
     }
   }
 

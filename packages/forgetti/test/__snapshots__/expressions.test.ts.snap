@@ -195,19 +195,18 @@ import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _cache = _$$cache(_useRef, 4),
+  let _cache = _$$cache(_useRef, 5),
     _equals = _$$equals(_cache, 0, props),
     _value = _equals ? _cache[0] : _cache[0] = props,
-    _condition = _equals ? _cache[1] : _cache[1] = _value.a,
-    _value3 = _$$equals(_cache, 2, _condition) ? _cache[2] : _cache[2] = _condition;
-  if (_value3) {
+    _condition = _equals ? _cache[1] : _cache[1] = _value.a;
+  if (_$$equals(_cache, 2, _condition) ? _cache[2] : _cache[2] = _condition) {
     let _cache2 = _$$branch(_cache, 3, 3),
       _equals3 = _$$equals(_cache2, 0, props),
       _value4 = _equals3 ? _cache2[0] : _cache2[0] = props,
       _value5 = _equals3 ? _cache2[1] : _cache2[1] = _value4.b;
     _condition = _$$equals(_cache2, 2, _value5) ? _cache2[2] : _cache2[2] = _value5;
   }
-  return _value3;
+  return _$$equals(_cache, 4, _condition) ? _cache[4] : _cache[4] = _condition;
 }"
 `;
 
