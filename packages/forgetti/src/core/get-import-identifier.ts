@@ -9,7 +9,8 @@ export default function getImportIdentifier(
   path: babel.NodePath,
   definition: ImportRegistration,
 ): t.Identifier {
-  const target = `${definition.source}[${definition.name}]`;
+  const name = definition.kind === 'default' ? 'default' : definition.name;
+  const target = `${definition.source}[${name}]`;
   const current = ctx.imports.get(target);
   if (current) {
     return current;

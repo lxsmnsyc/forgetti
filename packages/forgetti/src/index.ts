@@ -37,7 +37,7 @@ function registerHookSpecifiers(
     specifier = path.node.specifiers[i];
     switch (specifier.type) {
       case 'ImportDefaultSpecifier':
-        if (hook.kind === 'default' && specifier.local.name === hook.name) {
+        if (hook.kind === 'default') {
           ctx.registrations.named.hooks.set(specifier.local, hook);
         }
         break;
@@ -80,7 +80,7 @@ function registerHOCSpecifiers(
     specifier = path.node.specifiers[i];
     switch (specifier.type) {
       case 'ImportDefaultSpecifier':
-        if (hoc.kind === 'default' && specifier.local.name === hoc.name) {
+        if (hoc.kind === 'default') {
           ctx.registrations.named.hocs.set(specifier.local, hoc);
         }
         break;
@@ -206,7 +206,11 @@ function transformHOC(
           let registration: typeof registrations[0];
           for (let i = 0, len = registrations.length; i < len; i++) {
             registration = registrations[i];
-            if (registration && registration.name === propName) {
+            if (registration.kind === 'default') {
+              if (propName === 'default') {
+                transformFunction(ctx, path.get('arguments')[0], false);
+              }
+            } else if (registration && registration.name === propName) {
               transformFunction(ctx, path.get('arguments')[0], false);
             }
           }

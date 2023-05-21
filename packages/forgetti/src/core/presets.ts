@@ -4,15 +4,22 @@ export type HookIdentity =
   | 'effect'
   | 'ref';
 
-export interface ImportRegistration {
+export interface NamedImportRegistration {
+  kind: 'named';
   name: string;
   source: string;
-  kind: 'named' | 'default';
 }
 
-export interface HookRegistration extends ImportRegistration {
-  type: HookIdentity;
+export interface DefaultImportRegistration {
+  kind: 'default';
+  source: string;
 }
+
+export type ImportRegistration = NamedImportRegistration | DefaultImportRegistration;
+
+export type HookRegistration = ImportRegistration & {
+  type: HookIdentity;
+};
 
 export interface RawRegExp {
   source: string;

@@ -46,7 +46,11 @@ export function getHookCallType(
           let registration: typeof registrations[0];
           for (let i = 0, len = registrations.length; i < len; i += 1) {
             registration = registrations[i];
-            if (registration.name === trueMember.property.name) {
+            if (registration.kind === 'default') {
+              if (trueMember.property.name === 'default') {
+                return registration.type;
+              }
+            } else if (registration.name === trueMember.property.name) {
               return registration.type;
             }
           }
