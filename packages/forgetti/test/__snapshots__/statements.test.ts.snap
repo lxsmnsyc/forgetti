@@ -10,12 +10,11 @@ function Example(props) {
     _cache = _$$branch(_$$cache(_useRef, 1), 0, 0),
     _id = 0;
   do {
-    let _loop = _$$branch(_cache, _id++, 3),
+    let _loop = _$$branch(_cache, _id++, 2),
       _equals = _$$equals(_loop, 0, i),
       _value = _equals ? _loop[0] : _loop[0] = i;
     _equals ? _loop[1] : _loop[1] = console.log(_value);
-    let _hoisted = i += 1;
-    _$$equals(_loop, 2, _hoisted) ? _loop[2] : _loop[2] = _hoisted;
+    i += 1;
   } while (i < props.x);
 }"
 `;
@@ -230,12 +229,11 @@ function Example(props) {
     _cache = _$$branch(_$$cache(_useRef, 1), 0, 0),
     _id = 0;
   while (i < props.x) {
-    let _loop = _$$branch(_cache, _id++, 3),
+    let _loop = _$$branch(_cache, _id++, 2),
       _equals = _$$equals(_loop, 0, i),
       _value = _equals ? _loop[0] : _loop[0] = i;
     _equals ? _loop[1] : _loop[1] = console.log(_value);
-    let _hoisted = i += 1;
-    _$$equals(_loop, 2, _hoisted) ? _loop[2] : _loop[2] = _hoisted;
+    i += 1;
   }
 }"
 `;

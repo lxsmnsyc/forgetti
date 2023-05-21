@@ -6,46 +6,45 @@ import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { useA, useB, useC, useD, useE, useF, useG, useH } from 'whatever';
 function Example(props) {
-  let _cache = _$$cache(_useRef, 21),
+  let _cache = _$$cache(_useRef, 20),
     a = null,
-    _hoisted2 = useB(),
-    _hoisted3 = useC(),
-    _hoisted4 = useD(),
-    _hoisted5 = useE(),
-    _hoisted6 = useF(),
-    _hoisted7 = useG(),
-    _hoisted8 = useH(),
-    _hoisted9 = useI(),
-    _hoisted10 = useJ(),
-    _hoisted13 = useK(),
-    _hoisted11 = a = _$$equals(_cache, 0, _hoisted13) ? _cache[0] : _cache[0] = _hoisted13,
-    _hoisted12 = useJ(),
-    _equals3 = _$$equals(_cache, 2, _hoisted3),
-    _value3 = _equals3 ? _cache[2] : _cache[2] = _hoisted3,
+    _hoisted = useB(),
+    _hoisted2 = useC(),
+    _hoisted3 = useD(),
+    _hoisted4 = useE(),
+    _hoisted5 = useF(),
+    _hoisted6 = useG(),
+    _hoisted7 = useH(),
+    _hoisted8 = useI(),
+    _hoisted9 = useJ(),
+    _hoisted12 = useK(),
+    _hoisted10 = a = _$$equals(_cache, 0, _hoisted12) ? _cache[0] : _cache[0] = _hoisted12,
+    _hoisted11 = useJ(),
+    _equals3 = _$$equals(_cache, 2, _hoisted2),
+    _value3 = _equals3 ? _cache[2] : _cache[2] = _hoisted2,
     _value4 = _equals3 ? _cache[3] : _cache[3] = [_value3, 'array'],
-    _equals5 = _$$equals(_cache, 5, _hoisted4),
-    _value6 = _equals5 ? _cache[5] : _cache[5] = _hoisted4,
-    _equals6 = _$$equals(_cache, 6, _hoisted5),
-    _value7 = _equals6 ? _cache[6] : _cache[6] = _hoisted5,
-    _equals7 = _$$equals(_cache, 7, _hoisted6),
-    _value8 = _equals7 ? _cache[7] : _cache[7] = _hoisted6,
-    _equals8 = _$$equals(_cache, 8, _hoisted7),
-    _value9 = _equals8 ? _cache[8] : _cache[8] = _hoisted7,
+    _equals5 = _$$equals(_cache, 5, _hoisted3),
+    _value6 = _equals5 ? _cache[5] : _cache[5] = _hoisted3,
+    _equals6 = _$$equals(_cache, 6, _hoisted4),
+    _value7 = _equals6 ? _cache[6] : _cache[6] = _hoisted4,
+    _equals7 = _$$equals(_cache, 7, _hoisted5),
+    _value8 = _equals7 ? _cache[7] : _cache[7] = _hoisted5,
+    _equals8 = _$$equals(_cache, 8, _hoisted6),
+    _value9 = _equals8 ? _cache[8] : _cache[8] = _hoisted6,
     _value10 = _equals5 && _equals6 && _equals7 && _equals8 ? _cache[9] : _cache[9] = {
       d: _value6,
       [_value7]: _value8,
       ..._value9
     },
-    _equals11 = _$$equals(_cache, 11, _hoisted8),
-    _value12 = _equals11 ? _cache[11] : _cache[11] = _hoisted8,
+    _equals11 = _$$equals(_cache, 11, _hoisted7),
+    _value12 = _equals11 ? _cache[11] : _cache[11] = _hoisted7,
     _value13 = _equals11 ? _cache[12] : _cache[12] = \`testA\${_value12}testB\`,
-    _equals13 = _$$equals(_cache, 14, _hoisted9),
-    _value15 = _equals13 ? _cache[14] : _cache[14] = _hoisted9,
-    _equals14 = _$$equals(_cache, 15, _hoisted10),
-    _value16 = _equals14 ? _cache[15] : _cache[15] = _hoisted10,
-    _value17 = _equals13 && _equals14 ? _cache[16] : _cache[16] = _value15 === _value16,
-    _hoisted = useA(_$$equals(_cache, 1, _hoisted2) ? _cache[1] : _cache[1] = _hoisted2, _$$equals(_cache, 4, _value4) ? _cache[4] : _cache[4] = _value4, _$$equals(_cache, 10, _value10) ? _cache[10] : _cache[10] = _value10, _$$equals(_cache, 13, _value13) ? _cache[13] : _cache[13] = _value13, _$$equals(_cache, 17, _value17) ? _cache[17] : _cache[17] = _value17, _$$equals(_cache, 18, _hoisted11) ? _cache[18] : _cache[18] = _hoisted11, ...(_$$equals(_cache, 19, _hoisted12) ? _cache[19] : _cache[19] = _hoisted12));
-  return _$$equals(_cache, 20, _hoisted) ? _cache[20] : _cache[20] = _hoisted;
+    _equals13 = _$$equals(_cache, 14, _hoisted8),
+    _value15 = _equals13 ? _cache[14] : _cache[14] = _hoisted8,
+    _equals14 = _$$equals(_cache, 15, _hoisted9),
+    _value16 = _equals14 ? _cache[15] : _cache[15] = _hoisted9,
+    _value17 = _equals13 && _equals14 ? _cache[16] : _cache[16] = _value15 === _value16;
+  return useA(_$$equals(_cache, 1, _hoisted) ? _cache[1] : _cache[1] = _hoisted, _$$equals(_cache, 4, _value4) ? _cache[4] : _cache[4] = _value4, _$$equals(_cache, 10, _value10) ? _cache[10] : _cache[10] = _value10, _$$equals(_cache, 13, _value13) ? _cache[13] : _cache[13] = _value13, _$$equals(_cache, 17, _value17) ? _cache[17] : _cache[17] = _value17, _$$equals(_cache, 18, _hoisted10) ? _cache[18] : _cache[18] = _hoisted10, ...(_$$equals(_cache, 19, _hoisted11) ? _cache[19] : _cache[19] = _hoisted11));
 }"
 `;
 
@@ -61,16 +60,21 @@ import { useA, useB, useC } from 'whatever';
 function Example(props) {
   let _cache = _$$cache(_useRef, 20),
     a = null,
-    _hoisted = useA(),
+    _condition;
+  if (useK()) {
+    _condition = 'a';
+  } else {
+    _condition = 'b';
+  }
+  let _hoisted = useA(),
     _hoisted2 = useB(),
     _hoisted3 = useC(),
     _hoisted4 = useH(),
     _hoisted5 = useI(),
     _hoisted6 = useJ(),
-    _hoisted7 = useK(),
-    _hoisted8 = useL(),
-    _hoisted9 = useM(),
-    _hoisted10 = useN(),
+    _hoisted7 = useL(),
+    _hoisted8 = useM(),
+    _hoisted9 = useN(),
     _equals = _$$equals(_cache, 0, _hoisted),
     _value = _equals ? _cache[0] : _cache[0] = _hoisted,
     _equals2 = _$$equals(_cache, 1, _hoisted2),
@@ -88,33 +92,29 @@ function Example(props) {
     _value8 = _equals7 ? _cache[7] : _cache[7] = _hoisted6,
     _equals8 = _equals6 && _equals7,
     _value9 = _equals8 ? _cache[8] : _cache[8] = _value7 === _value8,
-    _value10;
-  if (_$$equals(_cache, 9, _hoisted7) ? _cache[9] : _cache[9] = _hoisted7) {
-    _value10 = 'a';
-  } else {
-    _value10 = 'b';
-  }
-  let _equals10 = _$$equals(_cache, 10, _hoisted8),
-    _value12 = _equals10 ? _cache[10] : _cache[10] = _hoisted8,
-    _value13 = _equals10 ? _cache[11] : _cache[11] = [_value12],
-    _equals11 = _$$equals(_cache, 12, _value13),
-    _value14 = _equals11 ? _cache[12] : _cache[12] = _value13,
-    _value15 = _equals11 ? _cache[13] : _cache[13] = /*@forgetti skip*/<_Memo v={_value14} />,
-    _equals12 = _$$equals(_cache, 14, _hoisted9),
-    _value16 = _equals12 ? _cache[14] : _cache[14] = _hoisted9,
-    _equals13 = _$$equals(_cache, 15, _hoisted10),
-    _value17 = _equals13 ? _cache[15] : _cache[15] = _hoisted10,
-    _value18 = _equals12 && _equals13 ? _cache[16] : _cache[16] = [_value16, _value17],
-    _equals15 = _$$equals(_cache, 17, _value18),
-    _value19 = _equals15 ? _cache[17] : _cache[17] = _value18,
-    _value20 = _equals15 ? _cache[18] : _cache[18] = /*@forgetti skip*/<_Memo2 v={_value19} />;
-  return _equals && _equals2 && _equals3 && _equals5 && _equals8 && _equals11 && _equals15 ? _cache[19] : _cache[19] = {
+    _equals9 = _$$equals(_cache, 9, _condition),
+    _value10 = _equals9 ? _cache[9] : _cache[9] = _condition,
+    _equals10 = _$$equals(_cache, 10, _hoisted7),
+    _value11 = _equals10 ? _cache[10] : _cache[10] = _hoisted7,
+    _value12 = _equals10 ? _cache[11] : _cache[11] = [_value11],
+    _equals11 = _$$equals(_cache, 12, _value12),
+    _value13 = _equals11 ? _cache[12] : _cache[12] = _value12,
+    _value14 = _equals11 ? _cache[13] : _cache[13] = /*@forgetti skip*/<_Memo v={_value13} />,
+    _equals12 = _$$equals(_cache, 14, _hoisted8),
+    _value15 = _equals12 ? _cache[14] : _cache[14] = _hoisted8,
+    _equals13 = _$$equals(_cache, 15, _hoisted9),
+    _value16 = _equals13 ? _cache[15] : _cache[15] = _hoisted9,
+    _value17 = _equals12 && _equals13 ? _cache[16] : _cache[16] = [_value15, _value16],
+    _equals15 = _$$equals(_cache, 17, _value17),
+    _value18 = _equals15 ? _cache[17] : _cache[17] = _value17,
+    _value19 = _equals15 ? _cache[18] : _cache[18] = /*@forgetti skip*/<_Memo2 v={_value18} />;
+  return _equals && _equals2 && _equals3 && _equals5 && _equals8 && _equals9 && _equals11 && _equals15 ? _cache[19] : _cache[19] = {
     [_value]: _value2,
     ..._value3,
     [_value6]: _value9,
     a: _value10,
-    b: _value15,
-    c: _value20
+    b: _value14,
+    c: _value19
   };
 }"
 `;
@@ -127,10 +127,9 @@ import { useDeferredValue } from 'react';
 import { useAtomValue } from 'jotai';
 import { stateAtom } from 'whatever';
 function Example(props) {
-  let _cache = _$$cache(_useRef, 3),
-    _hoisted2 = useAtomValue(0 in _cache ? _cache[0] : _cache[0] = stateAtom),
-    _hoisted = useDeferredValue(_$$equals(_cache, 1, _hoisted2) ? _cache[1] : _cache[1] = _hoisted2);
-  return _$$equals(_cache, 2, _hoisted) ? _cache[2] : _cache[2] = _hoisted;
+  let _cache = _$$cache(_useRef, 2),
+    _hoisted = useAtomValue(0 in _cache ? _cache[0] : _cache[0] = stateAtom);
+  return useDeferredValue(_$$equals(_cache, 1, _hoisted) ? _cache[1] : _cache[1] = _hoisted);
 }"
 `;
 
@@ -181,26 +180,23 @@ import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { useEffect } from 'react';
 function Example(props) {
-  let _cache = _$$cache(_useRef, 5),
+  let _cache = _$$cache(_useRef, 4),
     _equals = _$$equals(_cache, 0, props),
     _value = _equals ? _cache[0] : _cache[0] = props,
     _value2 = _equals ? _cache[1] : _cache[1] = _value.example,
     _equals2 = _$$equals(_cache, 2, _value2),
-    _value3 = _equals2 ? _cache[2] : _cache[2] = _value2,
-    _hoisted = useEffect(() => props.value(), [_equals2 ? _cache[3] : _cache[3] = [_value3]]);
-  _$$equals(_cache, 4, _hoisted) ? _cache[4] : _cache[4] = _hoisted;
+    _value3 = _equals2 ? _cache[2] : _cache[2] = _value2;
+  useEffect(() => props.value(), [_equals2 ? _cache[3] : _cache[3] = [_value3]]);
 }"
 `;
 
 exports[`hooks > should optimize useEffect with 0 dependencies 1`] = `
 "import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
-import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { useEffect } from 'react';
 function Example(props) {
-  let _cache = _$$cache(_useRef, 2),
-    _hoisted = useEffect(() => props.value(), [0 in _cache ? _cache[0] : _cache[0] = []]);
-  _$$equals(_cache, 1, _hoisted) ? _cache[1] : _cache[1] = _hoisted;
+  let _cache = _$$cache(_useRef, 1);
+  useEffect(() => props.value(), [0 in _cache ? _cache[0] : _cache[0] = []]);
 }"
 `;
 
@@ -210,12 +206,11 @@ import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { useEffect } from 'react';
 function Example(props) {
-  let _cache = _$$cache(_useRef, 3),
+  let _cache = _$$cache(_useRef, 2),
     _equals = _$$equals(_cache, 0, props),
     _value = _equals ? _cache[0] : _cache[0] = props,
-    _value2 = _equals ? _cache[1] : _cache[1] = () => props.value(),
-    _hoisted = useEffect(_value2, [_value2]);
-  _$$equals(_cache, 2, _hoisted) ? _cache[2] : _cache[2] = _hoisted;
+    _value2 = _equals ? _cache[1] : _cache[1] = () => props.value();
+  useEffect(_value2, [_value2]);
 }"
 `;
 
