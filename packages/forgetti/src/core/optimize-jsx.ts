@@ -3,7 +3,7 @@ import * as t from '@babel/types';
 import type { ComponentNode, StateContext } from './types';
 import getImportIdentifier from './get-import-identifier';
 import { RUNTIME_MEMO } from './imports';
-import { isNodeShouldBeSkipped } from './checks';
+import { isNodeShouldBeSkipped, isPathValid } from './checks';
 
 interface JSXReplacement {
   id: t.Identifier;
@@ -27,13 +27,13 @@ function extractJSXExpressions(
   top: boolean,
 ): void {
   // Iterate attributes
-  if (path.isJSXElement()) {
+  if (isPathValid(path, t.isJSXElement)) {
     const openingElement = path.get('openingElement');
     let name = openingElement.get('name');
-    while (name.isJSXMemberExpression()) {
+    while (isPathValid(name, t.isJSXMemberExpression)) {
       name = name.get('object');
     }
-    if (name.isJSXIdentifier()) {
+    if (isPathValid(name, t.isJSXIdentifier)) {
       if (/^[A-Z_]/.test(name.node.name)) {
         const id = path.scope.generateUidIdentifier('Component');
         state.jsxs.push({
@@ -47,29 +47,29 @@ function extractJSXExpressions(
     for (let i = 0, len = attrs.length; i < len; i++) {
       const attr = attrs[i];
 
-      if (attr.isJSXAttribute()) {
+      if (isPathValid(attr, t.isJSXAttribute)) {
         const key = attr.get('name');
-        if (top && key.isJSXIdentifier() && key.node.name === 'key') {
+        if (top && isPathValid(key, t.isJSXIdentifier) && key.node.name === 'key') {
           const value = attr.get('value');
-          if (value.isExpression()) {
+          if (isPathValid(value, t.isExpression)) {
             state.key = value.node;
-          } else if (value.isJSXExpressionContainer()) {
+          } else if (isPathValid(value, t.isJSXExpressionContainer)) {
             const expr = value.get('expression');
-            if (expr.isExpression()) {
+            if (isPathValid(expr, t.isExpression)) {
               state.key = expr.node;
               attr.remove();
             }
           }
         } else {
           const value = attr.get('value');
-          if (value.isJSXElement() || value.isJSXFragment()) {
+          if (isPathValid(value, t.isJSXElement) || isPathValid(value, t.isJSXFragment)) {
             extractJSXExpressions(value, state, false);
           }
-          if (value.isJSXExpressionContainer()) {
+          if (isPathValid(value, t.isJSXExpressionContainer)) {
             const expr = value.get('expression');
-            if (expr.isJSXElement() || expr.isJSXFragment()) {
+            if (isPathValid(expr, t.isJSXElement) || isPathValid(expr, t.isJSXFragment)) {
               extractJSXExpressions(expr, state, false);
-            } else if (expr.isExpression()) {
+            } else if (isPathValid(expr, t.isExpression)) {
               const id = state.expressions.length;
               state.expressions.push(expr.node);
               expr.replaceWith(
@@ -83,9 +83,9 @@ function extractJSXExpressions(
           }
         }
       }
-      if (attr.isJSXSpreadAttribute()) {
+      if (isPathValid(attr, t.isJSXSpreadAttribute)) {
         const arg = attr.get('argument');
-        if (arg.isJSXElement() || arg.isJSXFragment()) {
+        if (isPathValid(arg, t.isJSXElement) || isPathValid(arg, t.isJSXFragment)) {
           extractJSXExpressions(arg, state, false);
         } else {
           const id = state.expressions.length;
@@ -106,13 +106,13 @@ function extractJSXExpressions(
   for (let i = 0, len = children.length; i < len; i++) {
     const child = children[i];
 
-    if (child.isJSXElement() || child.isJSXFragment()) {
+    if (isPathValid(child, t.isJSXElement) || isPathValid(child, t.isJSXFragment)) {
       extractJSXExpressions(child, state, false);
-    } else if (child.isJSXExpressionContainer()) {
+    } else if (isPathValid(child, t.isJSXExpressionContainer)) {
       const expr = child.get('expression');
-      if (expr.isJSXElement() || expr.isJSXFragment()) {
+      if (isPathValid(expr, t.isJSXElement) || isPathValid(expr, t.isJSXFragment)) {
         extractJSXExpressions(expr, state, false);
-      } else if (expr.isExpression()) {
+      } else if (isPathValid(expr, t.isExpression)) {
         const id = state.expressions.length;
         state.expressions.push(expr.node);
         expr.replaceWith(
@@ -123,9 +123,9 @@ function extractJSXExpressions(
           ),
         );
       }
-    } else if (child.isJSXSpreadChild()) {
+    } else if (isPathValid(child, t.isJSXSpreadChild)) {
       const arg = child.get('expression');
-      if (arg.isJSXElement() || arg.isJSXFragment()) {
+      if (isPathValid(arg, t.isJSXElement) || isPathValid(arg, t.isJSXFragment)) {
         extractJSXExpressions(arg, state, false);
       } else {
         const id = state.expressions.length;

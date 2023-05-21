@@ -3,6 +3,7 @@ import * as t from '@babel/types';
 import type * as babel from '@babel/core';
 import type { ComponentNode, StateContext } from './types';
 import { getHookCallType } from './get-hook-call-type';
+import { isPathValid } from './checks';
 
 function isStatementValid(path: babel.NodePath): boolean {
   if (path) {
@@ -25,7 +26,7 @@ function isInValidExpression(path: babel.NodePath): boolean {
   let prev = path;
   while (current) {
     if (
-      current.isConditionalExpression()
+      isPathValid(current, t.isConditionalExpression)
       && (
         current.get('consequent').node === prev.node
         || current.get('alternate').node === prev.node
@@ -34,7 +35,7 @@ function isInValidExpression(path: babel.NodePath): boolean {
       return false;
     }
     if (
-      current.isLogicalExpression()
+      isPathValid(current, t.isLogicalExpression)
       && current.get('right').node === prev.node
     ) {
       return false;
@@ -68,7 +69,7 @@ export function expandExpressions(
         && isStatementValid(statement)
         && isInValidExpression(p)
         && !(
-          p.parentPath.isVariableDeclarator()
+          isPathValid(p.parentPath, t.isVariableDeclarator)
           && p.parentPath.node.id.type === 'Identifier'
           && hoistedVars.has(p.parentPath.node.id.name)
         )
@@ -93,7 +94,7 @@ export function expandExpressions(
         && statement
         && isStatementValid(statement)
         && !(
-          p.parentPath.isVariableDeclarator()
+          isPathValid(p.parentPath, t.isVariableDeclarator)
           && p.parentPath.node.id.type === 'Identifier'
           && hoistedVars.has(p.parentPath.node.id.name)
         )
