@@ -6,73 +6,36 @@ import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _cache = _$$cache(_useRef, 23),
-    _condition,
-    _condition2,
-    _condition4,
+  let _cache = _$$cache(_useRef, 8),
     _equals = _$$equals(_cache, 0, props),
-    _value = _equals ? _cache[0] : _cache[0] = props;
-  if (_equals ? _cache[1] : _cache[1] = _value.a) {
-    let _cache2 = _$$branch(_cache, 2, 1);
-    _condition4 = 0 in _cache2 ? _cache2[0] : _cache2[0] = _value.a;
-  } else {
-    let _cache3 = _$$branch(_cache, 3, 3),
-      _equals2 = _$$equals(_cache3, 0, props),
-      _value4 = _equals2 ? _cache3[0] : _cache3[0] = props,
-      _value5 = _equals2 ? _cache3[1] : _cache3[1] = _value4.b;
-    _condition4 = _$$equals(_cache3, 2, _value5) ? _cache3[2] : _cache3[2] = _value5;
+    _value = _equals ? _cache[0] : _cache[0] = props,
+    _condition3 = _equals ? _cache[1] : _cache[1] = _value.a,
+    _value3 = _$$equals(_cache, 2, _condition3) ? _cache[2] : _cache[2] = _condition3;
+  if (_value3) {
+    let _cache2 = _$$branch(_cache, 3, 3),
+      _equals3 = _$$equals(_cache2, 0, props),
+      _value4 = _equals3 ? _cache2[0] : _cache2[0] = props,
+      _value5 = _equals3 ? _cache2[1] : _cache2[1] = _value4.b;
+    _condition3 = _$$equals(_cache2, 2, _value5) ? _cache2[2] : _cache2[2] = _value5;
   }
-  let _condition5;
-  if (4 in _cache ? _cache[4] : _cache[4] = _value.a) {
-    let _cache4 = _$$branch(_cache, 5, 1);
-    _condition5 = 0 in _cache4 ? _cache4[0] : _cache4[0] = _value.a;
-  } else {
-    let _cache5 = _$$branch(_cache, 6, 1);
-    _condition5 = 0 in _cache5 ? _cache5[0] : _cache5[0] = _value4.b;
+  let _condition2 = _value3,
+    _value7 = _$$equals(_cache, 4, _condition2) ? _cache[4] : _cache[4] = _condition2;
+  if (_value7) {
+    let _cache3 = _$$branch(_cache, 5, 3),
+      _equals6 = _$$equals(_cache3, 0, props),
+      _value8 = _equals6 ? _cache3[0] : _cache3[0] = props,
+      _value9 = _equals6 ? _cache3[1] : _cache3[1] = _value8.c;
+    _condition2 = _$$equals(_cache3, 2, _value9) ? _cache3[2] : _cache3[2] = _value9;
   }
-  if (_$$equals(_cache, 7, _condition4) ? _cache[7] : _cache[7] = _condition4) {
-    let _cache6 = _$$branch(_cache, 8, 1);
-    _condition2 = _$$equals(_cache6, 0, _condition5) ? _cache6[0] : _cache6[0] = _condition5;
-  } else {
-    let _cache7 = _$$branch(_cache, 9, 3),
-      _equals6 = _$$equals(_cache7, 0, props),
-      _value12 = _equals6 ? _cache7[0] : _cache7[0] = props,
-      _value13 = _equals6 ? _cache7[1] : _cache7[1] = _value12.c;
-    _condition2 = _$$equals(_cache7, 2, _value13) ? _cache7[2] : _cache7[2] = _value13;
+  let _condition = _value7,
+    _value11 = _$$equals(_cache, 6, _condition) ? _cache[6] : _cache[6] = _condition;
+  if (_value11) {
+    let _cache4 = _$$branch(_cache, 7, 3),
+      _equals9 = _$$equals(_cache4, 0, props),
+      _value12 = _equals9 ? _cache4[0] : _cache4[0] = props,
+      _value13 = _equals9 ? _cache4[1] : _cache4[1] = _value12.d;
+    _condition = _$$equals(_cache4, 2, _value13) ? _cache4[2] : _cache4[2] = _value13;
   }
-  let _condition3, _condition6;
-  if (10 in _cache ? _cache[10] : _cache[10] = _value.a) {
-    let _cache8 = _$$branch(_cache, 11, 1);
-    _condition6 = 0 in _cache8 ? _cache8[0] : _cache8[0] = _value.a;
-  } else {
-    let _cache9 = _$$branch(_cache, 12, 1);
-    _condition6 = 0 in _cache9 ? _cache9[0] : _cache9[0] = _value4.b;
-  }
-  let _condition7;
-  if (13 in _cache ? _cache[13] : _cache[13] = _value.a) {
-    let _cache10 = _$$branch(_cache, 14, 1);
-    _condition7 = 0 in _cache10 ? _cache10[0] : _cache10[0] = _value.a;
-  } else {
-    let _cache11 = _$$branch(_cache, 15, 1);
-    _condition7 = 0 in _cache11 ? _cache11[0] : _cache11[0] = _value4.b;
-  }
-  if (_$$equals(_cache, 16, _condition6) ? _cache[16] : _cache[16] = _condition6) {
-    let _cache12 = _$$branch(_cache, 17, 1);
-    _condition3 = _$$equals(_cache12, 0, _condition7) ? _cache12[0] : _cache12[0] = _condition7;
-  } else {
-    let _cache13 = _$$branch(_cache, 18, 1);
-    _condition3 = 0 in _cache13 ? _cache13[0] : _cache13[0] = _value12.c;
-  }
-  if (_$$equals(_cache, 19, _condition2) ? _cache[19] : _cache[19] = _condition2) {
-    let _cache14 = _$$branch(_cache, 20, 1);
-    _condition = _$$equals(_cache14, 0, _condition3) ? _cache14[0] : _cache14[0] = _condition3;
-  } else {
-    let _cache15 = _$$branch(_cache, 21, 3),
-      _equals12 = _$$equals(_cache15, 0, props),
-      _value26 = _equals12 ? _cache15[0] : _cache15[0] = props,
-      _value27 = _equals12 ? _cache15[1] : _cache15[1] = _value26.d;
-    _condition = _$$equals(_cache15, 2, _value27) ? _cache15[2] : _cache15[2] = _value27;
-  }
-  return _$$equals(_cache, 22, _condition) ? _cache[22] : _cache[22] = _condition;
+  return _value11;
 }"
 `;

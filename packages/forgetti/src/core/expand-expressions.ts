@@ -66,21 +66,23 @@ export function expandExpressions(
         && isStatementValid(statement)
       ) {
         const id = p.scope.generateUidIdentifier('condition');
-        const test = p.node.operator === '??'
-          ? t.binaryExpression('==', p.node.left, t.nullLiteral())
-          : p.node.left;
-        const consequent = p.node.operator === '||'
-          ? p.node.right
-          : p.node.left;
-        const alternate = p.node.operator === '||'
-          ? p.node.left
-          : p.node.right;
+
+        let test: t.Expression = id;
+        switch (p.node.operator) {
+          case '??':
+            test = t.binaryExpression('==', id, t.nullLiteral());
+            break;
+          case '||':
+            test = t.unaryExpression('!', id);
+            break;
+          default:
+            break;
+        }
         statement.insertBefore([
-          t.variableDeclaration('let', [t.variableDeclarator(id)]),
+          t.variableDeclaration('let', [t.variableDeclarator(id, p.node.left)]),
           t.ifStatement(
             test,
-            t.expressionStatement(t.assignmentExpression('=', id, consequent)),
-            t.expressionStatement(t.assignmentExpression('=', id, alternate)),
+            t.expressionStatement(t.assignmentExpression('=', id, p.node.right)),
           ),
         ]);
         p.replaceWith(id);
