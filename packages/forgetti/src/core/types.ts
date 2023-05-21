@@ -20,13 +20,13 @@ export interface StateContext {
   preset: Preset;
   imports: Map<string, t.Identifier>;
   registrations: {
-    named: {
-      hooks: Map<t.Identifier, HookRegistration>;
-      hocs: Map<t.Identifier, ImportDefinition>;
+    hooks: {
+      identifiers: Map<t.Identifier, HookRegistration>;
+      namespaces: Map<t.Identifier, HookRegistration[]>;
     };
-    namespace: {
-      hooks: Map<t.Identifier, HookRegistration[]>;
-      hocs: Map<t.Identifier, ImportDefinition[]>;
+    hocs: {
+      identifiers: Map<t.Identifier, ImportDefinition>;
+      namespaces: Map<t.Identifier, ImportDefinition[]>;
     };
   };
   filters: {

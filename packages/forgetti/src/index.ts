@@ -38,16 +38,16 @@ function registerHookSpecifiers(
     switch (specifier.type) {
       case 'ImportDefaultSpecifier':
         if (hook.kind === 'default') {
-          ctx.registrations.named.hooks.set(specifier.local, hook);
+          ctx.registrations.hooks.identifiers.set(specifier.local, hook);
         }
         break;
       case 'ImportNamespaceSpecifier': {
-        let current = ctx.registrations.namespace.hooks.get(specifier.local);
+        let current = ctx.registrations.hooks.namespaces.get(specifier.local);
         if (!current) {
           current = [];
         }
         current.push(hook);
-        ctx.registrations.namespace.hooks.set(specifier.local, current);
+        ctx.registrations.hooks.namespaces.set(specifier.local, current);
       }
         break;
       case 'ImportSpecifier':
@@ -61,7 +61,7 @@ function registerHookSpecifiers(
             && getImportSpecifierName(specifier) === 'default'
           )
         ) {
-          ctx.registrations.named.hooks.set(specifier.local, hook);
+          ctx.registrations.hooks.identifiers.set(specifier.local, hook);
         }
         break;
       default:
@@ -81,16 +81,16 @@ function registerHOCSpecifiers(
     switch (specifier.type) {
       case 'ImportDefaultSpecifier':
         if (hoc.kind === 'default') {
-          ctx.registrations.named.hocs.set(specifier.local, hoc);
+          ctx.registrations.hocs.identifiers.set(specifier.local, hoc);
         }
         break;
       case 'ImportNamespaceSpecifier': {
-        let current = ctx.registrations.namespace.hocs.get(specifier.local);
+        let current = ctx.registrations.hocs.namespaces.get(specifier.local);
         if (!current) {
           current = [];
         }
         current.push(hoc);
-        ctx.registrations.namespace.hocs.set(specifier.local, current);
+        ctx.registrations.hocs.namespaces.set(specifier.local, current);
       }
         break;
       case 'ImportSpecifier':
@@ -104,7 +104,7 @@ function registerHOCSpecifiers(
             && getImportSpecifierName(specifier) === 'default'
           )
         ) {
-          ctx.registrations.named.hocs.set(specifier.local, hoc);
+          ctx.registrations.hocs.identifiers.set(specifier.local, hoc);
         }
         break;
       default:
@@ -183,7 +183,7 @@ function transformHOC(
   if (trueID) {
     const binding = path.scope.getBindingIdentifier(trueID.name);
     if (binding) {
-      const registration = ctx.registrations.named.hocs.get(binding);
+      const registration = ctx.registrations.hocs.identifiers.get(binding);
       if (registration) {
         transformFunction(ctx, path.get('arguments')[0], false);
       }
@@ -200,7 +200,7 @@ function transformHOC(
     if (obj) {
       const binding = path.scope.getBindingIdentifier(obj.name);
       if (binding) {
-        const registrations = ctx.registrations.namespace.hocs.get(binding);
+        const registrations = ctx.registrations.hocs.namespaces.get(binding);
         if (registrations) {
           const propName = trueMember.property.name;
           let registration: typeof registrations[0];
@@ -248,13 +248,13 @@ export default function forgettiPlugin(): babel.PluginObj<State> {
         const ctx: StateContext = {
           imports: new Map(),
           registrations: {
-            named: {
-              hooks: new Map(),
-              hocs: new Map(),
+            hooks: {
+              identifiers: new Map(),
+              namespaces: new Map(),
             },
-            namespace: {
-              hooks: new Map(),
-              hocs: new Map(),
+            hocs: {
+              identifiers: new Map(),
+              namespaces: new Map(),
             },
           },
           preset,
