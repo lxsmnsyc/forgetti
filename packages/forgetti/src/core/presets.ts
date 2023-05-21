@@ -4,20 +4,20 @@ export type HookIdentity =
   | 'effect'
   | 'ref';
 
-export interface NamedImportRegistration {
+export interface NamedImportDefinition {
   kind: 'named';
   name: string;
   source: string;
 }
 
-export interface DefaultImportRegistration {
+export interface DefaultImportDefinition {
   kind: 'default';
   source: string;
 }
 
-export type ImportRegistration = NamedImportRegistration | DefaultImportRegistration;
+export type ImportDefinition = NamedImportDefinition | DefaultImportDefinition;
 
-export type HookRegistration = ImportRegistration & {
+export type HookRegistration = ImportDefinition & {
   type: HookIdentity;
 };
 
@@ -32,12 +32,12 @@ export interface Preset {
     hook?: RawRegExp;
   };
   runtime: {
-    useRef: ImportRegistration;
-    memo?: ImportRegistration;
+    useRef: ImportDefinition;
+    memo?: ImportDefinition;
   };
   imports: {
     hooks: HookRegistration[];
-    hocs: ImportRegistration[];
+    hocs: ImportDefinition[];
   };
 }
 

@@ -2,7 +2,7 @@ import type * as t from '@babel/types';
 import type * as babel from '@babel/core';
 import type {
   HookRegistration,
-  ImportRegistration,
+  ImportDefinition,
   Options,
   Preset,
 } from './presets';
@@ -22,11 +22,11 @@ export interface StateContext {
   registrations: {
     named: {
       hooks: Map<t.Identifier, HookRegistration>;
-      hocs: Map<t.Identifier, ImportRegistration>;
+      hocs: Map<t.Identifier, ImportDefinition>;
     };
     namespace: {
       hooks: Map<t.Identifier, HookRegistration[]>;
-      hocs: Map<t.Identifier, ImportRegistration[]>;
+      hocs: Map<t.Identifier, ImportDefinition[]>;
     };
   };
   filters: {

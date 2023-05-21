@@ -4,7 +4,7 @@ import type { ComponentNode, StateContext } from './types';
 import getImportIdentifier from './get-import-identifier';
 import { RUNTIME_MEMO } from './imports';
 import { isNodeShouldBeSkipped, isPathValid } from './checks';
-import type { ImportRegistration } from './presets';
+import type { ImportDefinition } from './presets';
 
 interface JSXReplacement {
   id: t.Identifier;
@@ -146,7 +146,7 @@ function extractJSXExpressions(
 function transformJSX(
   ctx: StateContext,
   path: babel.NodePath<t.JSXElement | t.JSXFragment>,
-  memoDefinition: ImportRegistration,
+  memoDefinition: ImportDefinition,
 ): void {
   if (isNodeShouldBeSkipped(path.node)) {
     return;

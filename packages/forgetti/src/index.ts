@@ -11,7 +11,7 @@ import {
 import Optimizer from './core/optimizer';
 import type {
   HookRegistration,
-  ImportRegistration,
+  ImportDefinition,
   Options,
 } from './core/presets';
 import {
@@ -73,7 +73,7 @@ function registerHookSpecifiers(
 function registerHOCSpecifiers(
   ctx: StateContext,
   path: babel.NodePath<t.ImportDeclaration>,
-  hoc: ImportRegistration,
+  hoc: ImportDefinition,
 ): void {
   let specifier: typeof path.node.specifiers[0];
   for (let i = 0, len = path.node.specifiers.length; i < len; i++) {
@@ -129,7 +129,7 @@ function extractImportIdentifiers(
     }
   }
   // Identify hocs
-  let hoc: ImportRegistration;
+  let hoc: ImportDefinition;
   for (let i = 0, len = imports.hocs.length; i < len; i++) {
     hoc = imports.hocs[i];
     if (mod === hoc.source) {
