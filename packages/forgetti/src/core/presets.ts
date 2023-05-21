@@ -33,13 +33,12 @@ export interface Preset {
   };
   runtime: {
     useRef: ImportRegistration;
-    memo: ImportRegistration;
+    memo?: ImportRegistration;
   };
   imports: {
     hooks: HookRegistration[];
     hocs: ImportRegistration[];
   };
-  optimizeJSX?: boolean;
 }
 
 export interface Options {
@@ -52,7 +51,6 @@ export function createPreset(preset: Preset): Preset {
 
 export const PRESETS = {
   react: createPreset({
-    optimizeJSX: true,
     filters: {
       component: {
         source: '^[A-Z]',
@@ -129,7 +127,6 @@ export const PRESETS = {
     },
   }),
   preact: createPreset({
-    optimizeJSX: true,
     filters: {
       component: {
         source: '^[A-Z]',

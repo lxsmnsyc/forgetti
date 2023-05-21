@@ -814,7 +814,7 @@ export default class Optimizer {
   optimizeJSXFragment(
     path: babel.NodePath<t.JSXFragment>,
   ): OptimizedExpression {
-    if (this.ctx.preset.optimizeJSX) {
+    if (this.ctx.preset.runtime.memo) {
       const dependencies = this.memoizeJSXChildren(path);
       return this.createMemo(path.node, dependencies);
     }
@@ -824,7 +824,7 @@ export default class Optimizer {
   optimizeJSXElement(
     path: babel.NodePath<t.JSXElement>,
   ): OptimizedExpression {
-    if (this.ctx.preset.optimizeJSX) {
+    if (this.ctx.preset.runtime.memo) {
       const dependencies = createDependencies();
       const attributes = path.get('openingElement').get('attributes');
       let attribute: typeof attributes[0];

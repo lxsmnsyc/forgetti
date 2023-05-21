@@ -4,6 +4,7 @@ import type { ComponentNode, StateContext } from './types';
 import getImportIdentifier from './get-import-identifier';
 import { RUNTIME_MEMO } from './imports';
 import { isNodeShouldBeSkipped, isPathValid } from './checks';
+import type { ImportRegistration } from './presets';
 
 interface JSXReplacement {
   id: t.Identifier;
@@ -145,6 +146,7 @@ function extractJSXExpressions(
 function transformJSX(
   ctx: StateContext,
   path: babel.NodePath<t.JSXElement | t.JSXFragment>,
+  memoDefinition: ImportRegistration,
 ): void {
   if (isNodeShouldBeSkipped(path.node)) {
     return;
@@ -187,7 +189,7 @@ function transformJSX(
         getImportIdentifier(
           ctx,
           path,
-          ctx.preset.runtime.memo,
+          memoDefinition,
         ),
         t.arrowFunctionExpression(
           [state.source],
@@ -244,13 +246,16 @@ export default function optimizeJSX(
   ctx: StateContext,
   path: babel.NodePath<ComponentNode>,
 ): void {
-  path.traverse({
-    JSXElement(p) {
-      transformJSX(ctx, p);
-    },
-    JSXFragment(p) {
-      transformJSX(ctx, p);
-    },
-  });
-  path.scope.crawl();
+  const memoDefinition = ctx.preset.runtime.memo;
+  if (memoDefinition) {
+    path.traverse({
+      JSXElement(p) {
+        transformJSX(ctx, p, memoDefinition);
+      },
+      JSXFragment(p) {
+        transformJSX(ctx, p, memoDefinition);
+      },
+    });
+    path.scope.crawl();
+  }
 }
