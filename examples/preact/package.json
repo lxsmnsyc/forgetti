@@ -12,11 +12,11 @@
     "eslint-config-lxsmnsyc": "^0.6.3",
     "typescript": "^4.9.5",
     "vite": "^4.3.1",
-    "vite-plugin-forgetti": "0.5.3"
+    "vite-plugin-forgetti": "0.6.0-alpha.0"
   },
   "dependencies": {
-    "forgetti": "0.5.3",
+    "forgetti": "0.6.0-alpha.0",
     "preact": "^10.13.0"
   },
-  "version": "0.5.3"
+  "version": "0.6.0-alpha.0"
 }
