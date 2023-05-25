@@ -1,3 +1,3 @@
 function Example(props) {
-  return <h1>{props.greeting}, {props.receiver}!</h1>;
+  return <styled.H1>{props.greeting}, {props.receiver}!</styled.H1>;
 }

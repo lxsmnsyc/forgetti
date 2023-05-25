@@ -39,16 +39,24 @@ function extractJSXExpressions(
   // Iterate attributes
   if (isPathValid(path, t.isJSXElement)) {
     const openingElement = path.get('openingElement');
-    const openingName = getJSXIdentifier(openingElement.get('name'));
-    if (isPathValid(openingName, t.isJSXIdentifier)) {
-      if (/^[A-Z_]/.test(openingName.node.name)) {
+    const openingName = openingElement.get('name');
+    const trueOpeningName = getJSXIdentifier(openingName);
+    const isJSXMember = isPathValid(openingName, t.isJSXMemberExpression);
+    if (isPathValid(trueOpeningName, t.isJSXIdentifier)) {
+      if (isJSXMember || /^[A-Z_]/.test(trueOpeningName.node.name)) {
         const id = path.scope.generateUidIdentifier('Component');
+        const index = state.expressions.length;
+        state.expressions.push(t.identifier(trueOpeningName.node.name));
         state.jsxs.push({
           id,
-          value: t.identifier(openingName.node.name),
+          value: t.memberExpression(
+            state.source,
+            t.numericLiteral(index),
+            true,
+          ),
         });
         const replacement = t.jsxIdentifier(id.name);
-        openingName.replaceWith(replacement);
+        trueOpeningName.replaceWith(replacement);
 
         const closingElement = path.get('closingElement');
         if (isPathValid(closingElement, t.isJSXClosingElement)) {
