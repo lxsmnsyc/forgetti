@@ -22,6 +22,15 @@ interface State {
   key?: t.Expression;
 }
 
+function getJSXIdentifier(
+  el: babel.NodePath<t.JSXIdentifier | t.JSXNamespacedName | t.JSXMemberExpression>,
+): babel.NodePath<t.JSXIdentifier | t.JSXNamespacedName> {
+  if (isPathValid(el, t.isJSXMemberExpression)) {
+    return getJSXIdentifier(el.get('object'));
+  }
+  return el as babel.NodePath<t.JSXIdentifier | t.JSXNamespacedName>;
+}
+
 function extractJSXExpressions(
   path: babel.NodePath<t.JSXElement | t.JSXFragment>,
   state: State,
@@ -30,18 +39,22 @@ function extractJSXExpressions(
   // Iterate attributes
   if (isPathValid(path, t.isJSXElement)) {
     const openingElement = path.get('openingElement');
-    let name = openingElement.get('name');
-    while (isPathValid(name, t.isJSXMemberExpression)) {
-      name = name.get('object');
-    }
-    if (isPathValid(name, t.isJSXIdentifier)) {
-      if (/^[A-Z_]/.test(name.node.name)) {
+    const openingName = getJSXIdentifier(openingElement.get('name'));
+    if (isPathValid(openingName, t.isJSXIdentifier)) {
+      if (/^[A-Z_]/.test(openingName.node.name)) {
         const id = path.scope.generateUidIdentifier('Component');
         state.jsxs.push({
           id,
-          value: t.identifier(name.node.name),
+          value: t.identifier(openingName.node.name),
         });
-        name.replaceWith(t.jsxIdentifier(id.name));
+        const replacement = t.jsxIdentifier(id.name);
+        openingName.replaceWith(replacement);
+
+        const closingElement = path.get('closingElement');
+        if (isPathValid(closingElement, t.isJSXClosingElement)) {
+          const closingName = getJSXIdentifier(closingElement.get('name'));
+          closingName.replaceWith(replacement);
+        }
       }
     }
     const attrs = openingElement.get('attributes');
