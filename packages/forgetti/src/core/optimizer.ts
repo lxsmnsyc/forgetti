@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import type * as babel from '@babel/core';
 import * as t from '@babel/types';
-import { isNestedExpression, isPathValid } from './checks';
+import { isNestedExpression, isNodeShouldBeSkipped, isPathValid } from './checks';
 import getForeignBindings, { isForeignBinding } from './get-foreign-bindings';
 import getImportIdentifier from './get-import-identifier';
 import { RUNTIME_EQUALS } from './imports';
@@ -875,8 +875,11 @@ export default class Optimizer {
   optimizeExpression(
     path: babel.NodePath<t.Expression>,
   ): OptimizedExpression {
-    while (isPathValid(path, isNestedExpression)) {
-      path = path.get('expression');
+    if (isNodeShouldBeSkipped(path.node)) {
+      return optimizedExpr(path.node, undefined, true);
+    }
+    if (isPathValid(path, isNestedExpression)) {
+      return this.optimizeExpression(path.get('expression'));
     }
     // No need to optimize
     if (t.isLiteral(path.node) && path.node.type !== 'TemplateLiteral') {
@@ -1003,6 +1006,9 @@ export default class Optimizer {
   private optimizeBlock(
     path: babel.NodePath<t.BlockStatement>,
   ): void {
+    if (isNodeShouldBeSkipped(path.node)) {
+      return;
+    }
     const statements = path.get('body');
     for (let i = 0, len = statements.length; i < len; i++) {
       this.optimizeStatement(statements[i]);
@@ -1146,6 +1152,9 @@ export default class Optimizer {
     path: babel.NodePath<t.Statement>,
     topBlock = false,
   ): void {
+    if (isNodeShouldBeSkipped(path.node)) {
+      return;
+    }
     switch (path.type) {
       case 'ExpressionStatement':
         this.optimizeExpressionStatement(path as babel.NodePath<t.ExpressionStatement>);
