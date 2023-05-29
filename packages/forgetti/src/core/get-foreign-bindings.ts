@@ -48,7 +48,7 @@ export default function getForeignBindings(path: babel.NodePath): t.Identifier[]
         switch (p.node.openingElement.name.type) {
           case 'JSXIdentifier': {
             const literal = p.node.openingElement.name.name;
-            if (/^[A-Z]/.test(literal) && isForeignBinding(path, p, literal)) {
+            if (/^[A-Z_]/.test(literal) && isForeignBinding(path, p, literal)) {
               identifiers.add(literal);
             }
           }

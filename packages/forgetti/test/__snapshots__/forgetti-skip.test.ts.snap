@@ -1,56 +1,74 @@
 // Vitest Snapshot v1
 
 exports[`forgetti skip > should optimize non-skipped function declaration 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
+import { memo as _memo } from \\"react\\";
+import { $$memo as _$$memo } from \\"forgetti/runtime\\";
+const _Memo = _$$memo(_memo, _values => <h1 className={_values[0]}>{_values[1]}</h1>);
 function Example(props) {
-  let _c = _$$cache(_useMemo, 6),
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props,
-    _v2 = _eq ? _c[1] : _c[1] = _v.className,
-    _eq2 = _$$equals(_c, 2, _v2),
-    _v3 = _eq2 ? _c[2] : _c[2] = _v2,
-    _v4 = _eq ? _c[3] : _c[3] = _v.children,
-    _eq3 = _$$equals(_c, 4, _v4),
-    _v5 = _eq3 ? _c[4] : _c[4] = _v4;
-  return _eq2 && _eq3 ? _c[5] : _c[5] = <h1 className={_v3}>{_v5}</h1>;
+  let _cache = _$$cache(_useRef, 8),
+    _equals = _$$equals(_cache, 0, props),
+    _value = _equals ? _cache[0] : _cache[0] = props,
+    _value2 = _equals ? _cache[1] : _cache[1] = _value.className,
+    _equals2 = _$$equals(_cache, 2, _value2),
+    _value3 = _equals2 ? _cache[2] : _cache[2] = _value2,
+    _value4 = _equals ? _cache[3] : _cache[3] = _value.children,
+    _equals3 = _$$equals(_cache, 4, _value4),
+    _value5 = _equals3 ? _cache[4] : _cache[4] = _value4,
+    _value6 = _equals2 && _equals3 ? _cache[5] : _cache[5] = [_value3, _value5],
+    _equals5 = _$$equals(_cache, 6, _value6),
+    _value7 = _equals5 ? _cache[6] : _cache[6] = _value6;
+  return _equals5 ? _cache[7] : _cache[7] = /*@forgetti jsx*/<_Memo v={_value7} />;
 }"
 `;
 
 exports[`forgetti skip > should optimize non-skipped function expression 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
+import { memo as _memo } from \\"react\\";
+import { $$memo as _$$memo } from \\"forgetti/runtime\\";
+const _Memo = _$$memo(_memo, _values => <h1 className={_values[0]}>{_values[1]}</h1>);
 const Example = function (props) {
-  let _c = _$$cache(_useMemo, 6),
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props,
-    _v2 = _eq ? _c[1] : _c[1] = _v.className,
-    _eq2 = _$$equals(_c, 2, _v2),
-    _v3 = _eq2 ? _c[2] : _c[2] = _v2,
-    _v4 = _eq ? _c[3] : _c[3] = _v.children,
-    _eq3 = _$$equals(_c, 4, _v4),
-    _v5 = _eq3 ? _c[4] : _c[4] = _v4;
-  return _eq2 && _eq3 ? _c[5] : _c[5] = <h1 className={_v3}>{_v5}</h1>;
+  let _cache = _$$cache(_useRef, 8),
+    _equals = _$$equals(_cache, 0, props),
+    _value = _equals ? _cache[0] : _cache[0] = props,
+    _value2 = _equals ? _cache[1] : _cache[1] = _value.className,
+    _equals2 = _$$equals(_cache, 2, _value2),
+    _value3 = _equals2 ? _cache[2] : _cache[2] = _value2,
+    _value4 = _equals ? _cache[3] : _cache[3] = _value.children,
+    _equals3 = _$$equals(_cache, 4, _value4),
+    _value5 = _equals3 ? _cache[4] : _cache[4] = _value4,
+    _value6 = _equals2 && _equals3 ? _cache[5] : _cache[5] = [_value3, _value5],
+    _equals5 = _$$equals(_cache, 6, _value6),
+    _value7 = _equals5 ? _cache[6] : _cache[6] = _value6;
+  return _equals5 ? _cache[7] : _cache[7] = /*@forgetti jsx*/<_Memo v={_value7} />;
 };"
 `;
 
 exports[`forgetti skip > should optimize non-skipped variable declaration 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
+import { memo as _memo } from \\"react\\";
+import { $$memo as _$$memo } from \\"forgetti/runtime\\";
+const _Memo = _$$memo(_memo, _values => <h1 className={_values[0]}>{_values[1]}</h1>);
 const Example = props => {
-  let _c = _$$cache(_useMemo, 6),
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props,
-    _v2 = _eq ? _c[1] : _c[1] = _v.className,
-    _eq2 = _$$equals(_c, 2, _v2),
-    _v3 = _eq2 ? _c[2] : _c[2] = _v2,
-    _v4 = _eq ? _c[3] : _c[3] = _v.children,
-    _eq3 = _$$equals(_c, 4, _v4),
-    _v5 = _eq3 ? _c[4] : _c[4] = _v4;
-  return _eq2 && _eq3 ? _c[5] : _c[5] = <h1 className={_v3}>{_v5}</h1>;
+  let _cache = _$$cache(_useRef, 8),
+    _equals = _$$equals(_cache, 0, props),
+    _value = _equals ? _cache[0] : _cache[0] = props,
+    _value2 = _equals ? _cache[1] : _cache[1] = _value.className,
+    _equals2 = _$$equals(_cache, 2, _value2),
+    _value3 = _equals2 ? _cache[2] : _cache[2] = _value2,
+    _value4 = _equals ? _cache[3] : _cache[3] = _value.children,
+    _equals3 = _$$equals(_cache, 4, _value4),
+    _value5 = _equals3 ? _cache[4] : _cache[4] = _value4,
+    _value6 = _equals2 && _equals3 ? _cache[5] : _cache[5] = [_value3, _value5],
+    _equals5 = _$$equals(_cache, 6, _value6),
+    _value7 = _equals5 ? _cache[6] : _cache[6] = _value6;
+  return _equals5 ? _cache[7] : _cache[7] = /*@forgetti jsx*/<_Memo v={_value7} />;
 };"
 `;
 

@@ -2,7 +2,7 @@ import type * as t from '@babel/types';
 import type * as babel from '@babel/core';
 import type {
   HookRegistration,
-  ImportRegistration,
+  ImportDefinition,
   Options,
   Preset,
 } from './presets';
@@ -17,14 +17,18 @@ export interface State extends babel.PluginPass {
 }
 
 export interface StateContext {
-  hooks: Map<string, t.Identifier>;
-  registrations: {
-    hooks: Map<t.Identifier, HookRegistration>;
-    hocs: Map<t.Identifier, ImportRegistration>;
-    hooksNamespaces: Map<t.Identifier, HookRegistration[]>;
-    hocsNamespaces: Map<t.Identifier, ImportRegistration[]>;
-  };
   preset: Preset;
+  imports: Map<string, t.Identifier>;
+  registrations: {
+    hooks: {
+      identifiers: Map<t.Identifier, HookRegistration>;
+      namespaces: Map<t.Identifier, HookRegistration[]>;
+    };
+    hocs: {
+      identifiers: Map<t.Identifier, ImportDefinition>;
+      namespaces: Map<t.Identifier, ImportDefinition[]>;
+    };
+  };
   filters: {
     component: RegExp;
     hook?: RegExp;

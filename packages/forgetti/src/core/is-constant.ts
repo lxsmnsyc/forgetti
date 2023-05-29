@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import type * as babel from '@babel/core';
 import * as t from '@babel/types';
-import { isNestedExpression, isPathValid } from './checks';
+import { isNestedExpression, shouldSkipNode, isPathValid } from './checks';
 import type OptimizerScope from './optimizer-scope';
 import getForeignBindings, { isForeignBinding } from './get-foreign-bindings';
 import type { ComponentNode, StateContext } from './types';
@@ -343,6 +343,9 @@ function uncachedIsConstant(
   instance: OptimizerInstance,
   path: babel.NodePath<t.Expression>,
 ): boolean {
+  if (shouldSkipNode(path.node)) {
+    return false;
+  }
   if (isPathValid(path, isNestedExpression)) {
     return isConstant(instance, path.get('expression'));
   }

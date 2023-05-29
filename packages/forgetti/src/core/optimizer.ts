@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import type * as babel from '@babel/core';
 import * as t from '@babel/types';
-import { isNestedExpression, isPathValid } from './checks';
+import { isNestedExpression, shouldSkipNode, isPathValid } from './checks';
 import getForeignBindings, { isForeignBinding } from './get-foreign-bindings';
 import getImportIdentifier from './get-import-identifier';
 import { RUNTIME_EQUALS } from './imports';
@@ -93,7 +93,7 @@ export default class Optimizer {
     // Generate the access expression
     const pos = t.memberExpression(header, index, true);
     // Generate the `v` identifier
-    const vid = this.path.scope.generateUidIdentifier('v');
+    const vid = this.path.scope.generateUidIdentifier('value');
 
     let condition: t.Expression | undefined;
 
@@ -148,7 +148,7 @@ export default class Optimizer {
       eqid = condition;
     } else {
       // Generate a new identifier for the condition
-      eqid = this.path.scope.generateUidIdentifier('eq');
+      eqid = this.path.scope.generateUidIdentifier('equals');
     }
 
     // Generates the variable declaration
@@ -293,7 +293,7 @@ export default class Optimizer {
   optimizeConditionalExpression(
     path: babel.NodePath<t.ConditionalExpression>,
   ): OptimizedExpression {
-    const id = path.scope.generateUidIdentifier('v');
+    const id = path.scope.generateUidIdentifier('value');
     const parent = this.scope;
     const optimizedTest = this.optimizeExpression(path.get('test'));
     const consequentPath = path.get('consequent');
@@ -361,40 +361,40 @@ export default class Optimizer {
   optimizeLogicalExpression(
     path: babel.NodePath<t.LogicalExpression>,
   ): OptimizedExpression {
-    const id = path.scope.generateUidIdentifier('v');
+    const id = path.scope.generateUidIdentifier('condition');
     const parent = this.scope;
-    const optimizedTest = this.optimizeExpression(path.get('left'));
-    const alternate = new OptimizerScope(this.ctx, path, parent);
-    this.scope = alternate;
-    const optimizedAlternate = this.optimizeExpression(path.get('right'));
+    const left = this.optimizeExpression(path.get('left'));
+    const rightScope = new OptimizerScope(this.ctx, path, parent);
+    this.scope = rightScope;
+    const right = this.optimizeExpression(path.get('right'));
     this.scope = parent;
-    alternate.push(
+
+    let test: t.Expression = id;
+    switch (path.node.operator) {
+      case '??':
+        test = t.binaryExpression('==', id, t.nullLiteral());
+        break;
+      case '||':
+        test = t.unaryExpression('!', id);
+        break;
+      default:
+        break;
+    }
+
+    rightScope.push(
       t.expressionStatement(
-        t.assignmentExpression('=', id, optimizedAlternate.expr),
+        t.assignmentExpression('=', id, right.expr),
       ),
     );
-    const condition = path.node.operator === '??'
-      ? t.binaryExpression('==', optimizedTest.expr, t.nullLiteral())
-      : optimizedTest.expr;
-    const first = t.blockStatement(alternate.getStatements());
-    const last = t.expressionStatement(
-      t.assignmentExpression('=', id, optimizedTest.expr),
-    );
-    const consequentExpr = path.node.operator === '||'
-      ? last
-      : first;
-    const alternateExpr = path.node.operator === '||'
-      ? first
-      : last;
+
     this.scope.push(
       t.variableDeclaration(
         'let',
-        [t.variableDeclarator(id)],
+        [t.variableDeclarator(id, left.expr)],
       ),
       t.ifStatement(
-        condition,
-        consequentExpr,
-        alternateExpr,
+        test,
+        t.blockStatement(rightScope.getStatements()),
       ),
     );
     return optimizedExpr(id);
@@ -814,7 +814,7 @@ export default class Optimizer {
   optimizeJSXFragment(
     path: babel.NodePath<t.JSXFragment>,
   ): OptimizedExpression {
-    if (this.ctx.preset.optimizeJSX) {
+    if (this.ctx.preset.runtime.memo) {
       const dependencies = this.memoizeJSXChildren(path);
       return this.createMemo(path.node, dependencies);
     }
@@ -824,7 +824,7 @@ export default class Optimizer {
   optimizeJSXElement(
     path: babel.NodePath<t.JSXElement>,
   ): OptimizedExpression {
-    if (this.ctx.preset.optimizeJSX) {
+    if (this.ctx.preset.runtime.memo) {
       const dependencies = createDependencies();
       const attributes = path.get('openingElement').get('attributes');
       let attribute: typeof attributes[0];
@@ -875,8 +875,11 @@ export default class Optimizer {
   optimizeExpression(
     path: babel.NodePath<t.Expression>,
   ): OptimizedExpression {
-    while (isPathValid(path, isNestedExpression)) {
-      path = path.get('expression');
+    if (shouldSkipNode(path.node)) {
+      return optimizedExpr(path.node, undefined, true);
+    }
+    if (isPathValid(path, isNestedExpression)) {
+      return this.optimizeExpression(path.get('expression'));
     }
     // No need to optimize
     if (t.isLiteral(path.node) && path.node.type !== 'TemplateLiteral') {
@@ -1003,6 +1006,9 @@ export default class Optimizer {
   private optimizeBlock(
     path: babel.NodePath<t.BlockStatement>,
   ): void {
+    if (shouldSkipNode(path.node)) {
+      return;
+    }
     const statements = path.get('body');
     for (let i = 0, len = statements.length; i < len; i++) {
       this.optimizeStatement(statements[i]);
@@ -1146,6 +1152,9 @@ export default class Optimizer {
     path: babel.NodePath<t.Statement>,
     topBlock = false,
   ): void {
+    if (shouldSkipNode(path.node)) {
+      return;
+    }
     switch (path.type) {
       case 'ExpressionStatement':
         this.optimizeExpressionStatement(path as babel.NodePath<t.ExpressionStatement>);

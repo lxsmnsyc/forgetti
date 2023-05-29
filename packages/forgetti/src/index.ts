@@ -6,13 +6,12 @@ import {
   isComponentValid,
   getImportSpecifierName,
   isHookOrComponentName,
-  isNodeShouldBeSkipped,
+  shouldSkipNode,
 } from './core/checks';
 import Optimizer from './core/optimizer';
 import type {
   HookRegistration,
-  ImportRegistration,
-
+  ImportDefinition,
   Options,
 } from './core/presets';
 import {
@@ -24,6 +23,7 @@ import unwrapPath from './core/unwrap-path';
 import { expandExpressions } from './core/expand-expressions';
 import { inlineExpressions } from './core/inline-expressions';
 import { simplifyExpressions } from './core/simplify-expressions';
+import optimizeJSX from './core/optimize-jsx';
 
 export type { Options };
 
@@ -37,17 +37,17 @@ function registerHookSpecifiers(
     specifier = path.node.specifiers[i];
     switch (specifier.type) {
       case 'ImportDefaultSpecifier':
-        if (hook.kind === 'default' && specifier.local.name === hook.name) {
-          ctx.registrations.hooks.set(specifier.local, hook);
+        if (hook.kind === 'default') {
+          ctx.registrations.hooks.identifiers.set(specifier.local, hook);
         }
         break;
       case 'ImportNamespaceSpecifier': {
-        let current = ctx.registrations.hooksNamespaces.get(specifier.local);
+        let current = ctx.registrations.hooks.namespaces.get(specifier.local);
         if (!current) {
           current = [];
         }
         current.push(hook);
-        ctx.registrations.hooksNamespaces.set(specifier.local, current);
+        ctx.registrations.hooks.namespaces.set(specifier.local, current);
       }
         break;
       case 'ImportSpecifier':
@@ -61,7 +61,7 @@ function registerHookSpecifiers(
             && getImportSpecifierName(specifier) === 'default'
           )
         ) {
-          ctx.registrations.hooks.set(specifier.local, hook);
+          ctx.registrations.hooks.identifiers.set(specifier.local, hook);
         }
         break;
       default:
@@ -73,24 +73,24 @@ function registerHookSpecifiers(
 function registerHOCSpecifiers(
   ctx: StateContext,
   path: babel.NodePath<t.ImportDeclaration>,
-  hoc: ImportRegistration,
+  hoc: ImportDefinition,
 ): void {
   let specifier: typeof path.node.specifiers[0];
   for (let i = 0, len = path.node.specifiers.length; i < len; i++) {
     specifier = path.node.specifiers[i];
     switch (specifier.type) {
       case 'ImportDefaultSpecifier':
-        if (hoc.kind === 'default' && specifier.local.name === hoc.name) {
-          ctx.registrations.hocs.set(specifier.local, hoc);
+        if (hoc.kind === 'default') {
+          ctx.registrations.hocs.identifiers.set(specifier.local, hoc);
         }
         break;
       case 'ImportNamespaceSpecifier': {
-        let current = ctx.registrations.hocsNamespaces.get(specifier.local);
+        let current = ctx.registrations.hocs.namespaces.get(specifier.local);
         if (!current) {
           current = [];
         }
         current.push(hoc);
-        ctx.registrations.hocsNamespaces.set(specifier.local, current);
+        ctx.registrations.hocs.namespaces.set(specifier.local, current);
       }
         break;
       case 'ImportSpecifier':
@@ -104,7 +104,7 @@ function registerHOCSpecifiers(
             && getImportSpecifierName(specifier) === 'default'
           )
         ) {
-          ctx.registrations.hocs.set(specifier.local, hoc);
+          ctx.registrations.hocs.identifiers.set(specifier.local, hoc);
         }
         break;
       default:
@@ -121,16 +121,17 @@ function extractImportIdentifiers(
 
   // Identify hooks
   let hook: HookRegistration;
-  for (let i = 0, len = ctx.preset.hooks.length; i < len; i++) {
-    hook = ctx.preset.hooks[i];
+  const { imports } = ctx.preset;
+  for (let i = 0, len = imports.hooks.length; i < len; i++) {
+    hook = imports.hooks[i];
     if (mod === hook.source) {
       registerHookSpecifiers(ctx, path, hook);
     }
   }
   // Identify hocs
-  let hoc: ImportRegistration;
-  for (let i = 0, len = ctx.preset.hocs.length; i < len; i++) {
-    hoc = ctx.preset.hocs[i];
+  let hoc: ImportDefinition;
+  for (let i = 0, len = imports.hocs.length; i < len; i++) {
+    hoc = imports.hocs[i];
     if (mod === hoc.source) {
       registerHOCSpecifiers(ctx, path, hoc);
     }
@@ -162,6 +163,7 @@ function transformFunction(
     simplifyExpressions(unwrapped);
     // expand for assignment and hook calls
     expandExpressions(ctx, unwrapped);
+    optimizeJSX(ctx, unwrapped);
     // optimize
     new Optimizer(ctx, unwrapped).optimize();
     // inline again
@@ -181,7 +183,7 @@ function transformHOC(
   if (trueID) {
     const binding = path.scope.getBindingIdentifier(trueID.name);
     if (binding) {
-      const registration = ctx.registrations.hocs.get(binding);
+      const registration = ctx.registrations.hocs.identifiers.get(binding);
       if (registration) {
         transformFunction(ctx, path.get('arguments')[0], false);
       }
@@ -198,13 +200,17 @@ function transformHOC(
     if (obj) {
       const binding = path.scope.getBindingIdentifier(obj.name);
       if (binding) {
-        const registrations = ctx.registrations.hocsNamespaces.get(binding);
+        const registrations = ctx.registrations.hocs.namespaces.get(binding);
         if (registrations) {
           const propName = trueMember.property.name;
           let registration: typeof registrations[0];
           for (let i = 0, len = registrations.length; i < len; i++) {
             registration = registrations[i];
-            if (registration && registration.name === propName) {
+            if (registration.kind === 'default') {
+              if (propName === 'default') {
+                transformFunction(ctx, path.get('arguments')[0], false);
+              }
+            } else if (registration && registration.name === propName) {
               transformFunction(ctx, path.get('arguments')[0], false);
             }
           }
@@ -222,10 +228,10 @@ function transformVariableDeclarator(
     path.node.init
     && path.node.id.type === 'Identifier'
     && isHookOrComponentName(ctx, path.node.id)
-    && !isNodeShouldBeSkipped(path.node)
+    && !shouldSkipNode(path.node)
     && (
       path.parent.type === 'VariableDeclaration'
-        ? !isNodeShouldBeSkipped(path.parent)
+        ? !shouldSkipNode(path.parent)
         : true
     )
   ) {
@@ -240,18 +246,25 @@ export default function forgettiPlugin(): babel.PluginObj<State> {
       Program(programPath, { opts }): void {
         const preset = typeof opts.preset === 'string' ? PRESETS[opts.preset] : opts.preset;
         const ctx: StateContext = {
-          hooks: new Map(),
+          imports: new Map(),
           registrations: {
-            hooks: new Map(),
-            hocs: new Map(),
-            hooksNamespaces: new Map(),
-            hocsNamespaces: new Map(),
+            hooks: {
+              identifiers: new Map(),
+              namespaces: new Map(),
+            },
+            hocs: {
+              identifiers: new Map(),
+              namespaces: new Map(),
+            },
           },
           preset,
           filters: {
-            component: new RegExp(preset.componentFilter.source, preset.componentFilter.flags),
-            hook: preset.hookFilter
-              ? new RegExp(preset.hookFilter.source, preset.hookFilter.flags)
+            component: new RegExp(
+              preset.filters.component.source,
+              preset.filters.component.flags,
+            ),
+            hook: preset.filters.hook
+              ? new RegExp(preset.filters.hook.source, preset.filters.hook.flags)
               : undefined,
           },
         };

@@ -1,5 +1,6 @@
 import * as babel from '@babel/core';
 import plugin from 'forgetti';
+import { readFile } from 'fs/promises';
 
 const options = {
   preset: 'react',
@@ -20,10 +21,4 @@ async function compile(code) {
   return result?.code ?? '';
 }
 
-console.log(await compile(`
-function Example(props) {
-  for (const x in props.arr) {
-    console.log(x);
-  }
-}
-`));
+console.log(await compile(await readFile('./input.js', 'utf-8')));

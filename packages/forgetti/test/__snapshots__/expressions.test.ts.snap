@@ -1,316 +1,320 @@
 // Vitest Snapshot v1
 
 exports[`expressions > should optimize JSX Element 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
+import { memo as _memo } from \\"react\\";
+import { $$memo as _$$memo } from \\"forgetti/runtime\\";
+const _Memo = _$$memo(_memo, _values => <div>
+      <h1 title={_values[0]}>Title: {_values[1]}</h1>
+      {_values[2]}
+    </div>);
 function Example(props) {
-  let _c = _$$cache(_useMemo, 10),
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props,
-    _v2 = _eq ? _c[1] : _c[1] = _v.title,
-    _eq2 = _$$equals(_c, 2, _v2),
-    _v3 = _eq2 ? _c[2] : _c[2] = _v2,
-    _v4 = _eq ? _c[3] : _c[3] = _v.title,
-    _eq3 = _$$equals(_c, 4, _v4),
-    _v5 = _eq3 ? _c[4] : _c[4] = _v4,
-    _v6 = _eq2 && _eq3 ? _c[5] : _c[5] = <h1 title={_v3}>Title: {_v5}</h1>,
-    _eq5 = _$$equals(_c, 6, _v6),
-    _v7 = _eq5 ? _c[6] : _c[6] = _v6,
-    _v8 = _eq ? _c[7] : _c[7] = _v.children,
-    _eq6 = _$$equals(_c, 8, _v8),
-    _v9 = _eq6 ? _c[8] : _c[8] = _v8;
-  return _eq5 && _eq6 ? _c[9] : _c[9] = <div>
-      {_v7}
-      {_v9}
-    </div>;
+  let _cache = _$$cache(_useRef, 10),
+    _equals = _$$equals(_cache, 0, props),
+    _value = _equals ? _cache[0] : _cache[0] = props,
+    _value2 = _equals ? _cache[1] : _cache[1] = _value.title,
+    _equals2 = _$$equals(_cache, 2, _value2),
+    _value3 = _equals2 ? _cache[2] : _cache[2] = _value2,
+    _value4 = _equals ? _cache[3] : _cache[3] = _value.title,
+    _equals3 = _$$equals(_cache, 4, _value4),
+    _value5 = _equals3 ? _cache[4] : _cache[4] = _value4,
+    _value6 = _equals ? _cache[5] : _cache[5] = _value.children,
+    _equals4 = _$$equals(_cache, 6, _value6),
+    _value7 = _equals4 ? _cache[6] : _cache[6] = _value6,
+    _value8 = _equals2 && _equals3 && _equals4 ? _cache[7] : _cache[7] = [_value3, _value5, _value7],
+    _equals6 = _$$equals(_cache, 8, _value8),
+    _value9 = _equals6 ? _cache[8] : _cache[8] = _value8;
+  return _equals6 ? _cache[9] : _cache[9] = /*@forgetti jsx*/<_Memo v={_value9} />;
 }"
 `;
 
 exports[`expressions > should optimize JSX Fragment 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
+import { memo as _memo } from \\"react\\";
+import { $$memo as _$$memo } from \\"forgetti/runtime\\";
+const _Memo = _$$memo(_memo, _values => <>
+      <h1 title={_values[0]}>Title: {_values[1]}</h1>
+      {_values[2]}
+    </>);
 function Example(props) {
-  let _c = _$$cache(_useMemo, 10),
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props,
-    _v2 = _eq ? _c[1] : _c[1] = _v.title,
-    _eq2 = _$$equals(_c, 2, _v2),
-    _v3 = _eq2 ? _c[2] : _c[2] = _v2,
-    _v4 = _eq ? _c[3] : _c[3] = _v.title,
-    _eq3 = _$$equals(_c, 4, _v4),
-    _v5 = _eq3 ? _c[4] : _c[4] = _v4,
-    _v6 = _eq2 && _eq3 ? _c[5] : _c[5] = <h1 title={_v3}>Title: {_v5}</h1>,
-    _eq5 = _$$equals(_c, 6, _v6),
-    _v7 = _eq5 ? _c[6] : _c[6] = _v6,
-    _v8 = _eq ? _c[7] : _c[7] = _v.children,
-    _eq6 = _$$equals(_c, 8, _v8),
-    _v9 = _eq6 ? _c[8] : _c[8] = _v8;
-  return _eq5 && _eq6 ? _c[9] : _c[9] = <>
-      {_v7}
-      {_v9}
-    </>;
+  let _cache = _$$cache(_useRef, 10),
+    _equals = _$$equals(_cache, 0, props),
+    _value = _equals ? _cache[0] : _cache[0] = props,
+    _value2 = _equals ? _cache[1] : _cache[1] = _value.title,
+    _equals2 = _$$equals(_cache, 2, _value2),
+    _value3 = _equals2 ? _cache[2] : _cache[2] = _value2,
+    _value4 = _equals ? _cache[3] : _cache[3] = _value.title,
+    _equals3 = _$$equals(_cache, 4, _value4),
+    _value5 = _equals3 ? _cache[4] : _cache[4] = _value4,
+    _value6 = _equals ? _cache[5] : _cache[5] = _value.children,
+    _equals4 = _$$equals(_cache, 6, _value6),
+    _value7 = _equals4 ? _cache[6] : _cache[6] = _value6,
+    _value8 = _equals2 && _equals3 && _equals4 ? _cache[7] : _cache[7] = [_value3, _value5, _value7],
+    _equals6 = _$$equals(_cache, 8, _value8),
+    _value9 = _equals6 ? _cache[8] : _cache[8] = _value8;
+  return _equals6 ? _cache[9] : _cache[9] = /*@forgetti jsx*/<_Memo v={_value9} />;
 }"
 `;
 
 exports[`expressions > should optimize array expressions 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 8),
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props,
-    _v2 = _eq ? _c[1] : _c[1] = _v.a,
-    _eq2 = _$$equals(_c, 2, _v2),
-    _v3 = _eq2 ? _c[2] : _c[2] = _v2,
-    _v4 = _eq ? _c[3] : _c[3] = _v.b,
-    _eq3 = _$$equals(_c, 4, _v4),
-    _v5 = _eq3 ? _c[4] : _c[4] = _v4,
-    _v6 = _eq ? _c[5] : _c[5] = _v.c,
-    _eq4 = _$$equals(_c, 6, _v6),
-    _v7 = _eq4 ? _c[6] : _c[6] = _v6;
-  return _eq2 && _eq3 && _eq4 ? _c[7] : _c[7] = [_v3, _v5, ..._v7];
+  let _cache = _$$cache(_useRef, 8),
+    _equals = _$$equals(_cache, 0, props),
+    _value = _equals ? _cache[0] : _cache[0] = props,
+    _value2 = _equals ? _cache[1] : _cache[1] = _value.a,
+    _equals2 = _$$equals(_cache, 2, _value2),
+    _value3 = _equals2 ? _cache[2] : _cache[2] = _value2,
+    _value4 = _equals ? _cache[3] : _cache[3] = _value.b,
+    _equals3 = _$$equals(_cache, 4, _value4),
+    _value5 = _equals3 ? _cache[4] : _cache[4] = _value4,
+    _value6 = _equals ? _cache[5] : _cache[5] = _value.c,
+    _equals4 = _$$equals(_cache, 6, _value6),
+    _value7 = _equals4 ? _cache[6] : _cache[6] = _value6;
+  return _equals2 && _equals3 && _equals4 ? _cache[7] : _cache[7] = [_value3, _value5, ..._value7];
 }"
 `;
 
 exports[`expressions > should optimize assignment expressions 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 6),
+  let _cache = _$$cache(_useRef, 5),
     a,
     b,
     c,
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props,
-    _v2 = _eq ? _c[1] : _c[1] = _v.x,
-    _hoisted3 = c = _$$equals(_c, 2, _v2) ? _c[2] : _c[2] = _v2,
-    _hoisted2 = b = _$$equals(_c, 3, _hoisted3) ? _c[3] : _c[3] = _hoisted3,
-    _hoisted = a = _$$equals(_c, 4, _hoisted2) ? _c[4] : _c[4] = _hoisted2;
-  _$$equals(_c, 5, _hoisted) ? _c[5] : _c[5] = _hoisted;
+    _equals = _$$equals(_cache, 0, props),
+    _value = _equals ? _cache[0] : _cache[0] = props,
+    _value2 = _equals ? _cache[1] : _cache[1] = _value.x,
+    _hoisted2 = c = _$$equals(_cache, 2, _value2) ? _cache[2] : _cache[2] = _value2,
+    _hoisted = b = _$$equals(_cache, 3, _hoisted2) ? _cache[3] : _cache[3] = _hoisted2;
+  a = _$$equals(_cache, 4, _hoisted) ? _cache[4] : _cache[4] = _hoisted;
 }"
 `;
 
 exports[`expressions > should optimize binary expressions 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 6),
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props,
-    _v2 = _eq ? _c[1] : _c[1] = _v.a,
-    _eq2 = _$$equals(_c, 2, _v2),
-    _v3 = _eq2 ? _c[2] : _c[2] = _v2,
-    _v4 = _eq ? _c[3] : _c[3] = _v.b,
-    _eq3 = _$$equals(_c, 4, _v4),
-    _v5 = _eq3 ? _c[4] : _c[4] = _v4;
-  return _eq2 && _eq3 ? _c[5] : _c[5] = _v3 + _v5;
+  let _cache = _$$cache(_useRef, 6),
+    _equals = _$$equals(_cache, 0, props),
+    _value = _equals ? _cache[0] : _cache[0] = props,
+    _value2 = _equals ? _cache[1] : _cache[1] = _value.a,
+    _equals2 = _$$equals(_cache, 2, _value2),
+    _value3 = _equals2 ? _cache[2] : _cache[2] = _value2,
+    _value4 = _equals ? _cache[3] : _cache[3] = _value.b,
+    _equals3 = _$$equals(_cache, 4, _value4),
+    _value5 = _equals3 ? _cache[4] : _cache[4] = _value4;
+  return _equals2 && _equals3 ? _cache[5] : _cache[5] = _value3 + _value5;
 }"
 `;
 
 exports[`expressions > should optimize call expressions 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 2),
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props;
-  return _eq ? _c[1] : _c[1] = _v.call();
+  let _cache = _$$cache(_useRef, 2),
+    _equals = _$$equals(_cache, 0, props),
+    _value = _equals ? _cache[0] : _cache[0] = props;
+  return _equals ? _cache[1] : _cache[1] = _value.call();
 }"
 `;
 
 exports[`expressions > should optimize conditional expressions 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 4),
-    _eq = _$$equals(_c, 0, props),
-    _v2 = _eq ? _c[0] : _c[0] = props,
-    _v;
-  if (_eq ? _c[1] : _c[1] = _v2.a) {
-    let _c2 = _$$branch(_c, 2, 2),
-      _eq2 = _$$equals(_c2, 0, props),
-      _v4 = _eq2 ? _c2[0] : _c2[0] = props;
-    _v = _eq2 ? _c2[1] : _c2[1] = _v4.b;
+  let _cache = _$$cache(_useRef, 4),
+    _equals = _$$equals(_cache, 0, props),
+    _value2 = _equals ? _cache[0] : _cache[0] = props,
+    _value;
+  if (_equals ? _cache[1] : _cache[1] = _value2.a) {
+    let _cache2 = _$$branch(_cache, 2, 2),
+      _equals2 = _$$equals(_cache2, 0, props),
+      _value4 = _equals2 ? _cache2[0] : _cache2[0] = props;
+    _value = _equals2 ? _cache2[1] : _cache2[1] = _value4.b;
   } else {
-    let _c3 = _$$branch(_c, 3, 2),
-      _eq3 = _$$equals(_c3, 0, props),
-      _v6 = _eq3 ? _c3[0] : _c3[0] = props;
-    _v = _eq3 ? _c3[1] : _c3[1] = _v6.c;
+    let _cache3 = _$$branch(_cache, 3, 2),
+      _equals3 = _$$equals(_cache3, 0, props),
+      _value6 = _equals3 ? _cache3[0] : _cache3[0] = props;
+    _value = _equals3 ? _cache3[1] : _cache3[1] = _value6.c;
   }
-  return _v;
+  return _value;
 }"
 `;
 
 exports[`expressions > should optimize function expressions 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 2),
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props;
-  const callback = _eq ? _c[1] : _c[1] = () => {
+  let _cache = _$$cache(_useRef, 2),
+    _equals = _$$equals(_cache, 0, props),
+    _value = _equals ? _cache[0] : _cache[0] = props;
+  const callback = _equals ? _cache[1] : _cache[1] = () => {
     console.log(props.message);
   };
 }"
 `;
 
 exports[`expressions > should optimize guaranteed literals 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 1);
-  return 0 in _c ? _c[0] : _c[0] = 1 + 2;
+  let _cache = _$$cache(_useRef, 1);
+  return 0 in _cache ? _cache[0] : _cache[0] = 1 + 2;
 }"
 `;
 
 exports[`expressions > should optimize identifiers 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 1);
-  return _$$equals(_c, 0, props) ? _c[0] : _c[0] = props;
+  let _cache = _$$cache(_useRef, 1);
+  return _$$equals(_cache, 0, props) ? _cache[0] : _cache[0] = props;
 }"
 `;
 
 exports[`expressions > should optimize logical expressions 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 3),
-    _eq = _$$equals(_c, 0, props),
-    _v2 = _eq ? _c[0] : _c[0] = props,
-    _v3 = _eq ? _c[1] : _c[1] = _v2.a,
-    _v;
-  if (_v3) {
-    let _c2 = _$$branch(_c, 2, 2),
-      _eq2 = _$$equals(_c2, 0, props),
-      _v4 = _eq2 ? _c2[0] : _c2[0] = props;
-    _v = _eq2 ? _c2[1] : _c2[1] = _v4.b;
-  } else _v = _v3;
-  return _v;
+  let _cache = _$$cache(_useRef, 3),
+    _equals = _$$equals(_cache, 0, props),
+    _value = _equals ? _cache[0] : _cache[0] = props,
+    _condition = _equals ? _cache[1] : _cache[1] = _value.a;
+  if (_condition) {
+    let _cache2 = _$$branch(_cache, 2, 2),
+      _equals2 = _$$equals(_cache2, 0, props),
+      _value3 = _equals2 ? _cache2[0] : _cache2[0] = props;
+    _condition = _equals2 ? _cache2[1] : _cache2[1] = _value3.b;
+  }
+  return _condition;
 }"
 `;
 
 exports[`expressions > should optimize member expressions 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 2),
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props;
-  return _eq ? _c[1] : _c[1] = _v.example;
+  let _cache = _$$cache(_useRef, 2),
+    _equals = _$$equals(_cache, 0, props),
+    _value = _equals ? _cache[0] : _cache[0] = props;
+  return _equals ? _cache[1] : _cache[1] = _value.example;
 }"
 `;
 
 exports[`expressions > should optimize new expressions 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 3),
-    _v = 0 in _c ? _c[0] : _c[0] = X,
-    _eq = _$$equals(_c, 1, props),
-    _v2 = _eq ? _c[1] : _c[1] = props;
-  return _eq ? _c[2] : _c[2] = new _v(_v2);
+  let _cache = _$$cache(_useRef, 3),
+    _value = 0 in _cache ? _cache[0] : _cache[0] = X,
+    _equals = _$$equals(_cache, 1, props),
+    _value2 = _equals ? _cache[1] : _cache[1] = props;
+  return _equals ? _cache[2] : _cache[2] = new _value(_value2);
 }"
 `;
 
 exports[`expressions > should optimize object expressions 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 6),
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props,
-    _v2 = _eq ? _c[1] : _c[1] = _v.a,
-    _v3 = _eq ? _c[2] : _c[2] = _v.b,
-    _v4 = _eq ? _c[3] : _c[3] = _v.c,
-    _eq2 = _$$equals(_c, 4, _v4),
-    _v5 = _eq2 ? _c[4] : _c[4] = _v4;
-  return _eq && _eq2 ? _c[5] : _c[5] = {
-    a: _v2,
-    b: _v3,
-    ..._v5
+  let _cache = _$$cache(_useRef, 6),
+    _equals = _$$equals(_cache, 0, props),
+    _value = _equals ? _cache[0] : _cache[0] = props,
+    _value2 = _equals ? _cache[1] : _cache[1] = _value.a,
+    _value3 = _equals ? _cache[2] : _cache[2] = _value.b,
+    _value4 = _equals ? _cache[3] : _cache[3] = _value.c,
+    _equals2 = _$$equals(_cache, 4, _value4),
+    _value5 = _equals2 ? _cache[4] : _cache[4] = _value4;
+  return _equals && _equals2 ? _cache[5] : _cache[5] = {
+    a: _value2,
+    b: _value3,
+    ..._value5
   };
 }"
 `;
 
 exports[`expressions > should optimize sequence expressions 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 3),
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props;
-  return _eq ? _c[1] : _c[1] = _v.a(), _eq ? _c[2] : _c[2] = _v.b();
+  let _cache = _$$cache(_useRef, 3),
+    _equals = _$$equals(_cache, 0, props),
+    _value = _equals ? _cache[0] : _cache[0] = props;
+  return _equals ? _cache[1] : _cache[1] = _value.a(), _equals ? _cache[2] : _cache[2] = _value.b();
 }"
 `;
 
 exports[`expressions > should optimize tagged templates 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 8),
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props,
-    _v2 = _eq ? _c[1] : _c[1] = _v.tag,
-    _eq2 = _$$equals(_c, 2, _v2),
-    _v3 = _eq2 ? _c[2] : _c[2] = _v2,
-    _v4 = _eq ? _c[3] : _c[3] = _v.a(),
-    _eq3 = _$$equals(_c, 4, _v4),
-    _v5 = _eq3 ? _c[4] : _c[4] = _v4,
-    _v6 = _eq ? _c[5] : _c[5] = _v.b(),
-    _eq4 = _$$equals(_c, 6, _v6),
-    _v7 = _eq4 ? _c[6] : _c[6] = _v6;
-  return _eq2 && _eq3 && _eq4 ? _c[7] : _c[7] = _v3\`\${_v5}, \${_v7}\`;
+  let _cache = _$$cache(_useRef, 8),
+    _equals = _$$equals(_cache, 0, props),
+    _value = _equals ? _cache[0] : _cache[0] = props,
+    _value2 = _equals ? _cache[1] : _cache[1] = _value.tag,
+    _equals2 = _$$equals(_cache, 2, _value2),
+    _value3 = _equals2 ? _cache[2] : _cache[2] = _value2,
+    _value4 = _equals ? _cache[3] : _cache[3] = _value.a(),
+    _equals3 = _$$equals(_cache, 4, _value4),
+    _value5 = _equals3 ? _cache[4] : _cache[4] = _value4,
+    _value6 = _equals ? _cache[5] : _cache[5] = _value.b(),
+    _equals4 = _$$equals(_cache, 6, _value6),
+    _value7 = _equals4 ? _cache[6] : _cache[6] = _value6;
+  return _equals2 && _equals3 && _equals4 ? _cache[7] : _cache[7] = _value3\`\${_value5}, \${_value7}\`;
 }"
 `;
 
 exports[`expressions > should optimize template literals 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 6),
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props,
-    _v2 = _eq ? _c[1] : _c[1] = _v.a(),
-    _eq2 = _$$equals(_c, 2, _v2),
-    _v3 = _eq2 ? _c[2] : _c[2] = _v2,
-    _v4 = _eq ? _c[3] : _c[3] = _v.b(),
-    _eq3 = _$$equals(_c, 4, _v4),
-    _v5 = _eq3 ? _c[4] : _c[4] = _v4;
-  return _eq2 && _eq3 ? _c[5] : _c[5] = \`\${_v3}, \${_v5}\`;
+  let _cache = _$$cache(_useRef, 6),
+    _equals = _$$equals(_cache, 0, props),
+    _value = _equals ? _cache[0] : _cache[0] = props,
+    _value2 = _equals ? _cache[1] : _cache[1] = _value.a(),
+    _equals2 = _$$equals(_cache, 2, _value2),
+    _value3 = _equals2 ? _cache[2] : _cache[2] = _value2,
+    _value4 = _equals ? _cache[3] : _cache[3] = _value.b(),
+    _equals3 = _$$equals(_cache, 4, _value4),
+    _value5 = _equals3 ? _cache[4] : _cache[4] = _value4;
+  return _equals2 && _equals3 ? _cache[5] : _cache[5] = \`\${_value3}, \${_value5}\`;
 }"
 `;
 
 exports[`expressions > should optimize unary expressions 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
+"import { useRef as _useRef } from \\"react\\";
 import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _c = _$$cache(_useMemo, 4),
-    _eq = _$$equals(_c, 0, props),
-    _v = _eq ? _c[0] : _c[0] = props,
-    _v2 = _eq ? _c[1] : _c[1] = _v.a,
-    _eq2 = _$$equals(_c, 2, _v2),
-    _v3 = _eq2 ? _c[2] : _c[2] = _v2;
-  return _eq2 ? _c[3] : _c[3] = !_v3;
+  let _cache = _$$cache(_useRef, 4),
+    _equals = _$$equals(_cache, 0, props),
+    _value = _equals ? _cache[0] : _cache[0] = props,
+    _value2 = _equals ? _cache[1] : _cache[1] = _value.a,
+    _equals2 = _$$equals(_cache, 2, _value2),
+    _value3 = _equals2 ? _cache[2] : _cache[2] = _value2;
+  return _equals2 ? _cache[3] : _cache[3] = !_value3;
 }"
 `;

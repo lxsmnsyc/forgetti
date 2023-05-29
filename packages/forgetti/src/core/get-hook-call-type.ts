@@ -23,7 +23,7 @@ export function getHookCallType(
   if (trueID) {
     const binding = path.scope.getBindingIdentifier(trueID.name);
     if (binding) {
-      const registration = ctx.registrations.hooks.get(binding);
+      const registration = ctx.registrations.hooks.identifiers.get(binding);
       if (registration) {
         return registration.type;
       }
@@ -41,12 +41,16 @@ export function getHookCallType(
     if (obj) {
       const binding = path.scope.getBindingIdentifier(obj.name);
       if (binding) {
-        const registrations = ctx.registrations.hooksNamespaces.get(binding);
+        const registrations = ctx.registrations.hooks.namespaces.get(binding);
         if (registrations) {
           let registration: typeof registrations[0];
           for (let i = 0, len = registrations.length; i < len; i += 1) {
             registration = registrations[i];
-            if (registration.name === trueMember.property.name) {
+            if (registration.kind === 'default') {
+              if (trueMember.property.name === 'default') {
+                return registration.type;
+              }
+            } else if (registration.name === trueMember.property.name) {
               return registration.type;
             }
           }

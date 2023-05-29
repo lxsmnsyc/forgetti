@@ -52,7 +52,7 @@ export default class OptimizerScope {
 
   createHeader(): t.Identifier {
     if (!this.memo) {
-      this.memo = this.path.scope.generateUidIdentifier('c');
+      this.memo = this.path.scope.generateUidIdentifier('cache');
     }
     return this.memo;
   }
@@ -101,7 +101,7 @@ export default class OptimizerScope {
             getImportIdentifier(
               this.ctx,
               this.path,
-              this.ctx.preset.memo,
+              this.ctx.preset.runtime.useRef,
             ),
             t.numericLiteral(this.indeces),
           ],
@@ -116,7 +116,7 @@ export default class OptimizerScope {
 
   createLoopHeader(): t.Identifier {
     if (!this.loop) {
-      this.loop = this.path.scope.generateUidIdentifier('l');
+      this.loop = this.path.scope.generateUidIdentifier('loop');
     }
     return this.loop;
   }
@@ -157,7 +157,7 @@ export default class OptimizerScope {
   getLoopDeclaration(): t.VariableDeclaration {
     const header = this.createHeader();
     const index = this.createLoopIndex();
-    const localIndex = this.path.scope.generateUidIdentifier('lid');
+    const localIndex = this.path.scope.generateUidIdentifier('loopId');
     return t.variableDeclaration('let', [
       t.variableDeclarator(localIndex, t.updateExpression('++', index)),
       t.variableDeclarator(
@@ -199,28 +199,17 @@ export default class OptimizerScope {
   }
 
   getOptimized(key: t.Identifier): OptimizedExpression | undefined {
-    // let current: OptimizerScope | undefined = this;
-    // while (current) {
-    //   const result = current.optimizedID.get(key);
-    //   if (result) {
-    //     return result;
-    //   }
-    //   current = current.parent;
-    // }
     return this.optimizedID.get(key);
   }
 
   deleteOptimized(key: t.Identifier): void {
-    // let current: OptimizerScope | undefined = this;
-    // while (current) {
-    //   if (current.optimizedID.has(key)) {
-    //     current.optimizedID.delete(key);
-    //     return;
-    //   }
-    //   current = current.parent;
-    // }
-    if (this.optimizedID.has(key)) {
-      this.optimizedID.delete(key);
+    let current: OptimizerScope | undefined = this;
+    while (current) {
+      if (current.optimizedID.has(key)) {
+        current.optimizedID.delete(key);
+        return;
+      }
+      current = current.parent;
     }
   }
 
@@ -231,15 +220,6 @@ export default class OptimizerScope {
   }
 
   hasConstant(value: t.Identifier): boolean {
-    // let current: OptimizerScope | undefined = this;
-    // while (current) {
-    //   const result = current.constants.has(value);
-    //   if (result) {
-    //     return result;
-    //   }
-    //   current = current.parent;
-    // }
-    // return false;
     return this.constants.has(value);
   }
 }

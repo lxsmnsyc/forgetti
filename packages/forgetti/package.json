@@ -1,7 +1,7 @@
 {
   "name": "forgetti",
   "type": "module",
-  "version": "0.5.3",
+  "version": "0.6.0",
   "files": [
     "dist",
     "src"
@@ -42,7 +42,8 @@
     "watch": "pridepack watch",
     "start": "pridepack start",
     "dev": "pridepack dev",
-    "test": "vitest"
+    "test": "vitest",
+    "optimize": "node example > output.js"
   },
   "description": "Solve your hook spaghetti. Inspired by React Forget",
   "repository": {
