@@ -20,7 +20,7 @@ function Example(props) {
     _value6 = _equals2 && _equals3 ? _cache[5] : _cache[5] = [_value3, _value5],
     _equals5 = _$$equals(_cache, 6, _value6),
     _value7 = _equals5 ? _cache[6] : _cache[6] = _value6;
-  return _equals5 ? _cache[7] : _cache[7] = /*@forgetti skip*/<_Memo v={_value7} />;
+  return _equals5 ? _cache[7] : _cache[7] = /*@forgetti jsx*/<_Memo v={_value7} />;
 }"
 `;
 
@@ -44,7 +44,7 @@ const Example = function (props) {
     _value6 = _equals2 && _equals3 ? _cache[5] : _cache[5] = [_value3, _value5],
     _equals5 = _$$equals(_cache, 6, _value6),
     _value7 = _equals5 ? _cache[6] : _cache[6] = _value6;
-  return _equals5 ? _cache[7] : _cache[7] = /*@forgetti skip*/<_Memo v={_value7} />;
+  return _equals5 ? _cache[7] : _cache[7] = /*@forgetti jsx*/<_Memo v={_value7} />;
 };"
 `;
 
@@ -68,7 +68,7 @@ const Example = props => {
     _value6 = _equals2 && _equals3 ? _cache[5] : _cache[5] = [_value3, _value5],
     _equals5 = _$$equals(_cache, 6, _value6),
     _value7 = _equals5 ? _cache[6] : _cache[6] = _value6;
-  return _equals5 ? _cache[7] : _cache[7] = /*@forgetti skip*/<_Memo v={_value7} />;
+  return _equals5 ? _cache[7] : _cache[7] = /*@forgetti jsx*/<_Memo v={_value7} />;
 };"
 `;
 

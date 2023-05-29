@@ -98,7 +98,7 @@ function Example(props) {
     _value13 = _equals10 ? _cache[11] : _cache[11] = [_value12],
     _equals11 = _$$equals(_cache, 12, _value13),
     _value14 = _equals11 ? _cache[12] : _cache[12] = _value13,
-    _value15 = _equals11 ? _cache[13] : _cache[13] = /*@forgetti skip*/<_Memo v={_value14} />,
+    _value15 = _equals11 ? _cache[13] : _cache[13] = /*@forgetti jsx*/<_Memo v={_value14} />,
     _equals12 = _$$equals(_cache, 14, _hoisted9),
     _value16 = _equals12 ? _cache[14] : _cache[14] = _hoisted9,
     _equals13 = _$$equals(_cache, 15, _hoisted10),
@@ -106,7 +106,7 @@ function Example(props) {
     _value18 = _equals12 && _equals13 ? _cache[16] : _cache[16] = [_value16, _value17],
     _equals15 = _$$equals(_cache, 17, _value18),
     _value19 = _equals15 ? _cache[17] : _cache[17] = _value18,
-    _value20 = _equals15 ? _cache[18] : _cache[18] = /*@forgetti skip*/<_Memo2 v={_value19} />;
+    _value20 = _equals15 ? _cache[18] : _cache[18] = /*@forgetti jsx*/<_Memo2 v={_value19} />;
   return _equals && _equals2 && _equals3 && _equals5 && _equals8 && _equals11 && _equals15 ? _cache[19] : _cache[19] = {
     [_value]: _value2,
     ..._value3,

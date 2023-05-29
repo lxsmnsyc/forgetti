@@ -42,6 +42,20 @@ export function isNodeShouldBeSkipped(node: t.Node): boolean {
   return false;
 }
 
+const FORGETTI_JSX_SKIP = /^\s*@forgetti jsx\s*$/;
+
+export function isJSXShouldBeSkipped(node: t.Node): boolean {
+  // Node without leading comments shouldn't be skipped
+  if (node.leadingComments) {
+    for (let i = 0, len = node.leadingComments.length; i < len; i++) {
+      if (FORGETTI_JSX_SKIP.test(node.leadingComments[i].value)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 export function isComponentValid(
   ctx: StateContext,
   node: ComponentNode,

@@ -3,7 +3,7 @@ import * as t from '@babel/types';
 import type { ComponentNode, StateContext } from './types';
 import getImportIdentifier from './get-import-identifier';
 import { RUNTIME_MEMO } from './imports';
-import { isNodeShouldBeSkipped, isPathValid } from './checks';
+import { isJSXShouldBeSkipped, isPathValid } from './checks';
 import type { ImportDefinition } from './presets';
 
 interface JSXReplacement {
@@ -169,7 +169,7 @@ function transformJSX(
   path: babel.NodePath<t.JSXElement | t.JSXFragment>,
   memoDefinition: ImportDefinition,
 ): void {
-  if (isNodeShouldBeSkipped(path.node)) {
+  if (isJSXShouldBeSkipped(path.node)) {
     return;
   }
   const state: State = {
@@ -257,7 +257,7 @@ function transformJSX(
         true,
       ),
       'leading',
-      '@forgetti skip',
+      '@forgetti jsx',
       false,
     ),
   );
