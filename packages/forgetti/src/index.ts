@@ -6,7 +6,7 @@ import {
   isComponentValid,
   getImportSpecifierName,
   isHookOrComponentName,
-  isNodeShouldBeSkipped,
+  shouldSkipNode,
 } from './core/checks';
 import Optimizer from './core/optimizer';
 import type {
@@ -228,10 +228,10 @@ function transformVariableDeclarator(
     path.node.init
     && path.node.id.type === 'Identifier'
     && isHookOrComponentName(ctx, path.node.id)
-    && !isNodeShouldBeSkipped(path.node)
+    && !shouldSkipNode(path.node)
     && (
       path.parent.type === 'VariableDeclaration'
-        ? !isNodeShouldBeSkipped(path.parent)
+        ? !shouldSkipNode(path.parent)
         : true
     )
   ) {

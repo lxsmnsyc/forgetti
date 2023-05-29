@@ -30,7 +30,7 @@ export function isHookOrComponentName(ctx: StateContext, id: t.Identifier): bool
 
 const FORGETTI_SKIP = /^\s*@forgetti skip\s*$/;
 
-export function isNodeShouldBeSkipped(node: t.Node): boolean {
+export function shouldSkipNode(node: t.Node): boolean {
   // Node without leading comments shouldn't be skipped
   if (node.leadingComments) {
     for (let i = 0, len = node.leadingComments.length; i < len; i++) {
@@ -44,7 +44,7 @@ export function isNodeShouldBeSkipped(node: t.Node): boolean {
 
 const FORGETTI_JSX_SKIP = /^\s*@forgetti jsx\s*$/;
 
-export function isJSXShouldBeSkipped(node: t.Node): boolean {
+export function shouldSkipJSX(node: t.Node): boolean {
   // Node without leading comments shouldn't be skipped
   if (node.leadingComments) {
     for (let i = 0, len = node.leadingComments.length; i < len; i++) {
@@ -65,7 +65,7 @@ export function isComponentValid(
     node.type !== 'ArrowFunctionExpression'
     && !!node.id
     && isHookOrComponentName(ctx, node.id)
-    && !isNodeShouldBeSkipped(node)
+    && !shouldSkipNode(node)
   );
 }
 
