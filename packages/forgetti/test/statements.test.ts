@@ -1,6 +1,6 @@
 /* eslint-disable no-template-curly-in-string */
 import * as babel from '@babel/core';
-import { describe, expect, it } from 'vitest';
+import { describe, it } from 'vitest';
 import type { Options } from '../src';
 import plugin from '../src';
 
@@ -23,8 +23,8 @@ async function compile(code: string): Promise<string> {
   return result?.code ?? '';
 }
 
-describe('statements', () => {
-  it('should optimize for-of statements', async () => {
+describe.concurrent('statements', () => {
+  it('should optimize for-of statements', async ({ expect }) => {
     const code = `
   function Example(props) {
     for (const x of props.arr) {
@@ -34,7 +34,7 @@ describe('statements', () => {
   `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize for-in statements', async () => {
+  it('should optimize for-in statements', async ({ expect }) => {
     const code = `
   function Example(props) {
     for (const x in props.arr) {
@@ -44,7 +44,7 @@ describe('statements', () => {
   `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize for statements', async () => {
+  it('should optimize for statements', async ({ expect }) => {
     const code = `
   function Example(props) {
     for (let i = 0; i < 10; i += 1) {
@@ -54,7 +54,7 @@ describe('statements', () => {
   `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize while statements', async () => {
+  it('should optimize while statements', async ({ expect }) => {
     const code = `
   function Example(props) {
     let i = 0;
@@ -66,7 +66,7 @@ describe('statements', () => {
   `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize do-while statements', async () => {
+  it('should optimize do-while statements', async ({ expect }) => {
     const code = `
   function Example(props) {
     let i = 0;
@@ -78,7 +78,7 @@ describe('statements', () => {
   `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize switch statements', async () => {
+  it('should optimize switch statements', async ({ expect }) => {
     const code = `
   function Example(props) {
     switch (props.type) {
@@ -95,7 +95,7 @@ describe('statements', () => {
   `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize if statements', async () => {
+  it('should optimize if statements', async ({ expect }) => {
     const code = `
   function Example(props) {
     if (props.type === 'a') {
@@ -107,7 +107,7 @@ describe('statements', () => {
   `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize try statements', async () => {
+  it('should optimize try statements', async ({ expect }) => {
     const code = `
   function Example(props) {
     try {
@@ -121,7 +121,7 @@ describe('statements', () => {
   `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize throw statements', async () => {
+  it('should optimize throw statements', async ({ expect }) => {
     const code = `
   function Example(props) {
     throw createError(props.message);
@@ -129,7 +129,7 @@ describe('statements', () => {
   `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize labeled statements', async () => {
+  it('should optimize labeled statements', async ({ expect }) => {
     const code = `
   function Example(props) {
     foo: {

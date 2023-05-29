@@ -1,6 +1,6 @@
 /* eslint-disable no-template-curly-in-string */
 import * as babel from '@babel/core';
-import { describe, expect, it } from 'vitest';
+import { describe, it } from 'vitest';
 import type { Options } from '../src';
 import plugin from '../src';
 
@@ -23,8 +23,8 @@ async function compile(code: string): Promise<string> {
   return result?.code ?? '';
 }
 
-describe('statements', () => {
-  it('should optimize for-of statements', async () => {
+describe.concurrent('statements', () => {
+  it('should optimize for-of statements', async ({ expect }) => {
     const code = `
   function Example(props) {
     return props.a && props.b && props.c && props.d;
