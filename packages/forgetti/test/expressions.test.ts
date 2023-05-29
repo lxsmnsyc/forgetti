@@ -1,6 +1,6 @@
 /* eslint-disable no-template-curly-in-string */
 import * as babel from '@babel/core';
-import { describe, expect, it } from 'vitest';
+import { describe, it } from 'vitest';
 import type { Options } from '../src';
 import plugin from '../src';
 
@@ -23,8 +23,8 @@ async function compile(code: string): Promise<string> {
   return result?.code ?? '';
 }
 
-describe('expressions', () => {
-  it('should optimize guaranteed literals', async () => {
+describe.concurrent('expressions', () => {
+  it('should optimize guaranteed literals', async ({ expect }) => {
     const code = `
 function Example(props) {
   return 1 + 2;
@@ -32,7 +32,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize identifiers', async () => {
+  it('should optimize identifiers', async ({ expect }) => {
     const code = `
 function Example(props) {
   return props;
@@ -40,7 +40,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize member expressions', async () => {
+  it('should optimize member expressions', async ({ expect }) => {
     const code = `
 function Example(props) {
   return props.example;
@@ -48,7 +48,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize conditional expressions', async () => {
+  it('should optimize conditional expressions', async ({ expect }) => {
     const code = `
 function Example(props) {
   return props.a ? props.b : props.c;
@@ -56,7 +56,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize binary expressions', async () => {
+  it('should optimize binary expressions', async ({ expect }) => {
     const code = `
 function Example(props) {
   return props.a + props.b;
@@ -64,7 +64,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize logical expressions', async () => {
+  it('should optimize logical expressions', async ({ expect }) => {
     const code = `
 function Example(props) {
   return props.a && props.b;
@@ -72,7 +72,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize unary expressions', async () => {
+  it('should optimize unary expressions', async ({ expect }) => {
     const code = `
 function Example(props) {
   return !props.a;
@@ -80,7 +80,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize call expressions', async () => {
+  it('should optimize call expressions', async ({ expect }) => {
     const code = `
 function Example(props) {
   return props.call();
@@ -88,7 +88,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize function expressions', async () => {
+  it('should optimize function expressions', async ({ expect }) => {
     const code = `
 function Example(props) {
   const callback = () => {
@@ -98,7 +98,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize assignment expressions', async () => {
+  it('should optimize assignment expressions', async ({ expect }) => {
     const code = `
 function Example(props) {
   let a, b, c;
@@ -108,7 +108,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize array expressions', async () => {
+  it('should optimize array expressions', async ({ expect }) => {
     const code = `
 function Example(props) {
   return [props.a, props.b, ...props.c];
@@ -116,7 +116,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize object expressions', async () => {
+  it('should optimize object expressions', async ({ expect }) => {
     const code = `
 function Example(props) {
   return { a: props.a, b: props.b, ...props.c };
@@ -124,7 +124,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize new expressions', async () => {
+  it('should optimize new expressions', async ({ expect }) => {
     const code = `
 function Example(props) {
   return new X(props);
@@ -132,7 +132,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize sequence expressions', async () => {
+  it('should optimize sequence expressions', async ({ expect }) => {
     const code = `
 function Example(props) {
   return props.a(), props.b();
@@ -140,7 +140,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize template literals', async () => {
+  it('should optimize template literals', async ({ expect }) => {
     const code = `
 function Example(props) {
   return \`\${props.a()}, \${props.b()}\`;
@@ -148,7 +148,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize tagged templates', async () => {
+  it('should optimize tagged templates', async ({ expect }) => {
     const code = `
 function Example(props) {
   return props.tag\`\${props.a()}, \${props.b()}\`;
@@ -156,7 +156,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize JSX Element', async () => {
+  it('should optimize JSX Element', async ({ expect }) => {
     const code = `
 function Example(props) {
   return (
@@ -169,7 +169,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize JSX Fragment', async () => {
+  it('should optimize JSX Fragment', async ({ expect }) => {
     const code = `
 function Example(props) {
   return (

@@ -1,6 +1,6 @@
 /* eslint-disable no-template-curly-in-string */
 import * as babel from '@babel/core';
-import { describe, expect, it } from 'vitest';
+import { describe, it } from 'vitest';
 import type { Options } from '../src';
 import plugin from '../src';
 
@@ -23,8 +23,8 @@ async function compile(code: string): Promise<string> {
   return result?.code ?? '';
 }
 
-describe('hooks', () => {
-  it('should optimize useRef', async () => {
+describe.concurrent('hooks', () => {
+  it('should optimize useRef', async ({ expect }) => {
     const code = `
 import { useRef } from 'react';
 function Example(props) {
@@ -33,7 +33,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize useMemo', async () => {
+  it('should optimize useMemo', async ({ expect }) => {
     const code = `
 import { useMemo } from 'react';
 function Example(props) {
@@ -42,7 +42,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize useMemo with 0 dependencies', async () => {
+  it('should optimize useMemo with 0 dependencies', async ({ expect }) => {
     const code = `
 import { useMemo } from 'react';
 function Example(props) {
@@ -51,7 +51,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize useMemo with auto dependencies', async () => {
+  it('should optimize useMemo with auto dependencies', async ({ expect }) => {
     const code = `
 import { useMemo } from 'react';
 function Example(props) {
@@ -60,7 +60,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize useCallback', async () => {
+  it('should optimize useCallback', async ({ expect }) => {
     const code = `
 import { useCallback } from 'react';
 function Example(props) {
@@ -69,7 +69,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize useCallback with 0 dependencies', async () => {
+  it('should optimize useCallback with 0 dependencies', async ({ expect }) => {
     const code = `
 import { useCallback } from 'react';
 function Example(props) {
@@ -78,7 +78,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize useCallback with auto dependencies', async () => {
+  it('should optimize useCallback with auto dependencies', async ({ expect }) => {
     const code = `
 import { useCallback } from 'react';
 function Example(props) {
@@ -87,7 +87,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize useEffect', async () => {
+  it('should optimize useEffect', async ({ expect }) => {
     const code = `
 import { useEffect } from 'react';
 function Example(props) {
@@ -96,7 +96,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize useEffect with 0 dependencies', async () => {
+  it('should optimize useEffect with 0 dependencies', async ({ expect }) => {
     const code = `
 import { useEffect } from 'react';
 function Example(props) {
@@ -105,7 +105,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize useEffect with auto dependencies', async () => {
+  it('should optimize useEffect with auto dependencies', async ({ expect }) => {
     const code = `
 import { useEffect } from 'react';
 function Example(props) {
@@ -114,7 +114,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should correct transform nested hooks call (issue #14)', async () => {
+  it('should correct transform nested hooks call (issue #14)', async ({ expect }) => {
     const code = `
 import { useDeferredValue } from 'react';
 import { useAtomValue } from 'jotai';
@@ -125,7 +125,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should correct transform any nested hooks call', async () => {
+  it('should correct transform any nested hooks call', async ({ expect }) => {
     const code = `
 import { useA, useB, useC, useD, useE, useF, useG, useH } from 'whatever'
 
@@ -144,7 +144,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should correct transform derived hooks call', async () => {
+  it('should correct transform derived hooks call', async ({ expect }) => {
     const code = `
 import { useA, useB, useC } from 'whatever'
 
