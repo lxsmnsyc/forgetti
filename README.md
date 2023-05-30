@@ -33,7 +33,7 @@ Forgetti is an auto-memoization Babel plugin I made for a hook-based flow like R
 
 - React [![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?style=flat-square&logo=codesandbox)](https://codesandbox.io/s/github/LXSMNSYC/forgetti/tree/main/examples/react)
 
-- Preact [![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?style=flat-square&logo=codesandbox)](https://codesandbox.io/s/github/LXSMNSYC/forgetti/tree/main/examples/react)
+- Preact [![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?style=flat-square&logo=codesandbox)](https://codesandbox.io/s/github/LXSMNSYC/forgetti/tree/main/examples/preact)
 
 ## Integrations
 
