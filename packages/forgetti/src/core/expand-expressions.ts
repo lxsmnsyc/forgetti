@@ -70,8 +70,18 @@ function transformOptionalCall(path: babel.NodePath<t.OptionalCallExpression>): 
     kind: 'let',
     id: temp,
   });
-  const unwrappedCallee = unwrapNode(path.node.callee, t.isMemberExpression);
+  const unwrappedCallee = unwrapNode(path.node.callee, t.isMemberExpression)
+    || unwrapNode(path.node.callee, t.isOptionalMemberExpression);
   if (unwrappedCallee) {
+    let unwrappedObject = unwrapNode(unwrappedCallee.object, t.isIdentifier);
+    if (!unwrappedObject) {
+      unwrappedObject = path.scope.generateUidIdentifier('object');
+      path.scope.push({
+        kind: 'let',
+        id: unwrappedObject,
+      });
+      unwrappedCallee.object = t.assignmentExpression('=', unwrappedObject, unwrappedCallee.object);
+    }
     return t.conditionalExpression(
       t.binaryExpression(
         '==',
@@ -81,7 +91,7 @@ function transformOptionalCall(path: babel.NodePath<t.OptionalCallExpression>): 
       UNDEFINED_LITERAL,
       t.callExpression(
         t.memberExpression(temp, t.identifier('call')),
-        [unwrappedCallee.object, ...path.node.arguments],
+        [unwrappedObject, ...path.node.arguments],
       ),
     );
   }
