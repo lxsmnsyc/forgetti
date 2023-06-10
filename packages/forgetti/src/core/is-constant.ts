@@ -58,7 +58,7 @@ function isIdentifierConstant(
 
 function isMemberExpressionConstant(
   instance: OptimizerInstance,
-  path: babel.NodePath<t.MemberExpression | t.OptionalMemberExpression>,
+  path: babel.NodePath<t.MemberExpression>,
 ): boolean {
   if (isConstant(instance, path.get('object'))) {
     if (path.node.computed) {
@@ -358,7 +358,7 @@ function uncachedIsConstant(
   if (isPathValid(path, t.isIdentifier)) {
     return isIdentifierConstant(instance, path, path.node);
   }
-  if (isPathValid(path, t.isMemberExpression) || isPathValid(path, t.isOptionalMemberExpression)) {
+  if (isPathValid(path, t.isMemberExpression)) {
     return isMemberExpressionConstant(instance, path);
   }
   if (isPathValid(path, t.isConditionalExpression)) {

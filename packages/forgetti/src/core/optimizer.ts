@@ -281,9 +281,9 @@ export default class Optimizer {
   }
 
   optimizeMemberExpression(
-    path: babel.NodePath<t.MemberExpression | t.OptionalMemberExpression>,
+    path: babel.NodePath<t.MemberExpression>,
   ): OptimizedExpression {
-    const result = this.memoizeMemberExpression(path as babel.NodePath<t.MemberExpression>);
+    const result = this.memoizeMemberExpression(path);
     // Memoize the entire expression as a whole
     // The method above only memoized part of the expression
     // but it is also needed to get its dependencies
@@ -508,9 +508,8 @@ export default class Optimizer {
           const callee = path.get('callee');
           if (isPathValid(callee, t.isExpression)) {
             const optimizedCallee = (
-              (isPathValid(callee, t.isMemberExpression)
-                || isPathValid(callee, t.isOptionalMemberExpression))
-                ? this.memoizeMemberExpression(callee as babel.NodePath<t.MemberExpression>)
+              (isPathValid(callee, t.isMemberExpression))
+                ? this.memoizeMemberExpression(callee)
                 : this.createDependency(callee)
             );
             if (optimizedCallee) {
@@ -892,10 +891,7 @@ export default class Optimizer {
     if (isPathValid(path, t.isIdentifier)) {
       return this.optimizeIdentifier(path);
     }
-    if (
-      isPathValid(path, t.isMemberExpression)
-      || isPathValid(path, t.isOptionalMemberExpression)
-    ) {
+    if (isPathValid(path, t.isMemberExpression)) {
       return this.optimizeMemberExpression(path);
     }
     if (isPathValid(path, t.isConditionalExpression)) {
