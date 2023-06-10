@@ -23,7 +23,7 @@ async function compile(code: string): Promise<string> {
   return result?.code ?? '';
 }
 
-describe.concurrent('expressions', () => {
+describe('expressions', () => {
   it('should optimize guaranteed literals', async ({ expect }) => {
     const code = `
 function Example(props) {
@@ -178,6 +178,22 @@ function Example(props) {
       {props.children}
     </>
   );
+}
+`;
+    expect(await compile(code)).toMatchSnapshot();
+  });
+  it('should optimize optional member expression', async ({ expect }) => {
+    const code = `
+function Example(props) {
+  return props?.a?.b?.c;
+}
+`;
+    expect(await compile(code)).toMatchSnapshot();
+  });
+  it('should optimize optional call expression', async ({ expect }) => {
+    const code = `
+function Example(props) {
+  return props.a?.(props.b, props.c);
 }
 `;
     expect(await compile(code)).toMatchSnapshot();

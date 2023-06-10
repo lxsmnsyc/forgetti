@@ -23,7 +23,7 @@ async function compile(code: string): Promise<string> {
   return result?.code ?? '';
 }
 
-describe.concurrent('statements', () => {
+describe('statements', () => {
   it('should optimize for-of statements', async ({ expect }) => {
     const code = `
   function Example(props) {

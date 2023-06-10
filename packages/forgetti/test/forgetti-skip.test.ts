@@ -23,7 +23,7 @@ async function compile(code: string): Promise<string> {
   return result?.code ?? '';
 }
 
-describe.concurrent('forgetti skip', () => {
+describe('forgetti skip', () => {
   it('should optimize non-skipped function declaration', async ({ expect }) => {
     const code = `
 function Example(props) {

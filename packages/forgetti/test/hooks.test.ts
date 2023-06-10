@@ -23,7 +23,7 @@ async function compile(code: string): Promise<string> {
   return result?.code ?? '';
 }
 
-describe.concurrent('hooks', () => {
+describe('hooks', () => {
   it('should optimize useRef', async ({ expect }) => {
     const code = `
 import { useRef } from 'react';
