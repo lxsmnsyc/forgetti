@@ -283,7 +283,7 @@ function Example(props) {
       _value12 = _equals5 ? _cache3[4] : _cache3[4] = _value9.c,
       _equals7 = _$$equals(_cache3, 5, _value12),
       _value13 = _equals7 ? _cache3[5] : _cache3[5] = _value12;
-    _value4 = _equals4 && _equals6 && _equals7 ? _cache3[6] : _cache3[6] = _value8(_value11, _value13);
+    _value4 = _equals4 && _equals && _equals6 && _equals7 ? _cache3[6] : _cache3[6] = _value8.call(_value, _value11, _value13);
   }
   return _value4;
 }"
@@ -295,50 +295,47 @@ import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$branch as _$$branch } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 function Example(props) {
-  let _cache = _$$cache(_useRef, 15),
+  let _cache = _$$cache(_useRef, 14),
     _nullish,
     _nullish2,
-    _nullish3,
-    _hoisted3 = _nullish3 = _$$equals(_cache, 0, props) ? _cache[0] : _cache[0] = props,
-    _equals2 = _$$equals(_cache, 1, _hoisted3),
-    _value3 = _equals2 ? _cache[1] : _cache[1] = _hoisted3,
-    _value2;
-  if (_equals2 ? _cache[2] : _cache[2] = _value3 == null) {
-    let _cache2 = _$$branch(_cache, 3, 1);
-    _value2 = 0 in _cache2 ? _cache2[0] : _cache2[0] = void 0;
+    _equals = _$$equals(_cache, 0, props),
+    _value2 = _equals ? _cache[0] : _cache[0] = props,
+    _value;
+  if (_equals ? _cache[1] : _cache[1] = _value2 == null) {
+    let _cache2 = _$$branch(_cache, 2, 1);
+    _value = 0 in _cache2 ? _cache2[0] : _cache2[0] = void 0;
   } else {
-    let _cache3 = _$$branch(_cache, 4, 2),
-      _equals3 = _$$equals(_cache3, 0, _nullish3),
-      _value6 = _equals3 ? _cache3[0] : _cache3[0] = _nullish3;
-    _value2 = _equals3 ? _cache3[1] : _cache3[1] = _value6.a;
+    let _cache3 = _$$branch(_cache, 3, 2),
+      _value5 = _$$equals(_cache3, 0, props) ? _cache3[0] : _cache3[0] = props;
+    _value = _equals ? _cache3[1] : _cache3[1] = _value2.a;
   }
-  let _hoisted2 = _nullish2 = _$$equals(_cache, 5, _value2) ? _cache[5] : _cache[5] = _value2,
-    _equals5 = _$$equals(_cache, 6, _hoisted2),
-    _value10 = _equals5 ? _cache[6] : _cache[6] = _hoisted2,
-    _value9;
-  if (_equals5 ? _cache[7] : _cache[7] = _value10 == null) {
-    let _cache4 = _$$branch(_cache, 8, 1);
-    _value9 = 0 in _cache4 ? _cache4[0] : _cache4[0] = void 0;
+  let _hoisted2 = _nullish2 = _$$equals(_cache, 4, _value) ? _cache[4] : _cache[4] = _value,
+    _equals4 = _$$equals(_cache, 5, _hoisted2),
+    _value9 = _equals4 ? _cache[5] : _cache[5] = _hoisted2,
+    _value8;
+  if (_equals4 ? _cache[6] : _cache[6] = _value9 == null) {
+    let _cache4 = _$$branch(_cache, 7, 1);
+    _value8 = 0 in _cache4 ? _cache4[0] : _cache4[0] = void 0;
   } else {
-    let _cache5 = _$$branch(_cache, 9, 2),
-      _equals6 = _$$equals(_cache5, 0, _nullish2),
-      _value13 = _equals6 ? _cache5[0] : _cache5[0] = _nullish2;
-    _value9 = _equals6 ? _cache5[1] : _cache5[1] = _value13.b;
+    let _cache5 = _$$branch(_cache, 8, 2),
+      _equals5 = _$$equals(_cache5, 0, _nullish2),
+      _value12 = _equals5 ? _cache5[0] : _cache5[0] = _nullish2;
+    _value8 = _equals5 ? _cache5[1] : _cache5[1] = _value12.b;
   }
-  let _hoisted = _nullish = _$$equals(_cache, 10, _value9) ? _cache[10] : _cache[10] = _value9,
-    _equals8 = _$$equals(_cache, 11, _hoisted),
-    _value17 = _equals8 ? _cache[11] : _cache[11] = _hoisted,
-    _value16;
-  if (_equals8 ? _cache[12] : _cache[12] = _value17 == null) {
-    let _cache6 = _$$branch(_cache, 13, 1);
-    _value16 = 0 in _cache6 ? _cache6[0] : _cache6[0] = void 0;
+  let _hoisted = _nullish = _$$equals(_cache, 9, _value8) ? _cache[9] : _cache[9] = _value8,
+    _equals7 = _$$equals(_cache, 10, _hoisted),
+    _value16 = _equals7 ? _cache[10] : _cache[10] = _hoisted,
+    _value15;
+  if (_equals7 ? _cache[11] : _cache[11] = _value16 == null) {
+    let _cache6 = _$$branch(_cache, 12, 1);
+    _value15 = 0 in _cache6 ? _cache6[0] : _cache6[0] = void 0;
   } else {
-    let _cache7 = _$$branch(_cache, 14, 2),
-      _equals9 = _$$equals(_cache7, 0, _nullish),
-      _value20 = _equals9 ? _cache7[0] : _cache7[0] = _nullish;
-    _value16 = _equals9 ? _cache7[1] : _cache7[1] = _value20.c;
+    let _cache7 = _$$branch(_cache, 13, 2),
+      _equals8 = _$$equals(_cache7, 0, _nullish),
+      _value19 = _equals8 ? _cache7[0] : _cache7[0] = _nullish;
+    _value15 = _equals8 ? _cache7[1] : _cache7[1] = _value19.c;
   }
-  return _value16;
+  return _value15;
 }"
 `;
 

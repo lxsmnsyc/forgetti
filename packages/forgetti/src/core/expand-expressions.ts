@@ -4,6 +4,7 @@ import type * as babel from '@babel/core';
 import type { ComponentNode, StateContext } from './types';
 import { getHookCallType } from './get-hook-call-type';
 import { isPathValid } from './checks';
+import unwrapNode from './unwrap-node';
 
 function isStatementValid(path: babel.NodePath): boolean {
   if (path) {
@@ -46,6 +47,95 @@ function isInValidExpression(path: babel.NodePath): boolean {
   return true;
 }
 
+const UNDEFINED_LITERAL = t.unaryExpression('void', t.numericLiteral(0));
+
+function transformOptionalCall(path: babel.NodePath<t.OptionalCallExpression>): t.Expression {
+  const unwrappedID = unwrapNode(path.node.callee, t.isIdentifier);
+  if (unwrappedID) {
+    return t.conditionalExpression(
+      t.binaryExpression(
+        '==',
+        unwrappedID,
+        t.nullLiteral(),
+      ),
+      UNDEFINED_LITERAL,
+      t.callExpression(
+        unwrappedID,
+        path.node.arguments,
+      ),
+    );
+  }
+  const temp = path.scope.generateUidIdentifier('nullish');
+  path.scope.push({
+    kind: 'let',
+    id: temp,
+  });
+  const unwrappedCallee = unwrapNode(path.node.callee, t.isMemberExpression);
+  if (unwrappedCallee) {
+    return t.conditionalExpression(
+      t.binaryExpression(
+        '==',
+        t.assignmentExpression('=', temp, unwrappedCallee),
+        t.nullLiteral(),
+      ),
+      UNDEFINED_LITERAL,
+      t.callExpression(
+        t.memberExpression(temp, t.identifier('call')),
+        [unwrappedCallee.object, ...path.node.arguments],
+      ),
+    );
+  }
+  return t.conditionalExpression(
+    t.binaryExpression(
+      '==',
+      t.assignmentExpression('=', temp, path.node.callee),
+      t.nullLiteral(),
+    ),
+    UNDEFINED_LITERAL,
+    t.callExpression(
+      temp,
+      path.node.arguments,
+    ),
+  );
+}
+
+function transformOptionalMember(path: babel.NodePath<t.OptionalMemberExpression>): t.Expression {
+  const unwrappedID = unwrapNode(path.node.object, t.isIdentifier);
+  if (unwrappedID) {
+    return t.conditionalExpression(
+      t.binaryExpression(
+        '==',
+        unwrappedID,
+        t.nullLiteral(),
+      ),
+      UNDEFINED_LITERAL,
+      t.memberExpression(
+        unwrappedID,
+        path.node.property,
+        path.node.computed,
+      ),
+    );
+  }
+  const temp = path.scope.generateUidIdentifier('nullish');
+  path.scope.push({
+    kind: 'let',
+    id: temp,
+  });
+  return t.conditionalExpression(
+    t.binaryExpression(
+      '==',
+      t.assignmentExpression('=', temp, path.node.object),
+      t.nullLiteral(),
+    ),
+    UNDEFINED_LITERAL,
+    t.memberExpression(
+      temp,
+      path.node.property,
+      path.node.computed,
+    ),
+  );
+}
+
 export function expandExpressions(
   ctx: StateContext,
   path: babel.NodePath<ComponentNode>,
@@ -64,26 +154,7 @@ export function expandExpressions(
         parent === path
         && statement
       ) {
-        const temp = p.scope.generateUidIdentifier('nullish');
-        p.scope.push({
-          kind: 'let',
-          id: temp,
-        });
-
-        p.replaceWith(
-          t.conditionalExpression(
-            t.binaryExpression(
-              '==',
-              t.assignmentExpression('=', temp, p.node.callee),
-              t.nullLiteral(),
-            ),
-            t.unaryExpression('void', t.numericLiteral(0)),
-            t.callExpression(
-              temp,
-              p.node.arguments,
-            ),
-          ),
-        );
+        p.replaceWith(transformOptionalCall(p));
       }
     },
     OptionalMemberExpression(p) {
@@ -94,27 +165,7 @@ export function expandExpressions(
         parent === path
         && statement
       ) {
-        const temp = p.scope.generateUidIdentifier('nullish');
-        p.scope.push({
-          kind: 'let',
-          id: temp,
-        });
-
-        p.replaceWith(
-          t.conditionalExpression(
-            t.binaryExpression(
-              '==',
-              t.assignmentExpression('=', temp, p.node.object),
-              t.nullLiteral(),
-            ),
-            t.unaryExpression('void', t.numericLiteral(0)),
-            t.memberExpression(
-              temp,
-              p.node.property,
-              p.node.computed,
-            ),
-          ),
-        );
+        p.replaceWith(transformOptionalMember(p));
       }
     },
     AssignmentExpression(p) {
