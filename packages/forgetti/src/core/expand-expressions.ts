@@ -56,6 +56,36 @@ export function expandExpressions(
     );
   }
   path.traverse({
+    OptionalCallExpression(p) {
+      const parent = p.getFunctionParent();
+      const statement = p.getStatementParent();
+
+      if (
+        parent === path
+        && statement
+      ) {
+        const temp = p.scope.generateUidIdentifier('nullish');
+        p.scope.push({
+          kind: 'let',
+          id: temp,
+        });
+
+        p.replaceWith(
+          t.conditionalExpression(
+            t.binaryExpression(
+              '==',
+              t.assignmentExpression('=', temp, p.node.callee),
+              t.nullLiteral(),
+            ),
+            t.unaryExpression('void', t.numericLiteral(0)),
+            t.callExpression(
+              temp,
+              p.node.arguments,
+            ),
+          ),
+        );
+      }
+    },
     OptionalMemberExpression(p) {
       const parent = p.getFunctionParent();
       const statement = p.getStatementParent();

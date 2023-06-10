@@ -115,7 +115,7 @@ function isUnaryExpressionConstant(
 
 function isCallExpressionConstant(
   instance: OptimizerInstance,
-  path: babel.NodePath<t.CallExpression | t.OptionalCallExpression>,
+  path: babel.NodePath<t.CallExpression>,
 ): boolean {
   const hookType = getHookCallType(instance.ctx, path);
   if (hookType === 'none') {
@@ -373,10 +373,7 @@ function uncachedIsConstant(
   if (isPathValid(path, t.isUnaryExpression)) {
     return isUnaryExpressionConstant(instance, path);
   }
-  if (
-    isPathValid(path, t.isCallExpression)
-    || isPathValid(path, t.isOptionalCallExpression)
-  ) {
+  if (isPathValid(path, t.isCallExpression)) {
     return isCallExpressionConstant(instance, path);
   }
   if (

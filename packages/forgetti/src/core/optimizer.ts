@@ -412,7 +412,7 @@ export default class Optimizer {
   }
 
   optimizeEffect(
-    path: babel.NodePath<t.CallExpression | t.OptionalCallExpression>,
+    path: babel.NodePath<t.CallExpression>,
   ): OptimizedExpression {
     const [callback, dependencies] = path.get('arguments');
     if (isPathValid(callback, t.isExpression)) {
@@ -432,7 +432,7 @@ export default class Optimizer {
   }
 
   optimizeCallback(
-    path: babel.NodePath<t.CallExpression | t.OptionalCallExpression>,
+    path: babel.NodePath<t.CallExpression>,
   ): OptimizedExpression {
     const [callback, dependencies] = path.get('arguments');
     if (isPathValid(callback, t.isExpression)) {
@@ -446,7 +446,7 @@ export default class Optimizer {
   }
 
   optimizeMemo(
-    path: babel.NodePath<t.CallExpression | t.OptionalCallExpression>,
+    path: babel.NodePath<t.CallExpression>,
   ): OptimizedExpression {
     const [callback, dependencies] = path.get('arguments');
     if (isPathValid(callback, t.isExpression)) {
@@ -461,7 +461,7 @@ export default class Optimizer {
   }
 
   optimizeRef(
-    path: babel.NodePath<t.CallExpression | t.OptionalCallExpression>,
+    path: babel.NodePath<t.CallExpression>,
   ): OptimizedExpression {
     const arg = path.node.arguments[0];
     let init: t.Expression | undefined;
@@ -488,7 +488,7 @@ export default class Optimizer {
   }
 
   optimizeCallExpression(
-    path: babel.NodePath<t.CallExpression | t.OptionalCallExpression>,
+    path: babel.NodePath<t.CallExpression>,
   ): OptimizedExpression {
     const hookType = getHookCallType(this.ctx, path);
     switch (hookType) {
@@ -906,10 +906,7 @@ export default class Optimizer {
     if (isPathValid(path, t.isUnaryExpression)) {
       return this.optimizeUnaryExpression(path);
     }
-    if (
-      isPathValid(path, t.isCallExpression)
-      || isPathValid(path, t.isOptionalCallExpression)
-    ) {
+    if (isPathValid(path, t.isCallExpression)) {
       return this.optimizeCallExpression(path);
     }
     if (
