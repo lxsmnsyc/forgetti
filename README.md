@@ -39,6 +39,7 @@ Forgetti is an auto-memoization Babel plugin I made for a hook-based flow like R
 
 - [Rollup](https://github.com/lxsmnsyc/forgetti/tree/main/packages/rollup)
 - [Vite](https://github.com/lxsmnsyc/forgetti/tree/main/packages/vite)
+- [Webpack and NextJS](https://github.com/SukkaW/forgetti-loader)
 
 ## Docs
 
