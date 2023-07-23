@@ -266,3 +266,27 @@ function Example(props) {
   };
 }"
 `;
+
+exports[`hooks > should optimize useRef and useMemo 1`] = `
+"import { useRef as _useRef } from \\"react\\";
+import { $$ref as _$$ref } from \\"forgetti/runtime\\";
+import { useMemo as _useMemo } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$equals as _$$equals } from \\"forgetti/runtime\\";
+import { useRef } from 'react';
+function Example(props) {
+  let _cache = _$$cache(_useMemo, 7),
+    _ref = _$$ref(_useRef, 1);
+  const aRef = 0 in _ref ? _ref[0] : _ref[0] = {
+    current: props.foo
+  };
+  let _equals = _$$equals(_cache, 0, props),
+    _value2 = _equals ? _cache[0] : _cache[0] = props,
+    _value3 = _equals ? _cache[1] : _cache[1] = () => props.bar(),
+    _value5 = _equals ? _cache[3] : _cache[3] = _value2.bar,
+    _equals3 = _$$equals(_cache, 4, _value5),
+    _value6 = _equals3 ? _cache[4] : _cache[4] = _value5,
+    _value7 = _equals3 ? _cache[5] : _cache[5] = [_value6];
+  return useMemo(_$$equals(_cache, 2, _value3) ? _cache[2] : _cache[2] = _value3, _$$equals(_cache, 6, _value7) ? _cache[6] : _cache[6] = _value7);
+}"
+`;

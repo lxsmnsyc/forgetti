@@ -42,6 +42,16 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
+  it('should optimize useRef and useMemo', async ({ expect }) => {
+    const code = `
+import { useRef } from 'react';
+function Example(props) {
+  const aRef = useRef(props.foo);
+  return useMemo(() => props.bar(), [props.bar]);
+}
+`;
+    expect(await compile(code)).toMatchSnapshot();
+  });
   it('should optimize useMemo with 0 dependencies', async ({ expect }) => {
     const code = `
 import { useMemo } from 'react';
