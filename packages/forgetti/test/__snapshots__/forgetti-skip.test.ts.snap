@@ -2,13 +2,13 @@
 
 exports[`forgetti skip > should optimize non-skipped function declaration 1`] = `
 "import { useRef as _useRef } from \\"react\\";
-import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$ref as _$$ref } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { memo as _memo } from \\"react\\";
 import { $$memo as _$$memo } from \\"forgetti/runtime\\";
 const _Memo = _$$memo(_memo, _values => <h1 className={_values[0]}>{_values[1]}</h1>);
 function Example(props) {
-  let _cache = _$$cache(_useRef, 8),
+  let _cache = _$$ref(_useRef, 8),
     _equals = _$$equals(_cache, 0, props),
     _value = _equals ? _cache[0] : _cache[0] = props,
     _value2 = _equals ? _cache[1] : _cache[1] = _value.className,
@@ -26,13 +26,13 @@ function Example(props) {
 
 exports[`forgetti skip > should optimize non-skipped function expression 1`] = `
 "import { useRef as _useRef } from \\"react\\";
-import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$ref as _$$ref } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { memo as _memo } from \\"react\\";
 import { $$memo as _$$memo } from \\"forgetti/runtime\\";
 const _Memo = _$$memo(_memo, _values => <h1 className={_values[0]}>{_values[1]}</h1>);
 const Example = function (props) {
-  let _cache = _$$cache(_useRef, 8),
+  let _cache = _$$ref(_useRef, 8),
     _equals = _$$equals(_cache, 0, props),
     _value = _equals ? _cache[0] : _cache[0] = props,
     _value2 = _equals ? _cache[1] : _cache[1] = _value.className,
@@ -50,13 +50,13 @@ const Example = function (props) {
 
 exports[`forgetti skip > should optimize non-skipped variable declaration 1`] = `
 "import { useRef as _useRef } from \\"react\\";
-import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$ref as _$$ref } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { memo as _memo } from \\"react\\";
 import { $$memo as _$$memo } from \\"forgetti/runtime\\";
 const _Memo = _$$memo(_memo, _values => <h1 className={_values[0]}>{_values[1]}</h1>);
 const Example = props => {
-  let _cache = _$$cache(_useRef, 8),
+  let _cache = _$$ref(_useRef, 8),
     _equals = _$$equals(_cache, 0, props),
     _value = _equals ? _cache[0] : _cache[0] = props,
     _value2 = _equals ? _cache[1] : _cache[1] = _value.className,
