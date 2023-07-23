@@ -255,12 +255,12 @@ function Example(props) {
 `;
 
 exports[`hooks > should optimize useRef 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
-import { $$memo as _$$memo } from \\"forgetti/runtime\\";
+"import { useRef as _useRef } from \\"react\\";
+import { $$ref as _$$ref } from \\"forgetti/runtime\\";
 import { useRef } from 'react';
 function Example(props) {
-  let _cache = _$$memo(_useMemo, 1);
-  return 0 in _cache ? _cache[0] : _cache[0] = {
+  let _ref = _$$ref(_useRef, 1);
+  return 0 in _ref ? _ref[0] : _ref[0] = {
     current: props.value
   };
 }"
