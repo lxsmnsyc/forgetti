@@ -2,7 +2,7 @@
 import * as t from '@babel/types';
 import type { OptimizedExpression, StateContext } from './types';
 import getImportIdentifier from './get-import-identifier';
-import { RUNTIME_BRANCH, RUNTIME_CACHE } from './imports';
+import { RUNTIME_BRANCH, RUNTIME_REF } from './imports';
 
 function mergeVariableDeclaration(statements: t.Statement[]): t.Statement[] {
   let stack: t.VariableDeclarator[] = [];
@@ -95,7 +95,7 @@ export default class OptimizerScope {
           getImportIdentifier(
             this.ctx,
             this.path,
-            RUNTIME_CACHE,
+            RUNTIME_REF,
           ),
           [
             getImportIdentifier(

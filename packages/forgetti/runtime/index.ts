@@ -12,12 +12,18 @@ export interface Ref<T> {
 }
 export type RefHook = <T>(callback: T) => Ref<T>;
 
-export function $$cache(hook: RefHook, size: number): unknown[] {
+export function $$ref(hook: RefHook, size: number): unknown[] {
   const ref = hook<unknown[] | undefined>(undefined);
   if (!ref.current) {
     ref.current = new Array(size);
   }
   return ref.current;
+}
+
+export type MemoHook = <T>(callback: () => T, dependencies: unknown[]) => T;
+
+export function $$cache(hook: MemoHook, size: number): unknown[] {
+  return hook(() => new Array<unknown>(size), []);
 }
 
 export function $$branch(parent: unknown[], index: number, size: number): unknown[] {
