@@ -16,7 +16,7 @@
   "devDependencies": {
     "@babel/core": "^7.21.3",
     "@types/babel__core": "^7.20.0",
-    "@types/babel__traverse": "^7.18.3",
+    "@types/babel__traverse": "^7.20.1",
     "@types/node": "^18.15.3",
     "eslint": "^8.38.0",
     "eslint-config-lxsmnsyc": "^0.6.3",
