@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import type * as babel from '@babel/core';
+import type { Scope } from '@babel/traverse';
 import * as t from '@babel/types';
 import {
   isComponent,
@@ -23,6 +24,7 @@ import unwrapPath from './core/unwrap-path';
 import { expandExpressions } from './core/expand-expressions';
 import { inlineExpressions } from './core/inline-expressions';
 import { simplifyExpressions } from './core/simplify-expressions';
+import hoistConstantJSX from './core/hoist-jsx';
 import optimizeJSX from './core/optimize-jsx';
 
 export type { Options };
@@ -267,12 +269,19 @@ export default function forgettiPlugin(): babel.PluginObj<State> {
               ? new RegExp(preset.filters.hook.source, preset.filters.hook.flags)
               : undefined,
           },
+          hoist: {
+            jsxScopeMap: new WeakMap<t.JSX, Scope>(),
+            hoisted: new WeakSet<t.JSX>(),
+          },
         };
 
         // Register all import specifiers
         programPath.traverse({
           ImportDeclaration(path) {
             extractImportIdentifiers(ctx, path);
+          },
+          JSXElement(path) {
+            hoistConstantJSX(ctx, path);
           },
         });
 

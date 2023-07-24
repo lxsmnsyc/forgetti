@@ -1,5 +1,6 @@
 import type * as t from '@babel/types';
 import type * as babel from '@babel/core';
+import type { Scope } from '@babel/traverse';
 import type {
   HookRegistration,
   ImportDefinition,
@@ -32,6 +33,10 @@ export interface StateContext {
   filters: {
     component: RegExp;
     hook?: RegExp;
+  };
+  hoist: {
+    jsxScopeMap: WeakMap<t.JSX, Scope>;
+    hoisted: WeakSet<t.JSX>;
   };
 }
 
