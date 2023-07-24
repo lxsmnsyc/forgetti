@@ -73,7 +73,7 @@ export default class Optimizer {
   createMemo(
     current: t.Expression,
     dependencies?: t.Expression | (t.Expression | undefined)[] | boolean,
-    isUseRef = false,
+    type: 'memo' | 'ref' = 'memo',
   ): OptimizedExpression {
     // Check if the identifier is an already optimized
     // identifier so that we can skip it.
@@ -87,10 +87,10 @@ export default class Optimizer {
     const header = (
       this.scope.isInLoop
         ? this.scope.createLoopHeader()
-        : this.scope.createHeader(isUseRef ? 'ref' : 'memo')
+        : this.scope.createHeader(type)
     );
     // Get the memo index
-    const index = this.scope.createIndex(isUseRef ? 'ref' : 'memo');
+    const index = this.scope.createIndex(type);
     // Generate the access expression
     const pos = t.memberExpression(header, index, true);
     // Generate the `v` identifier
@@ -485,7 +485,7 @@ export default class Optimizer {
         init || t.identifier('undefined'),
       ),
     ]);
-    return this.createMemo(expr, true, true);
+    return this.createMemo(expr, true, 'ref');
   }
 
   optimizeCallExpression(

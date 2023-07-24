@@ -44,7 +44,7 @@ function Example(props) {
   });
   it('should optimize useRef and useMemo', async ({ expect }) => {
     const code = `
-import { useRef } from 'react';
+import { useRef, useMemo } from 'react';
 function Example(props) {
   const aRef = useRef(props.foo);
   return useMemo(() => props.bar(), [props.bar]);
