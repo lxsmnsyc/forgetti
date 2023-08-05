@@ -39,6 +39,9 @@ export interface Preset {
     hooks: HookRegistration[];
     hocs: ImportDefinition[];
   };
+  optimizations?: {
+    hoistConstantJsx?: boolean;
+  };
 }
 
 export interface Options {
@@ -124,6 +127,9 @@ export const PRESETS = {
           kind: 'named',
         },
       ],
+    },
+    optimizations: {
+      hoistConstantJsx: true,
     },
   }),
   preact: createPreset({
@@ -218,6 +224,9 @@ export const PRESETS = {
           kind: 'named',
         },
       ],
+    },
+    optimizations: {
+      hoistConstantJsx: true,
     },
   }),
 };

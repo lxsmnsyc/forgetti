@@ -275,13 +275,15 @@ export default function forgettiPlugin(): babel.PluginObj<State> {
           },
         };
 
-        // Register all import specifiers
         programPath.traverse({
+          // Register all import specifiers
           ImportDeclaration(path) {
             extractImportIdentifiers(ctx, path);
           },
           JSXElement(path) {
-            hoistConstantJSX(ctx, path);
+            if (preset.optimizations?.hoistConstantJsx) {
+              hoistConstantJSX(ctx, path);
+            }
           },
         });
 
