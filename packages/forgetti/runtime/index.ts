@@ -22,8 +22,10 @@ export function $$ref(hook: RefHook, size: number): unknown[] {
 
 export type MemoHook = <T>(callback: () => T, dependencies: unknown[]) => T;
 
+const EMPTY_ARRAY: never[] = [];
+
 export function $$cache(hook: MemoHook, size: number): unknown[] {
-  return hook(() => new Array<unknown>(size), []);
+  return hook(() => new Array<unknown>(size), EMPTY_ARRAY);
 }
 
 export function $$branch(parent: unknown[], index: number, size: number): unknown[] {
