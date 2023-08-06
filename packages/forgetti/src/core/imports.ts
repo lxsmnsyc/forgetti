@@ -6,6 +6,12 @@ export const RUNTIME_EQUALS: ImportDefinition = {
   kind: 'named',
 };
 
+export const RUNTIME_REF: ImportDefinition = {
+  name: '$$ref',
+  source: 'forgetti/runtime',
+  kind: 'named',
+};
+
 export const RUNTIME_CACHE: ImportDefinition = {
   name: '$$cache',
   source: 'forgetti/runtime',

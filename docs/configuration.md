@@ -37,6 +37,14 @@ Here's an example preset:
       // Kind of import (named or default)
       kind: 'named',
     },
+    useMemo: {
+      // Name of the hook
+      name: 'useMemo',
+      // What module source does it come from
+      source: 'react',
+      // Kind of import (named or default)
+      kind: 'named',
+    },
     // Optional. Defining this means JSX optimization
     // is going to be enabled.
     memo: {

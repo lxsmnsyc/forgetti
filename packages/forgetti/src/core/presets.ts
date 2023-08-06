@@ -33,6 +33,7 @@ export interface Preset {
   };
   runtime: {
     useRef: ImportDefinition;
+    useMemo: ImportDefinition;
     memo?: ImportDefinition;
   };
   imports: {
@@ -64,6 +65,11 @@ export const PRESETS = {
     runtime: {
       useRef: {
         name: 'useRef',
+        source: 'react',
+        kind: 'named',
+      },
+      useMemo: {
+        name: 'useMemo',
         source: 'react',
         kind: 'named',
       },
@@ -140,6 +146,11 @@ export const PRESETS = {
     runtime: {
       useRef: {
         name: 'useRef',
+        source: 'preact/hooks',
+        kind: 'named',
+      },
+      useMemo: {
+        name: 'useMemo',
         source: 'preact/hooks',
         kind: 'named',
       },

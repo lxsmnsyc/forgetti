@@ -2,7 +2,7 @@
 import * as t from '@babel/types';
 import type { OptimizedExpression, StateContext } from './types';
 import getImportIdentifier from './get-import-identifier';
-import { RUNTIME_BRANCH, RUNTIME_CACHE } from './imports';
+import { RUNTIME_BRANCH, RUNTIME_CACHE, RUNTIME_REF } from './imports';
 
 function mergeVariableDeclaration(statements: t.Statement[]): t.Statement[] {
   let stack: t.VariableDeclarator[] = [];
@@ -26,7 +26,11 @@ function mergeVariableDeclaration(statements: t.Statement[]): t.Statement[] {
 export default class OptimizerScope {
   memo: t.Identifier | undefined;
 
-  indeces = 0;
+  ref: t.Identifier | undefined;
+
+  indecesMemo = 0;
+
+  indecesRef = 0;
 
   ctx: StateContext;
 
@@ -50,21 +54,33 @@ export default class OptimizerScope {
     this.isInLoop = isInLoop;
   }
 
-  createHeader(): t.Identifier {
+  createHeader(type: 'memo' | 'ref' = 'memo'): t.Identifier {
+    if (type === 'ref') {
+      if (!this.ref) {
+        this.ref = this.path.scope.generateUidIdentifier('ref');
+      }
+      return this.ref;
+    }
+
     if (!this.memo) {
       this.memo = this.path.scope.generateUidIdentifier('cache');
     }
     return this.memo;
   }
 
-  createIndex(): t.NumericLiteral {
-    const current = this.indeces;
-    this.indeces += 1;
+  createIndex(type: 'memo' | 'ref'): t.NumericLiteral {
+    const current = type === 'memo' ? this.indecesMemo : this.indecesRef;
+    if (type === 'memo') {
+      this.indecesMemo += 1;
+    } else {
+      this.indecesRef += 1;
+    }
+
     return t.numericLiteral(current);
   }
 
-  getMemoDeclaration(): t.VariableDeclaration | undefined {
-    if (!this.memo) {
+  getMemoDeclarations(): t.VariableDeclaration[] | undefined {
+    if (!this.memo && !this.ref) {
       return undefined;
     }
     // This is for generating branched caching.
@@ -72,42 +88,78 @@ export default class OptimizerScope {
     // from the parent (or root)
     if (this.parent) {
       const header = this.parent.createHeader();
-      const index = this.parent.createIndex();
+      const index = this.parent.createIndex('memo');
 
-      return t.variableDeclaration('let', [
-        t.variableDeclarator(
-          this.createHeader(),
-          t.callExpression(
-            getImportIdentifier(
-              this.ctx,
-              this.path,
-              RUNTIME_BRANCH,
+      return [
+        t.variableDeclaration('let', [
+          t.variableDeclarator(
+            this.createHeader(),
+            t.callExpression(
+              getImportIdentifier(
+                this.ctx,
+                this.path,
+                RUNTIME_BRANCH,
+              ),
+              [header, index, t.numericLiteral(this.indecesMemo)],
             ),
-            [header, index, t.numericLiteral(this.indeces)],
           ),
-        ),
-      ]);
+        ]),
+      ];
     }
-    return t.variableDeclaration('let', [
-      t.variableDeclarator(
-        this.memo,
-        t.callExpression(
-          getImportIdentifier(
-            this.ctx,
-            this.path,
-            RUNTIME_CACHE,
-          ),
-          [
-            getImportIdentifier(
-              this.ctx,
-              this.path,
-              this.ctx.preset.runtime.useRef,
+
+    const outputDeclarations = [];
+
+    if (this.memo) {
+      outputDeclarations.push(
+
+        t.variableDeclaration('let', [
+          t.variableDeclarator(
+            this.memo,
+            t.callExpression(
+              getImportIdentifier(
+                this.ctx,
+                this.path,
+                RUNTIME_CACHE,
+              ),
+              [
+                getImportIdentifier(
+                  this.ctx,
+                  this.path,
+                  this.ctx.preset.runtime.useMemo,
+                ),
+                t.numericLiteral(this.indecesMemo),
+              ],
             ),
-            t.numericLiteral(this.indeces),
-          ],
-        ),
-      ),
-    ]);
+          ),
+        ]),
+      );
+    }
+    if (this.ref) {
+      outputDeclarations.push(
+        t.variableDeclaration('let', [
+          t.variableDeclarator(
+            this.ref,
+            t.callExpression(
+              getImportIdentifier(
+                this.ctx,
+                this.path,
+                RUNTIME_REF,
+              ),
+              [
+                getImportIdentifier(
+                  this.ctx,
+                  this.path,
+                  this.ctx.preset.runtime.useRef,
+                ),
+                t.numericLiteral(this.indecesRef),
+              ],
+            ),
+          ),
+        ]),
+      );
+    }
+
+    return outputDeclarations;
   }
 
   loop: t.Identifier | undefined;
@@ -133,7 +185,7 @@ export default class OptimizerScope {
       return undefined;
     }
     const header = this.parent.createHeader();
-    const index = this.parent.createIndex();
+    const index = this.parent.createIndex('memo');
     const id = this.createLoopIndex();
 
     return t.variableDeclaration('let', [
@@ -168,7 +220,7 @@ export default class OptimizerScope {
             this.path,
             RUNTIME_BRANCH,
           ),
-          [header, localIndex, t.numericLiteral(this.indeces)],
+          [header, localIndex, t.numericLiteral(this.indecesMemo)],
         ),
       ),
     ]);
@@ -177,11 +229,11 @@ export default class OptimizerScope {
   getStatements(): t.Statement[] {
     const result = [...this.statements];
     const header = this.isInLoop
-      ? this.getLoopDeclaration()
-      : this.getMemoDeclaration();
+      ? [this.getLoopDeclaration()]
+      : this.getMemoDeclarations();
     if (header) {
       return mergeVariableDeclaration([
-        header,
+        ...header,
         ...result,
       ]);
     }
