@@ -3,7 +3,7 @@ import * as t from '@babel/types';
 import type { ComponentNode, StateContext } from './types';
 import getImportIdentifier from './get-import-identifier';
 import { RUNTIME_MEMO } from './imports';
-import { shouldSkipJSX, isPathValid } from './checks';
+import { shouldSkipJSX, isPathValid, shouldSkipJSXExtraction } from './checks';
 import type { ImportDefinition } from './presets';
 
 interface JSXReplacement {
@@ -38,6 +38,9 @@ function extractJSXExpressions(
 ): void {
   // Iterate attributes
   if (isPathValid(path, t.isJSXElement)) {
+    if (shouldSkipJSXExtraction(path.node)) {
+      return;
+    }
     const openingElement = path.get('openingElement');
     const openingName = openingElement.get('name');
     const trueOpeningName = getJSXIdentifier(openingName);
@@ -128,10 +131,15 @@ function extractJSXExpressions(
   for (let i = 0, len = children.length; i < len; i++) {
     const child = children[i];
 
+    if (shouldSkipJSXExtraction(child.node)) {
+      continue;
+    }
+
     if (isPathValid(child, t.isJSXElement) || isPathValid(child, t.isJSXFragment)) {
       extractJSXExpressions(child, state, false);
     } else if (isPathValid(child, t.isJSXExpressionContainer)) {
       const expr = child.get('expression');
+
       if (isPathValid(expr, t.isJSXElement) || isPathValid(expr, t.isJSXFragment)) {
         extractJSXExpressions(expr, state, false);
       } else if (isPathValid(expr, t.isExpression)) {
@@ -170,6 +178,9 @@ function transformJSX(
   memoDefinition: ImportDefinition,
 ): void {
   if (shouldSkipJSX(path.node)) {
+    return;
+  }
+  if (ctx.hoist.hoisted.has(path.node)) {
     return;
   }
   const state: State = {

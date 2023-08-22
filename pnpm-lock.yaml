@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 importers:
 
   .:
@@ -101,8 +105,8 @@ importers:
         specifier: ^7.20.0
         version: 7.20.0
       '@types/babel__traverse':
-        specifier: ^7.18.3
-        version: 7.18.3
+        specifier: ^7.20.1
+        version: 7.20.1
       '@types/node':
         specifier: ^18.15.3
         version: 18.15.3
@@ -1564,7 +1568,7 @@ packages:
       '@babel/types': 7.21.3
       '@types/babel__generator': 7.6.4
       '@types/babel__template': 7.4.1
-      '@types/babel__traverse': 7.18.3
+      '@types/babel__traverse': 7.20.1
     dev: true
 
   /@types/babel__generator@7.6.4:
@@ -1580,8 +1584,8 @@ packages:
       '@babel/types': 7.21.3
     dev: true
 
-  /@types/babel__traverse@7.18.3:
-    resolution: {integrity: sha512-1kbcJ40lLB7MHsj39U4Sh1uTd2E7rLEa79kmDpI6cy+XiXsteB3POdQomoq4FxszMrO3ZYchkhYJw7A2862b3w==}
+  /@types/babel__traverse@7.20.1:
+    resolution: {integrity: sha512-MitHFXnhtgwsGZWtT68URpOvLN4EREih1u3QtQiN4VdAxWKRVvGCSvw/Qth0M0Qq3pJpnGOu5JaM/ydK7OGbqg==}
     dependencies:
       '@babel/types': 7.21.3
     dev: true

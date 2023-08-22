@@ -1,0 +1,715 @@
+// Vitest Snapshot v1
+
+exports[`hoist jsx > React.lazy components 1`] = `
+"import { memo as _memo } from \\"react\\";
+import { $$memo as _$$memo } from \\"forgetti/runtime\\";
+const _Memo = _$$memo(_memo, _values => {
+    const _Component = _values[0];
+    return <_Component />;
+  }),
+  _Memo2 = _$$memo(_memo, _values2 => {
+    const _Component2 = _values2[0];
+    return <_Component2 />;
+  });
+var _div;
+import React from \\"react\\";
+import OtherComponent from \\"./components/other-component\\";
+export default function App() {
+  return (/*@forgetti hoisted_jsx*/_div || (_div = <div>
+      /*@forgetti jsx*/<_Memo v={[LazyComponent]} />
+      /*@forgetti jsx*/<_Memo2 v={[OtherComponent]} />
+    </div>)
+  );
+}
+const LazyComponent = React.lazy(() => import(\\"./components/lazy-component\\"));"
+`;
+
+exports[`hoist jsx > append to end whrn declared in scope 1`] = `
+"var _div, _div2, _p, _div4, _div5, _p2, _div7, _article;
+const AppItem = () => {
+  return (/*@forgetti hoisted_jsx*/_div || (_div = <div>child</div>)
+  );
+};
+export class App extends React.Component {
+  render() {
+    return (/*@forgetti hoisted_jsx*/_div2 || (_div2 = <div>
+        <p>Parent</p>
+        <AppItem />
+      </div>)
+    );
+  }
+}
+(function () {
+  var _div3;
+  class App extends React.Component {
+    render() {
+      return (/*@forgetti hoisted_jsx*/_div3 || (_div3 = <div>
+          {/*@forgetti hoisted_jsx*/_p || (_p = <p>Parent</p>)}
+          <AppItem />
+        </div>)
+      );
+    }
+  }
+  const AppItem = () => {
+    return (/*@forgetti hoisted_jsx*/_div4 || (_div4 = <div>child</div>)
+    );
+  };
+});
+(function () {
+  var _div6;
+  const AppItem = () => {
+    return (/*@forgetti hoisted_jsx*/_div5 || (_div5 = <div>child</div>)
+    );
+  };
+  class App extends React.Component {
+    render() {
+      return (/*@forgetti hoisted_jsx*/_div6 || (_div6 = <div>
+          {/*@forgetti hoisted_jsx*/_p2 || (_p2 = <p>Parent</p>)}
+          <AppItem />
+        </div>)
+      );
+    }
+  }
+});
+export class App2 extends React.Component {
+  render() {
+    return (/*@forgetti hoisted_jsx*/_div7 || (_div7 = <div>
+        <p>Parent</p>
+        <AppItem2 />
+      </div>)
+    );
+  }
+}
+const AppItem2 = () => {
+  return (/*@forgetti hoisted_jsx*/_article || (_article = <article>child</article>)
+  );
+};"
+`;
+
+exports[`hoist jsx > babel issue #11686 1`] = `
+"function outer(arg) {
+  var _A;
+  const valueB = null;
+  const valueA = {};
+  function inner() {
+    console.log( /*@forgetti hoisted_jsx*/_A || (_A = <A keyA={valueA}>
+        <B keyB={valueB}>
+          <C keyC={arg} />
+        </B>
+      </A>));
+  }
+  inner();
+}"
+`;
+
+exports[`hoist jsx > babel issue #14363 1`] = `
+"import { useRef as _useRef } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { memo as _memo } from \\"react\\";
+import { $$memo as _$$memo } from \\"forgetti/runtime\\";
+const _Memo = _$$memo(_memo, _values => {
+    const _Component = _values[0];
+    return <_Component>
+      {_values[1]}
+    </_Component>;
+  }),
+  _Memo2 = _$$memo(_memo, _values2 => {
+    const _Component2 = _values2[0],
+      _Component3 = _values2[2];
+    return <_Component2 path={_values2[1]} element={<_Component3 />} />;
+  });
+import { Routes, Route } from \\"react-router\\";
+import { router } from \\"common/router\\";
+function RoutesComponent() {
+  let _cache = _$$cache(_useRef, 1);
+  return 0 in _cache ? _cache[0] : _cache[0] = /*@forgetti jsx*/<_Memo v={[Routes, Object.keys(router).map(routerKey => {
+    const route = router[routerKey];
+    if (route && route.element) {
+      const {
+        path,
+        element: Component
+      } = route;
+      // Component should not be hoisted
+      return (/*@forgetti jsx*/<_Memo2 key={routerKey} v={[Route, path, Component]} />
+      );
+    } else {
+      return null;
+    }
+  }).filter(Boolean)]} />;
+}"
+`;
+
+exports[`hoist jsx > children 1`] = `
+"import { useRef as _useRef } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$branch as _$$branch } from \\"forgetti/runtime\\";
+import { $$equals as _$$equals } from \\"forgetti/runtime\\";
+import { memo as _memo } from \\"react\\";
+import { $$memo as _$$memo } from \\"forgetti/runtime\\";
+const _Memo = _$$memo(_memo, _values => <div className={_values[0]}>
+    {/*@forgetti hoisted_jsx*/_values[1]}
+  </div>);
+var _span;
+var Foo = function ({
+  className
+}) {
+  let _cache = _$$cache(_useRef, 7),
+    _equals = _$$equals(_cache, 0, className),
+    _value = _equals ? _cache[0] : _cache[0] = className,
+    _condition = 1 in _cache ? _cache[1] : _cache[1] = _span;
+  if (!_condition) {
+    let _cache2 = _$$branch(_cache, 2, 1);
+    _condition = _span = 0 in _cache2 ? _cache2[0] : _cache2[0] = <span />;
+  }
+  let _equals2 = _$$equals(_cache, 3, _condition),
+    _value4 = _equals2 ? _cache[3] : _cache[3] = _condition,
+    _value5 = _equals && _equals2 ? _cache[4] : _cache[4] = [_value, _value4],
+    _equals4 = _$$equals(_cache, 5, _value5),
+    _value6 = _equals4 ? _cache[5] : _cache[5] = _value5;
+  return _equals4 ? _cache[6] : _cache[6] = /*@forgetti jsx*/<_Memo v={_value6} />;
+};"
+`;
+
+exports[`hoist jsx > class-assign-unreferenced-param-deopt 1`] = `
+"var _div2;
+import React from 'react';
+
+// Regression test for https://github.com/babel/babel/issues/5552
+class BugReport extends React.Component {
+  thisWontWork = ({
+    color
+  }) => {
+    var _div;
+    return data => {
+      return (/*@forgetti hoisted_jsx*/_div || (_div = <div color={color}>does not reference data</div>)
+      );
+    };
+  };
+  thisWorks = ({
+    color
+  }) => data => {
+    return <div color={color}>{data}</div>;
+  };
+  render() {
+    return (/*@forgetti hoisted_jsx*/_div2 || (_div2 = <div />)
+    );
+  }
+}"
+`;
+
+exports[`hoist jsx > compund-assignment 1`] = `
+"var _Loader, _Loader2;
+import React from 'react';
+import Loader from 'loader';
+const errorComesHere = () => /*@forgetti hoisted_jsx*/_Loader || (_Loader = <Loader className=\\"full-height\\" />),
+  thisWorksFine = () => /*@forgetti hoisted_jsx*/_Loader2 || (_Loader2 = <Loader className=\\"p-y-5\\" />);"
+`;
+
+exports[`hoist jsx > constructor 1`] = `
+"var _Foo;
+var Foo = require(\\"Foo\\");
+function render() {
+  return (/*@forgetti hoisted_jsx*/_Foo || (_Foo = <Foo />)
+  );
+}"
+`;
+
+exports[`hoist jsx > deep-constant-violation 1`] = `
+"var _b, _span;
+function render() {
+  var children = /*@forgetti hoisted_jsx*/_b || (_b = <b></b>);
+  if (someCondition) {
+    children = /*@forgetti hoisted_jsx*/_span || (_span = <span></span>);
+  }
+  return <div>{children}</div>;
+}"
+`;
+
+exports[`hoist jsx > deopt spread prop 1`] = `
+"function render() {
+  return <foo {...foobar} />;
+}"
+`;
+
+exports[`hoist jsx > deopt-mutable 1`] = `
+"import { useRef as _useRef } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { memo as _memo } from \\"react\\";
+import { $$memo as _$$memo } from \\"forgetti/runtime\\";
+const _Memo = _$$memo(_memo, _values => <span>{_values[0]}</span>);
+let foo = 'hello';
+export const Component = () => {
+  let _cache = _$$cache(_useRef, 1);
+  foo = 'goodbye';
+  return 0 in _cache ? _cache[0] : _cache[0] = /*@forgetti jsx*/<_Memo v={[foo]} />;
+};"
+`;
+
+exports[`hoist jsx > deopt-mutable-complex 1`] = `
+"import { useRef as _useRef } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$branch as _$$branch } from \\"forgetti/runtime\\";
+import { memo as _memo } from \\"react\\";
+import { $$memo as _$$memo } from \\"forgetti/runtime\\";
+const _Memo = _$$memo(_memo, _values => <span>{_values[0]}</span>);
+let foo = 'hello';
+const mutate = () => {
+  foo = 'goodbye';
+};
+export const Component = () => {
+  let _cache = _$$cache(_useRef, 3);
+  if (0 in _cache ? _cache[0] : _cache[0] = Math.random() > 0.5) {
+    let _cache2 = _$$branch(_cache, 1, 1);
+    0 in _cache2 ? _cache2[0] : _cache2[0] = mutate();
+  }
+  return 2 in _cache ? _cache[2] : _cache[2] = /*@forgetti jsx*/<_Memo v={[foo]} />;
+};"
+`;
+
+exports[`hoist jsx > destructuring 1`] = `
+"import { useRef as _useRef } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$branch as _$$branch } from \\"forgetti/runtime\\";
+import { $$equals as _$$equals } from \\"forgetti/runtime\\";
+import { memo as _memo } from \\"react\\";
+import { $$memo as _$$memo } from \\"forgetti/runtime\\";
+const _Memo = _$$memo(_memo, _values => <a>{_values[0]}</a>),
+  _Memo2 = _$$memo(_memo, _values2 => {
+    const _Component3 = _values2[0];
+    return <_Component3>{_values2[1]}</_Component3>;
+  });
+import Link from 'next/link';
+import Component from 'component';
+const AnchorLink = ({
+  isExternal,
+  children
+}) => {
+  let _cache = _$$cache(_useRef, 7);
+  if (_$$equals(_cache, 0, isExternal) ? _cache[0] : _cache[0] = isExternal) {
+    let _cache2 = _$$branch(_cache, 1, 4),
+      _equals2 = _$$equals(_cache2, 0, children),
+      _value2 = _equals2 ? _cache2[0] : _cache2[0] = children,
+      _value3 = _equals2 ? _cache2[1] : _cache2[1] = [_value2],
+      _equals3 = _$$equals(_cache2, 2, _value3),
+      _value4 = _equals3 ? _cache2[2] : _cache2[2] = _value3;
+    return _equals3 ? _cache2[3] : _cache2[3] = /*@forgetti jsx*/<_Memo v={_value4} />;
+  }
+  let _value6 = 2 in _cache ? _cache[2] : _cache[2] = Link,
+    _equals4 = _$$equals(_cache, 3, children),
+    _value7 = _equals4 ? _cache[3] : _cache[3] = children,
+    _value8 = _equals4 ? _cache[4] : _cache[4] = [_value6, _value7],
+    _equals5 = _$$equals(_cache, 5, _value8),
+    _value9 = _equals5 ? _cache[5] : _cache[5] = _value8;
+  return _equals5 ? _cache[6] : _cache[6] = /*@forgetti jsx*/<_Memo2 v={_value9} />;
+};
+function renderProp({
+  text,
+  className,
+  id
+}) {
+  var _Component;
+  return () => /*@forgetti hoisted_jsx*/_Component || (_Component = <Component text={text} className={className} id={id} />);
+}
+function excludePropFromRenderProp({
+  text,
+  className,
+  id,
+  ...props
+}) {
+  var _Component2;
+  // intentionally ignoring props
+  return () => /*@forgetti hoisted_jsx*/_Component2 || (_Component2 = <Component text={text} className={className} id={id} />);
+}
+function renderPropSpread({
+  text,
+  className,
+  id,
+  ...props
+}) {
+  return () => <Component text={text} className={className} id={id} {...props} />;
+}"
+`;
+
+exports[`hoist jsx > dont hoist before HoC 1`] = `
+"import { memo as _memo } from \\"react\\";
+import { $$memo as _$$memo } from \\"forgetti/runtime\\";
+import { useRef as _useRef } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$equals as _$$equals } from \\"forgetti/runtime\\";
+const _Memo = _$$memo(_memo, _values => {
+  const _Component = _values[0];
+  return <_Component />;
+});
+var _div, _div2;
+import React from \\"react\\";
+const HOC = component => {
+  let _cache = _$$cache(_useRef, 1);
+  return _$$equals(_cache, 0, component) ? _cache[0] : _cache[0] = component;
+};
+const Parent = ({}) => {
+  return (/*@forgetti hoisted_jsx*/_div || (_div = <div className=\\"parent\\">
+    /*@forgetti jsx*/<_Memo v={[Child]} />
+  </div>)
+  );
+};
+export default Parent;
+let Child = () => {
+  return (/*@forgetti hoisted_jsx*/_div2 || (_div2 = <div className=\\"child\\">
+    ChildTextContent
+  </div>)
+  );
+};
+Child = HOC(Child);"
+`;
+
+exports[`hoist jsx > dont hoist before class 1`] = `
+"import { memo as _memo } from \\"react\\";
+import { $$memo as _$$memo } from \\"forgetti/runtime\\";
+const _Memo = _$$memo(_memo, _values => {
+  const _Component = _values[0];
+  return <_Component />;
+});
+var _div, _div2;
+import React from \\"react\\";
+const Parent = ({}) => {
+  return (/*@forgetti hoisted_jsx*/_div || (_div = <div className=\\"parent\\">
+    /*@forgetti jsx*/<_Memo v={[Child]} />
+  </div>)
+  );
+};
+export default Parent;
+let Child = () => {
+  return (/*@forgetti hoisted_jsx*/_div2 || (_div2 = <div className=\\"child\\">
+    ChildTextContent
+  </div>)
+  );
+};"
+`;
+
+exports[`hoist jsx > dont hoist blocked scoped variables 1`] = `
+"function render(flag) {
+  if (flag) {
+    let bar = \\"bar\\";
+    [].map(() => bar);
+    return <foo bar={bar} />;
+  }
+  return null;
+}"
+`;
+
+exports[`hoist jsx > dont hoist to same function 1`] = `
+"function renderSome(a, b) {
+  if (a) {
+    return <div>{b}</div>;
+  } else {
+    return <span>{b}</span>;
+  }
+}"
+`;
+
+exports[`hoist jsx > dont-hoist-before-default-params 1`] = `
+"function renderA(Component, text = '') {
+  var _Component;
+  return function () {
+    return (/*@forgetti hoisted_jsx*/_Component || (_Component = <Component text={text} />)
+    );
+  };
+}
+function renderB(title = '') {
+  var _Component2;
+  return () => /*@forgetti hoisted_jsx*/_Component2 || (_Component2 = <Component title={title} />);
+}"
+`;
+
+exports[`hoist jsx > for-loop 1`] = `
+"function renderA() {
+  const nodes = [];
+  for (let i = 0; i < 5; i++) {
+    const o = \\"foo\\";
+    const n = i;
+    nodes.push(<div>{n}</div>);
+  }
+  return nodes;
+}
+function renderB() {
+  const nodes = [];
+  for (let i = 0; i < 5; i++) {
+    const o = \\"foo\\";
+    const n = i;
+    nodes.push(<div>{n}</div>);
+  }
+  return nodes;
+}
+function renderC() {
+  const nodes = [];
+  for (const node of nodes) {
+    nodes.push(<div>{node}</div>);
+  }
+  return nodes;
+}
+function renderD() {
+  const nodes = [];
+  for (const node of nodes) {
+    const n = node;
+    nodes.push(<div>{n}</div>);
+  }
+  return nodes;
+}
+function renderE() {
+  const nodes = [];
+  for (let i = 0; i < 5; i++) {
+    const o = \\"foo\\";
+    const n = i;
+    nodes.push(<div>{o}</div>);
+  }
+  return nodes;
+}"
+`;
+
+exports[`hoist jsx > function parameter 1`] = `
+"function render(text) {
+  var _foo;
+  return function () {
+    return (/*@forgetti hoisted_jsx*/_foo || (_foo = <foo>{text}</foo>)
+    );
+  };
+}
+var Foo2 = require(\\"Foo\\");
+function createComponent(text) {
+  var _Foo;
+  return function render() {
+    return (/*@forgetti hoisted_jsx*/_Foo || (_Foo = <Foo2>{text}</Foo2>)
+    );
+  };
+}"
+`;
+
+exports[`hoist jsx > global variable 1`] = `
+"import { useRef as _useRef } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { memo as _memo } from \\"react\\";
+import { $$memo as _$$memo } from \\"forgetti/runtime\\";
+const _Memo = _$$memo(_memo, _values => <div foo={_values[0]} />);
+const Foo = () => {
+  let _cache = _$$cache(_useRef, 1);
+  return 0 in _cache ? _cache[0] : _cache[0] = /*@forgetti jsx*/<_Memo v={[navigator.vendor]} />;
+};"
+`;
+
+exports[`hoist jsx > html element 1`] = `
+"var _foo, _div;
+function renderA() {
+  return (/*@forgetti hoisted_jsx*/_foo || (_foo = <foo />)
+  );
+}
+function renderB() {
+  return (/*@forgetti hoisted_jsx*/_div || (_div = <div className=\\"foo\\"><input type=\\"checkbox\\" checked={true} /></div>)
+  );
+}"
+`;
+
+exports[`hoist jsx > inline-elements 1`] = `
+"function render() {
+  var _foo;
+  var text = getText();
+  return function () {
+    return (/*@forgetti hoisted_jsx*/_foo || (_foo = <foo>{text}</foo>)
+    );
+  };
+}"
+`;
+
+exports[`hoist jsx > jsx in prop 1`] = `
+"import { useRef as _useRef } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$branch as _$$branch } from \\"forgetti/runtime\\";
+import { $$equals as _$$equals } from \\"forgetti/runtime\\";
+import { memo as _memo } from \\"react\\";
+import { $$memo as _$$memo } from \\"forgetti/runtime\\";
+const _Memo = _$$memo(_memo, _values => <span />),
+  _Memo2 = _$$memo(_memo, _values2 => <div x={_values2[0]} attr={/*@forgetti hoisted_jsx*/_values2[1]} />);
+var _div, _span;
+function A() {
+  return (/*@forgetti hoisted_jsx*/_div || (_div = <div attr={/*@forgetti jsx*/<_Memo v={[]} />} />)
+  );
+}
+function B({
+  x
+}) {
+  let _cache = _$$cache(_useRef, 7),
+    _equals = _$$equals(_cache, 0, x),
+    _value = _equals ? _cache[0] : _cache[0] = x,
+    _condition = 1 in _cache ? _cache[1] : _cache[1] = _span;
+  if (!_condition) {
+    let _cache2 = _$$branch(_cache, 2, 1);
+    _condition = _span = 0 in _cache2 ? _cache2[0] : _cache2[0] = <span />;
+  }
+  let _equals2 = _$$equals(_cache, 3, _condition),
+    _value4 = _equals2 ? _cache[3] : _cache[3] = _condition,
+    _value5 = _equals && _equals2 ? _cache[4] : _cache[4] = [_value, _value4],
+    _equals4 = _$$equals(_cache, 5, _value5),
+    _value6 = _equals4 ? _cache[5] : _cache[5] = _value5;
+  return _equals4 ? _cache[6] : _cache[6] = /*@forgetti jsx*/<_Memo2 v={_value6} />;
+}"
+`;
+
+exports[`hoist jsx > magic binding 1`] = `
+"function thisExpr() {
+  return <p>{this.Foo}</p>;
+}
+function thisJSX() {
+  return <this.Foo />;
+}
+class A extends B {
+  superExpr() {
+    return <p>{super.Foo}</p>;
+  }
+  superJSX() {
+    return <super.Foo />;
+  }
+}
+function argumentsExpr() {
+  return <p>{arguments.Foo}</p>;
+}
+function argumentsJSX() {
+  return <arguments.Foo />;
+}
+function newTargetExpr() {
+  return <p>{new.target.Foo}</p>;
+}
+function newTargetJSX() {
+  return <new.target.Foo />;
+}"
+`;
+
+exports[`hoist jsx > member expression 1`] = `
+"var _span, _this$subComponent, _span2, _els$subComponent;
+// constant member expression
+function renderA() {
+  var _this$component;
+  this.component = \\"div\\";
+  return () => /*@forgetti hoisted_jsx*/_this$component || (_this$component = <this.component />);
+}
+// this member expression
+class ComponentB extends React.Component {
+  subComponent = () => /*@forgetti hoisted_jsx*/_span || (_span = <span>Sub Component</span>);
+  render = () => /*@forgetti hoisted_jsx*/_this$subComponent || (_this$subComponent = <this.subComponent />);
+}
+// object member expression
+const els = {
+  subComponent: () => /*@forgetti hoisted_jsx*/_span2 || (_span2 = <span>Sub Component</span>)
+};
+class ComponentC extends React.Component {
+  render = () => /*@forgetti hoisted_jsx*/_els$subComponent || (_els$subComponent = <els.subComponent />);
+}"
+`;
+
+exports[`hoist jsx > namespace 1`] = `
+"import { useRef as _useRef } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { $$equals as _$$equals } from \\"forgetti/runtime\\";
+import { memo as _memo } from \\"react\\";
+import { $$memo as _$$memo } from \\"forgetti/runtime\\";
+const _Memo = _$$memo(_memo, _values => {
+  const _Component = _values[0];
+  return <_Component />;
+});
+var _n$CComponent;
+function AComponent() {
+  let _cache = _$$cache(_useRef, 4),
+    _equals = _$$equals(_cache, 0, BComponent),
+    _value = _equals ? _cache[0] : _cache[0] = BComponent,
+    _value2 = _equals ? _cache[1] : _cache[1] = [_value],
+    _equals2 = _$$equals(_cache, 2, _value2),
+    _value3 = _equals2 ? _cache[2] : _cache[2] = _value2;
+  return _equals2 ? _cache[3] : _cache[3] = /*@forgetti jsx*/<_Memo v={_value3} />;
+  function BComponent() {
+    return (/*@forgetti hoisted_jsx*/_n$CComponent || (_n$CComponent = <n:CComponent />)
+    );
+  }
+}"
+`;
+
+exports[`hoist jsx > param and var 1`] = `
+"function fn(Component, obj) {
+  var _Component;
+  var data = obj.data;
+  return () => /*@forgetti hoisted_jsx*/_Component || (_Component = <Component prop={data} />);
+}"
+`;
+
+exports[`hoist jsx > param reference 1`] = `
+"function render() {
+  return function (text) {
+    return <div>{text}</div>;
+  };
+}"
+`;
+
+exports[`hoist jsx > pure deopt mutable 1`] = `
+"// https://github.com/facebook/react/issues/3226
+// Not safe to reuse because it is mutable
+function render() {
+  return <div style={{
+    width: 100
+  }} />;
+}"
+`;
+
+exports[`hoist jsx > pure expression 1`] = `
+"var _div2, _div3;
+function render(offset) {
+  var _div;
+  return function () {
+    return (/*@forgetti hoisted_jsx*/_div || (_div = <div tabIndex={offset + 1} />)
+    );
+  };
+}
+const OFFSET = 3;
+var Foo = () => {
+  return (/*@forgetti hoisted_jsx*/_div2 || (_div2 = <div tabIndex={OFFSET + 1} />)
+  );
+};
+const Bar = () => {
+  return (/*@forgetti hoisted_jsx*/_div3 || (_div3 = <div data-text={\\"Some text, \\" + \\"and some more too.\\"} />)
+  );
+};"
+`;
+
+exports[`hoist jsx > reassign 1`] = `
+"function render(text) {
+  var _div;
+  text += \\"yes\\";
+  return function () {
+    return (/*@forgetti hoisted_jsx*/_div || (_div = <div>{text}</div>)
+    );
+  };
+}"
+`;
+
+exports[`hoist jsx > should ignore ref 1`] = `
+"import { useRef as _useRef } from \\"react\\";
+import { $$cache as _$$cache } from \\"forgetti/runtime\\";
+import { memo as _memo } from \\"react\\";
+import { $$memo as _$$memo } from \\"forgetti/runtime\\";
+const _Memo = _$$memo(_memo, _values => <foo ref={_values[0]} />);
+import { useRef } from 'react';
+function Foo() {
+  let _cache = _$$cache(_useRef, 3),
+    _value = 0 in _cache ? _cache[0] : _cache[0] = {
+      current: undefined
+    },
+    _value2 = 1 in _cache ? _cache[1] : _cache[1] = [_value];
+  return 2 in _cache ? _cache[2] : _cache[2] = /*@forgetti jsx*/<_Memo v={_value2} />;
+}"
+`;
+
+exports[`hoist jsx > text children 1`] = `
+"var _div;
+function Text() {
+  return (/*@forgetti hoisted_jsx*/_div || (_div = <div className=\\"class-name\\">
+    Text
+  </div>)
+  );
+}"
+`;

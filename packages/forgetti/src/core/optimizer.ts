@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import type * as babel from '@babel/core';
 import * as t from '@babel/types';
-import { isNestedExpression, shouldSkipNode, isPathValid } from './checks';
+import {
+  isNestedExpression, shouldSkipNode, isPathValid, shouldSkipJSXExtraction,
+} from './checks';
 import getForeignBindings, { isForeignBinding } from './get-foreign-bindings';
 import getImportIdentifier from './get-import-identifier';
 import { RUNTIME_EQUALS } from './imports';
@@ -876,6 +878,9 @@ export default class Optimizer {
     path: babel.NodePath<t.Expression>,
   ): OptimizedExpression {
     if (shouldSkipNode(path.node)) {
+      return optimizedExpr(path.node, undefined, true);
+    }
+    if (shouldSkipJSXExtraction(path.node)) {
       return optimizedExpr(path.node, undefined, true);
     }
     if (isPathValid(path, isNestedExpression)) {
