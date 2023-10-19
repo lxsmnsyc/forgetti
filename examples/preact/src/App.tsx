@@ -5,6 +5,7 @@ import type { JSX } from 'preact/jsx-runtime';
 interface TodoItem {
   id: number;
   message: string;
+  done: boolean;
 }
 
 interface TodoListItemProps {
@@ -13,10 +14,9 @@ interface TodoListItemProps {
 }
 
 function TodoListItem({ item, setList }: TodoListItemProps): JSX.Element {
-  const [done, setDone] = useState(false);
   return (
     <div
-      className={`todo-item ${done ? 'complete' : 'pending'}`}
+      className={`todo-item ${item.done ? 'complete' : 'pending'}`}
     >
       <div className="todo-item-content">
         {item.message}
@@ -24,12 +24,20 @@ function TodoListItem({ item, setList }: TodoListItemProps): JSX.Element {
       <div className="todo-item-actions">
         <button
           type="button"
-          className={`todo-item-toggle ${done ? 'complete' : 'pending'}`}
+          className={`todo-item-toggle ${item.done ? 'complete' : 'pending'}`}
           onClick={(): void => {
-            setDone(!done);
+            setList((list) => list.map((value) => {
+              if (value === item) {
+                return {
+                  ...value,
+                  done: !item.done,
+                };
+              }
+              return value;
+            }));
           }}
         >
-          {done ? 'Completed' : 'Pending'}
+          {item.done ? 'Completed' : 'Pending'}
         </button>
         <button
           type="button"
