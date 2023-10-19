@@ -1,5 +1,5 @@
 {
-  "version": "0.7.0",
+  "version": "0.7.1",
   "type": "module",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/cjs/production/index.cjs",
@@ -32,7 +32,7 @@
     "@types/node": "^20.8.7",
     "eslint": "^8.51.0",
     "eslint-config-lxsmnsyc": "^0.6.5",
-    "forgetti": "0.7.0",
+    "forgetti": "0.7.1",
     "pridepack": "2.5.1",
     "rollup": "^3.15.0",
     "tslib": "^2.6.2",
