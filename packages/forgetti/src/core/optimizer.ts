@@ -653,7 +653,7 @@ export default class Optimizer {
         const valuePath = element.get('value');
 
         if (isPathValid(valuePath, t.isExpression)) {
-          const optimized = this.optimizeExpression(valuePath);
+          const optimized = this.createDependency(valuePath);
           if (optimized) {
             mergeDependencies(condition, optimized.deps);
             element.node.value = optimized.expr;
