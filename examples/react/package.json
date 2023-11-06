@@ -14,12 +14,12 @@
     "eslint-config-lxsmnsyc": "^0.6.5",
     "typescript": "^5.2.2",
     "vite": "^4.5.0",
-    "vite-plugin-forgetti": "0.7.1"
+    "vite-plugin-forgetti": "0.7.2"
   },
   "dependencies": {
-    "forgetti": "0.7.1",
+    "forgetti": "0.7.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
-  "version": "0.7.1"
+  "version": "0.7.2"
 }
