@@ -58,7 +58,7 @@ const _Memo = _$$memo(_memo, _values => <div>{_values[0]}</div>),
   _Memo2 = _$$memo(_memo, _values2 => <>{_values2[0]}{_values2[1]}</>);
 import { useA, useB, useC } from 'whatever';
 function Example(props) {
-  let _cache = _$$cache(_useMemo, 20),
+  let _cache = _$$cache(_useMemo, 24),
     a = null,
     _hoisted = useA(),
     _hoisted2 = useB(),
@@ -85,35 +85,42 @@ function Example(props) {
     _value7 = _equals6 ? _cache[6] : _cache[6] = _hoisted5,
     _equals7 = _$$equals(_cache, 7, _hoisted6),
     _value8 = _equals7 ? _cache[7] : _cache[7] = _hoisted6,
-    _equals8 = _equals6 && _equals7,
-    _value9 = _equals8 ? _cache[8] : _cache[8] = _value7 === _value8,
-    _value10;
-  if (_$$equals(_cache, 9, _hoisted7) ? _cache[9] : _cache[9] = _hoisted7) {
-    _value10 = 'a';
+    _value9 = _equals6 && _equals7 ? _cache[8] : _cache[8] = _value7 === _value8,
+    _equals9 = _$$equals(_cache, 9, _value9),
+    _value10 = _equals9 ? _cache[9] : _cache[9] = _value9,
+    _value11;
+  if (_$$equals(_cache, 10, _hoisted7) ? _cache[10] : _cache[10] = _hoisted7) {
+    _value11 = 'a';
   } else {
-    _value10 = 'b';
+    _value11 = 'b';
   }
-  let _equals10 = _$$equals(_cache, 10, _hoisted8),
-    _value12 = _equals10 ? _cache[10] : _cache[10] = _hoisted8,
-    _value13 = _equals10 ? _cache[11] : _cache[11] = [_value12],
-    _equals11 = _$$equals(_cache, 12, _value13),
-    _value14 = _equals11 ? _cache[12] : _cache[12] = _value13,
-    _value15 = _equals11 ? _cache[13] : _cache[13] = /*@forgetti jsx*/<_Memo v={_value14} />,
-    _equals12 = _$$equals(_cache, 14, _hoisted9),
-    _value16 = _equals12 ? _cache[14] : _cache[14] = _hoisted9,
-    _equals13 = _$$equals(_cache, 15, _hoisted10),
-    _value17 = _equals13 ? _cache[15] : _cache[15] = _hoisted10,
-    _value18 = _equals12 && _equals13 ? _cache[16] : _cache[16] = [_value16, _value17],
-    _equals15 = _$$equals(_cache, 17, _value18),
-    _value19 = _equals15 ? _cache[17] : _cache[17] = _value18,
-    _value20 = _equals15 ? _cache[18] : _cache[18] = /*@forgetti jsx*/<_Memo2 v={_value19} />;
-  return _equals && _equals2 && _equals3 && _equals5 && _equals8 && _equals11 && _equals15 ? _cache[19] : _cache[19] = {
+  let _equals11 = _$$equals(_cache, 11, _value11),
+    _value13 = _equals11 ? _cache[11] : _cache[11] = _value11,
+    _equals12 = _$$equals(_cache, 12, _hoisted8),
+    _value14 = _equals12 ? _cache[12] : _cache[12] = _hoisted8,
+    _value15 = _equals12 ? _cache[13] : _cache[13] = [_value14],
+    _equals13 = _$$equals(_cache, 14, _value15),
+    _value16 = _equals13 ? _cache[14] : _cache[14] = _value15,
+    _value17 = _equals13 ? _cache[15] : _cache[15] = /*@forgetti jsx*/<_Memo v={_value16} />,
+    _equals14 = _$$equals(_cache, 16, _value17),
+    _value18 = _equals14 ? _cache[16] : _cache[16] = _value17,
+    _equals15 = _$$equals(_cache, 17, _hoisted9),
+    _value19 = _equals15 ? _cache[17] : _cache[17] = _hoisted9,
+    _equals16 = _$$equals(_cache, 18, _hoisted10),
+    _value20 = _equals16 ? _cache[18] : _cache[18] = _hoisted10,
+    _value21 = _equals15 && _equals16 ? _cache[19] : _cache[19] = [_value19, _value20],
+    _equals18 = _$$equals(_cache, 20, _value21),
+    _value22 = _equals18 ? _cache[20] : _cache[20] = _value21,
+    _value23 = _equals18 ? _cache[21] : _cache[21] = /*@forgetti jsx*/<_Memo2 v={_value22} />,
+    _equals19 = _$$equals(_cache, 22, _value23),
+    _value24 = _equals19 ? _cache[22] : _cache[22] = _value23;
+  return _equals && _equals2 && _equals3 && _equals5 && _equals9 && _equals11 && _equals14 && _equals19 ? _cache[23] : _cache[23] = {
     [_value]: _value2,
     ..._value3,
-    [_value6]: _value9,
-    a: _value10,
-    b: _value15,
-    c: _value20
+    [_value6]: _value10,
+    a: _value13,
+    b: _value18,
+    c: _value24
   };
 }"
 `;
