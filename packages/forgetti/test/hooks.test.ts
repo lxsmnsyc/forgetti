@@ -1,4 +1,3 @@
-/* eslint-disable no-template-curly-in-string */
 import * as babel from '@babel/core';
 import { describe, it } from 'vitest';
 import type { Options } from '../src';
@@ -10,13 +9,9 @@ const options: Options = {
 
 async function compile(code: string): Promise<string> {
   const result = await babel.transformAsync(code, {
-    plugins: [
-      [plugin, options],
-    ],
+    plugins: [[plugin, options]],
     parserOpts: {
-      plugins: [
-        'jsx',
-      ],
+      plugins: ['jsx'],
     },
   });
 
@@ -88,7 +83,9 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize useCallback with auto dependencies', async ({ expect }) => {
+  it('should optimize useCallback with auto dependencies', async ({
+    expect,
+  }) => {
     const code = `
 import { useCallback } from 'react';
 function Example(props) {
@@ -124,7 +121,9 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should correct transform nested hooks call (issue #14)', async ({ expect }) => {
+  it('should correct transform nested hooks call (issue #14)', async ({
+    expect,
+  }) => {
     const code = `
 import { useDeferredValue } from 'react';
 import { useAtomValue } from 'jotai';

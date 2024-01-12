@@ -10,8 +10,6 @@
     "@types/react": "^18.2.29",
     "@types/react-dom": "^18.2.14",
     "@vitejs/plugin-react": "^4.1.0",
-    "eslint": "^8.51.0",
-    "eslint-config-lxsmnsyc": "^0.6.5",
     "typescript": "^5.2.2",
     "vite": "^4.5.0",
     "vite-plugin-forgetti": "0.7.2"

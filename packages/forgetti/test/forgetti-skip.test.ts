@@ -1,4 +1,3 @@
-/* eslint-disable no-template-curly-in-string */
 import * as babel from '@babel/core';
 import { describe, it } from 'vitest';
 import type { Options } from '../src';
@@ -10,13 +9,9 @@ const options: Options = {
 
 async function compile(code: string): Promise<string> {
   const result = await babel.transformAsync(code, {
-    plugins: [
-      [plugin, options],
-    ],
+    plugins: [[plugin, options]],
     parserOpts: {
-      plugins: [
-        'jsx',
-      ],
+      plugins: ['jsx'],
     },
   });
 
