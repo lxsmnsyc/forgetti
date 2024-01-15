@@ -4,7 +4,7 @@ import type { Plugin, TransformResult } from 'rollup';
 import type { FilterPattern } from '@rollup/pluginutils';
 import { createFilter } from '@rollup/pluginutils';
 import * as babel from '@babel/core';
-import path from 'path';
+import path from 'node:path';
 
 export interface ForgettiPluginFilter {
   include?: FilterPattern;
@@ -32,16 +32,15 @@ export default function forgettiPlugin(
     async transform(code, id): Promise<TransformResult> {
       if (filter(id)) {
         const pluginOption = [forgettiBabel, { preset }];
-        const plugins: NonNullable<NonNullable<babel.TransformOptions['parserOpts']>['plugins']> = ['jsx'];
+        const plugins: NonNullable<
+          NonNullable<babel.TransformOptions['parserOpts']>['plugins']
+        > = ['jsx'];
         if (/\.[mc]?tsx?$/i.test(id)) {
           plugins.push('typescript');
         }
         const result = await babel.transformAsync(code, {
           ...options.babel,
-          plugins: [
-            pluginOption,
-            ...(options.babel?.plugins || []),
-          ],
+          plugins: [pluginOption, ...(options.babel?.plugins || [])],
           parserOpts: {
             ...(options.babel?.parserOpts || {}),
             plugins: [

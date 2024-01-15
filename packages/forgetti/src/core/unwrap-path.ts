@@ -1,4 +1,4 @@
-import * as babel from '@babel/core';
+import type * as babel from '@babel/core';
 import type * as t from '@babel/types';
 import { isNestedExpression, isPathValid } from './checks';
 

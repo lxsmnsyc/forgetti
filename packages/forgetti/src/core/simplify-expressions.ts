@@ -82,8 +82,6 @@ export function simplifyExpressions(path: babel.NodePath<ComponentNode>): void {
             );
             break;
           }
-          default:
-            break;
         }
       },
     },
@@ -105,8 +103,6 @@ export function simplifyExpressions(path: babel.NodePath<ComponentNode>): void {
             }
             break;
           }
-          default:
-            break;
         }
       },
     },

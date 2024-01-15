@@ -5,6 +5,7 @@ import getImportIdentifier from './get-import-identifier';
 import { RUNTIME_MEMO } from './imports';
 import { shouldSkipJSX, isPathValid } from './checks';
 import type { ImportDefinition } from './presets';
+import { getDescriptiveName } from './get-descriptive-name';
 
 interface JSXReplacement {
   id: t.Identifier;
@@ -125,7 +126,8 @@ function extractJSXExpressionsFromJSXElement(
   const isJSXMember = isPathValid(openingName, t.isJSXMemberExpression);
   if (isPathValid(trueOpeningName, t.isJSXIdentifier)) {
     if (isJSXMember || /^[A-Z_]/.test(trueOpeningName.node.name)) {
-      const id = path.scope.generateUidIdentifier('Component');
+      const descriptiveName = getDescriptiveName(path, 'Component');
+      const id = path.scope.generateUidIdentifier(descriptiveName);
       const index = state.expressions.length;
       state.expressions.push(t.identifier(trueOpeningName.node.name));
       state.jsxs.push({
@@ -219,7 +221,9 @@ function transformJSX(
   };
   extractJSXExpressions(path, state, true);
 
-  const memoComponent = path.scope.generateUidIdentifier('Memo');
+  const memoComponent = path.scope.generateUidIdentifier(
+    getDescriptiveName(path, 'Memo'),
+  );
 
   let body: t.Expression | t.BlockStatement;
   if (state.jsxs.length) {
@@ -241,6 +245,7 @@ function transformJSX(
     id: memoComponent,
     init: t.callExpression(getImportIdentifier(ctx, path, RUNTIME_MEMO), [
       getImportIdentifier(ctx, path, memoDefinition),
+      t.stringLiteral(memoComponent.name),
       t.arrowFunctionExpression([state.source], body),
     ]),
   });

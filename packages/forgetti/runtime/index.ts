@@ -27,7 +27,11 @@ export function $$cache(hook: MemoHook, size: number): unknown[] {
   return hook(() => new Array<unknown>(size), EMPTY_ARRAY);
 }
 
-export function $$branch(parent: unknown[], index: number, size: number): unknown[] {
+export function $$branch(
+  parent: unknown[],
+  index: number,
+  size: number,
+): unknown[] {
   parent[index] ||= new Array(size);
   return parent[index] as unknown[];
 }
@@ -45,7 +49,10 @@ function arePropsEqual(prev: MemoProps, next: MemoProps): boolean {
   return true;
 }
 
-type MemoComponent = (props: MemoProps) => unknown;
+interface MemoComponent {
+  (props: MemoProps): unknown;
+  displayName: string;
+}
 
 export type MemoFunction = (
   Component: MemoComponent,
@@ -54,7 +61,16 @@ export type MemoFunction = (
 
 export function $$memo(
   memoFunc: MemoFunction,
+  name: string,
   render: (values: unknown[]) => unknown,
 ): MemoComponent {
-  return memoFunc((props: MemoProps) => render(props.v), arePropsEqual);
+  const OriginalComponent = (props: MemoProps) => render(props.v);
+  if (import.meta.env.DEV) {
+    OriginalComponent.displayName = `Forgetti(${name}.render)`;
+  }
+  const Component = memoFunc(OriginalComponent, arePropsEqual);
+  if (import.meta.env.DEV) {
+    Component.displayName = `Forgetti(${name}.template)`;
+  }
+  return Component;
 }

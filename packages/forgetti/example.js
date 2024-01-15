@@ -1,6 +1,6 @@
 import * as babel from '@babel/core';
 import plugin from 'forgetti';
-import { readFile } from 'fs/promises';
+import { readFile } from 'node:fs/promises';
 
 const options = {
   preset: 'react',
@@ -8,13 +8,9 @@ const options = {
 
 async function compile(code) {
   const result = await babel.transformAsync(code, {
-    plugins: [
-      [plugin, options],
-    ],
+    plugins: [[plugin, options]],
     parserOpts: {
-      plugins: [
-        'jsx',
-      ],
+      plugins: ['jsx'],
     },
   });
 
