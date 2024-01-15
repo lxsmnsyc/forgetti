@@ -7,14 +7,14 @@
     "serve": "vite preview"
   },
   "devDependencies": {
-    "@preact/preset-vite": "^2.6.0",
-    "typescript": "^5.2.2",
-    "vite": "^4.5.0",
+    "@preact/preset-vite": "^2.8.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.11",
     "vite-plugin-forgetti": "0.7.2"
   },
   "dependencies": {
     "forgetti": "0.7.2",
-    "preact": "^10.18.1"
+    "preact": "^10.19.3"
   },
   "version": "0.7.2"
 }

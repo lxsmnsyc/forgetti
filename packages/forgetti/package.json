@@ -2,26 +2,21 @@
   "name": "forgetti",
   "type": "module",
   "version": "0.7.2",
-  "files": [
-    "dist",
-    "src"
-  ],
+  "files": ["dist", "src"],
   "engines": {
     "node": ">=10"
   },
   "license": "MIT",
-  "keywords": [
-    "pridepack"
-  ],
+  "keywords": ["pridepack"],
   "devDependencies": {
-    "@babel/core": "^7.23.2",
-    "@types/babel__core": "^7.20.3",
+    "@babel/core": "^7.23.7",
+    "@types/babel__core": "^7.20.5",
     "@types/babel__helper-module-imports": "^7.18.3",
     "@types/babel__traverse": "^7.20.3",
-    "@types/node": "^20.8.7",
+    "@types/node": "^20.11.1",
     "pridepack": "2.6.0",
     "tslib": "^2.6.2",
-    "typescript": "^5.2.2",
+    "typescript": "^5.3.3",
     "vitest": "^0.34.6"
   },
   "dependencies": {
@@ -60,9 +55,7 @@
   "private": false,
   "typesVersions": {
     "*": {
-      "runtime": [
-        "./dist/types/runtime/index.d.ts"
-      ]
+      "runtime": ["./dist/types/runtime/index.d.ts"]
     }
   },
   "types": "./dist/types/src/index.d.ts",

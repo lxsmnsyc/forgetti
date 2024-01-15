@@ -7,11 +7,11 @@
     "serve": "vite preview"
   },
   "devDependencies": {
-    "@types/react": "^18.2.29",
-    "@types/react-dom": "^18.2.14",
-    "@vitejs/plugin-react": "^4.1.0",
-    "typescript": "^5.2.2",
-    "vite": "^4.5.0",
+    "@types/react": "^18.2.47",
+    "@types/react-dom": "^18.2.18",
+    "@vitejs/plugin-react": "^4.2.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.11",
     "vite-plugin-forgetti": "0.7.2"
   },
   "dependencies": {
