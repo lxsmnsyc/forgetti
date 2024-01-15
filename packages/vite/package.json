@@ -1,5 +1,5 @@
 {
-  "version": "0.7.2",
+  "version": "0.8.0",
   "type": "module",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/cjs/production/index.cjs",
@@ -15,17 +15,23 @@
       "types": "./dist/types/index.d.ts"
     }
   },
-  "files": ["dist", "src"],
+  "files": [
+    "dist",
+    "src"
+  ],
   "engines": {
     "node": ">=10"
   },
   "license": "MIT",
-  "keywords": ["pridepack", "babel"],
+  "keywords": [
+    "pridepack",
+    "babel"
+  ],
   "name": "vite-plugin-forgetti",
   "devDependencies": {
     "@types/babel__core": "^7.20.5",
     "@types/node": "^20.11.1",
-    "forgetti": "0.7.2",
+    "forgetti": "0.8.0",
     "pridepack": "2.6.0",
     "tslib": "^2.6.2",
     "typescript": "^5.3.3",

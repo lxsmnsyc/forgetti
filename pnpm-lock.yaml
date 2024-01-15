@@ -21,7 +21,7 @@ importers:
   examples/preact:
     dependencies:
       forgetti:
-        specifier: 0.7.2
+        specifier: 0.8.0
         version: link:../../packages/forgetti
       preact:
         specifier: ^10.19.3
@@ -37,13 +37,13 @@ importers:
         specifier: ^5.0.11
         version: 5.0.11(@types/node@20.11.1)
       vite-plugin-forgetti:
-        specifier: 0.7.2
+        specifier: 0.8.0
         version: link:../../packages/vite
 
   examples/react:
     dependencies:
       forgetti:
-        specifier: 0.7.2
+        specifier: 0.8.0
         version: link:../../packages/forgetti
       react:
         specifier: ^18.2.0
@@ -68,7 +68,7 @@ importers:
         specifier: ^5.0.11
         version: 5.0.11(@types/node@20.11.1)
       vite-plugin-forgetti:
-        specifier: 0.7.2
+        specifier: 0.8.0
         version: link:../../packages/vite
 
   packages/forgetti:
@@ -127,7 +127,7 @@ importers:
         specifier: ^20.11.1
         version: 20.11.1
       forgetti:
-        specifier: 0.7.2
+        specifier: 0.8.0
         version: link:../forgetti
       pridepack:
         specifier: 2.6.0
@@ -158,7 +158,7 @@ importers:
         specifier: ^20.11.1
         version: 20.11.1
       forgetti:
-        specifier: 0.7.2
+        specifier: 0.8.0
         version: link:../forgetti
       pridepack:
         specifier: 2.6.0
@@ -2866,19 +2866,11 @@ packages:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
     dev: true
 
-  /fsevents@2.3.2:
-    resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
-    engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
-    os: [darwin]
-    requiresBuild: true
-    optional: true
-
   /fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
     requiresBuild: true
-    dev: true
     optional: true
 
   /function-bind@1.1.1:
@@ -5099,7 +5091,7 @@ packages:
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
     hasBin: true
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
 
   /rollup@4.9.5:
     resolution: {integrity: sha512-E4vQW0H/mbNMw2yLSqJyjtkHY9dslf/p0zuT1xehNRqUTBOFMqEjguDvqhXr7N7r/4ttb2jr4T41d3dncmIgbQ==}
