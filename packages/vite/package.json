@@ -15,18 +15,12 @@
       "types": "./dist/types/index.d.ts"
     }
   },
-  "files": [
-    "dist",
-    "src"
-  ],
+  "files": ["dist", "src"],
   "engines": {
     "node": ">=10"
   },
   "license": "MIT",
-  "keywords": [
-    "pridepack",
-    "babel"
-  ],
+  "keywords": ["pridepack", "babel"],
   "name": "vite-plugin-forgetti",
   "devDependencies": {
     "@types/babel__core": "^7.20.5",
@@ -49,7 +43,6 @@
     "prepublish": "pridepack clean && pridepack build",
     "build": "pridepack build",
     "type-check": "pridepack check",
-    "lint": "pridepack lint",
     "clean": "pridepack clean",
     "watch": "pridepack watch"
   },

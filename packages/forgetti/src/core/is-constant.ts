@@ -412,7 +412,6 @@ function isJSXElementConstant(
   );
 }
 
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: <explanation>
 function uncachedIsConstant(
   instance: OptimizerInstance,
   path: babel.NodePath<t.Expression>,

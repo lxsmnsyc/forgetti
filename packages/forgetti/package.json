@@ -2,17 +2,12 @@
   "name": "forgetti",
   "type": "module",
   "version": "0.8.0",
-  "files": [
-    "dist",
-    "src"
-  ],
+  "files": ["dist", "src"],
   "engines": {
     "node": ">=10"
   },
   "license": "MIT",
-  "keywords": [
-    "pridepack"
-  ],
+  "keywords": ["pridepack"],
   "devDependencies": {
     "@babel/core": "^7.23.7",
     "@types/babel__core": "^7.20.5",
@@ -36,7 +31,6 @@
     "prepublishOnly": "pridepack clean && pridepack build",
     "build": "pridepack build",
     "type-check": "pridepack check",
-    "lint": "pridepack lint",
     "clean": "pridepack clean",
     "watch": "pridepack watch",
     "start": "pridepack start",
@@ -60,9 +54,7 @@
   "private": false,
   "typesVersions": {
     "*": {
-      "runtime": [
-        "./dist/types/runtime/index.d.ts"
-      ]
+      "runtime": ["./dist/types/runtime/index.d.ts"]
     }
   },
   "types": "./dist/types/src/index.d.ts",

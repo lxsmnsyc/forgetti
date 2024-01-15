@@ -69,7 +69,6 @@ export default class Optimizer {
    *   used as a dependency and so it must be compared to its memoized
    *   version.
    */
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: <explanation>
   createMemo(
     current: t.Expression,
     dependencies?: t.Expression | (t.Expression | undefined)[] | boolean,
@@ -905,7 +904,6 @@ export default class Optimizer {
     return optimizedExpr(path.node);
   }
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: <explanation>
   optimizeExpression(path: babel.NodePath<t.Expression>): OptimizedExpression {
     if (shouldSkipNode(path.node)) {
       return optimizedExpr(path.node, undefined, true);
