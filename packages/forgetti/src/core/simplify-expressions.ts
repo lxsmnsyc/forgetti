@@ -64,17 +64,24 @@ export function simplifyExpressions(path: babel.NodePath<ComponentNode>): void {
     LogicalExpression: {
       exit(p) {
         switch (getBooleanishState(p.node.left)) {
-          case 'nullish':
-            p.replaceWith(p.node.operator === '??' ? p.node.right : p.node.left);
+          case 'nullish': {
+            p.replaceWith(
+              p.node.operator === '??' ? p.node.right : p.node.left,
+            );
             break;
-          case 'falsy':
-            p.replaceWith(p.node.operator === '||' ? p.node.right : p.node.left);
+          }
+          case 'falsy': {
+            p.replaceWith(
+              p.node.operator === '||' ? p.node.right : p.node.left,
+            );
             break;
-          case 'truthy':
-            p.replaceWith(p.node.operator === '&&' ? p.node.right : p.node.left);
+          }
+          case 'truthy': {
+            p.replaceWith(
+              p.node.operator === '&&' ? p.node.right : p.node.left,
+            );
             break;
-          default:
-            break;
+          }
         }
       },
     },
@@ -82,20 +89,20 @@ export function simplifyExpressions(path: babel.NodePath<ComponentNode>): void {
       exit(p) {
         const state = getBooleanishState(p.node.argument);
         switch (p.node.operator) {
-          case 'void':
+          case 'void': {
             if (state !== 'indeterminate') {
               p.replaceWith(t.identifier('undefined'));
             }
             break;
-          case '!':
+          }
+          case '!': {
             if (state === 'truthy') {
               p.replaceWith(t.booleanLiteral(false));
             } else if (state !== 'indeterminate') {
               p.replaceWith(t.booleanLiteral(true));
             }
             break;
-          default:
-            break;
+          }
         }
       },
     },

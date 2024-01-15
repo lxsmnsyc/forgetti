@@ -36,7 +36,7 @@ forgetti({
 })
 ```
 
-> **Note**
+> [!NOTE]
 > When you are using a React Rollup plugin, make sure that forgetti runs first.
 
 ## Sponsors

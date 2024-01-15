@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-this-alias */
+import type * as babel from '@babel/core';
 import * as t from '@babel/types';
 import type { OptimizedExpression, StateContext } from './types';
 import getImportIdentifier from './get-import-identifier';
@@ -80,86 +80,73 @@ export default class OptimizerScope {
   }
 
   getMemoDeclarations(): t.VariableDeclaration[] | undefined {
-    if (!this.memo && !this.ref) {
-      return undefined;
-    }
-    // This is for generating branched caching.
-    // Parent means that we want to create the cache
-    // from the parent (or root)
-    if (this.parent) {
-      const header = this.parent.createHeader();
-      const index = this.parent.createIndex('memo');
+    if (this.memo || this.ref) {
+      // This is for generating branched caching.
+      // Parent means that we want to create the cache
+      // from the parent (or root)
+      if (this.parent) {
+        const header = this.parent.createHeader();
+        const index = this.parent.createIndex('memo');
 
-      return [
-        t.variableDeclaration('let', [
-          t.variableDeclarator(
-            this.createHeader(),
-            t.callExpression(
-              getImportIdentifier(
-                this.ctx,
-                this.path,
-                RUNTIME_BRANCH,
+        return [
+          t.variableDeclaration('let', [
+            t.variableDeclarator(
+              this.createHeader(),
+              t.callExpression(
+                getImportIdentifier(this.ctx, this.path, RUNTIME_BRANCH),
+                [header, index, t.numericLiteral(this.indecesMemo)],
               ),
-              [header, index, t.numericLiteral(this.indecesMemo)],
             ),
-          ),
-        ]),
-      ];
-    }
+          ]),
+        ];
+      }
 
-    const outputDeclarations = [];
+      const outputDeclarations = [];
 
-    if (this.memo) {
-      outputDeclarations.push(
-
-        t.variableDeclaration('let', [
-          t.variableDeclarator(
-            this.memo,
-            t.callExpression(
-              getImportIdentifier(
-                this.ctx,
-                this.path,
-                RUNTIME_CACHE,
+      if (this.memo) {
+        outputDeclarations.push(
+          t.variableDeclaration('let', [
+            t.variableDeclarator(
+              this.memo,
+              t.callExpression(
+                getImportIdentifier(this.ctx, this.path, RUNTIME_CACHE),
+                [
+                  getImportIdentifier(
+                    this.ctx,
+                    this.path,
+                    this.ctx.preset.runtime.useMemo,
+                  ),
+                  t.numericLiteral(this.indecesMemo),
+                ],
               ),
-              [
-                getImportIdentifier(
-                  this.ctx,
-                  this.path,
-                  this.ctx.preset.runtime.useMemo,
-                ),
-                t.numericLiteral(this.indecesMemo),
-              ],
             ),
-          ),
-        ]),
-      );
-    }
-    if (this.ref) {
-      outputDeclarations.push(
-        t.variableDeclaration('let', [
-          t.variableDeclarator(
-            this.ref,
-            t.callExpression(
-              getImportIdentifier(
-                this.ctx,
-                this.path,
-                RUNTIME_REF,
+          ]),
+        );
+      }
+      if (this.ref) {
+        outputDeclarations.push(
+          t.variableDeclaration('let', [
+            t.variableDeclarator(
+              this.ref,
+              t.callExpression(
+                getImportIdentifier(this.ctx, this.path, RUNTIME_REF),
+                [
+                  getImportIdentifier(
+                    this.ctx,
+                    this.path,
+                    this.ctx.preset.runtime.useRef,
+                  ),
+                  t.numericLiteral(this.indecesRef),
+                ],
               ),
-              [
-                getImportIdentifier(
-                  this.ctx,
-                  this.path,
-                  this.ctx.preset.runtime.useRef,
-                ),
-                t.numericLiteral(this.indecesRef),
-              ],
             ),
-          ),
-        ]),
-      );
-    }
+          ]),
+        );
+      }
 
-    return outputDeclarations;
+      return outputDeclarations;
+    }
+    return undefined;
   }
 
   loop: t.Identifier | undefined;
@@ -192,11 +179,7 @@ export default class OptimizerScope {
       t.variableDeclarator(
         this.createHeader(),
         t.callExpression(
-          getImportIdentifier(
-            this.ctx,
-            this.path,
-            RUNTIME_BRANCH,
-          ),
+          getImportIdentifier(this.ctx, this.path, RUNTIME_BRANCH),
           // Looped branches cannot be statically analyzed
           [header, index, t.numericLiteral(0)],
         ),
@@ -215,11 +198,7 @@ export default class OptimizerScope {
       t.variableDeclarator(
         this.createLoopHeader(),
         t.callExpression(
-          getImportIdentifier(
-            this.ctx,
-            this.path,
-            RUNTIME_BRANCH,
-          ),
+          getImportIdentifier(this.ctx, this.path, RUNTIME_BRANCH),
           [header, localIndex, t.numericLiteral(this.indecesMemo)],
         ),
       ),
@@ -232,10 +211,7 @@ export default class OptimizerScope {
       ? [this.getLoopDeclaration()]
       : this.getMemoDeclarations();
     if (header) {
-      return mergeVariableDeclaration([
-        ...header,
-        ...result,
-      ]);
+      return mergeVariableDeclaration([...header, ...result]);
     }
     return mergeVariableDeclaration(result);
   }

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import type * as babel from '@babel/core';
 import * as t from '@babel/types';
 import {
@@ -14,9 +13,7 @@ import type {
   ImportDefinition,
   Options,
 } from './core/presets';
-import {
-  PRESETS,
-} from './core/presets';
+import { PRESETS } from './core/presets';
 import type { StateContext, State } from './core/types';
 import unwrapNode from './core/unwrap-node';
 import unwrapPath from './core/unwrap-path';
@@ -32,15 +29,16 @@ function registerHookSpecifiers(
   path: babel.NodePath<t.ImportDeclaration>,
   hook: HookRegistration,
 ): void {
-  let specifier: typeof path.node.specifiers[0];
+  let specifier: (typeof path.node.specifiers)[0];
   for (let i = 0, len = path.node.specifiers.length; i < len; i++) {
     specifier = path.node.specifiers[i];
     switch (specifier.type) {
-      case 'ImportDefaultSpecifier':
+      case 'ImportDefaultSpecifier': {
         if (hook.kind === 'default') {
           ctx.registrations.hooks.identifiers.set(specifier.local, hook);
         }
         break;
+      }
       case 'ImportNamespaceSpecifier': {
         let current = ctx.registrations.hooks.namespaces.get(specifier.local);
         if (!current) {
@@ -48,24 +46,19 @@ function registerHookSpecifiers(
         }
         current.push(hook);
         ctx.registrations.hooks.namespaces.set(specifier.local, current);
-      }
         break;
-      case 'ImportSpecifier':
+      }
+      case 'ImportSpecifier': {
         if (
-          (
-            hook.kind === 'named'
-            && getImportSpecifierName(specifier) === hook.name
-          )
-          || (
-            hook.kind === 'default'
-            && getImportSpecifierName(specifier) === 'default'
-          )
+          (hook.kind === 'named' &&
+            getImportSpecifierName(specifier) === hook.name) ||
+          (hook.kind === 'default' &&
+            getImportSpecifierName(specifier) === 'default')
         ) {
           ctx.registrations.hooks.identifiers.set(specifier.local, hook);
         }
         break;
-      default:
-        break;
+      }
     }
   }
 }
@@ -75,15 +68,16 @@ function registerHOCSpecifiers(
   path: babel.NodePath<t.ImportDeclaration>,
   hoc: ImportDefinition,
 ): void {
-  let specifier: typeof path.node.specifiers[0];
+  let specifier: (typeof path.node.specifiers)[0];
   for (let i = 0, len = path.node.specifiers.length; i < len; i++) {
     specifier = path.node.specifiers[i];
     switch (specifier.type) {
-      case 'ImportDefaultSpecifier':
+      case 'ImportDefaultSpecifier': {
         if (hoc.kind === 'default') {
           ctx.registrations.hocs.identifiers.set(specifier.local, hoc);
         }
         break;
+      }
       case 'ImportNamespaceSpecifier': {
         let current = ctx.registrations.hocs.namespaces.get(specifier.local);
         if (!current) {
@@ -91,24 +85,19 @@ function registerHOCSpecifiers(
         }
         current.push(hoc);
         ctx.registrations.hocs.namespaces.set(specifier.local, current);
-      }
         break;
-      case 'ImportSpecifier':
+      }
+      case 'ImportSpecifier': {
         if (
-          (
-            hoc.kind === 'named'
-            && getImportSpecifierName(specifier) === hoc.name
-          )
-          || (
-            hoc.kind === 'default'
-            && getImportSpecifierName(specifier) === 'default'
-          )
+          (hoc.kind === 'named' &&
+            getImportSpecifierName(specifier) === hoc.name) ||
+          (hoc.kind === 'default' &&
+            getImportSpecifierName(specifier) === 'default')
         ) {
           ctx.registrations.hocs.identifiers.set(specifier.local, hoc);
         }
         break;
-      default:
-        break;
+      }
     }
   }
 }
@@ -188,13 +177,13 @@ function transformHOC(
         transformFunction(ctx, path.get('arguments')[0], false);
       }
     }
-  // Check if callee is potentially a namespace import
+    // Check if callee is potentially a namespace import
   }
   const trueMember = unwrapNode(path.node.callee, t.isMemberExpression);
   if (
-    trueMember
-    && !trueMember.computed
-    && trueMember.property.type === 'Identifier'
+    trueMember &&
+    !trueMember.computed &&
+    trueMember.property.type === 'Identifier'
   ) {
     const obj = unwrapNode(trueMember.object, t.isIdentifier);
     if (obj) {
@@ -203,7 +192,7 @@ function transformHOC(
         const registrations = ctx.registrations.hocs.namespaces.get(binding);
         if (registrations) {
           const propName = trueMember.property.name;
-          let registration: typeof registrations[0];
+          let registration: (typeof registrations)[0];
           for (let i = 0, len = registrations.length; i < len; i++) {
             registration = registrations[i];
             if (registration.kind === 'default') {
@@ -225,15 +214,13 @@ function transformVariableDeclarator(
   path: babel.NodePath<t.VariableDeclarator>,
 ): void {
   if (
-    path.node.init
-    && path.node.id.type === 'Identifier'
-    && isHookOrComponentName(ctx, path.node.id)
-    && !shouldSkipNode(path.node)
-    && (
-      path.parent.type === 'VariableDeclaration'
-        ? !shouldSkipNode(path.parent)
-        : true
-    )
+    path.node.init &&
+    path.node.id.type === 'Identifier' &&
+    isHookOrComponentName(ctx, path.node.id) &&
+    !shouldSkipNode(path.node) &&
+    (path.parent.type === 'VariableDeclaration'
+      ? !shouldSkipNode(path.parent)
+      : true)
   ) {
     transformFunction(ctx, path.get('init') as babel.NodePath<Argument>, false);
   }
@@ -244,7 +231,8 @@ export default function forgettiPlugin(): babel.PluginObj<State> {
     name: 'forgetti',
     visitor: {
       Program(programPath, { opts }): void {
-        const preset = typeof opts.preset === 'string' ? PRESETS[opts.preset] : opts.preset;
+        const preset =
+          typeof opts.preset === 'string' ? PRESETS[opts.preset] : opts.preset;
         const ctx: StateContext = {
           imports: new Map(),
           registrations: {
@@ -264,7 +252,10 @@ export default function forgettiPlugin(): babel.PluginObj<State> {
               preset.filters.component.flags,
             ),
             hook: preset.filters.hook
-              ? new RegExp(preset.filters.hook.source, preset.filters.hook.flags)
+              ? new RegExp(
+                  preset.filters.hook.source,
+                  preset.filters.hook.flags,
+                )
               : undefined,
           },
         };

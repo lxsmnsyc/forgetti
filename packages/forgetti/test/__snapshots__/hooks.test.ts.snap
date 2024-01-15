@@ -54,8 +54,8 @@ import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { memo as _memo } from \\"react\\";
 import { $$memo as _$$memo } from \\"forgetti/runtime\\";
-const _Memo = _$$memo(_memo, _values => <div>{_values[0]}</div>),
-  _Memo2 = _$$memo(_memo, _values2 => <>{_values2[0]}{_values2[1]}</>);
+const _Example = _$$memo(_memo, \\"_Example\\", _values => <div>{_values[0]}</div>),
+  _Example2 = _$$memo(_memo, \\"_Example2\\", _values2 => <>{_values2[0]}{_values2[1]}</>);
 import { useA, useB, useC } from 'whatever';
 function Example(props) {
   let _cache = _$$cache(_useMemo, 24),
@@ -101,7 +101,7 @@ function Example(props) {
     _value15 = _equals12 ? _cache[13] : _cache[13] = [_value14],
     _equals13 = _$$equals(_cache, 14, _value15),
     _value16 = _equals13 ? _cache[14] : _cache[14] = _value15,
-    _value17 = _equals13 ? _cache[15] : _cache[15] = /*@forgetti jsx*/<_Memo v={_value16} />,
+    _value17 = _equals13 ? _cache[15] : _cache[15] = /*@forgetti jsx*/<_Example v={_value16} />,
     _equals14 = _$$equals(_cache, 16, _value17),
     _value18 = _equals14 ? _cache[16] : _cache[16] = _value17,
     _equals15 = _$$equals(_cache, 17, _hoisted9),
@@ -111,7 +111,7 @@ function Example(props) {
     _value21 = _equals15 && _equals16 ? _cache[19] : _cache[19] = [_value19, _value20],
     _equals18 = _$$equals(_cache, 20, _value21),
     _value22 = _equals18 ? _cache[20] : _cache[20] = _value21,
-    _value23 = _equals18 ? _cache[21] : _cache[21] = /*@forgetti jsx*/<_Memo2 v={_value22} />,
+    _value23 = _equals18 ? _cache[21] : _cache[21] = /*@forgetti jsx*/<_Example2 v={_value22} />,
     _equals19 = _$$equals(_cache, 22, _value23),
     _value24 = _equals19 ? _cache[22] : _cache[22] = _value23;
   return _equals && _equals2 && _equals3 && _equals5 && _equals9 && _equals11 && _equals14 && _equals19 ? _cache[23] : _cache[23] = {

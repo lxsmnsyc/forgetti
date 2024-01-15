@@ -24,7 +24,10 @@ export function isHookName(ctx: StateContext, id: t.Identifier): boolean {
   return !!ctx.filters.hook && ctx.filters.hook.test(id.name);
 }
 
-export function isHookOrComponentName(ctx: StateContext, id: t.Identifier): boolean {
+export function isHookOrComponentName(
+  ctx: StateContext,
+  id: t.Identifier,
+): boolean {
   return ctx.filters.component.test(id.name) || isHookName(ctx, id);
 }
 
@@ -61,11 +64,12 @@ export function isComponentValid(
   node: ComponentNode,
   checkName: boolean,
 ): boolean {
-  return !checkName || (
-    node.type !== 'ArrowFunctionExpression'
-    && !!node.id
-    && isHookOrComponentName(ctx, node.id)
-    && !shouldSkipNode(node)
+  return (
+    !checkName ||
+    (node.type !== 'ArrowFunctionExpression' &&
+      !!node.id &&
+      isHookOrComponentName(ctx, node.id) &&
+      !shouldSkipNode(node))
   );
 }
 

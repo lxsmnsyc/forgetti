@@ -4,7 +4,7 @@ import type { Plugin } from 'vite';
 import type { FilterPattern } from '@rollup/pluginutils';
 import { createFilter } from '@rollup/pluginutils';
 import * as babel from '@babel/core';
-import path from 'path';
+import path from 'node:path';
 
 export interface ForgettiPluginFilter {
   include?: FilterPattern;
@@ -17,7 +17,11 @@ export interface ForgettiPluginOptions extends Options {
 }
 
 // From: https://github.com/bluwy/whyframe/blob/master/packages/jsx/src/index.js#L27-L37
-function repushPlugin(plugins: Plugin[], plugin: Plugin, pluginNames: string[]): void {
+function repushPlugin(
+  plugins: Plugin[],
+  plugin: Plugin,
+  pluginNames: string[],
+): void {
   const namesSet = new Set(pluginNames);
 
   let baseIndex = -1;
@@ -66,16 +70,15 @@ export default function forgettiPlugin(
     async transform(code, id) {
       if (filter(id)) {
         const pluginOption = [forgettiBabel, { preset }];
-        const plugins: NonNullable<NonNullable<babel.TransformOptions['parserOpts']>['plugins']> = ['jsx'];
+        const plugins: NonNullable<
+          NonNullable<babel.TransformOptions['parserOpts']>['plugins']
+        > = ['jsx'];
         if (/\.[mc]?tsx?$/i.test(id)) {
           plugins.push('typescript');
         }
         const result = await babel.transformAsync(code, {
           ...options.babel,
-          plugins: [
-            pluginOption,
-            ...(options.babel?.plugins || []),
-          ],
+          plugins: [pluginOption, ...(options.babel?.plugins || [])],
           parserOpts: {
             ...(options.babel?.parserOpts || {}),
             plugins: [

@@ -378,7 +378,7 @@ function Example(props) {
 }
 ```
 
-> **Note**
+> [!NOTE]
 > Nested branches are also supported.
 
 List of supported branch statements:
@@ -389,7 +389,7 @@ List of supported branch statements:
 - block statements
 - labeled statements
 
-> **Note**
+> [!NOTE]
 > Branched statements are usually illegal in a hook-based system (like React), but a `memo` or `callback` call inside the branches are allowed.
 
 #### Loops
@@ -463,7 +463,7 @@ function Example(props) {
 }
 ```
 
-> **Note**
+> [!NOTE]
 > You can use `/* @forgetti skip */` just before the JSX if you want to opt-out of this feature.
 
 ## `/* @forgetti skip */`

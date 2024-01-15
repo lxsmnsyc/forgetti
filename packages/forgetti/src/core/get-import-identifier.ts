@@ -15,9 +15,10 @@ export default function getImportIdentifier(
   if (current) {
     return current;
   }
-  const newID = (definition.kind === 'named')
-    ? addNamed(path, definition.name, definition.source)
-    : addDefault(path, definition.source);
+  const newID =
+    definition.kind === 'named'
+      ? addNamed(path, definition.name, definition.source)
+      : addDefault(path, definition.source);
   ctx.imports.set(target, newID);
   return newID;
 }

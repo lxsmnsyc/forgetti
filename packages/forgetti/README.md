@@ -24,7 +24,7 @@ Forgetti is an auto-memoization Babel plugin I made for a hook-based flow like R
 
 ## Why
 
-> **Note**
+> [!NOTE]
 > Please watch the video. Video explains about the problems it solves and benefits it delivers
 
 [![React without memo](https://img.youtube.com/vi/lGEMwh32soc/0.jpg)](https://www.youtube.com/watch?v=lGEMwh32soc "React without memo")

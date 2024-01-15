@@ -1,5 +1,5 @@
 {
-  "target": "es2017",
+  "target": "es2018",
   "entrypoints": {
     ".": "src/index.ts",
     "./runtime": "runtime/index.ts"

@@ -1,8 +1,4 @@
-export type HookIdentity =
-  | 'memo'
-  | 'callback'
-  | 'effect'
-  | 'ref';
+export type HookIdentity = 'memo' | 'callback' | 'effect' | 'ref';
 
 export interface NamedImportDefinition {
   kind: 'named';
