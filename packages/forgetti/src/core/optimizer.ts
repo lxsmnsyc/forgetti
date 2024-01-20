@@ -471,7 +471,7 @@ export default class Optimizer {
     const expr = t.objectExpression([
       t.objectProperty(
         t.identifier('current'),
-        init || t.identifier('undefined'),
+        init || t.unaryExpression('void', t.numericLiteral(0)),
       ),
     ]);
     return this.createMemo(expr, true, 'ref');
