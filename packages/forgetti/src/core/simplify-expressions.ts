@@ -17,16 +17,7 @@ function getBooleanishState(node: t.Expression): LiteralState {
     case 'BigIntLiteral':
       return node.value === '0' ? 'falsy' : 'truthy';
     case 'Identifier': {
-      switch (node.name) {
-        case 'NaN':
-          return 'falsy';
-        case 'undefined':
-          return 'nullish';
-        case 'Infinity':
-          return 'truthy';
-        default:
-          return 'indeterminate';
-      }
+      return 'indeterminate';
     }
     // case 'ArrayExpression':
     // case 'FunctionExpression':
