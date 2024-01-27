@@ -1,10 +1,10 @@
 import type * as babel from '@babel/core';
 import * as t from '@babel/types';
-import { isNestedExpression, shouldSkipNode, isPathValid } from './checks';
-import type OptimizerScope from './optimizer-scope';
+import { isNestedExpression, isPathValid, shouldSkipNode } from './checks';
 import getForeignBindings, { isForeignBinding } from './get-foreign-bindings';
-import type { ComponentNode, StateContext } from './types';
 import { getHookCallType } from './get-hook-call-type';
+import type OptimizerScope from './optimizer-scope';
+import type { ComponentNode, StateContext } from './types';
 
 interface OptimizerInstance {
   ctx: StateContext;
@@ -36,22 +36,14 @@ function isIdentifierConstant(
   path: babel.NodePath,
   node: t.Identifier,
 ): boolean {
-  switch (node.name) {
-    case 'undefined':
-    case 'NaN':
-    case 'Infinity':
-      return true;
-    default: {
-      if (isForeignBinding(instance.path, path, node.name)) {
-        return true;
-      }
-      const binding = path.scope.getBindingIdentifier(node.name);
-      if (binding) {
-        return instance.scope.hasConstant(binding);
-      }
-      return true;
-    }
+  if (isForeignBinding(instance.path, path, node.name)) {
+    return true;
   }
+  const binding = path.scope.getBindingIdentifier(node.name);
+  if (binding) {
+    return instance.scope.hasConstant(binding);
+  }
+  return true;
 }
 
 function isMemberExpressionConstant(

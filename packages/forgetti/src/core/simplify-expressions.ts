@@ -1,5 +1,5 @@
-import * as t from '@babel/types';
 import type * as babel from '@babel/core';
+import * as t from '@babel/types';
 import type { ComponentNode } from './types';
 
 type LiteralState = 'truthy' | 'falsy' | 'nullish' | 'indeterminate';
@@ -82,7 +82,7 @@ export function simplifyExpressions(path: babel.NodePath<ComponentNode>): void {
         switch (p.node.operator) {
           case 'void': {
             if (state !== 'indeterminate') {
-              p.replaceWith(t.identifier('undefined'));
+              p.replaceWith(t.unaryExpression('void', t.numericLiteral(0)));
             }
             break;
           }
