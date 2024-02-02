@@ -1,9 +1,9 @@
-import * as t from '@babel/types';
 import type * as babel from '@babel/core';
+import * as t from '@babel/types';
+import { isPathValid } from './utils/checks';
+import { getHookCallType } from './utils/get-hook-call-type';
 import type { ComponentNode, StateContext } from './types';
-import { getHookCallType } from './get-hook-call-type';
-import { isPathValid } from './checks';
-import unwrapNode from './unwrap-node';
+import unwrapNode from './utils/unwrap-node';
 
 function isStatementValid(path: babel.NodePath): boolean {
   if (path) {
@@ -170,8 +170,10 @@ export function expandExpressions(
         !isPathValid(p.parentPath, t.isVariableDeclarator)
       ) {
         const id = p.scope.generateUidIdentifier('hoisted');
-        statement.insertBefore(
-          t.variableDeclaration('let', [t.variableDeclarator(id, p.node)]),
+        statement.scope.registerDeclaration(
+          statement.insertBefore(
+            t.variableDeclaration('let', [t.variableDeclarator(id, p.node)]),
+          )[0],
         );
         p.replaceWith(id);
       }
@@ -189,14 +191,14 @@ export function expandExpressions(
         const hookType = getHookCallType(ctx, p);
         if (hookType === 'custom' || hookType === 'effect') {
           const id = p.scope.generateUidIdentifier('hoisted');
-          statement.insertBefore(
-            t.variableDeclaration('let', [t.variableDeclarator(id, p.node)]),
+          statement.scope.registerDeclaration(
+            statement.insertBefore(
+              t.variableDeclaration('let', [t.variableDeclarator(id, p.node)]),
+            )[0],
           );
           p.replaceWith(id);
         }
       }
     },
   });
-
-  path.scope.crawl();
 }

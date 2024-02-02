@@ -54,9 +54,9 @@ import { $$cache as _$$cache } from \\"forgetti/runtime\\";
 import { $$equals as _$$equals } from \\"forgetti/runtime\\";
 import { memo as _memo } from \\"react\\";
 import { $$memo as _$$memo } from \\"forgetti/runtime\\";
-const _Example = _$$memo(_memo, \\"_Example\\", _values => <div>{_values[0]}</div>),
-  _Example2 = _$$memo(_memo, \\"_Example2\\", _values2 => <>{_values2[0]}{_values2[1]}</>);
 import { useA, useB, useC } from 'whatever';
+const _Example = _$$memo(_memo, \\"_Example\\", _values => <div>{_values[0]}</div>);
+const _Example2 = _$$memo(_memo, \\"_Example2\\", _values2 => <>{_values2[0]}{_values2[1]}</>);
 function Example(props) {
   let _cache = _$$cache(_useMemo, 24),
     a = null,

@@ -1,13 +1,20 @@
 import type * as babel from '@babel/core';
 import * as t from '@babel/types';
-import { isNestedExpression, shouldSkipNode, isPathValid } from './checks';
-import getForeignBindings, { isForeignBinding } from './get-foreign-bindings';
-import getImportIdentifier from './get-import-identifier';
 import { RUNTIME_EQUALS } from './imports';
+import isConstant from './is-constant';
 import OptimizerScope from './optimizer-scope';
 import type { ComponentNode, OptimizedExpression, StateContext } from './types';
-import isConstant from './is-constant';
-import { getHookCallType } from './get-hook-call-type';
+import {
+  isNestedExpression,
+  isPathValid,
+  shouldSkipNode,
+} from './utils/checks';
+import {
+  getForeignBindings,
+  isForeignBinding,
+} from './utils/get-foreign-bindings';
+import { getHookCallType } from './utils/get-hook-call-type';
+import { getImportIdentifier } from './utils/get-import-identifier';
 
 function optimizedExpr(
   expr: t.Expression,
@@ -985,8 +992,9 @@ export default class Optimizer {
   optimizeExpressionStatement(
     path: babel.NodePath<t.ExpressionStatement>,
   ): void {
-    const optimized = this.optimizeExpression(path.get('expression'));
-    this.scope.push(t.expressionStatement(optimized.expr));
+    const expr = path.get('expression');
+    const optimized = this.optimizeExpression(expr);
+    expr.replaceWith(optimized.expr);
   }
 
   optimizeVariableDeclaration(
@@ -1011,18 +1019,16 @@ export default class Optimizer {
 
   optimizeReturnStatement(path: babel.NodePath<t.ReturnStatement>): void {
     if (path.node.argument) {
-      const optimized = this.optimizeExpression(
-        path.get('argument') as babel.NodePath<t.Expression>,
-      );
-      path.node.argument = optimized.expr;
+      const argument = path.get('argument') as babel.NodePath<t.Expression>;
+      const optimized = this.optimizeExpression(argument);
+      argument.replaceWith(optimized.expr);
     }
-    this.scope.push(path.node);
   }
 
   optimizeThrowStatement(path: babel.NodePath<t.ThrowStatement>): void {
-    const optimized = this.optimizeExpression(path.get('argument'));
-    path.node.argument = optimized.expr;
-    this.scope.push(path.node);
+    const argument = path.get('argument');
+    const optimized = this.optimizeExpression(argument);
+    argument.replaceWith(optimized.expr);
   }
 
   private optimizeBlock(path: babel.NodePath<t.BlockStatement>): void {
@@ -1031,7 +1037,7 @@ export default class Optimizer {
     }
     const statements = path.get('body');
     for (let i = 0, len = statements.length; i < len; i++) {
-      this.optimizeStatement(statements[i]);
+      this.optimizeStatement(statements[i], false);
     }
   }
 
@@ -1077,10 +1083,11 @@ export default class Optimizer {
   }
 
   optimizeLoopStatement(path: babel.NodePath<t.Loop>): void {
+    const body = path.get('body');
     const parent = this.scope;
     const loop = new OptimizerScope(this.ctx, path, parent, true);
     this.scope = loop;
-    this.optimizeStatement(path.get('body'), true);
+    this.optimizeStatement(body, true);
     this.scope = parent;
 
     const statements = loop.getStatements();
@@ -1090,19 +1097,20 @@ export default class Optimizer {
       this.scope.push(memoDeclaration);
     }
 
-    path.node.body = t.blockStatement(statements);
-    this.scope.push(path.node);
+    body.replaceWith(t.blockStatement(statements));
   }
 
   optimizeForXStatement(path: babel.NodePath<t.ForXStatement>): void {
-    const optimized = this.optimizeExpression(path.get('right'));
-    path.node.right = optimized.expr;
+    const right = path.get('right');
+    const optimized = this.optimizeExpression(right);
+    right.replaceWith(optimized.expr);
     this.optimizeLoopStatement(path);
   }
 
   optimizeSwitchStatement(path: babel.NodePath<t.SwitchStatement>): void {
-    const discriminant = this.optimizeExpression(path.get('discriminant'));
-    path.node.discriminant = discriminant.expr;
+    const discriminant = path.get('discriminant');
+    const newDiscriminant = this.optimizeExpression(discriminant);
+    discriminant.replaceWith(newDiscriminant.expr);
 
     const parent = this.scope;
     const cases = path.get('cases');
@@ -1113,31 +1121,31 @@ export default class Optimizer {
       this.scope = scope;
       const consequents = current.get('consequent');
       for (let k = 0, klen = consequents.length; k < klen; k++) {
-        this.optimizeStatement(consequents[k]);
+        this.optimizeStatement(consequents[k], false);
       }
       this.scope = parent;
       current.node.consequent = scope.getStatements();
     }
     this.scope = parent;
-
-    this.scope.push(path.node);
   }
 
   optimizeTryStatement(path: babel.NodePath<t.TryStatement>): void {
+    const block = path.get('block');
     const parent = this.scope;
     const tryBlock = new OptimizerScope(this.ctx, path, parent);
     this.scope = tryBlock;
-    this.optimizeBlock(path.get('block'));
+    this.optimizeBlock(block);
     this.scope = parent;
-    path.node.block = t.blockStatement(tryBlock.getStatements());
+    block.replaceWith(t.blockStatement(tryBlock.getStatements()));
 
     if (path.node.handler) {
       const handler = path.get('handler') as babel.NodePath<t.CatchClause>;
+      const body = handler.get('body');
       const catchClause = new OptimizerScope(this.ctx, handler, parent);
       this.scope = catchClause;
-      this.optimizeBlock(handler.get('body'));
+      this.optimizeBlock(body);
       this.scope = parent;
-      handler.node.body = t.blockStatement(catchClause.getStatements());
+      body.replaceWith(t.blockStatement(catchClause.getStatements()));
     }
     if (path.node.finalizer) {
       const handler = path.get('finalizer') as babel.NodePath<t.BlockStatement>;
@@ -1145,88 +1153,54 @@ export default class Optimizer {
       this.scope = finalizerBlock;
       this.optimizeBlock(handler);
       this.scope = parent;
-      path.node.finalizer = t.blockStatement(finalizerBlock.getStatements());
+      handler.replaceWith(t.blockStatement(finalizerBlock.getStatements()));
     }
-
-    this.scope.push(path.node);
   }
 
   optimizeLabeledStatement(path: babel.NodePath<t.LabeledStatement>): void {
+    const body = path.get('body');
     const parent = this.scope;
     const block = new OptimizerScope(this.ctx, path, parent);
     this.scope = block;
-    this.optimizeStatement(path.get('body'));
+    this.optimizeStatement(body, false);
     this.scope = parent;
-    path.node.body = t.blockStatement(block.getStatements());
-    this.scope.push(path.node);
+    body.replaceWith(t.blockStatement(block.getStatements()));
   }
 
-  optimizeStatement(path: babel.NodePath<t.Statement>, topBlock = false): void {
+  optimizeStatement(
+    path: babel.NodePath<t.Statement>,
+    topBlock: boolean,
+  ): void {
     if (shouldSkipNode(path.node)) {
       return;
     }
-    switch (path.type) {
-      case 'ExpressionStatement': {
-        this.optimizeExpressionStatement(
-          path as babel.NodePath<t.ExpressionStatement>,
-        );
-        break;
-      }
-      case 'VariableDeclaration': {
-        this.optimizeVariableDeclaration(
-          path as babel.NodePath<t.VariableDeclaration>,
-        );
-        break;
-      }
-      case 'ReturnStatement': {
-        this.optimizeReturnStatement(path as babel.NodePath<t.ReturnStatement>);
-        break;
-      }
-      case 'ThrowStatement': {
-        this.optimizeThrowStatement(path as babel.NodePath<t.ThrowStatement>);
-        break;
-      }
-      case 'BlockStatement': {
-        this.optimizeBlockStatement(
-          path as babel.NodePath<t.BlockStatement>,
-          topBlock,
-        );
-        break;
-      }
-      case 'IfStatement': {
-        this.optimizeIfStatement(path as babel.NodePath<t.IfStatement>);
-        break;
-      }
-      case 'ForInStatement':
-      case 'ForOfStatement': {
-        this.optimizeForXStatement(path as babel.NodePath<t.ForXStatement>);
-        break;
-      }
-      case 'ForStatement':
-      case 'WhileStatement':
-      case 'DoWhileStatement': {
-        this.optimizeLoopStatement(path as babel.NodePath<t.Loop>);
-        break;
-      }
-      case 'SwitchStatement': {
-        this.optimizeSwitchStatement(path as babel.NodePath<t.SwitchStatement>);
-        break;
-      }
-      case 'TryStatement': {
-        this.optimizeTryStatement(path as babel.NodePath<t.TryStatement>);
-        break;
-      }
-      case 'LabeledStatement': {
-        this.optimizeLabeledStatement(
-          path as babel.NodePath<t.LabeledStatement>,
-        );
-        break;
-      }
-      default: {
-        this.scope.push(path.node);
-        break;
-      }
+    if (isPathValid(path, t.isExpressionStatement)) {
+      this.optimizeExpressionStatement(path);
+    } else if (isPathValid(path, t.isVariableDeclaration)) {
+      this.optimizeVariableDeclaration(path);
+      return;
+    } else if (isPathValid(path, t.isReturnStatement)) {
+      this.optimizeReturnStatement(path);
+    } else if (isPathValid(path, t.isThrowStatement)) {
+      this.optimizeThrowStatement(path);
+    } else if (isPathValid(path, t.isBlockStatement)) {
+      this.optimizeBlockStatement(path, topBlock);
+      return;
+    } else if (isPathValid(path, t.isIfStatement)) {
+      this.optimizeIfStatement(path);
+      return;
+    } else if (isPathValid(path, t.isForXStatement)) {
+      this.optimizeForXStatement(path);
+    } else if (isPathValid(path, t.isLoop)) {
+      this.optimizeLoopStatement(path);
+    } else if (isPathValid(path, t.isSwitchStatement)) {
+      this.optimizeSwitchStatement(path);
+    } else if (isPathValid(path, t.isTryStatement)) {
+      this.optimizeTryStatement(path);
+    } else if (isPathValid(path, t.isLabeledStatement)) {
+      this.optimizeLabeledStatement(path);
     }
+    this.scope.push(path.node);
   }
 
   optimizeArrowComponent(
@@ -1235,38 +1209,29 @@ export default class Optimizer {
     path.node.body = t.isStatement(path.node.body)
       ? path.node.body
       : t.blockStatement([t.returnStatement(path.node.body)]);
-    this.optimizeBlock(path.get('body') as babel.NodePath<t.BlockStatement>);
-    path.node.body = t.blockStatement(this.scope.getStatements());
-    path.scope.crawl();
+    const body = path.get('body');
+    this.optimizeBlock(body as babel.NodePath<t.BlockStatement>);
+    body.replaceWith(t.blockStatement(this.scope.getStatements()));
   }
 
   optimizeFunctionComponent(
     path: babel.NodePath<t.FunctionExpression | t.FunctionDeclaration>,
   ): void {
-    this.optimizeBlock(path.get('body'));
-    path.node.body = t.blockStatement(this.scope.getStatements());
-    path.scope.crawl();
+    const body = path.get('body');
+    this.optimizeBlock(body);
+    body.replaceWith(t.blockStatement(this.scope.getStatements()));
   }
 
   optimize(): void {
-    switch (this.path.type) {
-      case 'ArrowFunctionExpression': {
-        this.optimizeArrowComponent(
-          this.path as babel.NodePath<t.ArrowFunctionExpression>,
-        );
-        break;
-      }
-      case 'FunctionDeclaration':
-      case 'FunctionExpression': {
-        this.optimizeFunctionComponent(
-          this.path as babel.NodePath<
-            t.FunctionExpression | t.FunctionDeclaration
-          >,
-        );
-        break;
-      }
-      default:
-        break;
+    if (isPathValid(this.path, t.isArrowFunctionExpression)) {
+      this.optimizeArrowComponent(this.path);
+    } else {
+      this.optimizeFunctionComponent(
+        this.path as babel.NodePath<
+          t.FunctionExpression | t.FunctionDeclaration
+        >,
+      );
     }
+    this.path.scope.crawl();
   }
 }

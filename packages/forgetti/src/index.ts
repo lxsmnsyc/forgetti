@@ -6,7 +6,7 @@ import {
   getImportSpecifierName,
   isHookOrComponentName,
   shouldSkipNode,
-} from './core/checks';
+} from './core/utils/checks';
 import Optimizer from './core/optimizer';
 import type {
   HookRegistration,
@@ -15,8 +15,8 @@ import type {
 } from './core/presets';
 import { PRESETS } from './core/presets';
 import type { StateContext, State } from './core/types';
-import unwrapNode from './core/unwrap-node';
-import unwrapPath from './core/unwrap-path';
+import unwrapNode from './core/utils/unwrap-node';
+import unwrapPath from './core/utils/unwrap-path';
 import { expandExpressions } from './core/expand-expressions';
 import { inlineExpressions } from './core/inline-expressions';
 import { simplifyExpressions } from './core/simplify-expressions';

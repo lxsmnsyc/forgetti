@@ -26,7 +26,7 @@ function Example(props) {
     _value8 = _equals2 && _equals3 && _equals4 ? _cache[7] : _cache[7] = [_value3, _value5, _value7],
     _equals6 = _$$equals(_cache, 8, _value8),
     _value9 = _equals6 ? _cache[8] : _cache[8] = _value8;
-  return _equals6 ? _cache[9] : _cache[9] = /*@forgetti jsx*/<_Example v={_value9} />;
+  return /*@forgetti jsx*/_equals6 ? _cache[9] : _cache[9] = <_Example v={_value9} />;
 }"
 `;
 
@@ -56,7 +56,7 @@ function Example(props) {
     _value8 = _equals2 && _equals3 && _equals4 ? _cache[7] : _cache[7] = [_value3, _value5, _value7],
     _equals6 = _$$equals(_cache, 8, _value8),
     _value9 = _equals6 ? _cache[8] : _cache[8] = _value8;
-  return _equals6 ? _cache[9] : _cache[9] = /*@forgetti jsx*/<_Example v={_value9} />;
+  return /*@forgetti jsx*/_equals6 ? _cache[9] : _cache[9] = <_Example v={_value9} />;
 }"
 `;
 

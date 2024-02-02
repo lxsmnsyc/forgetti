@@ -1,11 +1,12 @@
 import type * as babel from '@babel/core';
 import * as t from '@babel/types';
-import type { ComponentNode, StateContext } from './types';
-import getImportIdentifier from './get-import-identifier';
+import { isPathValid, shouldSkipJSX } from './utils/checks';
+import { getDescriptiveName } from './utils/get-descriptive-name';
+import { getImportIdentifier } from './utils/get-import-identifier';
+import { getRootStatementPath } from './utils/get-root-statement-path';
 import { RUNTIME_MEMO } from './imports';
-import { shouldSkipJSX, isPathValid } from './checks';
 import type { ImportDefinition } from './presets';
-import { getDescriptiveName } from './get-descriptive-name';
+import type { ComponentNode, StateContext } from './types';
 
 interface JSXReplacement {
   id: t.Identifier;
@@ -46,19 +47,7 @@ function extractJSXExpressionFromNormalAttribute(
     extractJSXExpressions(value, state, false);
   }
   if (isPathValid(value, t.isJSXExpressionContainer)) {
-    const expr = value.get('expression');
-    if (
-      isPathValid(expr, t.isJSXElement) ||
-      isPathValid(expr, t.isJSXFragment)
-    ) {
-      extractJSXExpressions(expr, state, false);
-    } else if (isPathValid(expr, t.isExpression)) {
-      const id = state.expressions.length;
-      state.expressions.push(expr.node);
-      expr.replaceWith(
-        t.memberExpression(state.source, t.numericLiteral(id), true),
-      );
-    }
+    extractJSXExpressionsFromJSXExpressionContainer(state, value);
   }
 }
 
@@ -240,15 +229,23 @@ function transformJSX(
   } else {
     body = path.node;
   }
-  path.scope.getProgramParent().push({
-    kind: 'const',
-    id: memoComponent,
-    init: t.callExpression(getImportIdentifier(ctx, path, RUNTIME_MEMO), [
-      getImportIdentifier(ctx, path, memoDefinition),
-      t.stringLiteral(memoComponent.name),
-      t.arrowFunctionExpression([state.source], body),
-    ]),
-  });
+
+  const root = getRootStatementPath(path);
+
+  root.scope.registerDeclaration(
+    root.insertBefore(
+      t.variableDeclaration('const', [
+        t.variableDeclarator(
+          memoComponent,
+          t.callExpression(getImportIdentifier(ctx, path, RUNTIME_MEMO), [
+            getImportIdentifier(ctx, path, memoDefinition),
+            t.stringLiteral(memoComponent.name),
+            t.arrowFunctionExpression([state.source], body),
+          ]),
+        ),
+      ]),
+    )[0],
+  );
 
   const attrs = [];
 
@@ -297,6 +294,5 @@ export default function optimizeJSX(
         transformJSX(ctx, p, memoDefinition);
       },
     });
-    path.scope.crawl();
   }
 }

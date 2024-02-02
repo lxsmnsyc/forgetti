@@ -1,9 +1,9 @@
-import type * as t from '@babel/types';
 import type * as babel from '@babel/core';
-import type { ComponentNode, StateContext } from './types';
+import * as t from '@babel/types';
+import type { ComponentNode, StateContext } from '../types';
 
 export function getImportSpecifierName(specifier: t.ImportSpecifier): string {
-  if (specifier.imported.type === 'Identifier') {
+  if (t.isIdentifier(specifier.imported)) {
     return specifier.imported.name;
   }
   return specifier.imported.value;

@@ -46,9 +46,7 @@ function getForeignBindingsFromExpression(
   }
 }
 
-export default function getForeignBindings(
-  path: babel.NodePath,
-): t.Identifier[] {
+export function getForeignBindings(path: babel.NodePath): t.Identifier[] {
   const identifiers = new Set<string>();
   path.traverse({
     ReferencedIdentifier(p) {

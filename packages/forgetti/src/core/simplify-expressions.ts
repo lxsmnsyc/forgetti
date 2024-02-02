@@ -119,5 +119,4 @@ export function simplifyExpressions(path: babel.NodePath<ComponentNode>): void {
       },
     },
   });
-  path.scope.crawl();
 }

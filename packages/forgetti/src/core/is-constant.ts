@@ -1,10 +1,17 @@
 import type * as babel from '@babel/core';
 import * as t from '@babel/types';
-import { isNestedExpression, isPathValid, shouldSkipNode } from './checks';
-import getForeignBindings, { isForeignBinding } from './get-foreign-bindings';
-import { getHookCallType } from './get-hook-call-type';
 import type OptimizerScope from './optimizer-scope';
 import type { ComponentNode, StateContext } from './types';
+import {
+  isNestedExpression,
+  isPathValid,
+  shouldSkipNode,
+} from './utils/checks';
+import {
+  getForeignBindings,
+  isForeignBinding,
+} from './utils/get-foreign-bindings';
+import { getHookCallType } from './utils/get-hook-call-type';
 
 interface OptimizerInstance {
   ctx: StateContext;

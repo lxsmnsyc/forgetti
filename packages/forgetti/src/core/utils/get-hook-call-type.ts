@@ -1,9 +1,9 @@
 import type * as babel from '@babel/core';
 import * as t from '@babel/types';
 import { isHookName, isPathValid } from './checks';
-import type { HookIdentity } from './presets';
+import type { HookIdentity } from '../presets';
 import unwrapNode from './unwrap-node';
-import type { StateContext } from './types';
+import type { StateContext } from '../types';
 
 type HookCallType = HookIdentity | 'custom' | 'none';
 

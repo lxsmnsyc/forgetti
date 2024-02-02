@@ -1,7 +1,7 @@
 import type * as babel from '@babel/core';
 import * as t from '@babel/types';
-import type { ImportDefinition } from './presets';
-import type { StateContext } from './types';
+import type { ImportDefinition } from '../presets';
+import type { StateContext } from '../types';
 
 export function getImportIdentifier(
   state: StateContext,

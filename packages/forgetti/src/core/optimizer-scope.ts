@@ -1,8 +1,10 @@
 import type * as babel from '@babel/core';
 import * as t from '@babel/types';
-import type { OptimizedExpression, StateContext } from './types';
-import getImportIdentifier from './get-import-identifier';
 import { RUNTIME_BRANCH, RUNTIME_CACHE, RUNTIME_REF } from './imports';
+import type { OptimizedExpression, StateContext } from './types';
+import { getImportIdentifier } from './utils/get-import-identifier';
+
+const ArrayPrototypePush = Array.prototype.push;
 
 function mergeVariableDeclaration(statements: t.Statement[]): t.Statement[] {
   let stack: t.VariableDeclarator[] = [];
@@ -10,8 +12,8 @@ function mergeVariableDeclaration(statements: t.Statement[]): t.Statement[] {
   let value: t.Statement;
   for (let i = 0, len = statements.length; i < len; i++) {
     value = statements[i];
-    if (value.type === 'VariableDeclaration' && value.kind === 'let') {
-      stack.push(...value.declarations);
+    if (t.isVariableDeclaration(value) && value.kind === 'let') {
+      ArrayPrototypePush.apply(stack, value.declarations);
     } else {
       if (stack.length) {
         newStatements.push(t.variableDeclaration('let', stack));
@@ -24,12 +26,16 @@ function mergeVariableDeclaration(statements: t.Statement[]): t.Statement[] {
 }
 
 export default class OptimizerScope {
+  // Reference to the root memo
   memo: t.Identifier | undefined;
 
+  // Reference to the root ref
   ref: t.Identifier | undefined;
 
+  // Size of memo
   indecesMemo = 0;
 
+  // Size of ref
   indecesRef = 0;
 
   ctx: StateContext;
