@@ -1,12 +1,8 @@
 import type * as babel from '@babel/core';
-import * as t from '@babel/types';
-import {
-  isComponent,
-  isComponentValid,
-  getImportSpecifierName,
-  isHookOrComponentName,
-  shouldSkipNode,
-} from './core/utils/checks';
+import type * as t from '@babel/types';
+import { expandExpressions } from './core/expand-expressions';
+import { inlineExpressions } from './core/inline-expressions';
+import optimizeJSX from './core/optimize-jsx';
 import Optimizer from './core/optimizer';
 import type {
   HookRegistration,
@@ -14,13 +10,17 @@ import type {
   Options,
 } from './core/presets';
 import { PRESETS } from './core/presets';
-import type { StateContext, State } from './core/types';
-import unwrapNode from './core/utils/unwrap-node';
-import unwrapPath from './core/utils/unwrap-path';
-import { expandExpressions } from './core/expand-expressions';
-import { inlineExpressions } from './core/inline-expressions';
 import { simplifyExpressions } from './core/simplify-expressions';
-import optimizeJSX from './core/optimize-jsx';
+import type { State, StateContext } from './core/types';
+import {
+  getImportSpecifierName,
+  isComponent,
+  isComponentValid,
+  isHookOrComponentName,
+  shouldSkipNode,
+} from './core/utils/checks';
+import { getHOCDefinitionFromCallee } from './core/utils/get-hoc-definition-from-callee';
+import unwrapPath from './core/utils/unwrap-path';
 
 export type { Options };
 
@@ -167,45 +167,9 @@ function transformHOC(
   if (path.node.arguments.length === 0) {
     return;
   }
-  // Check if callee is potentially a named or default import
-  const trueID = unwrapNode(path.node.callee, t.isIdentifier);
-  if (trueID) {
-    const binding = path.scope.getBindingIdentifier(trueID.name);
-    if (binding) {
-      const registration = ctx.registrations.hocs.identifiers.get(binding);
-      if (registration) {
-        transformFunction(ctx, path.get('arguments')[0], false);
-      }
-    }
-    // Check if callee is potentially a namespace import
-  }
-  const trueMember = unwrapNode(path.node.callee, t.isMemberExpression);
-  if (
-    trueMember &&
-    !trueMember.computed &&
-    trueMember.property.type === 'Identifier'
-  ) {
-    const obj = unwrapNode(trueMember.object, t.isIdentifier);
-    if (obj) {
-      const binding = path.scope.getBindingIdentifier(obj.name);
-      if (binding) {
-        const registrations = ctx.registrations.hocs.namespaces.get(binding);
-        if (registrations) {
-          const propName = trueMember.property.name;
-          let registration: (typeof registrations)[0];
-          for (let i = 0, len = registrations.length; i < len; i++) {
-            registration = registrations[i];
-            if (registration.kind === 'default') {
-              if (propName === 'default') {
-                transformFunction(ctx, path.get('arguments')[0], false);
-              }
-            } else if (registration && registration.name === propName) {
-              transformFunction(ctx, path.get('arguments')[0], false);
-            }
-          }
-        }
-      }
-    }
+  const definition = getHOCDefinitionFromCallee(ctx, path);
+  if (definition) {
+    transformFunction(ctx, path.get('arguments')[0], false);
   }
 }
 
@@ -282,6 +246,8 @@ export default function forgettiPlugin(): babel.PluginObj<State> {
             transformVariableDeclarator(ctx, path);
           },
         });
+
+        programPath.scope.crawl();
       },
     },
   };
