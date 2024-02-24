@@ -29,7 +29,7 @@ export function getHOCDefinitionFromCallee(
   if (id) {
     const binding = path.scope.getBindingIdentifier(id.name);
     if (binding) {
-      return ctx.registrations.hooks.identifiers.get(binding);
+      return ctx.registrations.hocs.identifiers.get(binding);
     }
     return undefined;
   }
