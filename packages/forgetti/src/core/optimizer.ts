@@ -458,27 +458,24 @@ export default class Optimizer {
   }
 
   optimizeRef(path: babel.NodePath<t.CallExpression>): OptimizedExpression {
-    const arg = path.node.arguments[0];
-    let init: t.Expression | undefined;
+    const arg = path.get('arguments')[0];
+    let init: babel.NodePath<t.Expression> | undefined;
     if (arg) {
-      switch (arg.type) {
-        case 'SpreadElement': {
-          init = t.memberExpression(arg.argument, t.numericLiteral(0), true);
-          break;
-        }
-        case 'ArgumentPlaceholder':
-        case 'JSXNamespacedName':
-          break;
-        default: {
-          init = arg;
-          break;
-        }
+      if (isPathValid(arg, t.isSpreadElement)) {
+        arg.replaceWith(
+          t.memberExpression(arg.node.argument, t.numericLiteral(0), true),
+        );
+      }
+      if (isPathValid(arg, t.isExpression)) {
+        init = arg;
       }
     }
     const expr = t.objectExpression([
       t.objectProperty(
         t.identifier('current'),
-        init || t.unaryExpression('void', t.numericLiteral(0)),
+        init
+          ? this.optimizeExpression(init).expr
+          : t.unaryExpression('void', t.numericLiteral(0)),
       ),
     ]);
     return this.createMemo(expr, true, 'ref');
