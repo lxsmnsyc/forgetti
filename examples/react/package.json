@@ -12,12 +12,12 @@
     "@vitejs/plugin-react": "^4.2.1",
     "typescript": "^5.3.3",
     "vite": "^5.0.11",
-    "vite-plugin-forgetti": "0.8.2"
+    "vite-plugin-forgetti": "0.8.3"
   },
   "dependencies": {
-    "forgetti": "0.8.1",
+    "forgetti": "0.8.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
-  "version": "0.8.2"
+  "version": "0.8.3"
 }
