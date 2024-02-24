@@ -15,17 +15,12 @@
       "types": "./dist/types/index.d.ts"
     }
   },
-  "files": [
-    "dist",
-    "src"
-  ],
+  "files": ["dist", "src"],
   "engines": {
     "node": ">=10"
   },
   "license": "MIT",
-  "keywords": [
-    "pridepack"
-  ],
+  "keywords": ["pridepack"],
   "name": "rollup-plugin-forgetti",
   "devDependencies": {
     "@types/babel__core": "^7.20.5",
@@ -41,7 +36,7 @@
     "@rollup/pluginutils": "^5.0.5"
   },
   "peerDependencies": {
-    "forgetti": "^0.7",
+    "forgetti": "^0.8",
     "rollup": "^3"
   },
   "scripts": {
