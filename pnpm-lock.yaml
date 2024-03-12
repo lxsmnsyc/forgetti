@@ -21,7 +21,7 @@ importers:
   examples/preact:
     dependencies:
       forgetti:
-        specifier: 0.8.4
+        specifier: 0.8.5
         version: link:../../packages/forgetti
       preact:
         specifier: ^10.19.3
@@ -37,13 +37,13 @@ importers:
         specifier: ^5.0.11
         version: 5.0.11(@types/node@20.11.1)
       vite-plugin-forgetti:
-        specifier: 0.8.4
+        specifier: 0.8.5
         version: link:../../packages/vite
 
   examples/react:
     dependencies:
       forgetti:
-        specifier: 0.8.4
+        specifier: 0.8.5
         version: link:../../packages/forgetti
       react:
         specifier: ^18.2.0
@@ -68,7 +68,7 @@ importers:
         specifier: ^5.0.11
         version: 5.0.11(@types/node@20.11.1)
       vite-plugin-forgetti:
-        specifier: 0.8.4
+        specifier: 0.8.5
         version: link:../../packages/vite
 
   packages/forgetti:
@@ -121,7 +121,7 @@ importers:
         specifier: ^20.11.1
         version: 20.11.1
       forgetti:
-        specifier: 0.8.4
+        specifier: 0.8.5
         version: link:../forgetti
       pridepack:
         specifier: 2.6.0
@@ -152,7 +152,7 @@ importers:
         specifier: ^20.11.1
         version: 20.11.1
       forgetti:
-        specifier: 0.8.4
+        specifier: 0.8.5
         version: link:../forgetti
       pridepack:
         specifier: 2.6.0
