@@ -1,7 +1,7 @@
 import type * as babel from '@babel/core';
 import * as t from '@babel/types';
-import { isPathValid } from './utils/checks';
 import type { ComponentNode } from './types';
+import { isPathValid } from './utils/checks';
 
 function isInValidExpression(path: babel.NodePath): boolean {
   let current = path.parentPath;
@@ -35,7 +35,11 @@ function inlineExpression(
     isPathValid(path, t.isIdentifier)
   ) {
     const binding = path.scope.getBinding(path.node.name);
-    if (binding?.referenced && binding.referencePaths.length === 1) {
+    if (!binding) {
+      return;
+    }
+    const total = binding.references + binding.constantViolations.length;
+    if (total === 1) {
       switch (binding.kind) {
         case 'const':
         case 'let':
