@@ -177,15 +177,22 @@ export default class OptimizerScope {
     return undefined;
   }
 
-  loop: t.Identifier | undefined;
+  loop: {
+    memo: t.Identifier | undefined;
+    ref: t.Identifier | undefined;
+  } = {
+    memo: undefined,
+    ref: undefined,
+  };
 
   loopIndex: t.Identifier | undefined;
 
-  createLoopHeader(): t.Identifier {
-    if (!this.loop) {
-      this.loop = this.path.scope.generateUidIdentifier('loop');
+  createLoopHeader(type: 'memo' | 'ref'): t.Identifier {
+    let current = this.loop[type];
+    if (!current) {
+      current = this.loop[type] = this.path.scope.generateUidIdentifier('loop');
     }
-    return this.loop;
+    return current;
   }
 
   createLoopIndex(): t.Identifier {
@@ -239,45 +246,55 @@ export default class OptimizerScope {
     ]);
   }
 
-  getLoopMemoHeaderDeclaration(): t.VariableDeclaration {
-    const header = this.createHeader('memo');
-    const index = this.createLoopIndex();
-    const localIndex = this.path.scope.generateUidIdentifier('loopId');
-    return t.variableDeclaration('let', [
-      t.variableDeclarator(localIndex, t.updateExpression('++', index)),
-      t.variableDeclarator(
-        this.createLoopHeader(),
-        t.callExpression(
-          getImportIdentifier(this.ctx, this.path, RUNTIME_BRANCH),
-          [header, localIndex, t.numericLiteral(this.indecesMemo)],
-        ),
-      ),
-    ]);
+  getLoopMemoHeaderDeclaration(): t.VariableDeclaration[] | undefined {
+    if (this.loop.memo) {
+      const header = this.createHeader('memo');
+      const index = this.createLoopIndex();
+      const localIndex = this.path.scope.generateUidIdentifier('loopId');
+      return [
+        t.variableDeclaration('let', [
+          t.variableDeclarator(localIndex, t.updateExpression('++', index)),
+          t.variableDeclarator(
+            this.createLoopHeader('memo'),
+            t.callExpression(
+              getImportIdentifier(this.ctx, this.path, RUNTIME_BRANCH),
+              [header, localIndex, t.numericLiteral(this.indecesMemo)],
+            ),
+          ),
+        ]),
+      ];
+    }
+    return undefined;
   }
 
-  getLoopRefHeaderDeclaration(): t.VariableDeclaration {
-    const header = this.createHeader('ref');
-    const index = this.createLoopIndex();
-    const localIndex = this.path.scope.generateUidIdentifier('loopId');
-    return t.variableDeclaration('let', [
-      t.variableDeclarator(localIndex, t.updateExpression('++', index)),
-      t.variableDeclarator(
-        this.createLoopHeader(),
-        t.callExpression(
-          getImportIdentifier(this.ctx, this.path, RUNTIME_BRANCH),
-          [header, localIndex, t.numericLiteral(this.indecesRef)],
-        ),
-      ),
-    ]);
+  getLoopRefHeaderDeclaration(): t.VariableDeclaration[] | undefined {
+    if (this.loop.ref) {
+      const header = this.createHeader('ref');
+      const index = this.createLoopIndex();
+      const localIndex = this.path.scope.generateUidIdentifier('loopId');
+      return [
+        t.variableDeclaration('let', [
+          t.variableDeclarator(localIndex, t.updateExpression('++', index)),
+          t.variableDeclarator(
+            this.createLoopHeader('ref'),
+            t.callExpression(
+              getImportIdentifier(this.ctx, this.path, RUNTIME_BRANCH),
+              [header, localIndex, t.numericLiteral(this.indecesRef)],
+            ),
+          ),
+        ]),
+      ];
+    }
+    return undefined;
   }
 
   getStatements(): t.Statement[] {
     const result = [...this.statements];
     const memoHeader = this.isInLoop
-      ? [this.getLoopMemoHeaderDeclaration()]
+      ? this.getLoopMemoHeaderDeclaration()
       : this.getMemoDeclarations();
     const refHeader = this.isInLoop
-      ? [this.getLoopRefHeaderDeclaration()]
+      ? this.getLoopRefHeaderDeclaration()
       : this.getRefDeclarations();
     return mergeVariableDeclaration([
       ...(memoHeader || []),

@@ -91,7 +91,7 @@ export default class Optimizer {
     }
     // Creates the cache header
     const header = this.scope.isInLoop
-      ? this.scope.createLoopHeader()
+      ? this.scope.createLoopHeader(type)
       : this.scope.createHeader(type);
     // Get the memo index
     const index = this.scope.createIndex(type);
