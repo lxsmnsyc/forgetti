@@ -9,7 +9,7 @@ land:
   every: 5
 branches:
 budget:
-  tokens: 800000
+  tokens: 3500000
 release:
   publish: changesets
   paths: [packages/**]
@@ -39,7 +39,7 @@ forgetti ships a new compiler built on oxc-parser and magic-string. It replaces 
 
 - Starts after PR #39 (`chore/repo-setup`) merges. Every `verify` command assumes its tsdown, vitest 5, oxlint and changesets setup.
 - One worktree at a time. The machine has 8 GB RAM and 8 cores and is CPU-bound (debate J1).
-- About 9k lines and 600k tokens are expected. 800k tokens before `final-gate` is a kill criterion (debate P9).
+- About 9k lines are expected (debate P9). Token budget: 3.5M, set by the user on 2026-11-21 from the measured rate of `contracts` (186k for an M node with a fresh review). This overrides the debate's 600k estimate and its 800k kill line, which counted only the code written. Recheck spend against it after `s1-baseline`.
 - Soundness is a hard gate on every milestone: 0 differences from uncompiled output (debate P3, P8, P17).
 - The new compiler lives in `packages/forgetti/src/next/` and its runtime in `packages/forgetti/runtime/next.ts`. Neither is exported until `switch`, so the 0.8 compiler keeps working and every node merges alone.
 - `packages/forgetti/src/next/index.ts` (the `compile()` pipeline) and `packages/forgetti/src/next/plan/index.ts` (the planner pass list) are touched by several nodes on purpose. They are short wiring files; each node adds one call or one entry and keeps its logic in its own folder. `packages/forgetti/src/next/plan/index.ts` is the planner pass list. It is already split by feature: each planner node owns its pass file and appends one line to the list, so the five nodes that touch it only add one line each.

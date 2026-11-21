@@ -144,7 +144,7 @@ Stopping after S2 still leaves a sound compiler of about 5k lines (P9).
 
 ## Overruled
 
-- none
+- P9 (budget): the user set the token budget to 3.5M on 2026-11-21. The first node measured 186k tokens, so 600k and the 800k kill line undercount what agents spend reading files.
 
 ## Cost of this debate
 
