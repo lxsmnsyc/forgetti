@@ -2,7 +2,7 @@
 goal: Design a new set of compiler phases for forgetti on oxc and magic-string that keep the tree cache, are sound on React 19 and Preact 11, and beat both forgetti 0.8 and React Compiler 1.0 on the measured corpus
 date: 2026-11-21
 rounds: 3 of 3
-status: proposed
+status: approved
 roadmap: docs/roadmaps/compiler-rewrite
 supersedes: none
 decision: none
