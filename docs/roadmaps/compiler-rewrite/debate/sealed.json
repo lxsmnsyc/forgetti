@@ -1,0 +1,814 @@
+{
+  "round": 3,
+  "claims": {
+    "J1": {
+      "id": "J1",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "device",
+      "text": "8 cores, 8 GB RAM, about 3.4 GB free, load 5.8. capacity.py recommends 1 parallel worktree, limited by CPU. 26 GB free disk.",
+      "evidence": {
+        "type": "measured",
+        "source": "pr-author capacity.py --json",
+        "detail": "evidence/capacity.json"
+      }
+    },
+    "J2": {
+      "id": "J2",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "On the 15-file corpus, forgetti 0.8.5 output differs from uncompiled React in 3 cases (forloop stale rows, usectx stale context, bailout cached side effect). React Compiler 1.0.0 output differs in 0 cases.",
+      "evidence": {
+        "type": "measured",
+        "source": "evidence/runtime.mjs and evidence/extra.mjs",
+        "detail": "evidence/out/runtime-table.txt, evidence/out/extra-stale.txt"
+      }
+    },
+    "J3": {
+      "id": "J3",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "forgetti 0.8 output is 1.7 to 4.3 times larger than React Compiler output in raw bytes on the 14 files React Compiler compiled, and uses 2 to 4 times more slots.",
+      "evidence": {
+        "type": "measured",
+        "source": "evidence/compile.mjs",
+        "detail": "evidence/out/compile-table.json"
+      }
+    },
+    "J4": {
+      "id": "J4",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "Neither compiler wins on re-renders. React Compiler re-renders fewer children on jsxprops, earlyreturn and deepprop. forgetti 0.8 re-renders or recomputes less on derived, hook, ternary, map (Row1 against Row3 on one replaced item) and mutate.",
+      "evidence": {
+        "type": "measured",
+        "source": "evidence/runtime.mjs",
+        "detail": "evidence/out/runtime-table.txt and research.md 'Re-renders and recomputes'"
+      }
+    },
+    "J5": {
+      "id": "J5",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "Platform constraints: useMemo may discard its cache; use() may be called in branches and loops and must not be cached; other hooks keep a fixed order before any early return; react/compiler-runtime c() is undocumented and absent in Preact 11; Preact 11 compares deps with Object.is.",
+      "evidence": {
+        "type": "source",
+        "source": "https://react.dev/reference/react/useMemo, https://react.dev/reference/react/use, https://react.dev/reference/rules/rules-of-hooks, https://preactjs.com/guide/v11/upgrade-guide/",
+        "detail": "research.md 'Constraints from React 19 and Preact 11'"
+      }
+    },
+    "J6": {
+      "id": "J6",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "Lab prior art: solid-optimizer is an oxc-parser plus magic-string compiler of 15,588 lines of TypeScript (scope.ts alone is 707 lines), built over 251 commits. silmaril is 9,119 lines and solid-styled 3,294 lines on the same stack.",
+      "evidence": {
+        "type": "measured",
+        "source": "git ls-files '*.ts' | xargs cat | wc -l in each repo"
+      }
+    },
+    "J7": {
+      "id": "J7",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "forgetti 0.8 compiler source is 3,849 lines (src/ plus runtime/) with 50 snapshot tests.",
+      "evidence": {
+        "type": "measured",
+        "source": "wc -l packages/forgetti/src/**/*.ts packages/forgetti/runtime/index.ts"
+      }
+    },
+    "J8": {
+      "id": "J8",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "Fixed by the user: oxc-parser plus magic-string, the tree cache stays, React 19 and Preact 11 are the targets, and the phases must not follow React Compiler's design. React Compiler is only measured as a black box.",
+      "evidence": {
+        "type": "inferred",
+        "source": "user prompt 2026-11-21: 'stick in the concept of a tree cache structure', 'consideration of React 19 and latest Preact', 'DO NOT FOLLOW THE REACT COMPILER'; toolchain answer 'oxc + magic-string'",
+        "detail": "fixed choices, not open to the debate"
+      }
+    },
+    "J9": {
+      "id": "J9",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "tokens",
+      "text": "Context an agent loads to work on the compiler: research.md is about 2,400 words; forgetti 0.8 src is about 3,700 lines (roughly 35k tokens); the corpus is 15 files under 40 lines each.",
+      "evidence": {
+        "type": "measured",
+        "source": "wc on docs/roadmaps/compiler-rewrite/debate/research.md and packages/forgetti/src"
+      }
+    },
+    "J10": {
+      "id": "J10",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "Prior art outside the lab: React Compiler 1.0 (released 2025-10-07) builds a control-flow IR, infers mutation and aliasing effects, and groups values into reactive scopes over one flat cache from useMemoCache. Million Lint and forgetti 0.8 work on the AST without a mutation model.",
+      "evidence": {
+        "type": "prior-art",
+        "source": "https://react.dev/blog/2025/10/07/react-compiler-1 and evidence/out/react-compiler/*.jsx",
+        "detail": "negative result for 0.8: J2 divergences come from the missing mutation and hook model"
+      }
+    },
+    "P1": {
+      "id": "P1",
+      "round": 1,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Pipeline of five phases, each a pure function from source ranges to a plan, with magic-string only in the last. 1 parse and scope (oxc-parser, finds components and hooks). 2 eligibility (per-component bailout on Rules of React breaks). 3 ownership (classifies each local value). 4 cache-tree plan (nodes, slots, dependency sets). 5 emit (magic-string inserts slot code at original ranges, no AST rewrite, no outlining). The runtime is one small cache hook.",
+      "evidence": {
+        "type": "prior-art",
+        "source": "/Users/alexis/Documents/GitHub/solid-optimizer/build-phases.md and src/scope.ts",
+        "detail": "Same stack ships a multi-pass analyze-then-edit compiler: each pass reparses and edits with MagicString, chaining source maps. Benchmarks in benchmarks.md show it works at scale (up to 35.5% gzip reduction on kobalte)."
+      },
+      "estimate": {
+        "value": 7000,
+        "unit": "lines of TypeScript"
+      }
+    },
+    "P2": {
+      "id": "P2",
+      "round": 1,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Phase 3 uses a local ownership lattice instead of an effect-and-alias IR. Each local is fresh (created in this render by a literal, array, object or known-pure constructor), frozen (fresh and past its last mutation), or opaque (props, state, hook results, use() results, anything that escaped into an unknown call). Mutating calls and writes (push, assignment to a member, passing to an unknown function) move a fresh value toward its last-mutation point. A slot may hold only a frozen or pure-derived value. A fresh value that is read after a mutation joins the dependency set of the mutating statements. This fixes the 0.8 forloop case, where const rows = [] was cached as a constant.",
+      "evidence": {
+        "type": "measured",
+        "source": "evidence/out/runtime-table.txt and evidence/corpus/forloop.jsx",
+        "detail": "J2: forloop is stale in 0.8 because push is not seen as mutation. The lattice marks rows as fresh until the loop ends, so the JSX return depends on the loop's inputs."
+      },
+      "estimate": {
+        "value": 1500,
+        "unit": "lines of TypeScript"
+      }
+    },
+    "P3": {
+      "id": "P3",
+      "round": 1,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Phase 2 and the runtime enforce the platform rules from J5. use() calls, hook results and impure statements are never given a slot, and every slot read that depends on them lists them as inputs. The cache hook is called first and unconditionally, built on useRef (not useMemo) so a discarded memo cache cannot be the only copy and a lost cache only costs a recompute. Cache init is pure for StrictMode. A component that mutates props or calls a hook conditionally is left uncompiled and reported. This fixes usectx and bailout in J2, and works on Preact 11 because it imports nothing from react/compiler-runtime.",
+      "evidence": {
+        "type": "source",
+        "source": "research.md 'Constraints from React 19 and Preact 11'; J5",
+        "detail": "useMemo may discard its cache, use() may sit in branches and must not be cached, hook order is fixed, c() is absent in Preact 11. Runtime estimate: 0.8 runtime/index.ts is part of the 3,849 lines (J7)."
+      },
+      "estimate": {
+        "value": 300,
+        "unit": "lines of TypeScript, runtime plus eligibility"
+      }
+    },
+    "P4": {
+      "id": "P4",
+      "round": 1,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Phase 4 groups values by exact dependency set, not by co-mutation scope and not one slot per expression. All values with the same input set share one compare and one slot block. Expressions whose cost is lower than one compare (a + 1, property reads of a frozen value, literals) get no slot. This targets J3: fewer slots than 0.8 (2 to 4 times more than React Compiler) and less code, while keeping 0.8's finer recompute on derived and hook, where React Compiler reruns costly('x', a) or both calls (J4).",
+      "evidence": {
+        "type": "measured",
+        "source": "evidence/out/compile-table.json and runtime-table.txt",
+        "detail": "derived: RC 6 slots, 0.8 13 slots. derived/one_b: RC reruns x1,y1, 0.8 reruns y1 only. A dependency-set grouping of derived needs one slot block per input set {a}, {b}, so recompute is exact and slots stay near RC's count."
+      },
+      "estimate": {
+        "value": 1200,
+        "unit": "lines of TypeScript, planner"
+      }
+    },
+    "P5": {
+      "id": "P5",
+      "round": 1,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Phase 4 keeps the tree cache. A component has a root cache. A branch (if, switch, ternary, short-circuit) and a loop or map iteration each get a child cache. JSX is cached as element values and is not outlined into memo components. An iteration cache is keyed by the JSX key or the item identity when known, by position otherwise. Child caches are created lazily, so memory is only paid for visited branches and rendered rows. This targets the map row in J4 (RC re-renders Row3 on one replaced item, 0.8 re-renders Row1) and fixes the jsxprops, earlyreturn and deepprop rows where 0.8's region-wide outlined memo re-renders children that RC does not.",
+      "evidence": {
+        "type": "measured",
+        "source": "evidence/out/runtime-table.txt",
+        "detail": "jsxprops/one_cls, earlyreturn/one_b, deepprop/one_other: 0.8 re-renders Child, RC does not. map/deep_item and map/append: RC Row3 and Row4, 0.8 Row1. Element caching with per-iteration caches should win both sets, to be measured."
+      },
+      "estimate": {
+        "value": 1500,
+        "unit": "lines of TypeScript, planner plus emit"
+      }
+    },
+    "P6": {
+      "id": "P6",
+      "round": 1,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Ship order, each step merges alone and is gated by the corpus table. S1: phases 1, 2, 5 and the runtime, with every expression uncached except JSX and plain dependency-set slots; must show 0 differences from uncompiled on all 15 files plus new mutation, hook and use() cases. S2: phase 3 ownership, then grouped slots (P4). S3: tree cache, branches then loops then keyed rows (P5). S4: size and render-count gate against J3 and J4, with compile time measured on oxc. Calibration: the lab's oxc plus magic-string compilers ran 3.3k lines (solid-styled), 9.1k (silmaril) and 15.6k lines over 251 commits (solid-optimizer). The plan is about 7k lines, closest to silmaril. Token estimate: 7k lines at roughly 10 tokens a line is 70k final output tokens, 4 to 6 times that with iteration and tests, so 300k to 450k tokens. Device: 8 GB RAM and 1 worktree (J1) fit a sequential build, since the corpus is 15 files under 40 lines and happy-dom runs are light.",
+      "evidence": {
+        "type": "calibration",
+        "source": "J6, J7, J9 and git history of the lab repos",
+        "detail": "Lines per repo are measured in J6. The token estimate is a reasoned multiple over those counts."
+      },
+      "estimate": {
+        "value": 375000,
+        "unit": "tokens, range 300k to 450k"
+      }
+    },
+    "A1": {
+      "id": "A1",
+      "round": 1,
+      "by": "proponent",
+      "kind": "alternative",
+      "text": "Sound-first cut: ship S1 and S2 only. Keep 0.8's tree cache for branches and loops, positional iteration caches, per-expression slots minus the P2 exclusions, and the outlined-JSX path. This is the cheapest path to 0 differences from uncompiled (J2), about 3.5k lines (0.8 is 3.8k, J7) and under half the tokens, but it does not beat React Compiler on size (J3) and keeps the J4 rows where outlined JSX loses, so it only meets the goal on soundness.",
+      "evidence": {
+        "type": "estimate",
+        "source": "J7 and P6 scaling",
+        "detail": "3.5k lines against 7k for the full plan. It meets only the soundness part of the goal."
+      },
+      "estimate": {
+        "value": 3500,
+        "unit": "lines of TypeScript"
+      }
+    },
+    "A2": {
+      "id": "A2",
+      "round": 1,
+      "by": "proponent",
+      "kind": "alternative",
+      "text": "Gate P5's keyed iteration caches behind a measurement. Build positional iteration caches first, then measure memory for a 1,000-row list and render counts on map/deep_item and map/append. Add keys only if positional caches fail the J4 map rows. This saves the key-inference code (about 300 lines) and the risk of stale rows from wrong key assumptions, at the cost of one more measured step.",
+      "evidence": {
+        "type": "source",
+        "source": "research.md question 4 'Do keyed iteration caches pay for their memory?'",
+        "detail": "Research lists this as open. A 1,000-row list holds 1,000 child caches."
+      },
+      "estimate": {
+        "value": 300,
+        "unit": "lines saved"
+      }
+    },
+    "O1": {
+      "id": "O1",
+      "kind": "risk",
+      "axis": "time",
+      "severity": "high",
+      "answers": [
+        "P3"
+      ],
+      "text": "(soundness) A cache in useRef that is written during render is the render-purity violation React documents: a render that is discarded (Suspense, concurrent restart, StrictMode double render) can leave slot values that the next render reads as valid, so a cache keyed only by dependency compares can return output built from an uncommitted render's inputs. The claim that a lost cache only costs a recompute is true, but a polluted cache is not covered, and 0.8's useRef root is the same design. J5 notes that only useMemo's cache is discardable, and research.md leaves the StrictMode reuse question unverified. Needs a test with Suspense and transitions before P3 can claim 0 differences.",
+      "evidence": {
+        "type": "source",
+        "source": "https://react.dev/reference/react/useRef ('Do not write or read ref.current during rendering') and research.md 'Not verified'",
+        "detail": "The soundness target of 0 differences is only checked on a synchronous happy-dom corpus, so concurrent-render hazards are not in the gate."
+      },
+      "round": 1,
+      "by": "opponent"
+    },
+    "O2": {
+      "id": "O2",
+      "kind": "risk",
+      "axis": "time",
+      "severity": "high",
+      "answers": [
+        "P2"
+      ],
+      "text": "(soundness) A local ownership lattice has no alias tracking. In mutate.jsx, arr = [a]; arr.push(b) works, but const x = arr; x.push(c), a fresh value stored into an object field then mutated, or a closure that captures a fresh value and runs later all move 'last mutation' to a point the per-local lattice cannot see. This is the exact job of RC's alias and effect inference. Without it, forloop is fixed but the class (stale after aliased mutation) stays open. The corpus has no alias case, so the S1 gate cannot show it.",
+      "estimate": {
+        "value": 0,
+        "unit": "alias cases in the 15-file corpus"
+      },
+      "evidence": {
+        "type": "measured",
+        "source": "grep push/alias patterns in evidence/corpus/*.jsx; mutate.jsx and callback.jsx",
+        "detail": "Only direct local mutation and one capture-without-mutation case exist. P2's 1500-line estimate then covers a lattice that is not proven sound on aliasing."
+      },
+      "round": 1,
+      "by": "opponent"
+    },
+    "O3": {
+      "id": "O3",
+      "kind": "cost",
+      "axis": "time",
+      "severity": "high",
+      "answers": [
+        "P1",
+        "P6"
+      ],
+      "text": "7,000 lines is 1.8 times the 3,849-line 0.8 (J7), with the planner (P4 1,200 plus P5 1,500) carrying the speculative part. The cited calibration, solid-optimizer, took 251 commits for 15.6k lines (J6), and its multi-pass design reparses on each pass and repeats up to 10 rounds, which is not the 'pure plan, one magic-string' shape P1 claims. Token estimate 375k assumes 5x iteration, but the line-count basis excludes the oxc scope and escape analysis rewrite from Babel.",
+      "estimate": {
+        "value": 251,
+        "unit": "commits in the closest calibration repo"
+      },
+      "evidence": {
+        "type": "prior-art",
+        "source": "/Users/alexis/Documents/GitHub/solid-optimizer/build-phases.md line 28",
+        "detail": "Each pass parses code afresh and edits with MagicString, chaining source maps; max 10 rounds. P1 cites it as support, but it is a reparse design, not a one-parse plan."
+      },
+      "round": 1,
+      "by": "opponent"
+    },
+    "O4": {
+      "id": "O4",
+      "kind": "cost",
+      "axis": "device",
+      "severity": "medium",
+      "answers": [
+        "P5",
+        "P4"
+      ],
+      "text": "(output size) Tree cache plus per-branch and per-iteration child caches costs code. 0.8's tree cache is the reason its output is 1.7 to 4.3 times larger (J3): ternary 1807 bytes with 3+5+5 slots against RC 418 with 4, switch 2660 against 1036. P4 and P5 both claim to cut slots while keeping child caches, and no estimate or sample of output size is given. Without one, the size win over RC is unsupported and likely unreachable on branch-heavy files.",
+      "estimate": {
+        "value": 4.3,
+        "unit": "x RC raw size, 0.8 on ternary"
+      },
+      "evidence": {
+        "type": "measured",
+        "source": "evidence/out/compile-table.json",
+        "detail": "ternary fg 1807 bytes 3+5+5 slots vs rc 418 bytes 4 slots; switch fg 2660 vs rc 1036."
+      },
+      "round": 1,
+      "by": "opponent"
+    },
+    "O5": {
+      "id": "O5",
+      "kind": "risk",
+      "axis": "time",
+      "severity": "medium",
+      "answers": [
+        "P6",
+        "A1"
+      ],
+      "text": "The goal 'beat both on the measured corpus' is gated on 15 files under 40 lines, with 3 of 15 being cases 0.8 already fails and J4 showing no compiler wins re-renders. A planner tuned to these rows can overfit: the tests that matter (real components, 200-line files, nested hooks) are absent, so S4 could pass while real code regresses. The corpus needs growth before S4, which is more spend not in the 375k.",
+      "evidence": {
+        "type": "measured",
+        "source": "wc -l evidence/corpus/*; J9",
+        "detail": "15 files under 40 lines each; no real-world component in the gate."
+      },
+      "round": 1,
+      "by": "opponent"
+    },
+    "O6": {
+      "id": "O6",
+      "kind": "alternative",
+      "axis": "time",
+      "severity": "medium",
+      "answers": [
+        "P1",
+        "P4",
+        "P5",
+        "A1"
+      ],
+      "text": "Cheaper path: keep the 0.8 tree cache and emit, move parse to oxc, and add only a conservative mutation barrier (any call or member write on a local array or object before its last use makes the whole component's slots depend on its inputs, bailout when an opaque or aliased value is mutated) plus the P3 use() and hook exclusions. That is A1 with the lattice replaced by a bail-out-first rule, about 2.5k lines. Report size and render counts, and only then build P4 grouping. It reaches 0 differences without alias analysis because anything it cannot prove is not compiled.",
+      "estimate": {
+        "value": 2500,
+        "unit": "lines of TypeScript"
+      },
+      "evidence": {
+        "type": "estimate",
+        "source": "J7 3,849 lines of 0.8, minus Babel-specific passes",
+        "detail": "Based on RC's own approach of bailing on props mutation (bailout.jsx result in compile-log.txt) rather than modelling it."
+      },
+      "round": 1,
+      "by": "opponent"
+    },
+    "O7": {
+      "id": "O7",
+      "kind": "risk",
+      "axis": "device",
+      "severity": "low",
+      "answers": [
+        "P5",
+        "A2"
+      ],
+      "text": "Keyed iteration caches hold one child cache per row, retained while the row key exists, so a 1,000-row list holds 1,000 caches of 7 to 11 slots each (forloop shows 11 per iteration). That is roughly 10k retained slot entries per list on top of the elements. Not measured by the proponent. A2 already gates keys on a measurement; this concedes nothing but backs A2 over P5 as default.",
+      "estimate": {
+        "value": 11000,
+        "unit": "slot entries for a 1,000-row list"
+      },
+      "evidence": {
+        "type": "measured",
+        "source": "evidence/out/compile-table.json forloop: 7 slots then 11 per iteration",
+        "detail": "1000 x 11 = 11,000 entries, extrapolated."
+      },
+      "round": 1,
+      "by": "opponent"
+    },
+    "J11": {
+      "id": "J11",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "17 of the 19 files in packages/forgetti/src/core import Babel types or NodePath, and optimizer.ts has 362 lines with t. or path. calls. The 0.8 emit rewrites Babel paths in place, so it cannot be kept on a magic-string emit.",
+      "evidence": {
+        "type": "measured",
+        "source": "grep -l '@babel/types|NodePath|babel.' packages/forgetti/src/core/**/*.ts; grep -c 't\\.|path\\.' optimizer.ts"
+      }
+    },
+    "J12": {
+      "id": "J12",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "output size",
+      "text": "Proof T2: hand output under P4 and P5 is 0.73 to 1.29 times React Compiler raw bytes on ternary, switch, map and derived, has 0 HTML differences in 14 scenarios, and re-renders no more than either compiler. Empty slots need a sentinel value.",
+      "evidence": {
+        "type": "measured",
+        "source": "proof T2",
+        "detail": "evidence/proof-t2/RESULT.md"
+      }
+    },
+    "J13": {
+      "id": "J13",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "soundness",
+      "text": "Proof T1: a useRef cache whose slots store their inputs and are written only after the computation returns matches uncompiled React through interrupted transitions, Suspense on mount and update, StrictMode, and a throw with retry. Writing inputs before the value gives stale output when the computation throws.",
+      "evidence": {
+        "type": "measured",
+        "source": "proof T1",
+        "detail": "evidence/proof-t1/RESULT.md"
+      }
+    },
+    "P7": {
+      "id": "P7",
+      "round": 2,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Amends P2 for O2. The lattice becomes alias groups. Tracked: a group is the set of locals that may point to one fresh value. Joins come from assignment (const x = arr), a fresh value stored into a field, array element or Map/Set of another fresh value (the two groups merge), spread of a fresh value into a literal (shallow copy, new group), and a closure that references a fresh value and is created in the component (the closure joins the group, and calling it counts as a mutation of the group). Last mutation is the last statement that mutates any member of the group, so a group's slots depend on that point. Bail out the component, with a report: a fresh value passed to an unknown function or method that is not on a known-pure list, returned from a hook call, assigned to a ref.current or module variable, or captured by a closure that is passed out of the component before the group is frozen. Opaque values (props, state, hook results) are never mutated by the compiled code, and a mutation of one is a bailout, as in the bailout case in J2. The rule is sound by default: any case not on the tracked list bails out.",
+      "evidence": {
+        "type": "source",
+        "source": "ledger O2 (upheld), J2, research.md 'Mutation' row",
+        "detail": "O2 names three cases: assignment alias, field store, closure capture. Each is now tracked or bails out. Anything unlisted bails out, so the class stays closed."
+      },
+      "estimate": {
+        "value": 2000,
+        "unit": "lines of TypeScript, ownership phase, up from 1,500"
+      },
+      "answers": [
+        "P2"
+      ]
+    },
+    "P8": {
+      "id": "P8",
+      "round": 2,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Gate for P7 and S1: add 6 alias and mutation corpus files before S2 merges. Cases: const x = arr; x.push; fresh value stored in an object field then mutated; closure that mutates a fresh array and is called in a loop; spread copy then mutate the copy; fresh value passed to an unknown function (must bail out); mutation inside a branch only. Each runs against uncompiled React in the runtime harness and must show 0 differences, or a reported bailout. This answers the O2 point that the 15-file corpus has 0 alias cases.",
+      "evidence": {
+        "type": "measured",
+        "source": "evidence/runtime.mjs and evidence/extra.mjs harness",
+        "detail": "The existing harness compares HTML and render counts against uncompiled React per case, so a new case is one corpus file plus a scenario list. mutate.jsx and forloop.jsx are the existing models."
+      },
+      "estimate": {
+        "value": 6,
+        "unit": "new corpus files, about 20k tokens"
+      },
+      "answers": [
+        "O2"
+      ]
+    },
+    "P9": {
+      "id": "P9",
+      "round": 2,
+      "by": "proponent",
+      "kind": "rebuttal",
+      "text": "Answer to O3: revised budget, and its basis. J11 means no emit or analysis code carries over from 0.8, so 3.8k lines of 0.8 is not a reuse base and the new compiler is a full rewrite. Revised budget: 9,000 lines (range 7,500 to 10,500) and 600k tokens (range 450k to 800k). Basis: silmaril at 9.1k lines is the closest lab compiler, since it also does scope analysis plus one emit on oxc and magic-string; solid-optimizer at 15.6k is an upper bound because its inlining and fold passes (inline.ts alone is 97 kB) have no counterpart here. P1 does not use the repeat-until-stable loop: phases 1 to 4 run once on one parse and phase 5 writes once, so the multi-pass reparse cost does not apply. Add scope and escape analysis on oxc (scope.ts is 707 lines, J6) and the S2 alias work (P7). Staging bounds the loss: S1 plus S2 is about 5k lines and 250k tokens, and each later step is a separate merge, so a stop after S2 still leaves a sound compiler.",
+      "evidence": {
+        "type": "calibration",
+        "source": "J6, J7, J11 and /Users/alexis/Documents/GitHub/solid-optimizer/build-phases.md",
+        "detail": "Lab line counts: 3.3k, 9.1k, 15.6k. 0.8 reuse is zero by J11. Token figure is the line budget at about 10 tokens a line, times 6 for iteration and tests, which is higher than the 4 to 6 used in P6."
+      },
+      "estimate": {
+        "value": 600000,
+        "unit": "tokens, range 450k to 800k"
+      },
+      "answers": [
+        "O3",
+        "P6"
+      ]
+    },
+    "P10": {
+      "id": "P10",
+      "round": 2,
+      "by": "proponent",
+      "kind": "rebuttal",
+      "text": "Answer to O5: before the S4 gate, the corpus grows from 15 to at least 35 files and the gate is judged on files that were not used to tune the planner. Additions: the 6 alias cases (P8); 5 real-shaped components of 100 to 250 lines (a data table with sort, a form with validation, a list with filters, a modal with effects, a dashboard card) taken from public open-source React apps with licenses checked; 4 hook cases (custom hook, nested hook, conditional use(), useEffectEvent); 3 Suspense and transition cases from T1; 2 Preact 11 runs of the whole set. Split: 10 tuning files, the rest held out and read only at S4. Cost: about 20 new files at 1k to 3k tokens each plus harness scenarios, near 80k tokens and one day of agent time, inside the P9 budget. Metrics stay J3 and J4: bytes, gzip, slots, re-renders, recomputes, HTML differences.",
+      "evidence": {
+        "type": "estimate",
+        "source": "J9 (15 files under 40 lines) and O5",
+        "detail": "Token cost is file size times file count plus scenarios. Held-out split is the standard guard against overfitting a tuned planner."
+      },
+      "estimate": {
+        "value": 80000,
+        "unit": "tokens"
+      },
+      "answers": [
+        "O5",
+        "P6"
+      ]
+    },
+    "P11": {
+      "id": "P11",
+      "round": 2,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Fold J13 into the cache runtime contract in phase 5 and the runtime. A cache is a useRef object. Each slot stores its inputs and its value. A slot is written only after the computation returns, inputs and value together, so a throw leaves the slot empty and a retry recomputes. A slot read is a hit only when the slot is filled and every input is equal under Object.is. A suspended mount or an interrupted transition then matches uncompiled React.",
+      "evidence": {
+        "type": "measured",
+        "source": "evidence/proof-t1/RESULT.md (J13)",
+        "detail": "Matches uncompiled React through interrupted transitions, Suspense on mount and update, StrictMode, and throw with retry. Writing inputs before the value fails on throw."
+      },
+      "estimate": {
+        "value": 120,
+        "unit": "lines of TypeScript in the runtime"
+      },
+      "answers": [
+        "P3"
+      ]
+    },
+    "P12": {
+      "id": "P12",
+      "round": 2,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Fold J12 into the emit rules in phase 5. Empty slots hold a sentinel, never undefined, so an undefined input cannot read as a hit. A map or loop result array that a slot holds is compared with an element-wise loop, not by array identity. Emit shape follows the hand output in proof T2, which measured 0.73 to 1.29 times React Compiler raw bytes with 0 HTML differences in 14 scenarios.",
+      "evidence": {
+        "type": "measured",
+        "source": "evidence/proof-t2/RESULT.md (J12)",
+        "detail": "Sentinel and element-wise compare are the two defects the proof found in a naive emit."
+      },
+      "estimate": {
+        "value": 1.0,
+        "unit": "times React Compiler raw bytes, T2 range 0.73 to 1.29"
+      },
+      "answers": [
+        "P4",
+        "P5"
+      ]
+    },
+    "P13": {
+      "id": "P13",
+      "round": 2,
+      "by": "proponent",
+      "kind": "concession",
+      "text": "Concede the P6 estimate of 7k lines and 375k tokens, and the 'about 7k lines' note in P1, in favor of P9. Also concede that O7 makes positional caches the default: P5 keyed caches ship only under A2's gate, and P5's key text is read as optional.",
+      "answers": [
+        "P1",
+        "P5",
+        "P6"
+      ],
+      "why": "O3 upheld: J11 removes the 0.8 reuse base and the calibration repo has a different pass design. O7 upheld: about 11k retained entries per 1,000 rows, and A2 is upheld."
+    },
+    "O8": {
+      "id": "O8",
+      "kind": "risk",
+      "axis": "time",
+      "severity": "high",
+      "answers": [
+        "P7"
+      ],
+      "text": "Bail-out-by-default for any fresh value passed to a function not on a 'known-pure list' will bail on most real components (format(rows), sortBy(items), lodash or utility calls, custom hooks taking arrays). The list has no size or source, and a bailed component is uncompiled, so coverage on the 5 real-shaped files of P10 can fall below React Compiler's, which compiles every corpus file except bailout.jsx. Soundness holds but the goal 'beat RC' is then lost on the held-out set. Needs a bailout-rate gate: compiled components over total on the held-out files, no worse than RC.",
+      "estimate": {
+        "value": 1,
+        "unit": "of 15 corpus files bailed by RC (bailout.jsx); P7 bail rate unmeasured"
+      },
+      "evidence": {
+        "type": "measured",
+        "source": "evidence/out/compile-table.json (rc bailed true only for bailout)",
+        "detail": "RC bails 1 of 15. P7 lists unknown-call, hook-return and ref.current as bailouts with no measured rate."
+      },
+      "round": 2,
+      "by": "opponent"
+    },
+    "O9": {
+      "id": "O9",
+      "kind": "rebuttal",
+      "axis": "output size",
+      "severity": "medium",
+      "answers": [
+        "P12",
+        "J12"
+      ],
+      "text": "T2 does not show a size win over RC: the 4 hand files give 1.12, 0.73, 1.29, 0.86 times RC raw bytes, so 2 of 4 are larger than RC and the mean is 1.0. The RESULT.md caveat says a real planner may emit more, and the hand output excludes the sentinel, useRef wrapper and branch() runtime (rt.js is 267 bytes, per-file import cost not counted for either side). P12's 'about 1.0x' is parity at best, and only on 4 of the 14 RC-compiled files. 'Beat' needs a stated threshold such as at most 0.9x RC gzip over the whole corpus.",
+      "estimate": {
+        "value": 1.0,
+        "unit": "mean ratio to RC raw, 4 hand files"
+      },
+      "evidence": {
+        "type": "measured",
+        "source": "evidence/proof-t2/RESULT.md table",
+        "detail": "Ratios 1.12, 0.73, 1.29, 0.86; gzip 246 vs 265, 348 vs 404, 392 vs 312, 284 vs 324. map is larger than RC in gzip too (392 vs 312)."
+      },
+      "round": 2,
+      "by": "opponent"
+    },
+    "O10": {
+      "id": "O10",
+      "kind": "risk",
+      "axis": "soundness",
+      "severity": "medium",
+      "answers": [
+        "P12",
+        "P11"
+      ],
+      "text": "T2's map emit writes c[0] = item before building c[1] (input written before value), which P11 forbids after J13. It is safe there only because a JSX element creation cannot throw. Any slot whose computation is a call (derived values, the grouped slots of P4) needs the opposite order. The emit therefore has two slot shapes, and a planner that applies the cheap one to a throwing call reintroduces the stale-on-throw defect. It should be one rule in phase 5 with a test that throws.",
+      "evidence": {
+        "type": "measured",
+        "source": "evidence/proof-t2/hand/map.jsx and evidence/proof-t1/RESULT.md",
+        "detail": "map.jsx sets c[0] = item then c[1] = <Row/>; J13: inputs-before-value gives stale output when the computation throws."
+      },
+      "round": 2,
+      "by": "opponent"
+    },
+    "O11": {
+      "id": "O11",
+      "kind": "concession",
+      "answers": [
+        "O6",
+        "O1",
+        "O4"
+      ],
+      "why": "J11 shows 0.8 emit is Babel path rewriting so O6 has no reuse base, J13 shows the useRef cache is safe under the stated write order, and J12 shows child caches need not inflate size. O6, O1 and O4 are dropped; O9 and O10 narrow what is left.",
+      "text": "Concede O1, O4 and O6 as ruled.",
+      "round": 2,
+      "by": "opponent"
+    },
+    "J14": {
+      "id": "J14",
+      "round": 2,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "output size",
+      "text": "Inferred: 'beat both' means fewer re-renders and recomputes than each compiler in total, with no file worse than the better of the two, while size and bailouts are not worse than React Compiler. Soundness is a hard gate.",
+      "evidence": {
+        "type": "inferred",
+        "source": "goal text 'sound on React 19 and Preact 11, and beat both forgetti 0.8 and React Compiler 1.0 on the measured corpus'; J4 shows re-renders are the axis where neither wins",
+        "detail": "size parity counts as not losing; the user can tighten it at approval"
+      }
+    },
+    "P14": {
+      "id": "P14",
+      "round": 3,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Amends P7 for O8. An unknown call that receives a fresh value does not bail out. Under the Rules of React the compiler may assume a render-time function does not keep a reference after it returns, so the call is treated as a mutation site: the argument group and the call result merge into one group, the call itself is never cached, and the group is frozen after the last such call. Downstream slots then depend on the group's frozen values. Bailouts shrink to the cases React Compiler also rejects or that persist a reference: mutation of props, state or hook arguments (the bailout.jsx case), a fresh value stored in ref.current or a module variable, a fresh value returned from a hook call, and a closure holding a fresh value that is passed out before the group is frozen. The cost of an unknown call is lost caching of that group, not lost compilation. No known-pure list is needed for soundness. A pure list (Math, JSON, Object.keys, array methods that do not mutate) only recovers caching.",
+      "axis": "time",
+      "evidence": {
+        "type": "source",
+        "source": "evidence/out/compile-log.txt and evidence/corpus/bailout.jsx; https://react.dev/reference/rules (components and hooks must be pure; props and state are immutable)",
+        "detail": "React Compiler bailed on 1 of 15 files, and only for props mutation (CompileError: Modifying component props or hook arguments is not allowed). The set of P14 bailouts that matter for coverage is the same trigger. In the 15-file corpus no component passes a fresh local to an unknown function (grep of corpus), so the corpus cannot show the rate, and P15 gates it on held-out files."
+      },
+      "estimate": {
+        "value": 1,
+        "unit": "of 15 corpus files bailed, expected, same trigger as React Compiler"
+      },
+      "answers": [
+        "P7",
+        "O8"
+      ]
+    },
+    "P15": {
+      "id": "P15",
+      "round": 3,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Gate for P14 in S2 and S4. Count components compiled over components total, per file, on the 20 added files of P10 (5 real-shaped, held out). The rate must be at least React Compiler 1.0's rate on the same files, measured with its logger. Each component that P14 bails out and React Compiler compiles is listed, and the S4 gate fails on any such case without a bailout reason that React Compiler also gives for a different rule. Cost: the logger run is part of the existing compile.mjs (one more column), under 5k tokens.",
+      "axis": "time",
+      "evidence": {
+        "type": "measured",
+        "source": "evidence/compile.mjs and evidence/out/compile-log.txt",
+        "detail": "compile.mjs already records rc bailed and the reason per file. A bailout-rate column for the rewrite is one more field."
+      },
+      "estimate": {
+        "value": 5000,
+        "unit": "tokens"
+      },
+      "answers": [
+        "O8"
+      ]
+    },
+    "P16": {
+      "id": "P16",
+      "round": 3,
+      "by": "proponent",
+      "kind": "rebuttal",
+      "text": "Answer to O9. The map file loses in J12 because of the inline element-wise compare loop, not because of the tree cache. Moving that loop into one runtime helper, keep($, i, next), which returns the stored array when every element is equal and stores next otherwise, cuts the hand map.jsx from 715 raw and 394 gzip to 594 raw and 328 gzip, which is 1.07 times React Compiler raw (554) and 1.05 times gzip (312), down from 1.29 and 1.26. The helper is one 120-byte runtime export imported once per module graph, shared by all files (rt.js is 267 bytes now, counted once, not per file; React Compiler also imports react/compiler-runtime, counted on neither side in T2). Stated threshold: over the 14 files React Compiler compiles, total gzip including one runtime import is at most 1.0 times React Compiler, and no single file is above 1.15 times. The wins in J4 and the soundness gate carry 'beat'; size is held at parity or better, as J14 allows. Not yet run for behavior, only measured for size.",
+      "axis": "output size",
+      "evidence": {
+        "type": "measured",
+        "source": "python3 gzip of evidence/proof-t2/hand/map.jsx and a keep()-helper variant (written in the debate session, not saved to evidence)",
+        "detail": "Original 715/394, variant 594/328, React Compiler 554/312 (evidence/proof-t2/RESULT.md). Behavior of the variant is untested."
+      },
+      "estimate": {
+        "value": 1.05,
+        "unit": "times React Compiler gzip on map, down from 1.26"
+      },
+      "answers": [
+        "O9",
+        "P12"
+      ]
+    },
+    "P17": {
+      "id": "P17",
+      "round": 3,
+      "by": "proponent",
+      "kind": "rebuttal",
+      "text": "Answer to O10. One write rule, in phase 5, for every slot shape including per-row caches and grouped slots: compute the value into a local first, then write the inputs and the value together in one block after it returns. There is no cheap shape that writes inputs first. The same rule gives the keep() variant in P16 (const v = <Row/>; c[0] = item; c[1] = v). Gate: a corpus case where a slot's computation throws on its first call and succeeds on retry, for a call slot, a grouped slot and a per-row cache, each compared with uncompiled React under the T1 harness. The planner has no code path that writes before computing, so the defect cannot come from a planner choice.",
+      "axis": "soundness",
+      "evidence": {
+        "type": "measured",
+        "source": "evidence/proof-t1/RESULT.md (J13), evidence/proof-t2/hand/map.jsx",
+        "detail": "J13: inputs-before-value fails on throw. map.jsx wrote c[0] = item first, safe only because JSX creation cannot throw. The P16 variant uses the one rule."
+      },
+      "estimate": {
+        "value": 3,
+        "unit": "throw-and-retry corpus cases, about 6k tokens"
+      },
+      "answers": [
+        "O10",
+        "P11"
+      ]
+    },
+    "O12": {
+      "id": "O12",
+      "kind": "risk",
+      "axis": "time",
+      "severity": "high",
+      "answers": [
+        "P14"
+      ],
+      "text": "P14 says downstream slots 'depend on the group's frozen values'. A fresh group is rebuilt every render, so its identity changes each time and an Object.is compare on it never hits: every slot after an unknown call (format(rows), sortBy(items)) recomputes and its JSX re-renders, which loses to React Compiler on exactly the rows J14 counts. React Compiler keys the scope on the scope's own inputs. P14 must say the dependency set is the transitive non-fresh inputs of the group (props, state), not the group value. This is the P2 rule 'a fresh value joins the dependency set' and it is not restated in P14. Needs a corpus file with an unknown call feeding a child and a render-count gate.",
+      "evidence": {
+        "type": "inferred",
+        "source": "P14 text and J14, plus evidence/out/runtime-table.txt where RC does not re-render Child on jsxprops/same",
+        "detail": "Group values are created inside the render, so identity compare cannot hit. The 15-file corpus has no unknown-call-on-fresh case (P14's own grep), so no current row would catch it."
+      },
+      "round": 3,
+      "by": "opponent"
+    },
+    "O13": {
+      "id": "O13",
+      "kind": "risk",
+      "axis": "output size",
+      "severity": "medium",
+      "answers": [
+        "P16"
+      ],
+      "text": "P16's 1.05x gzip and the 1.0x total threshold rest on one variant of one file that was written in the debate session and not saved to evidence, and its behavior is untested. The keep() helper adds a helper call and an extra array allocation per render; ratios for the other 13 RC-compiled files are unmeasured. The threshold may be fine but the figure cannot be reproduced, so it should not count as measured until the variant sits in evidence/proof-t2 with its runtime scenarios passing.",
+      "estimate": {
+        "value": 1,
+        "unit": "of 14 files measured for the keep() variant"
+      },
+      "evidence": {
+        "type": "source",
+        "source": "P16 detail: 'written in the debate session, not saved to evidence ... Behavior of the variant is untested'",
+        "detail": "The proponent's own text states both gaps."
+      },
+      "round": 3,
+      "by": "opponent"
+    },
+    "O14": {
+      "id": "O14",
+      "kind": "risk",
+      "axis": "time",
+      "severity": "low",
+      "answers": [
+        "P15"
+      ],
+      "text": "P15 gates the bailout rate on 5 real-shaped held-out files. With 5 files and 1 to 3 components each, one extra bailout moves the rate by 7 to 20 points, so 'at least React Compiler's rate' cannot separate a good planner from a poor one, and RC's logger rejects many things beyond props mutation (ref reads in render, conditional hooks, globals), which P14 lists only partly. Count by component and report each difference, which P15 already does for the failing direction; raise the held-out real-shaped count to at least 10 if budget allows (about 20k tokens more, inside P9's range).",
+      "estimate": {
+        "value": 20000,
+        "unit": "tokens for 5 more real-shaped files"
+      },
+      "evidence": {
+        "type": "estimate",
+        "source": "P10 (5 real-shaped files at 1k to 3k tokens each plus scenarios, 80k for 20 files)",
+        "detail": "Scaling P10's per-file cost for 5 more files."
+      },
+      "round": 3,
+      "by": "opponent"
+    },
+    "O15": {
+      "id": "O15",
+      "kind": "concession",
+      "answers": [
+        "O10"
+      ],
+      "why": "P17 sets one write rule with no planner path that writes inputs first, and adds throw-and-retry cases for call, grouped and per-row slots. That answers O10.",
+      "text": "Concede O10 as answered by P17, provided the three throw-and-retry cases are in the S1 gate.",
+      "round": 3,
+      "by": "opponent"
+    }
+  }
+}

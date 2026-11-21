@@ -1,0 +1,302 @@
+[
+ {
+  "kind": "rc",
+  "name": "bailout",
+  "raw": 287,
+  "gz": 197,
+  "slots": "0",
+  "ms": 2.48,
+  "bailed": true,
+  "reason": "CompileError: This value cannot be modified Modifying component props or hook arguments is not allowed. Consider using a local variable instead"
+ },
+ {
+  "kind": "rc",
+  "name": "callback",
+  "raw": 722,
+  "gz": 371,
+  "slots": "8",
+  "ms": 4.55,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "rc",
+  "name": "deepprop",
+  "raw": 481,
+  "gz": 281,
+  "slots": "5",
+  "ms": 2.12,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "rc",
+  "name": "derived",
+  "raw": 591,
+  "gz": 324,
+  "slots": "6",
+  "ms": 3.06,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "rc",
+  "name": "earlyreturn",
+  "raw": 1002,
+  "gz": 479,
+  "slots": "10",
+  "ms": 3.02,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "rc",
+  "name": "forloop",
+  "raw": 586,
+  "gz": 331,
+  "slots": "5",
+  "ms": 3.61,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "rc",
+  "name": "hook",
+  "raw": 537,
+  "gz": 300,
+  "slots": "3",
+  "ms": 2.07,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "rc",
+  "name": "jsxprops",
+  "raw": 652,
+  "gz": 327,
+  "slots": "8",
+  "ms": 1.94,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "rc",
+  "name": "map",
+  "raw": 554,
+  "gz": 312,
+  "slots": "5",
+  "ms": 2.32,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "rc",
+  "name": "mutate",
+  "raw": 710,
+  "gz": 371,
+  "slots": "8",
+  "ms": 3.18,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "rc",
+  "name": "statememo",
+  "raw": 937,
+  "gz": 478,
+  "slots": "8",
+  "ms": 4.81,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "rc",
+  "name": "switch",
+  "raw": 1036,
+  "gz": 404,
+  "slots": "7",
+  "ms": 3.27,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "rc",
+  "name": "ternary",
+  "raw": 418,
+  "gz": 265,
+  "slots": "4",
+  "ms": 2.44,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "rc",
+  "name": "trycatch",
+  "raw": 643,
+  "gz": 354,
+  "slots": "5",
+  "ms": 2.99,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "rc",
+  "name": "usectx",
+  "raw": 581,
+  "gz": 296,
+  "slots": "5",
+  "ms": 2.29,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "fg",
+  "name": "bailout",
+  "raw": 2782,
+  "gz": 814,
+  "slots": "19+4",
+  "ms": 2.71,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "fg",
+  "name": "callback",
+  "raw": 1423,
+  "gz": 529,
+  "slots": "9",
+  "ms": 1.44,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "fg",
+  "name": "deepprop",
+  "raw": 1636,
+  "gz": 533,
+  "slots": "13",
+  "ms": 1.33,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "fg",
+  "name": "derived",
+  "raw": 1636,
+  "gz": 554,
+  "slots": "13",
+  "ms": 1.37,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "fg",
+  "name": "earlyreturn",
+  "raw": 1997,
+  "gz": 653,
+  "slots": "14+1",
+  "ms": 1.71,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "fg",
+  "name": "forloop",
+  "raw": 2369,
+  "gz": 760,
+  "slots": "7+0",
+  "ms": 2.48,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "fg",
+  "name": "hook",
+  "raw": 1958,
+  "gz": 644,
+  "slots": "9+7",
+  "ms": 2.25,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "fg",
+  "name": "jsxprops",
+  "raw": 1646,
+  "gz": 545,
+  "slots": "12",
+  "ms": 1.39,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "fg",
+  "name": "map",
+  "raw": 1395,
+  "gz": 508,
+  "slots": "8",
+  "ms": 1.52,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "fg",
+  "name": "mutate",
+  "raw": 1852,
+  "gz": 616,
+  "slots": "14",
+  "ms": 1.8,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "fg",
+  "name": "statememo",
+  "raw": 1574,
+  "gz": 590,
+  "slots": "10",
+  "ms": 1.42,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "fg",
+  "name": "switch",
+  "raw": 2660,
+  "gz": 756,
+  "slots": "8+6+6+1",
+  "ms": 2.17,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "fg",
+  "name": "ternary",
+  "raw": 1807,
+  "gz": 563,
+  "slots": "3+5+5",
+  "ms": 1.47,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "fg",
+  "name": "trycatch",
+  "raw": 1497,
+  "gz": 558,
+  "slots": "6+4",
+  "ms": 1.31,
+  "bailed": false,
+  "reason": ""
+ },
+ {
+  "kind": "fg",
+  "name": "usectx",
+  "raw": 1557,
+  "gz": 525,
+  "slots": "6+5",
+  "ms": 1.36,
+  "bailed": false,
+  "reason": ""
+ }
+]

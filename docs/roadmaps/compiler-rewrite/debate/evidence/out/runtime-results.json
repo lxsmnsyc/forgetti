@@ -1,0 +1,1815 @@
+{
+ "results": [
+  {
+   "variant": "plain",
+   "file": "derived",
+   "ph": "same",
+   "initial": {
+    "x": 1,
+    "y": 1
+   },
+   "counts": {
+    "x": 1,
+    "y": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "derived",
+   "ph": "one_b",
+   "initial": {
+    "x": 1,
+    "y": 1
+   },
+   "counts": {
+    "x": 1,
+    "y": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "derived",
+   "ph": "one_a",
+   "initial": {
+    "x": 1,
+    "y": 1
+   },
+   "counts": {
+    "x": 1,
+    "y": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "jsxprops",
+   "ph": "same",
+   "initial": {
+    "Child": 2
+   },
+   "counts": {
+    "Child": 2
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "jsxprops",
+   "ph": "one_cls",
+   "initial": {
+    "Child": 2
+   },
+   "counts": {
+    "Child": 2
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "jsxprops",
+   "ph": "one_x",
+   "initial": {
+    "Child": 2
+   },
+   "counts": {
+    "Child": 2
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "earlyreturn",
+   "ph": "same",
+   "initial": {
+    "head": 1,
+    "body": 1,
+    "Child": 1
+   },
+   "counts": {
+    "head": 1,
+    "body": 1,
+    "Child": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "earlyreturn",
+   "ph": "one_b",
+   "initial": {
+    "head": 1,
+    "body": 1,
+    "Child": 1
+   },
+   "counts": {
+    "head": 1,
+    "body": 1,
+    "Child": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "earlyreturn",
+   "ph": "one_loading",
+   "initial": {
+    "head": 1,
+    "body": 1,
+    "Child": 1
+   },
+   "counts": {
+    "head": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "ternary",
+   "ph": "same",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "ternary",
+   "ph": "inactive_b",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "ternary",
+   "ph": "active_a",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "map",
+   "ph": "same",
+   "initial": {
+    "Row": 3
+   },
+   "counts": {
+    "Row": 3
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "map",
+   "ph": "one_title",
+   "initial": {
+    "Row": 3
+   },
+   "counts": {
+    "Row": 3
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "map",
+   "ph": "deep_item",
+   "initial": {
+    "Row": 3
+   },
+   "counts": {
+    "Row": 3
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "map",
+   "ph": "append",
+   "initial": {
+    "Row": 3
+   },
+   "counts": {
+    "Row": 4
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "forloop",
+   "ph": "same",
+   "initial": {
+    "Row": 3
+   },
+   "counts": {
+    "Row": 3
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "forloop",
+   "ph": "one_title",
+   "initial": {
+    "Row": 3
+   },
+   "counts": {
+    "Row": 3
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "forloop",
+   "ph": "new_array_same",
+   "initial": {
+    "Row": 3
+   },
+   "counts": {
+    "Row": 3
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "forloop",
+   "ph": "deep_item",
+   "initial": {
+    "Row": 3
+   },
+   "counts": {
+    "Row": 3
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "hook",
+   "ph": "same",
+   "initial": {
+    "x": 1,
+    "y": 1
+   },
+   "counts": {
+    "x": 1,
+    "y": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "hook",
+   "ph": "one_b",
+   "initial": {
+    "x": 1,
+    "y": 1
+   },
+   "counts": {
+    "x": 1,
+    "y": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "hook",
+   "ph": "one_a",
+   "initial": {
+    "x": 1,
+    "y": 1
+   },
+   "counts": {
+    "x": 1,
+    "y": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "callback",
+   "ph": "same",
+   "initial": {
+    "Btn": 1
+   },
+   "counts": {
+    "Btn": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "callback",
+   "ph": "one_other",
+   "initial": {
+    "Btn": 1
+   },
+   "counts": {
+    "Btn": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "callback",
+   "ph": "one_id",
+   "initial": {
+    "Btn": 1
+   },
+   "counts": {
+    "Btn": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "statememo",
+   "ph": "same",
+   "initial": {
+    "total": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "plain",
+   "file": "statememo",
+   "ph": "one_tag",
+   "initial": {
+    "total": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "plain",
+   "file": "statememo",
+   "ph": "new_list_same_content",
+   "initial": {
+    "total": 1
+   },
+   "counts": {
+    "total": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "statememo",
+   "ph": "setState",
+   "initial": {
+    "total": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "plain",
+   "file": "mutate",
+   "ph": "same",
+   "initial": {
+    "Child": 2
+   },
+   "counts": {
+    "Child": 2
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "mutate",
+   "ph": "one_c",
+   "initial": {
+    "Child": 2
+   },
+   "counts": {
+    "Child": 2
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "mutate",
+   "ph": "one_a",
+   "initial": {
+    "Child": 2
+   },
+   "counts": {
+    "Child": 2
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "deepprop",
+   "ph": "same",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "deepprop",
+   "ph": "one_other",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "deepprop",
+   "ph": "deep_leaf",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "deepprop",
+   "ph": "deep_newrefs_same_leaf",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "usectx",
+   "ph": "same",
+   "initial": {},
+   "counts": {}
+  },
+  {
+   "variant": "plain",
+   "file": "usectx",
+   "ph": "one_name",
+   "initial": {},
+   "counts": {}
+  },
+  {
+   "variant": "plain",
+   "file": "usectx",
+   "ph": "flag_off",
+   "initial": {},
+   "counts": {}
+  },
+  {
+   "variant": "plain",
+   "file": "trycatch",
+   "ph": "same",
+   "initial": {
+    "risky": 1
+   },
+   "counts": {
+    "risky": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "trycatch",
+   "ph": "one_label",
+   "initial": {
+    "risky": 1
+   },
+   "counts": {
+    "risky": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "trycatch",
+   "ph": "one_a",
+   "initial": {
+    "risky": 1
+   },
+   "counts": {
+    "risky": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "trycatch",
+   "ph": "throw",
+   "initial": {
+    "risky": 1
+   },
+   "counts": {
+    "risky": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "switch",
+   "ph": "same",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "switch",
+   "ph": "inactive_b",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "switch",
+   "ph": "active_a",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "switch",
+   "ph": "kind_b",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "bailout",
+   "ph": "same",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "plain",
+   "file": "bailout",
+   "ph": "one_a",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "react-compiler",
+   "file": "derived",
+   "ph": "same",
+   "initial": {
+    "x": 1,
+    "y": 1
+   },
+   "counts": {
+    "x": 1
+   }
+  },
+  {
+   "variant": "react-compiler",
+   "file": "derived",
+   "ph": "one_b",
+   "initial": {
+    "x": 1,
+    "y": 1
+   },
+   "counts": {
+    "x": 1,
+    "y": 1
+   }
+  },
+  {
+   "variant": "react-compiler",
+   "file": "derived",
+   "ph": "one_a",
+   "initial": {
+    "x": 1,
+    "y": 1
+   },
+   "counts": {
+    "x": 1
+   }
+  },
+  {
+   "variant": "react-compiler",
+   "file": "jsxprops",
+   "ph": "same",
+   "initial": {
+    "Child": 2
+   },
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "jsxprops",
+   "ph": "one_cls",
+   "initial": {
+    "Child": 2
+   },
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "jsxprops",
+   "ph": "one_x",
+   "initial": {
+    "Child": 2
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "react-compiler",
+   "file": "earlyreturn",
+   "ph": "same",
+   "initial": {
+    "head": 1,
+    "body": 1,
+    "Child": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "earlyreturn",
+   "ph": "one_b",
+   "initial": {
+    "head": 1,
+    "body": 1,
+    "Child": 1
+   },
+   "counts": {
+    "body": 1
+   }
+  },
+  {
+   "variant": "react-compiler",
+   "file": "earlyreturn",
+   "ph": "one_loading",
+   "initial": {
+    "head": 1,
+    "body": 1,
+    "Child": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "ternary",
+   "ph": "same",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "ternary",
+   "ph": "inactive_b",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "react-compiler",
+   "file": "ternary",
+   "ph": "active_a",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "react-compiler",
+   "file": "map",
+   "ph": "same",
+   "initial": {
+    "Row": 3
+   },
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "map",
+   "ph": "one_title",
+   "initial": {
+    "Row": 3
+   },
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "map",
+   "ph": "deep_item",
+   "initial": {
+    "Row": 3
+   },
+   "counts": {
+    "Row": 3
+   }
+  },
+  {
+   "variant": "react-compiler",
+   "file": "map",
+   "ph": "append",
+   "initial": {
+    "Row": 3
+   },
+   "counts": {
+    "Row": 4
+   }
+  },
+  {
+   "variant": "react-compiler",
+   "file": "forloop",
+   "ph": "same",
+   "initial": {
+    "Row": 3
+   },
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "forloop",
+   "ph": "one_title",
+   "initial": {
+    "Row": 3
+   },
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "forloop",
+   "ph": "new_array_same",
+   "initial": {
+    "Row": 3
+   },
+   "counts": {
+    "Row": 3
+   }
+  },
+  {
+   "variant": "react-compiler",
+   "file": "forloop",
+   "ph": "deep_item",
+   "initial": {
+    "Row": 3
+   },
+   "counts": {
+    "Row": 3
+   }
+  },
+  {
+   "variant": "react-compiler",
+   "file": "hook",
+   "ph": "same",
+   "initial": {
+    "x": 1,
+    "y": 1
+   },
+   "counts": {
+    "x": 1,
+    "y": 1
+   }
+  },
+  {
+   "variant": "react-compiler",
+   "file": "hook",
+   "ph": "one_b",
+   "initial": {
+    "x": 1,
+    "y": 1
+   },
+   "counts": {
+    "x": 1,
+    "y": 1
+   }
+  },
+  {
+   "variant": "react-compiler",
+   "file": "hook",
+   "ph": "one_a",
+   "initial": {
+    "x": 1,
+    "y": 1
+   },
+   "counts": {
+    "x": 1,
+    "y": 1
+   }
+  },
+  {
+   "variant": "react-compiler",
+   "file": "callback",
+   "ph": "same",
+   "initial": {
+    "Btn": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "callback",
+   "ph": "one_other",
+   "initial": {
+    "Btn": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "callback",
+   "ph": "one_id",
+   "initial": {
+    "Btn": 1
+   },
+   "counts": {
+    "Btn": 1
+   }
+  },
+  {
+   "variant": "react-compiler",
+   "file": "statememo",
+   "ph": "same",
+   "initial": {
+    "total": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "statememo",
+   "ph": "one_tag",
+   "initial": {
+    "total": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "statememo",
+   "ph": "new_list_same_content",
+   "initial": {
+    "total": 1
+   },
+   "counts": {
+    "total": 1
+   }
+  },
+  {
+   "variant": "react-compiler",
+   "file": "statememo",
+   "ph": "setState",
+   "initial": {
+    "total": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "mutate",
+   "ph": "same",
+   "initial": {
+    "Child": 2
+   },
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "mutate",
+   "ph": "one_c",
+   "initial": {
+    "Child": 2
+   },
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "mutate",
+   "ph": "one_a",
+   "initial": {
+    "Child": 2
+   },
+   "counts": {
+    "Child": 2
+   }
+  },
+  {
+   "variant": "react-compiler",
+   "file": "deepprop",
+   "ph": "same",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "deepprop",
+   "ph": "one_other",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "deepprop",
+   "ph": "deep_leaf",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "react-compiler",
+   "file": "deepprop",
+   "ph": "deep_newrefs_same_leaf",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "usectx",
+   "ph": "same",
+   "initial": {},
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "usectx",
+   "ph": "one_name",
+   "initial": {},
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "usectx",
+   "ph": "flag_off",
+   "initial": {},
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "trycatch",
+   "ph": "same",
+   "initial": {
+    "risky": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "trycatch",
+   "ph": "one_label",
+   "initial": {
+    "risky": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "trycatch",
+   "ph": "one_a",
+   "initial": {
+    "risky": 1
+   },
+   "counts": {
+    "risky": 1
+   }
+  },
+  {
+   "variant": "react-compiler",
+   "file": "trycatch",
+   "ph": "throw",
+   "initial": {
+    "risky": 1
+   },
+   "counts": {
+    "risky": 1
+   }
+  },
+  {
+   "variant": "react-compiler",
+   "file": "switch",
+   "ph": "same",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "switch",
+   "ph": "inactive_b",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "react-compiler",
+   "file": "switch",
+   "ph": "active_a",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "react-compiler",
+   "file": "switch",
+   "ph": "kind_b",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "react-compiler",
+   "file": "bailout",
+   "ph": "same",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "react-compiler",
+   "file": "bailout",
+   "ph": "one_a",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "forgetti",
+   "file": "derived",
+   "ph": "same",
+   "initial": {
+    "x": 1,
+    "y": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "derived",
+   "ph": "one_b",
+   "initial": {
+    "x": 1,
+    "y": 1
+   },
+   "counts": {
+    "y": 1
+   }
+  },
+  {
+   "variant": "forgetti",
+   "file": "derived",
+   "ph": "one_a",
+   "initial": {
+    "x": 1,
+    "y": 1
+   },
+   "counts": {
+    "x": 1
+   }
+  },
+  {
+   "variant": "forgetti",
+   "file": "jsxprops",
+   "ph": "same",
+   "initial": {
+    "Child": 2
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "jsxprops",
+   "ph": "one_cls",
+   "initial": {
+    "Child": 2
+   },
+   "counts": {
+    "Child": 2
+   }
+  },
+  {
+   "variant": "forgetti",
+   "file": "jsxprops",
+   "ph": "one_x",
+   "initial": {
+    "Child": 2
+   },
+   "counts": {
+    "Child": 2
+   }
+  },
+  {
+   "variant": "forgetti",
+   "file": "earlyreturn",
+   "ph": "same",
+   "initial": {
+    "head": 1,
+    "body": 1,
+    "Child": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "earlyreturn",
+   "ph": "one_b",
+   "initial": {
+    "head": 1,
+    "body": 1,
+    "Child": 1
+   },
+   "counts": {
+    "body": 1,
+    "Child": 1
+   }
+  },
+  {
+   "variant": "forgetti",
+   "file": "earlyreturn",
+   "ph": "one_loading",
+   "initial": {
+    "head": 1,
+    "body": 1,
+    "Child": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "ternary",
+   "ph": "same",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "ternary",
+   "ph": "inactive_b",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "ternary",
+   "ph": "active_a",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "forgetti",
+   "file": "map",
+   "ph": "same",
+   "initial": {
+    "Row": 3
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "map",
+   "ph": "one_title",
+   "initial": {
+    "Row": 3
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "map",
+   "ph": "deep_item",
+   "initial": {
+    "Row": 3
+   },
+   "counts": {
+    "Row": 1
+   }
+  },
+  {
+   "variant": "forgetti",
+   "file": "map",
+   "ph": "append",
+   "initial": {
+    "Row": 3
+   },
+   "counts": {
+    "Row": 1
+   }
+  },
+  {
+   "variant": "forgetti",
+   "file": "forloop",
+   "ph": "same",
+   "initial": {
+    "Row": 3
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "forloop",
+   "ph": "one_title",
+   "initial": {
+    "Row": 3
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "forloop",
+   "ph": "new_array_same",
+   "initial": {
+    "Row": 3
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "forloop",
+   "ph": "deep_item",
+   "initial": {
+    "Row": 3
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "hook",
+   "ph": "same",
+   "initial": {
+    "x": 1,
+    "y": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "hook",
+   "ph": "one_b",
+   "initial": {
+    "x": 1,
+    "y": 1
+   },
+   "counts": {
+    "y": 1
+   }
+  },
+  {
+   "variant": "forgetti",
+   "file": "hook",
+   "ph": "one_a",
+   "initial": {
+    "x": 1,
+    "y": 1
+   },
+   "counts": {
+    "x": 1
+   }
+  },
+  {
+   "variant": "forgetti",
+   "file": "callback",
+   "ph": "same",
+   "initial": {
+    "Btn": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "callback",
+   "ph": "one_other",
+   "initial": {
+    "Btn": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "callback",
+   "ph": "one_id",
+   "initial": {
+    "Btn": 1
+   },
+   "counts": {
+    "Btn": 1
+   }
+  },
+  {
+   "variant": "forgetti",
+   "file": "statememo",
+   "ph": "same",
+   "initial": {
+    "total": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "statememo",
+   "ph": "one_tag",
+   "initial": {
+    "total": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "statememo",
+   "ph": "new_list_same_content",
+   "initial": {
+    "total": 1
+   },
+   "counts": {
+    "total": 1
+   }
+  },
+  {
+   "variant": "forgetti",
+   "file": "statememo",
+   "ph": "setState",
+   "initial": {
+    "total": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "mutate",
+   "ph": "same",
+   "initial": {
+    "Child": 2
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "mutate",
+   "ph": "one_c",
+   "initial": {
+    "Child": 2
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "mutate",
+   "ph": "one_a",
+   "initial": {
+    "Child": 2
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "forgetti",
+   "file": "deepprop",
+   "ph": "same",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "deepprop",
+   "ph": "one_other",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "forgetti",
+   "file": "deepprop",
+   "ph": "deep_leaf",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "forgetti",
+   "file": "deepprop",
+   "ph": "deep_newrefs_same_leaf",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "usectx",
+   "ph": "same",
+   "initial": {},
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "usectx",
+   "ph": "one_name",
+   "initial": {},
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "usectx",
+   "ph": "flag_off",
+   "initial": {},
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "trycatch",
+   "ph": "same",
+   "initial": {
+    "risky": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "trycatch",
+   "ph": "one_label",
+   "initial": {
+    "risky": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "trycatch",
+   "ph": "one_a",
+   "initial": {
+    "risky": 1
+   },
+   "counts": {
+    "risky": 1
+   }
+  },
+  {
+   "variant": "forgetti",
+   "file": "trycatch",
+   "ph": "throw",
+   "initial": {
+    "risky": 1
+   },
+   "counts": {
+    "risky": 1
+   }
+  },
+  {
+   "variant": "forgetti",
+   "file": "switch",
+   "ph": "same",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "switch",
+   "ph": "inactive_b",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "switch",
+   "ph": "active_a",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "forgetti",
+   "file": "switch",
+   "ph": "kind_b",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  },
+  {
+   "variant": "forgetti",
+   "file": "bailout",
+   "ph": "same",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {}
+  },
+  {
+   "variant": "forgetti",
+   "file": "bailout",
+   "ph": "one_a",
+   "initial": {
+    "Child": 1
+   },
+   "counts": {
+    "Child": 1
+   }
+  }
+ ],
+ "htmls": {
+  "derived/same": {
+   "plain": "<div>2-4-3</div>",
+   "react-compiler": "<div>2-4-3</div>",
+   "forgetti": "<div>2-4-3</div>"
+  },
+  "derived/one_b": {
+   "plain": "<div>2-6-3</div>",
+   "react-compiler": "<div>2-6-3</div>",
+   "forgetti": "<div>2-6-3</div>"
+  },
+  "derived/one_a": {
+   "plain": "<div>10-4-11</div>",
+   "react-compiler": "<div>10-4-11</div>",
+   "forgetti": "<div>10-4-11</div>"
+  },
+  "jsxprops/same": {
+   "plain": "<section class=\"c\"><i>1</i><i>2</i></section>",
+   "react-compiler": "<section class=\"c\"><i>1</i><i>2</i></section>",
+   "forgetti": "<section class=\"c\"><i>1</i><i>2</i></section>"
+  },
+  "jsxprops/one_cls": {
+   "plain": "<section class=\"d\"><i>1</i><i>2</i></section>",
+   "react-compiler": "<section class=\"d\"><i>1</i><i>2</i></section>",
+   "forgetti": "<section class=\"d\"><i>1</i><i>2</i></section>"
+  },
+  "jsxprops/one_x": {
+   "plain": "<section class=\"c\"><i>9</i><i>2</i></section>",
+   "react-compiler": "<section class=\"c\"><i>9</i><i>2</i></section>",
+   "forgetti": "<section class=\"c\"><i>9</i><i>2</i></section>"
+  },
+  "earlyreturn/same": {
+   "plain": "<div><i>2</i>4</div>",
+   "react-compiler": "<div><i>2</i>4</div>",
+   "forgetti": "<div><i>2</i>4</div>"
+  },
+  "earlyreturn/one_b": {
+   "plain": "<div><i>2</i>6</div>",
+   "react-compiler": "<div><i>2</i>6</div>",
+   "forgetti": "<div><i>2</i>6</div>"
+  },
+  "earlyreturn/one_loading": {
+   "plain": "<p>loading</p>",
+   "react-compiler": "<p>loading</p>",
+   "forgetti": "<p>loading</p>"
+  },
+  "ternary/same": {
+   "plain": "<div><i>1</i></div>",
+   "react-compiler": "<div><i>1</i></div>",
+   "forgetti": "<div><i>1</i></div>"
+  },
+  "ternary/inactive_b": {
+   "plain": "<div><i>1</i></div>",
+   "react-compiler": "<div><i>1</i></div>",
+   "forgetti": "<div><i>1</i></div>"
+  },
+  "ternary/active_a": {
+   "plain": "<div><i>7</i></div>",
+   "react-compiler": "<div><i>7</i></div>",
+   "forgetti": "<div><i>7</i></div>"
+  },
+  "map/same": {
+   "plain": "<ul title=\"t\"><li>n1</li><li>n2</li><li>n3</li></ul>",
+   "react-compiler": "<ul title=\"t\"><li>n1</li><li>n2</li><li>n3</li></ul>",
+   "forgetti": "<ul title=\"t\"><li>n1</li><li>n2</li><li>n3</li></ul>"
+  },
+  "map/one_title": {
+   "plain": "<ul title=\"u\"><li>n1</li><li>n2</li><li>n3</li></ul>",
+   "react-compiler": "<ul title=\"u\"><li>n1</li><li>n2</li><li>n3</li></ul>",
+   "forgetti": "<ul title=\"u\"><li>n1</li><li>n2</li><li>n3</li></ul>"
+  },
+  "map/deep_item": {
+   "plain": "<ul title=\"t\"><li>n1</li><li>changed</li><li>n3</li></ul>",
+   "react-compiler": "<ul title=\"t\"><li>n1</li><li>changed</li><li>n3</li></ul>",
+   "forgetti": "<ul title=\"t\"><li>n1</li><li>changed</li><li>n3</li></ul>"
+  },
+  "map/append": {
+   "plain": "<ul title=\"t\"><li>n1</li><li>n2</li><li>n3</li><li>n4</li></ul>",
+   "react-compiler": "<ul title=\"t\"><li>n1</li><li>n2</li><li>n3</li><li>n4</li></ul>",
+   "forgetti": "<ul title=\"t\"><li>n1</li><li>n2</li><li>n3</li><li>n4</li></ul>"
+  },
+  "forloop/same": {
+   "plain": "<ul title=\"t\"><li>1</li><li>2</li><li>3</li></ul>",
+   "react-compiler": "<ul title=\"t\"><li>1</li><li>2</li><li>3</li></ul>",
+   "forgetti": "<ul title=\"t\"><li>1</li><li>2</li><li>3</li></ul>"
+  },
+  "forloop/one_title": {
+   "plain": "<ul title=\"u\"><li>1</li><li>2</li><li>3</li></ul>",
+   "react-compiler": "<ul title=\"u\"><li>1</li><li>2</li><li>3</li></ul>",
+   "forgetti": "<ul title=\"u\"><li>1</li><li>2</li><li>3</li></ul>"
+  },
+  "forloop/new_array_same": {
+   "plain": "<ul title=\"t\"><li>1</li><li>2</li><li>3</li></ul>",
+   "react-compiler": "<ul title=\"t\"><li>1</li><li>2</li><li>3</li></ul>",
+   "forgetti": "<ul title=\"t\"><li>1</li><li>2</li><li>3</li></ul>"
+  },
+  "forloop/deep_item": {
+   "plain": "<ul title=\"t\"><li>1</li><li>9</li><li>3</li></ul>",
+   "react-compiler": "<ul title=\"t\"><li>1</li><li>9</li><li>3</li></ul>",
+   "forgetti": "<ul title=\"t\"><li>1</li><li>2</li><li>3</li></ul>"
+  },
+  "hook/same": {
+   "plain": "<b>2:4</b>",
+   "react-compiler": "<b>2:4</b>",
+   "forgetti": "<b>2:4</b>"
+  },
+  "hook/one_b": {
+   "plain": "<b>2:6</b>",
+   "react-compiler": "<b>2:6</b>",
+   "forgetti": "<b>2:6</b>"
+  },
+  "hook/one_a": {
+   "plain": "<b>8:4</b>",
+   "react-compiler": "<b>8:4</b>",
+   "forgetti": "<b>8:4</b>"
+  },
+  "callback/same": {
+   "plain": "<div>o<button>L</button></div>",
+   "react-compiler": "<div>o<button>L</button></div>",
+   "forgetti": "<div>o<button>L</button></div>"
+  },
+  "callback/one_other": {
+   "plain": "<div>p<button>L</button></div>",
+   "react-compiler": "<div>p<button>L</button></div>",
+   "forgetti": "<div>p<button>L</button></div>"
+  },
+  "callback/one_id": {
+   "plain": "<div>o<button>L</button></div>",
+   "react-compiler": "<div>o<button>L</button></div>",
+   "forgetti": "<div>o<button>L</button></div>"
+  },
+  "statememo/same": {
+   "plain": "<div>a:6:0</div>",
+   "react-compiler": "<div>a:6:0</div>",
+   "forgetti": "<div>a:6:0</div>"
+  },
+  "statememo/one_tag": {
+   "plain": "<div>b:6:0</div>",
+   "react-compiler": "<div>b:6:0</div>",
+   "forgetti": "<div>b:6:0</div>"
+  },
+  "statememo/new_list_same_content": {
+   "plain": "<div>a:6:0</div>",
+   "react-compiler": "<div>a:6:0</div>",
+   "forgetti": "<div>a:6:0</div>"
+  },
+  "statememo/setState": {
+   "plain": "<div>a:6:1</div>",
+   "react-compiler": "<div>a:6:1</div>",
+   "forgetti": "<div>a:6:1</div>"
+  },
+  "mutate/same": {
+   "plain": "<div>x!<i>1</i><i>2</i></div>",
+   "react-compiler": "<div>x!<i>1</i><i>2</i></div>",
+   "forgetti": "<div>x!<i>1</i><i>2</i></div>"
+  },
+  "mutate/one_c": {
+   "plain": "<div>y!<i>1</i><i>2</i></div>",
+   "react-compiler": "<div>y!<i>1</i><i>2</i></div>",
+   "forgetti": "<div>y!<i>1</i><i>2</i></div>"
+  },
+  "mutate/one_a": {
+   "plain": "<div>x!<i>5</i><i>2</i></div>",
+   "react-compiler": "<div>x!<i>5</i><i>2</i></div>",
+   "forgetti": "<div>x!<i>5</i><i>2</i></div>"
+  },
+  "deepprop/same": {
+   "plain": "<div><i>1</i>o</div>",
+   "react-compiler": "<div><i>1</i>o</div>",
+   "forgetti": "<div><i>1</i>o</div>"
+  },
+  "deepprop/one_other": {
+   "plain": "<div><i>1</i>p</div>",
+   "react-compiler": "<div><i>1</i>p</div>",
+   "forgetti": "<div><i>1</i>p</div>"
+  },
+  "deepprop/deep_leaf": {
+   "plain": "<div><i>2</i>o</div>",
+   "react-compiler": "<div><i>2</i>o</div>",
+   "forgetti": "<div><i>2</i>o</div>"
+  },
+  "deepprop/deep_newrefs_same_leaf": {
+   "plain": "<div><i>1</i>o</div>",
+   "react-compiler": "<div><i>1</i>o</div>",
+   "forgetti": "<div><i>1</i>o</div>"
+  },
+  "usectx/same": {
+   "plain": "<p>n:CTX</p>",
+   "react-compiler": "<p>n:CTX</p>",
+   "forgetti": "<p>n:CTX</p>"
+  },
+  "usectx/one_name": {
+   "plain": "<p>m:CTX</p>",
+   "react-compiler": "<p>m:CTX</p>",
+   "forgetti": "<p>m:CTX</p>"
+  },
+  "usectx/flag_off": {
+   "plain": "<p>n</p>",
+   "react-compiler": "<p>n</p>",
+   "forgetti": "<p>n</p>"
+  },
+  "trycatch/same": {
+   "plain": "<div>x:2</div>",
+   "react-compiler": "<div>x:2</div>",
+   "forgetti": "<div>x:2</div>"
+  },
+  "trycatch/one_label": {
+   "plain": "<div>y:2</div>",
+   "react-compiler": "<div>y:2</div>",
+   "forgetti": "<div>y:2</div>"
+  },
+  "trycatch/one_a": {
+   "plain": "<div>x:6</div>",
+   "react-compiler": "<div>x:6</div>",
+   "forgetti": "<div>x:6</div>"
+  },
+  "trycatch/throw": {
+   "plain": "<div>x:err</div>",
+   "react-compiler": "<div>x:err</div>",
+   "forgetti": "<div>x:err</div>"
+  },
+  "switch/same": {
+   "plain": "<div><i>1</i></div>",
+   "react-compiler": "<div><i>1</i></div>",
+   "forgetti": "<div><i>1</i></div>"
+  },
+  "switch/inactive_b": {
+   "plain": "<div><i>1</i></div>",
+   "react-compiler": "<div><i>1</i></div>",
+   "forgetti": "<div><i>1</i></div>"
+  },
+  "switch/active_a": {
+   "plain": "<div><i>7</i></div>",
+   "react-compiler": "<div><i>7</i></div>",
+   "forgetti": "<div><i>7</i></div>"
+  },
+  "switch/kind_b": {
+   "plain": "<div><i>2</i></div>",
+   "react-compiler": "<div><i>2</i></div>",
+   "forgetti": "<div><i>2</i></div>"
+  },
+  "bailout/same": {
+   "plain": "<div><i>1</i>2</div>",
+   "react-compiler": "<div><i>1</i>2</div>",
+   "forgetti": "<div><i>1</i>1</div>"
+  },
+  "bailout/one_a": {
+   "plain": "<div><i>2</i>1</div>",
+   "react-compiler": "<div><i>2</i>1</div>",
+   "forgetti": "<div><i>2</i>1</div>"
+  }
+ }
+}
