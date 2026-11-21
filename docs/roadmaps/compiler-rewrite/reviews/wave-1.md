@@ -14,8 +14,7 @@
 ## State for the next session
 
 - Batch branch `batch/compiler-rewrite` is local only, in the worktree `.worktrees/batch-compiler-rewrite`. It carries 1 node. Nothing is cut yet.
-- PR #41 (`fix/ignore-docs-in-lint`) makes lint and format skip `docs/**`. Until it merges, `pnpm lint` and `pnpm format:check` fail on `main` and on the batch because of `docs/roadmaps/compiler-rewrite/debate/evidence/`. Merge `origin/main` into the batch after #41 lands.
+- PR #41 merged on 2026-11-21. Lint and format skip `docs/**`, and `main` is merged into the batch (`8a0c116`). Lint, format and typecheck pass there.
 - Next ready (sequential, take the first): `harness`, then `emit`, `parse-scope`, `eligibility`, `runtime`, `ownership`.
 - Gotcha from `contracts`: run `pnpm build` before `pnpm lint`. The plugins and examples import the built `forgetti` types.
-- Gotcha: do not run `pnpm format` on the whole repo before #41 lands. It rewrites `docs/`.
 - Open: the Release workflow fails until "Allow GitHub Actions to create and approve pull requests" is on. The bump level of `switch` is still open (GOAL.md).
