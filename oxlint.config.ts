@@ -6,6 +6,8 @@ export default defineConfig({
   ignorePatterns: [
     'dist/**',
     'benchmarks/**',
+    // Roadmaps, debates and their evidence are not build inputs, and CI skips docs-only changes.
+    'docs/**',
     // Agent worktrees under .claude/ hold other branches' work in progress.
     '.claude/**',
     // Scratch files for trying the compiler by hand (`pnpm optimize`).
