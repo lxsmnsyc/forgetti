@@ -1,7 +1,7 @@
 ---
 id: contracts
 title: Freeze the compiler, runtime and phase contracts
-status: todo
+status: active
 priority: must
 type: contract
 milestone: sound-baseline
