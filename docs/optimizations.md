@@ -33,11 +33,11 @@ function Example() {
   const value = [1, 2, 3, 4];
 }
 // Compiles into
-import { useRef as _useRef } from "react";
-import { $$cache as _$$cache } from "forgetti/runtime";
+import { useRef as _useRef } from 'react';
+import { $$cache as _$$cache } from 'forgetti/runtime';
 function Example() {
   let _cache = _$$cache(_useRef, 1);
-  const value = 0 in _cache ? _cache[0] : _cache[0] = [1, 2, 3, 4];
+  const value = 0 in _cache ? _cache[0] : (_cache[0] = [1, 2, 3, 4]);
 }
 ```
 
@@ -50,11 +50,11 @@ function Example() {
   const message = `${greeting}, ${receiver}`;
 }
 // Compiles into
-import { useRef as _useRef } from "react";
-import { $$cache as _$$cache } from "forgetti/runtime";
+import { useRef as _useRef } from 'react';
+import { $$cache as _$$cache } from 'forgetti/runtime';
 function Example() {
   let _cache = _$$cache(_useRef, 1);
-  const message = 0 in _cache ? _cache[0] : _cache[0] = `${getGreeting()}, ${getReceiver()}`;
+  const message = 0 in _cache ? _cache[0] : (_cache[0] = `${getGreeting()}, ${getReceiver()}`);
 }
 ```
 
@@ -69,20 +69,20 @@ function Example(props) {
   const message = `${props.greeting}, ${props.message}`;
 }
 // Compiles into
-import { useRef as _useRef } from "react";
-import { $$cache as _$$cache } from "forgetti/runtime";
-import { $$equals as _$$equals } from "forgetti/runtime";
+import { useRef as _useRef } from 'react';
+import { $$cache as _$$cache } from 'forgetti/runtime';
+import { $$equals as _$$equals } from 'forgetti/runtime';
 function Example(props) {
   let _cache = _$$cache(_useRef, 6),
     _equals = _$$equals(_cache, 0, props),
-    _value = _equals ? _cache[0] : _cache[0] = props,
-    _value2 = _equals ? _cache[1] : _cache[1] = _value.greeting,
+    _value = _equals ? _cache[0] : (_cache[0] = props),
+    _value2 = _equals ? _cache[1] : (_cache[1] = _value.greeting),
     _equals2 = _$$equals(_cache, 2, _value2),
-    _value3 = _equals2 ? _cache[2] : _cache[2] = _value2,
-    _value4 = _equals ? _cache[3] : _cache[3] = _value.message,
+    _value3 = _equals2 ? _cache[2] : (_cache[2] = _value2),
+    _value4 = _equals ? _cache[3] : (_cache[3] = _value.message),
     _equals3 = _$$equals(_cache, 4, _value4),
-    _value5 = _equals3 ? _cache[4] : _cache[4] = _value4;
-  const message = _equals2 && _equals3 ? _cache[5] : _cache[5] = `${_value3}, ${_value5}`;
+    _value5 = _equals3 ? _cache[4] : (_cache[4] = _value4);
+  const message = _equals2 && _equals3 ? _cache[5] : (_cache[5] = `${_value3}, ${_value5}`);
 }
 ```
 
@@ -101,14 +101,17 @@ function Example(props) {
   const example = useRef(initialValue);
 }
 // Compiles into
-import { useRef as _useRef } from "react";
-import { $$cache as _$$cache } from "forgetti/runtime";
+import { useRef as _useRef } from 'react';
+import { $$cache as _$$cache } from 'forgetti/runtime';
 import { useRef } from 'react';
 function Example(props) {
   let _cache = _$$cache(_useRef, 1);
-  const example = 0 in _cache ? _cache[0] : _cache[0] = {
-    current: initialValue
-  };
+  const example =
+    0 in _cache
+      ? _cache[0]
+      : (_cache[0] = {
+          current: initialValue,
+        });
 }
 ```
 
@@ -125,22 +128,22 @@ function Example(props) {
   const value = useMemo(() => getValue(dependencyA, dependencyB), [dependencyB]);
 }
 // Compiles into
-import { useRef as _useRef } from "react";
-import { $$cache as _$$cache } from "forgetti/runtime";
-import { $$equals as _$$equals } from "forgetti/runtime";
+import { useRef as _useRef } from 'react';
+import { $$cache as _$$cache } from 'forgetti/runtime';
+import { $$equals as _$$equals } from 'forgetti/runtime';
 import { useMemo } from 'react';
 function Example(props) {
   let _cache = _$$cache(_useRef, 8),
-    _value = 0 in _cache ? _cache[0] : _cache[0] = getA,
+    _value = 0 in _cache ? _cache[0] : (_cache[0] = getA),
     _equals = _$$equals(_cache, 1, props),
-    _value2 = _equals ? _cache[1] : _cache[1] = props;
-  const dependencyA = _equals ? _cache[2] : _cache[2] = _value(_value2);
-  let _value4 = 3 in _cache ? _cache[3] : _cache[3] = getB;
-  const dependencyB = _equals ? _cache[4] : _cache[4] = _value4(_value2);
+    _value2 = _equals ? _cache[1] : (_cache[1] = props);
+  const dependencyA = _equals ? _cache[2] : (_cache[2] = _value(_value2));
+  let _value4 = 3 in _cache ? _cache[3] : (_cache[3] = getB);
+  const dependencyB = _equals ? _cache[4] : (_cache[4] = _value4(_value2));
   let _equals2 = _$$equals(_cache, 5, dependencyB),
-    _value6 = _equals2 ? _cache[5] : _cache[5] = dependencyB,
-    _value7 = _equals2 ? _cache[6] : _cache[6] = [_value6];
-  const value = _equals2 ? _cache[7] : _cache[7] = (() => getValue(dependencyA, dependencyB))();
+    _value6 = _equals2 ? _cache[5] : (_cache[5] = dependencyB),
+    _value7 = _equals2 ? _cache[6] : (_cache[6] = [_value6]);
+  const value = _equals2 ? _cache[7] : (_cache[7] = (() => getValue(dependencyA, dependencyB))());
 }
 ```
 
@@ -157,22 +160,22 @@ function Example(props) {
   const value = useCallback(() => getValue(dependencyA, dependencyB), [dependencyB]);
 }
 // Compiles into
-import { useRef as _useRef } from "react";
-import { $$cache as _$$cache } from "forgetti/runtime";
-import { $$equals as _$$equals } from "forgetti/runtime";
+import { useRef as _useRef } from 'react';
+import { $$cache as _$$cache } from 'forgetti/runtime';
+import { $$equals as _$$equals } from 'forgetti/runtime';
 import { useCallback } from 'react';
 function Example(props) {
   let _cache = _$$cache(_useRef, 8),
-    _value = 0 in _cache ? _cache[0] : _cache[0] = getA,
+    _value = 0 in _cache ? _cache[0] : (_cache[0] = getA),
     _equals = _$$equals(_cache, 1, props),
-    _value2 = _equals ? _cache[1] : _cache[1] = props;
-  const dependencyA = _equals ? _cache[2] : _cache[2] = _value(_value2);
-  let _value4 = 3 in _cache ? _cache[3] : _cache[3] = getB;
-  const dependencyB = _equals ? _cache[4] : _cache[4] = _value4(_value2);
+    _value2 = _equals ? _cache[1] : (_cache[1] = props);
+  const dependencyA = _equals ? _cache[2] : (_cache[2] = _value(_value2));
+  let _value4 = 3 in _cache ? _cache[3] : (_cache[3] = getB);
+  const dependencyB = _equals ? _cache[4] : (_cache[4] = _value4(_value2));
   let _equals2 = _$$equals(_cache, 5, dependencyB),
-    _value6 = _equals2 ? _cache[5] : _cache[5] = dependencyB,
-    _value7 = _equals2 ? _cache[6] : _cache[6] = [_value6];
-  const value = _equals2 ? _cache[7] : _cache[7] = () => getValue(dependencyA, dependencyB);
+    _value6 = _equals2 ? _cache[5] : (_cache[5] = dependencyB),
+    _value7 = _equals2 ? _cache[6] : (_cache[6] = [_value6]);
+  const value = _equals2 ? _cache[7] : (_cache[7] = () => getValue(dependencyA, dependencyB));
 }
 ```
 
@@ -189,27 +192,27 @@ function Example(props) {
   }, [props.a, props.b, props.c]);
 }
 // Compiles into
-import { useRef as _useRef } from "react";
-import { $$cache as _$$cache } from "forgetti/runtime";
-import { $$equals as _$$equals } from "forgetti/runtime";
+import { useRef as _useRef } from 'react';
+import { $$cache as _$$cache } from 'forgetti/runtime';
+import { $$equals as _$$equals } from 'forgetti/runtime';
 import { useEffect } from 'react';
 function Example(props) {
   let _cache = _$$cache(_useRef, 9),
     _equals = _$$equals(_cache, 0, props),
-    _value = _equals ? _cache[0] : _cache[0] = props,
-    _value2 = _equals ? _cache[1] : _cache[1] = _value.a,
+    _value = _equals ? _cache[0] : (_cache[0] = props),
+    _value2 = _equals ? _cache[1] : (_cache[1] = _value.a),
     _equals2 = _$$equals(_cache, 2, _value2),
-    _value3 = _equals2 ? _cache[2] : _cache[2] = _value2,
-    _value4 = _equals ? _cache[3] : _cache[3] = _value.b,
+    _value3 = _equals2 ? _cache[2] : (_cache[2] = _value2),
+    _value4 = _equals ? _cache[3] : (_cache[3] = _value.b),
     _equals3 = _$$equals(_cache, 4, _value4),
-    _value5 = _equals3 ? _cache[4] : _cache[4] = _value4,
-    _value6 = _equals ? _cache[5] : _cache[5] = _value.c,
+    _value5 = _equals3 ? _cache[4] : (_cache[4] = _value4),
+    _value6 = _equals ? _cache[5] : (_cache[5] = _value.c),
     _equals4 = _$$equals(_cache, 6, _value6),
-    _value7 = _equals4 ? _cache[6] : _cache[6] = _value6,
+    _value7 = _equals4 ? _cache[6] : (_cache[6] = _value6),
     _hoisted = useEffect(() => {
       getValue(props.a, props.b, props.c);
-    }, [_equals2 && _equals3 && _equals4 ? _cache[7] : _cache[7] = [_value3, _value5, _value7]]);
-  _$$equals(_cache, 8, _hoisted) ? _cache[8] : _cache[8] = _hoisted;
+    }, [_equals2 && _equals3 && _equals4 ? _cache[7] : (_cache[7] = [_value3, _value5, _value7])]);
+  _$$equals(_cache, 8, _hoisted) ? _cache[8] : (_cache[8] = _hoisted);
 }
 ```
 
@@ -241,16 +244,18 @@ function Example(props) {
   };
 }
 // Compiles into
-import { useRef as _useRef } from "react";
-import { $$cache as _$$cache } from "forgetti/runtime";
-import { $$equals as _$$equals } from "forgetti/runtime";
+import { useRef as _useRef } from 'react';
+import { $$cache as _$$cache } from 'forgetti/runtime';
+import { $$equals as _$$equals } from 'forgetti/runtime';
 function Example(props) {
   let _cache = _$$cache(_useRef, 2),
     _equals = _$$equals(_cache, 0, props),
-    _value = _equals ? _cache[0] : _cache[0] = props;
-  const callback = _equals ? _cache[1] : _cache[1] = () => {
-    console.log(props.message);
-  };
+    _value = _equals ? _cache[0] : (_cache[0] = props);
+  const callback = _equals
+    ? _cache[1]
+    : (_cache[1] = () => {
+        console.log(props.message);
+      });
 }
 ```
 
@@ -263,25 +268,25 @@ function Example(props) {
   const value = props.condition ? props.left : props.right;
 }
 // Compiles into
-import { useRef as _useRef } from "react";
-import { $$cache as _$$cache } from "forgetti/runtime";
-import { $$branch as _$$branch } from "forgetti/runtime";
-import { $$equals as _$$equals } from "forgetti/runtime";
+import { useRef as _useRef } from 'react';
+import { $$cache as _$$cache } from 'forgetti/runtime';
+import { $$branch as _$$branch } from 'forgetti/runtime';
+import { $$equals as _$$equals } from 'forgetti/runtime';
 function Example(props) {
   let _cache = _$$cache(_useRef, 4),
     _equals = _$$equals(_cache, 0, props),
-    _value2 = _equals ? _cache[0] : _cache[0] = props,
+    _value2 = _equals ? _cache[0] : (_cache[0] = props),
     _value;
-  if (_equals ? _cache[1] : _cache[1] = _value2.condition) {
+  if (_equals ? _cache[1] : (_cache[1] = _value2.condition)) {
     let _cache2 = _$$branch(_cache, 2, 2),
       _equals2 = _$$equals(_cache2, 0, props),
-      _value4 = _equals2 ? _cache2[0] : _cache2[0] = props;
-    _value = _equals2 ? _cache2[1] : _cache2[1] = _value4.left;
+      _value4 = _equals2 ? _cache2[0] : (_cache2[0] = props);
+    _value = _equals2 ? _cache2[1] : (_cache2[1] = _value4.left);
   } else {
     let _cache3 = _$$branch(_cache, 3, 2),
       _equals3 = _$$equals(_cache3, 0, props),
-      _value6 = _equals3 ? _cache3[0] : _cache3[0] = props;
-    _value = _equals3 ? _cache3[1] : _cache3[1] = _value6.right;
+      _value6 = _equals3 ? _cache3[0] : (_cache3[0] = props);
+    _value = _equals3 ? _cache3[1] : (_cache3[1] = _value6.right);
   }
   const value = _value;
 }
@@ -296,21 +301,21 @@ function Example(props) {
   const value = props.condition ?? props.right;
 }
 // Compiles into
-import { useRef as _useRef } from "react";
-import { $$cache as _$$cache } from "forgetti/runtime";
-import { $$branch as _$$branch } from "forgetti/runtime";
-import { $$equals as _$$equals } from "forgetti/runtime";
+import { useRef as _useRef } from 'react';
+import { $$cache as _$$cache } from 'forgetti/runtime';
+import { $$branch as _$$branch } from 'forgetti/runtime';
+import { $$equals as _$$equals } from 'forgetti/runtime';
 function Example(props) {
   let _cache = _$$cache(_useRef, 3),
     _equals = _$$equals(_cache, 0, props),
-    _value2 = _equals ? _cache[0] : _cache[0] = props,
-    _value3 = _equals ? _cache[1] : _cache[1] = _value2.condition,
+    _value2 = _equals ? _cache[0] : (_cache[0] = props),
+    _value3 = _equals ? _cache[1] : (_cache[1] = _value2.condition),
     _value;
   if (_value3 == null) {
     let _cache2 = _$$branch(_cache, 2, 2),
       _equals2 = _$$equals(_cache2, 0, props),
-      _value4 = _equals2 ? _cache2[0] : _cache2[0] = props;
-    _value = _equals2 ? _cache2[1] : _cache2[1] = _value4.right;
+      _value4 = _equals2 ? _cache2[0] : (_cache2[0] = props);
+    _value = _equals2 ? _cache2[1] : (_cache2[1] = _value4.right);
   } else _value = _value3;
   const value = _value;
 }
@@ -347,33 +352,33 @@ function Example(props) {
   }
 }
 // Compiles into
-import { useRef as _useRef } from "react";
-import { $$cache as _$$cache } from "forgetti/runtime";
-import { $$branch as _$$branch } from "forgetti/runtime";
-import { $$equals as _$$equals } from "forgetti/runtime";
+import { useRef as _useRef } from 'react';
+import { $$cache as _$$cache } from 'forgetti/runtime';
+import { $$branch as _$$branch } from 'forgetti/runtime';
+import { $$equals as _$$equals } from 'forgetti/runtime';
 function Example(props) {
   let _cache = _$$cache(_useRef, 6),
     _equals = _$$equals(_cache, 0, props),
-    _value = _equals ? _cache[0] : _cache[0] = props,
-    _value2 = _equals ? _cache[1] : _cache[1] = _value.type,
+    _value = _equals ? _cache[0] : (_cache[0] = props),
+    _value2 = _equals ? _cache[1] : (_cache[1] = _value.type),
     _equals2 = _$$equals(_cache, 2, _value2),
-    _value3 = _equals2 ? _cache[2] : _cache[2] = _value2;
-  if (_equals2 ? _cache[3] : _cache[3] = _value3 === 'a') {
+    _value3 = _equals2 ? _cache[2] : (_cache[2] = _value2);
+  if (_equals2 ? _cache[3] : (_cache[3] = _value3 === 'a')) {
     let _cache2 = _$$branch(_cache, 4, 4),
       _equals3 = _$$equals(_cache2, 0, props),
-      _value5 = _equals3 ? _cache2[0] : _cache2[0] = props,
-      _value6 = _equals3 ? _cache2[1] : _cache2[1] = _value5.value,
+      _value5 = _equals3 ? _cache2[0] : (_cache2[0] = props),
+      _value6 = _equals3 ? _cache2[1] : (_cache2[1] = _value5.value),
       _equals4 = _$$equals(_cache2, 2, _value6),
-      _value7 = _equals4 ? _cache2[2] : _cache2[2] = _value6;
-    return _equals4 ? _cache2[3] : _cache2[3] = examples.a(_value7);
+      _value7 = _equals4 ? _cache2[2] : (_cache2[2] = _value6);
+    return _equals4 ? _cache2[3] : (_cache2[3] = examples.a(_value7));
   } else {
     let _cache3 = _$$branch(_cache, 5, 4),
       _equals5 = _$$equals(_cache3, 0, props),
-      _value9 = _equals5 ? _cache3[0] : _cache3[0] = props,
-      _value10 = _equals5 ? _cache3[1] : _cache3[1] = _value9.value,
+      _value9 = _equals5 ? _cache3[0] : (_cache3[0] = props),
+      _value10 = _equals5 ? _cache3[1] : (_cache3[1] = _value9.value),
       _equals6 = _$$equals(_cache3, 2, _value10),
-      _value11 = _equals6 ? _cache3[2] : _cache3[2] = _value10;
-    return _equals6 ? _cache3[3] : _cache3[3] = examples.b(_value11);
+      _value11 = _equals6 ? _cache3[2] : (_cache3[2] = _value10);
+    return _equals6 ? _cache3[3] : (_cache3[3] = examples.b(_value11));
   }
 }
 ```
@@ -403,22 +408,22 @@ function Example(props) {
   }
 }
 // Compiles into
-import { useRef as _useRef } from "react";
-import { $$cache as _$$cache } from "forgetti/runtime";
-import { $$branch as _$$branch } from "forgetti/runtime";
-import { $$equals as _$$equals } from "forgetti/runtime";
+import { useRef as _useRef } from 'react';
+import { $$cache as _$$cache } from 'forgetti/runtime';
+import { $$branch as _$$branch } from 'forgetti/runtime';
+import { $$equals as _$$equals } from 'forgetti/runtime';
 function Example(props) {
   let _cache = _$$cache(_useRef, 3),
     _equals = _$$equals(_cache, 0, props),
-    _value = _equals ? _cache[0] : _cache[0] = props,
-    _value2 = _equals ? _cache[1] : _cache[1] = _value.arr,
+    _value = _equals ? _cache[0] : (_cache[0] = props),
+    _value2 = _equals ? _cache[1] : (_cache[1] = _value.arr),
     _cache2 = _$$branch(_cache, 2, 0),
     _id = 0;
   for (const x in _value2) {
     let _loop = _$$branch(_cache2, _id++, 2),
       _equals2 = _$$equals(_loop, 0, x),
-      _value3 = _equals2 ? _loop[0] : _loop[0] = x;
-    _equals2 ? _loop[1] : _loop[1] = console.log(_value3);
+      _value3 = _equals2 ? _loop[0] : (_loop[0] = x);
+    _equals2 ? _loop[1] : (_loop[1] = console.log(_value3));
   }
 }
 ```
@@ -437,29 +442,37 @@ If the preset has `optimizeJSX` enabled, JSX expressions are moved into a hidden
 
 ```js
 function Example(props) {
-  return <h1>{props.greeting}, {props.receiver}!</h1>;
+  return (
+    <h1>
+      {props.greeting}, {props.receiver}!
+    </h1>
+  );
 }
 // Compiles into
-import { useRef as _useRef } from "react";
-import { $$cache as _$$cache } from "forgetti/runtime";
-import { $$equals as _$$equals } from "forgetti/runtime";
-import { memo as _memo } from "react";
-import { $$memo as _$$memo } from "forgetti/runtime";
-const _Memo = _$$memo(_memo, _values => <h1>{_values[0]}, {_values[1]}!</h1>);
+import { useRef as _useRef } from 'react';
+import { $$cache as _$$cache } from 'forgetti/runtime';
+import { $$equals as _$$equals } from 'forgetti/runtime';
+import { memo as _memo } from 'react';
+import { $$memo as _$$memo } from 'forgetti/runtime';
+const _Memo = _$$memo(_memo, (_values) => (
+  <h1>
+    {_values[0]}, {_values[1]}!
+  </h1>
+));
 function Example(props) {
   let _cache = _$$cache(_useRef, 8),
     _equals = _$$equals(_cache, 0, props),
-    _value = _equals ? _cache[0] : _cache[0] = props,
-    _value2 = _equals ? _cache[1] : _cache[1] = _value.greeting,
+    _value = _equals ? _cache[0] : (_cache[0] = props),
+    _value2 = _equals ? _cache[1] : (_cache[1] = _value.greeting),
     _equals2 = _$$equals(_cache, 2, _value2),
-    _value3 = _equals2 ? _cache[2] : _cache[2] = _value2,
-    _value4 = _equals ? _cache[3] : _cache[3] = _value.receiver,
+    _value3 = _equals2 ? _cache[2] : (_cache[2] = _value2),
+    _value4 = _equals ? _cache[3] : (_cache[3] = _value.receiver),
     _equals3 = _$$equals(_cache, 4, _value4),
-    _value5 = _equals3 ? _cache[4] : _cache[4] = _value4,
-    _value6 = _equals2 && _equals3 ? _cache[5] : _cache[5] = [_value3, _value5],
+    _value5 = _equals3 ? _cache[4] : (_cache[4] = _value4),
+    _value6 = _equals2 && _equals3 ? _cache[5] : (_cache[5] = [_value3, _value5]),
     _equals5 = _$$equals(_cache, 6, _value6),
-    _value7 = _equals5 ? _cache[6] : _cache[6] = _value6;
-  return _equals5 ? _cache[7] : _cache[7] = /*@forgetti skip*/<_Memo v={_value7} />;
+    _value7 = _equals5 ? _cache[6] : (_cache[6] = _value6);
+  return _equals5 ? _cache[7] : (_cache[7] = /*@forgetti skip*/ <_Memo v={_value7} />);
 }
 ```
 

@@ -1,0 +1,86 @@
+name: Check
+
+on:
+  pull_request:
+    # ready_for_review runs the check when a draft is marked ready.
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main]
+    # Roadmaps, debates, proposals and decisions are not build inputs.
+    paths-ignore: ['docs/**']
+
+# A new push cancels the older run of the same pull request. Runs on main are never cancelled.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  # Pull requests always run this workflow, so the required `Check` job always reports.
+  # Changes only under docs/ skip the build.
+  changes:
+    name: Changes
+    # Drafts are still in review. Skip them so review fixes do not use CI minutes.
+    if: ${{ !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    outputs:
+      code: ${{ steps.diff.outputs.code }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - id: diff
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          # Pushes to main already skip docs-only changes through paths-ignore.
+          if [ "$EVENT" = "push" ] || git diff --name-only "$BASE" HEAD | grep -qv '^docs/'; then
+            echo "code=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "code=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  check:
+    name: Check (Node ${{ matrix.node }})
+    needs: changes
+    if: ${{ needs.changes.outputs.code == 'true' }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [22, 24]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+          package-manager-cache: false
+      - run: pnpm install --frozen-lockfile
+      # Type-aware lint and the typecheck read the built declarations of workspace packages.
+      - run: pnpm build
+      - run: pnpm lint
+      - run: pnpm format:check
+      - run: pnpm typecheck
+      - run: pnpm test
+
+  # The one job the main branch ruleset requires. It passes when every check passed, or was skipped
+  # for a docs-only change. Drafts skip it too; GitHub does not merge drafts.
+  result:
+    name: Check
+    needs: [changes, check]
+    if: ${{ always() && !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          CHANGES: ${{ needs.changes.result }}
+          CHECK: ${{ needs.check.result }}
+        run: |
+          if [ "$CHANGES" != "success" ]; then echo "changes: $CHANGES"; exit 1; fi
+          case "$CHECK" in success|skipped) ;; *) echo "check: $CHECK"; exit 1;; esac

@@ -27,15 +27,11 @@ function isInValidExpression(path: babel.NodePath): boolean {
   while (current) {
     if (
       isPathValid(current, t.isConditionalExpression) &&
-      (current.get('consequent').node === prev.node ||
-        current.get('alternate').node === prev.node)
+      (current.get('consequent').node === prev.node || current.get('alternate').node === prev.node)
     ) {
       return false;
     }
-    if (
-      isPathValid(current, t.isLogicalExpression) &&
-      current.get('right').node === prev.node
-    ) {
+    if (isPathValid(current, t.isLogicalExpression) && current.get('right').node === prev.node) {
       return false;
     }
     prev = current;
@@ -46,9 +42,7 @@ function isInValidExpression(path: babel.NodePath): boolean {
 
 const UNDEFINED_LITERAL = t.unaryExpression('void', t.numericLiteral(0));
 
-function transformOptionalCall(
-  path: babel.NodePath<t.OptionalCallExpression>,
-): t.Expression {
+function transformOptionalCall(path: babel.NodePath<t.OptionalCallExpression>): t.Expression {
   const unwrappedID = unwrapNode(path.node.callee, t.isIdentifier);
   if (unwrappedID) {
     return t.conditionalExpression(
@@ -73,18 +67,10 @@ function transformOptionalCall(
         kind: 'let',
         id: unwrappedObject,
       });
-      unwrappedCallee.object = t.assignmentExpression(
-        '=',
-        unwrappedObject,
-        unwrappedCallee.object,
-      );
+      unwrappedCallee.object = t.assignmentExpression('=', unwrappedObject, unwrappedCallee.object);
     }
     return t.conditionalExpression(
-      t.binaryExpression(
-        '==',
-        t.assignmentExpression('=', temp, unwrappedCallee),
-        t.nullLiteral(),
-      ),
+      t.binaryExpression('==', t.assignmentExpression('=', temp, unwrappedCallee), t.nullLiteral()),
       UNDEFINED_LITERAL,
       t.callExpression(t.memberExpression(temp, t.identifier('call')), [
         unwrappedObject,
@@ -93,19 +79,13 @@ function transformOptionalCall(
     );
   }
   return t.conditionalExpression(
-    t.binaryExpression(
-      '==',
-      t.assignmentExpression('=', temp, path.node.callee),
-      t.nullLiteral(),
-    ),
+    t.binaryExpression('==', t.assignmentExpression('=', temp, path.node.callee), t.nullLiteral()),
     UNDEFINED_LITERAL,
     t.callExpression(temp, path.node.arguments),
   );
 }
 
-function transformOptionalMember(
-  path: babel.NodePath<t.OptionalMemberExpression>,
-): t.Expression {
+function transformOptionalMember(path: babel.NodePath<t.OptionalMemberExpression>): t.Expression {
   const unwrappedID = unwrapNode(path.node.object, t.isIdentifier);
   if (unwrappedID) {
     return t.conditionalExpression(
@@ -120,24 +100,14 @@ function transformOptionalMember(
     id: temp,
   });
   return t.conditionalExpression(
-    t.binaryExpression(
-      '==',
-      t.assignmentExpression('=', temp, path.node.object),
-      t.nullLiteral(),
-    ),
+    t.binaryExpression('==', t.assignmentExpression('=', temp, path.node.object), t.nullLiteral()),
     UNDEFINED_LITERAL,
     t.memberExpression(temp, path.node.property, path.node.computed),
   );
 }
 
-export function expandExpressions(
-  ctx: StateContext,
-  path: babel.NodePath<ComponentNode>,
-): void {
-  if (
-    path.node.type === 'ArrowFunctionExpression' &&
-    path.node.body.type !== 'BlockStatement'
-  ) {
+export function expandExpressions(ctx: StateContext, path: babel.NodePath<ComponentNode>): void {
+  if (path.node.type === 'ArrowFunctionExpression' && path.node.body.type !== 'BlockStatement') {
     path.node.body = t.blockStatement([t.returnStatement(path.node.body)]);
   }
   path.traverse({

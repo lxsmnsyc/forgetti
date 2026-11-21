@@ -38,10 +38,7 @@ function getForeignBindingsFromExpression(
   identifiers: Set<string>,
 ) {
   // Check identifiers that aren't in a TS expression
-  if (
-    !isInTypescript(path) &&
-    isForeignBinding(parentPath, path, path.node.name)
-  ) {
+  if (!isInTypescript(path) && isForeignBinding(parentPath, path, path.node.name)) {
     identifiers.add(path.node.name);
   }
 }

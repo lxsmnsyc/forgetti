@@ -9,15 +9,11 @@ function isInValidExpression(path: babel.NodePath): boolean {
   while (current) {
     if (
       isPathValid(current, t.isConditionalExpression) &&
-      (current.get('consequent').node === prev.node ||
-        current.get('alternate').node === prev.node)
+      (current.get('consequent').node === prev.node || current.get('alternate').node === prev.node)
     ) {
       return false;
     }
-    if (
-      isPathValid(current, t.isLogicalExpression) &&
-      current.get('right').node === prev.node
-    ) {
+    if (isPathValid(current, t.isLogicalExpression) && current.get('right').node === prev.node) {
       return false;
     }
     prev = current;
@@ -30,10 +26,7 @@ function inlineExpression(
   parentPath: babel.NodePath<ComponentNode>,
   path: babel.NodePath<t.Expression>,
 ) {
-  if (
-    path.getFunctionParent() === parentPath &&
-    isPathValid(path, t.isIdentifier)
-  ) {
+  if (path.getFunctionParent() === parentPath && isPathValid(path, t.isIdentifier)) {
     const binding = path.scope.getBinding(path.node.name);
     if (!binding) {
       return;

@@ -1,3 +1,9 @@
 packages:
-- 'packages/**/*'
-- 'examples/**/*'
+  - packages/*
+  - examples/*
+linkWorkspacePackages: true
+preferWorkspacePackages: true
+
+# Vite 5 in the examples brings esbuild. Its platform binary comes as an optional dependency.
+allowBuilds:
+  esbuild: false

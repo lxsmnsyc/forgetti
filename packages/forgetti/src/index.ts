@@ -4,11 +4,7 @@ import { expandExpressions } from './core/expand-expressions';
 import { inlineExpressions } from './core/inline-expressions';
 import optimizeJSX from './core/optimize-jsx';
 import Optimizer from './core/optimizer';
-import type {
-  HookRegistration,
-  ImportDefinition,
-  Options,
-} from './core/presets';
+import type { HookRegistration, ImportDefinition, Options } from './core/presets';
 import { PRESETS } from './core/presets';
 import { simplifyExpressions } from './core/simplify-expressions';
 import type { State, StateContext } from './core/types';
@@ -50,10 +46,8 @@ function registerHookSpecifiers(
       }
       case 'ImportSpecifier': {
         if (
-          (hook.kind === 'named' &&
-            getImportSpecifierName(specifier) === hook.name) ||
-          (hook.kind === 'default' &&
-            getImportSpecifierName(specifier) === 'default')
+          (hook.kind === 'named' && getImportSpecifierName(specifier) === hook.name) ||
+          (hook.kind === 'default' && getImportSpecifierName(specifier) === 'default')
         ) {
           ctx.registrations.hooks.identifiers.set(specifier.local, hook);
         }
@@ -89,10 +83,8 @@ function registerHOCSpecifiers(
       }
       case 'ImportSpecifier': {
         if (
-          (hoc.kind === 'named' &&
-            getImportSpecifierName(specifier) === hoc.name) ||
-          (hoc.kind === 'default' &&
-            getImportSpecifierName(specifier) === 'default')
+          (hoc.kind === 'named' && getImportSpecifierName(specifier) === hoc.name) ||
+          (hoc.kind === 'default' && getImportSpecifierName(specifier) === 'default')
         ) {
           ctx.registrations.hocs.identifiers.set(specifier.local, hoc);
         }
@@ -160,10 +152,7 @@ function transformFunction(
   }
 }
 
-function transformHOC(
-  ctx: StateContext,
-  path: babel.NodePath<t.CallExpression>,
-): void {
+function transformHOC(ctx: StateContext, path: babel.NodePath<t.CallExpression>): void {
   if (path.node.arguments.length === 0) {
     return;
   }
@@ -182,9 +171,7 @@ function transformVariableDeclarator(
     path.node.id.type === 'Identifier' &&
     isHookOrComponentName(ctx, path.node.id) &&
     !shouldSkipNode(path.node) &&
-    (path.parent.type === 'VariableDeclaration'
-      ? !shouldSkipNode(path.parent)
-      : true)
+    (path.parent.type === 'VariableDeclaration' ? !shouldSkipNode(path.parent) : true)
   ) {
     transformFunction(ctx, path.get('init') as babel.NodePath<Argument>, false);
   }
@@ -195,8 +182,7 @@ export default function forgettiPlugin(): babel.PluginObj<State> {
     name: 'forgetti',
     visitor: {
       Program(programPath, { opts }): void {
-        const preset =
-          typeof opts.preset === 'string' ? PRESETS[opts.preset] : opts.preset;
+        const preset = typeof opts.preset === 'string' ? PRESETS[opts.preset] : opts.preset;
         const ctx: StateContext = {
           imports: new Map(),
           registrations: {
@@ -211,15 +197,9 @@ export default function forgettiPlugin(): babel.PluginObj<State> {
           },
           preset,
           filters: {
-            component: new RegExp(
-              preset.filters.component.source,
-              preset.filters.component.flags,
-            ),
+            component: new RegExp(preset.filters.component.source, preset.filters.component.flags),
             hook: preset.filters.hook
-              ? new RegExp(
-                  preset.filters.hook.source,
-                  preset.filters.hook.flags,
-                )
+              ? new RegExp(preset.filters.hook.source, preset.filters.hook.flags)
               : undefined,
           },
         };

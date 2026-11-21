@@ -24,10 +24,7 @@ export function isHookName(ctx: StateContext, id: t.Identifier): boolean {
   return !!ctx.filters.hook && ctx.filters.hook.test(id.name);
 }
 
-export function isHookOrComponentName(
-  ctx: StateContext,
-  id: t.Identifier,
-): boolean {
+export function isHookOrComponentName(ctx: StateContext, id: t.Identifier): boolean {
   return ctx.filters.component.test(id.name) || isHookName(ctx, id);
 }
 

@@ -34,21 +34,14 @@ export function getHOCDefinitionFromCallee(
     return undefined;
   }
   const memberExpr = unwrapNode(callee, t.isMemberExpression);
-  if (
-    memberExpr &&
-    !memberExpr.computed &&
-    t.isIdentifier(memberExpr.property)
-  ) {
+  if (memberExpr && !memberExpr.computed && t.isIdentifier(memberExpr.property)) {
     const object = unwrapNode(memberExpr.object, t.isIdentifier);
     if (object) {
       const binding = path.scope.getBindingIdentifier(object.name);
       if (binding) {
         const definitions = ctx.registrations.hocs.namespaces.get(binding);
         if (definitions) {
-          return getHOCDefinitionFromPropName(
-            definitions,
-            memberExpr.property.name,
-          );
+          return getHOCDefinitionFromPropName(definitions, memberExpr.property.name);
         }
       }
     }

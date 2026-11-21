@@ -13,9 +13,7 @@ export type RefHook = <T>(callback: T) => Ref<T>;
 
 export function $$ref(hook: RefHook, size: number): unknown[] {
   const ref = hook<unknown[] | undefined>(undefined);
-  if (!ref.current) {
-    ref.current = new Array(size);
-  }
+  ref.current ??= new Array<unknown>(size);
   return ref.current;
 }
 
@@ -27,13 +25,15 @@ export function $$cache(hook: MemoHook, size: number): unknown[] {
   return hook(() => new Array<unknown>(size), EMPTY_ARRAY);
 }
 
-export function $$branch(
-  parent: unknown[],
-  index: number,
-  size: number,
-): unknown[] {
-  parent[index] ||= new Array(size);
-  return parent[index] as unknown[];
+export function $$branch(parent: unknown[], index: number, size: number): unknown[] {
+  // A branch slot holds either nothing yet or the branch's own cache.
+  const current = parent[index];
+  if (Array.isArray(current)) {
+    return current;
+  }
+  const created = new Array<unknown>(size);
+  parent[index] = created;
+  return created;
 }
 
 export interface MemoProps {
@@ -64,7 +64,7 @@ export function $$memo(
   name: string,
   render: (values: unknown[]) => unknown,
 ): MemoComponent {
-  const OriginalComponent = (props: MemoProps) => render(props.v);
+  const OriginalComponent = (props: MemoProps): unknown => render(props.v);
   if (import.meta.env.DEV) {
     OriginalComponent.displayName = `Forgetti(${name}.render)`;
   }

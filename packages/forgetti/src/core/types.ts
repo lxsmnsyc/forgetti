@@ -1,11 +1,6 @@
 import type * as t from '@babel/types';
 import type * as babel from '@babel/core';
-import type {
-  HookRegistration,
-  ImportDefinition,
-  Options,
-  Preset,
-} from './presets';
+import type { HookRegistration, ImportDefinition, Options, Preset } from './presets';
 
 export type ComponentNode =
   | t.ArrowFunctionExpression

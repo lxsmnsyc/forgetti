@@ -17,11 +17,7 @@ export interface ForgettiPluginOptions extends Options {
 }
 
 // From: https://github.com/bluwy/whyframe/blob/master/packages/jsx/src/index.js#L27-L37
-function repushPlugin(
-  plugins: Plugin[],
-  plugin: Plugin,
-  pluginNames: string[],
-): void {
+function repushPlugin(plugins: Plugin[], plugin: Plugin, pluginNames: string[]): void {
   const namesSet = new Set(pluginNames);
 
   let baseIndex = -1;
@@ -48,8 +44,8 @@ export default function forgettiPlugin(
   options: ForgettiPluginOptions = { preset: 'react' },
 ): Plugin {
   const filter = createFilter(
-    options.filter?.include || DEFAULT_INCLUDE,
-    options.filter?.exclude || DEFAULT_EXCLUDE,
+    options.filter?.include ?? DEFAULT_INCLUDE,
+    options.filter?.exclude ?? DEFAULT_EXCLUDE,
   );
   const { preset } = options;
   const plugin: Plugin = {
@@ -57,6 +53,8 @@ export default function forgettiPlugin(
     enforce: 'pre',
     configResolved(config) {
       // run our plugin before the following plugins:
+      // Vite lets a plugin reorder the resolved list. It is typed readonly only to stop accidents.
+      // oxlint-disable-next-line typescript/no-unsafe-type-assertion
       repushPlugin(config.plugins as Plugin[], plugin, [
         // https://github.com/withastro/astro/blob/main/packages/astro/src/vite-plugin-jsx/index.ts#L173
         'astro:jsx',
@@ -70,21 +68,18 @@ export default function forgettiPlugin(
     async transform(code, id) {
       if (filter(id)) {
         const pluginOption = [forgettiBabel, { preset }];
-        const plugins: NonNullable<
-          NonNullable<babel.TransformOptions['parserOpts']>['plugins']
-        > = ['jsx'];
+        const plugins: NonNullable<NonNullable<babel.TransformOptions['parserOpts']>['plugins']> = [
+          'jsx',
+        ];
         if (/\.[mc]?tsx?$/i.test(id)) {
           plugins.push('typescript');
         }
         const result = await babel.transformAsync(code, {
           ...options.babel,
-          plugins: [pluginOption, ...(options.babel?.plugins || [])],
+          plugins: [pluginOption, ...(options.babel?.plugins ?? [])],
           parserOpts: {
-            ...(options.babel?.parserOpts || {}),
-            plugins: [
-              ...(options.babel?.parserOpts?.plugins || []),
-              ...plugins,
-            ],
+            ...options.babel?.parserOpts,
+            plugins: [...(options.babel?.parserOpts?.plugins ?? []), ...plugins],
           },
           filename: path.basename(id),
           ast: false,
@@ -96,7 +91,7 @@ export default function forgettiPlugin(
 
         if (result) {
           return {
-            code: result.code || '',
+            code: result.code ?? '',
             map: result.map,
           };
         }

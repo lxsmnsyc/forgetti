@@ -56,21 +56,15 @@ export function simplifyExpressions(path: babel.NodePath<ComponentNode>): void {
       exit(p) {
         switch (getBooleanishState(p.node.left)) {
           case 'nullish': {
-            p.replaceWith(
-              p.node.operator === '??' ? p.node.right : p.node.left,
-            );
+            p.replaceWith(p.node.operator === '??' ? p.node.right : p.node.left);
             break;
           }
           case 'falsy': {
-            p.replaceWith(
-              p.node.operator === '||' ? p.node.right : p.node.left,
-            );
+            p.replaceWith(p.node.operator === '||' ? p.node.right : p.node.left);
             break;
           }
           case 'truthy': {
-            p.replaceWith(
-              p.node.operator === '&&' ? p.node.right : p.node.left,
-            );
+            p.replaceWith(p.node.operator === '&&' ? p.node.right : p.node.left);
             break;
           }
         }

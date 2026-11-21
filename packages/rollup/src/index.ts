@@ -23,8 +23,8 @@ export default function forgettiPlugin(
   options: ForgettiPluginOptions = { preset: 'react' },
 ): Plugin {
   const filter = createFilter(
-    options.filter?.include || DEFAULT_INCLUDE,
-    options.filter?.exclude || DEFAULT_EXCLUDE,
+    options.filter?.include ?? DEFAULT_INCLUDE,
+    options.filter?.exclude ?? DEFAULT_EXCLUDE,
   );
   const { preset } = options;
   return {
@@ -32,21 +32,18 @@ export default function forgettiPlugin(
     async transform(code, id): Promise<TransformResult> {
       if (filter(id)) {
         const pluginOption = [forgettiBabel, { preset }];
-        const plugins: NonNullable<
-          NonNullable<babel.TransformOptions['parserOpts']>['plugins']
-        > = ['jsx'];
+        const plugins: NonNullable<NonNullable<babel.TransformOptions['parserOpts']>['plugins']> = [
+          'jsx',
+        ];
         if (/\.[mc]?tsx?$/i.test(id)) {
           plugins.push('typescript');
         }
         const result = await babel.transformAsync(code, {
           ...options.babel,
-          plugins: [pluginOption, ...(options.babel?.plugins || [])],
+          plugins: [pluginOption, ...(options.babel?.plugins ?? [])],
           parserOpts: {
-            ...(options.babel?.parserOpts || {}),
-            plugins: [
-              ...(options.babel?.parserOpts?.plugins || []),
-              ...plugins,
-            ],
+            ...options.babel?.parserOpts,
+            plugins: [...(options.babel?.parserOpts?.plugins ?? []), ...plugins],
           },
           filename: path.basename(id),
           ast: false,
@@ -58,7 +55,7 @@ export default function forgettiPlugin(
 
         if (result) {
           return {
-            code: result.code || '',
+            code: result.code ?? '',
             map: result.map,
           };
         }

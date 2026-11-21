@@ -98,10 +98,11 @@ export default class OptimizerScope {
           t.variableDeclaration('let', [
             t.variableDeclarator(
               this.createHeader('memo'),
-              t.callExpression(
-                getImportIdentifier(this.ctx, this.path, RUNTIME_BRANCH),
-                [header, index, t.numericLiteral(this.indecesMemo)],
-              ),
+              t.callExpression(getImportIdentifier(this.ctx, this.path, RUNTIME_BRANCH), [
+                header,
+                index,
+                t.numericLiteral(this.indecesMemo),
+              ]),
             ),
           ]),
         ];
@@ -112,17 +113,10 @@ export default class OptimizerScope {
         t.variableDeclaration('let', [
           t.variableDeclarator(
             this.memo,
-            t.callExpression(
-              getImportIdentifier(this.ctx, this.path, RUNTIME_CACHE),
-              [
-                getImportIdentifier(
-                  this.ctx,
-                  this.path,
-                  this.ctx.preset.runtime.useMemo,
-                ),
-                t.numericLiteral(this.indecesMemo),
-              ],
-            ),
+            t.callExpression(getImportIdentifier(this.ctx, this.path, RUNTIME_CACHE), [
+              getImportIdentifier(this.ctx, this.path, this.ctx.preset.runtime.useMemo),
+              t.numericLiteral(this.indecesMemo),
+            ]),
           ),
         ]),
       );
@@ -144,10 +138,11 @@ export default class OptimizerScope {
           t.variableDeclaration('let', [
             t.variableDeclarator(
               this.createHeader('ref'),
-              t.callExpression(
-                getImportIdentifier(this.ctx, this.path, RUNTIME_BRANCH),
-                [header, index, t.numericLiteral(this.indecesRef)],
-              ),
+              t.callExpression(getImportIdentifier(this.ctx, this.path, RUNTIME_BRANCH), [
+                header,
+                index,
+                t.numericLiteral(this.indecesRef),
+              ]),
             ),
           ]),
         ];
@@ -158,17 +153,10 @@ export default class OptimizerScope {
         t.variableDeclaration('let', [
           t.variableDeclarator(
             this.ref,
-            t.callExpression(
-              getImportIdentifier(this.ctx, this.path, RUNTIME_REF),
-              [
-                getImportIdentifier(
-                  this.ctx,
-                  this.path,
-                  this.ctx.preset.runtime.useRef,
-                ),
-                t.numericLiteral(this.indecesRef),
-              ],
-            ),
+            t.callExpression(getImportIdentifier(this.ctx, this.path, RUNTIME_REF), [
+              getImportIdentifier(this.ctx, this.path, this.ctx.preset.runtime.useRef),
+              t.numericLiteral(this.indecesRef),
+            ]),
           ),
         ]),
       );
@@ -256,10 +244,11 @@ export default class OptimizerScope {
           t.variableDeclarator(localIndex, t.updateExpression('++', index)),
           t.variableDeclarator(
             this.createLoopHeader('memo'),
-            t.callExpression(
-              getImportIdentifier(this.ctx, this.path, RUNTIME_BRANCH),
-              [header, localIndex, t.numericLiteral(this.indecesMemo)],
-            ),
+            t.callExpression(getImportIdentifier(this.ctx, this.path, RUNTIME_BRANCH), [
+              header,
+              localIndex,
+              t.numericLiteral(this.indecesMemo),
+            ]),
           ),
         ]),
       ];
@@ -277,10 +266,11 @@ export default class OptimizerScope {
           t.variableDeclarator(localIndex, t.updateExpression('++', index)),
           t.variableDeclarator(
             this.createLoopHeader('ref'),
-            t.callExpression(
-              getImportIdentifier(this.ctx, this.path, RUNTIME_BRANCH),
-              [header, localIndex, t.numericLiteral(this.indecesRef)],
-            ),
+            t.callExpression(getImportIdentifier(this.ctx, this.path, RUNTIME_BRANCH), [
+              header,
+              localIndex,
+              t.numericLiteral(this.indecesRef),
+            ]),
           ),
         ]),
       ];
@@ -296,11 +286,7 @@ export default class OptimizerScope {
     const refHeader = this.isInLoop
       ? this.getLoopRefHeaderDeclaration()
       : this.getRefDeclarations();
-    return mergeVariableDeclaration([
-      ...(memoHeader || []),
-      ...(refHeader || []),
-      ...result,
-    ]);
+    return mergeVariableDeclaration([...(memoHeader || []), ...(refHeader || []), ...result]);
   }
 
   push(...statements: t.Statement[]): void {

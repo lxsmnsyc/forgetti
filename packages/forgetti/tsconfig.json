@@ -1,13 +1,10 @@
 {
   "exclude": ["node_modules"],
-  "include": ["src", "types", "runtime"],
+  "include": ["src", "runtime", "test"],
   "compilerOptions": {
-    "module": "ESNext",
+    "module": "preserve",
     "lib": ["ESNext"],
-    "importHelpers": true,
     "declaration": true,
-    "sourceMap": true,
-    "rootDir": "./",
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -17,8 +14,9 @@
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "esModuleInterop": true,
-    "target": "ES2017",
-    "useDefineForClassFields": false,
-    "declarationMap": true
+    "target": "es2022",
+    "types": ["node", "vite/client"],
+    "noEmit": true,
+    "skipLibCheck": true
   }
 }
