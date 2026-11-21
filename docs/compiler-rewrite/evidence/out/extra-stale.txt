@@ -1,0 +1,6 @@
+ctx plain <p>n:A</p> -> <p>n:B</p>
+loop plain <ul title="t"><li>1</li><li>2</li><li>3</li><li>4</li></ul> -> <ul title="t"><li>5</li></ul>
+ctx react-compiler <p>n:A</p> -> <p>n:B</p>
+loop react-compiler <ul title="t"><li>1</li><li>2</li><li>3</li><li>4</li></ul> -> <ul title="t"><li>5</li></ul>
+ctx forgetti <p>n:A</p> -> <p>n:A</p>
+loop forgetti <ul title="t"><li>1</li><li>2</li><li>3</li></ul> -> <ul title="t"><li>1</li><li>2</li><li>3</li></ul>
