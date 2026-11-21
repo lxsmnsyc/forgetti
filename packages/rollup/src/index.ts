@@ -23,8 +23,8 @@ export default function forgettiPlugin(
   options: ForgettiPluginOptions = { preset: 'react' },
 ): Plugin {
   const filter = createFilter(
-    options.filter?.include || DEFAULT_INCLUDE,
-    options.filter?.exclude || DEFAULT_EXCLUDE,
+    options.filter?.include ?? DEFAULT_INCLUDE,
+    options.filter?.exclude ?? DEFAULT_EXCLUDE,
   );
   const { preset } = options;
   return {
@@ -40,11 +40,11 @@ export default function forgettiPlugin(
         }
         const result = await babel.transformAsync(code, {
           ...options.babel,
-          plugins: [pluginOption, ...(options.babel?.plugins || [])],
+          plugins: [pluginOption, ...(options.babel?.plugins ?? [])],
           parserOpts: {
-            ...(options.babel?.parserOpts || {}),
+            ...options.babel?.parserOpts,
             plugins: [
-              ...(options.babel?.parserOpts?.plugins || []),
+              ...(options.babel?.parserOpts?.plugins ?? []),
               ...plugins,
             ],
           },
@@ -58,7 +58,7 @@ export default function forgettiPlugin(
 
         if (result) {
           return {
-            code: result.code || '',
+            code: result.code ?? '',
             map: result.map,
           };
         }

@@ -1,5 +1,5 @@
 /* @forgetti skip */
-function useWhy<T>(name: string, value: T): void {
+function useWhy(name: string, value: unknown): void {
   console.log('[why-did-you-update]', name, value);
 }
 

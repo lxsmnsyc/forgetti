@@ -1,57 +1,16 @@
 {
-  "version": "0.8.5",
-  "type": "module",
-  "types": "./dist/types/index.d.ts",
-  "main": "./dist/cjs/production/index.cjs",
-  "module": "./dist/esm/production/index.mjs",
-  "exports": {
-    ".": {
-      "development": {
-        "require": "./dist/cjs/development/index.cjs",
-        "import": "./dist/esm/development/index.mjs"
-      },
-      "require": "./dist/cjs/production/index.cjs",
-      "import": "./dist/esm/production/index.mjs",
-      "types": "./dist/types/index.d.ts"
-    }
-  },
-  "files": [
-    "dist",
-    "src"
-  ],
-  "engines": {
-    "node": ">=10"
-  },
-  "license": "MIT",
-  "keywords": [
-    "pridepack"
-  ],
   "name": "rollup-plugin-forgetti",
-  "devDependencies": {
-    "@types/babel__core": "^7.20.5",
-    "@types/node": "^20.11.1",
-    "forgetti": "0.8.5",
-    "pridepack": "2.6.0",
-    "rollup": "^3.15.0",
-    "tslib": "^2.6.2",
-    "typescript": "^5.3.3"
-  },
-  "dependencies": {
-    "@babel/core": "^7.23.7",
-    "@rollup/pluginutils": "^5.0.5"
-  },
-  "peerDependencies": {
-    "forgetti": "^0.8",
-    "rollup": "^3"
-  },
-  "scripts": {
-    "prepublish": "pridepack clean && pridepack build",
-    "build": "pridepack build",
-    "type-check": "pridepack check",
-    "clean": "pridepack clean",
-    "watch": "pridepack watch"
-  },
+  "version": "0.8.5",
   "description": "Solve your hook spaghetti. Inspired by React Forget",
+  "keywords": [
+    "react",
+    "preact",
+    "compiler",
+    "babel",
+    "memoization"
+  ],
+  "license": "MIT",
+  "author": "Alexis Munsayac",
   "repository": {
     "url": "https://github.com/lxsmnsyc/forgetti.git",
     "type": "git"
@@ -60,12 +19,54 @@
   "bugs": {
     "url": "https://github.com/lxsmnsyc/forgetti/issues"
   },
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "src"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.cts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "publishConfig": {
     "access": "public"
   },
-  "author": "Alexis Munsayac",
-  "private": false,
-  "typesVersions": {
-    "*": {}
+  "scripts": {
+    "prepublishOnly": "pnpm build",
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=10"
+  },
+  "dependencies": {
+    "@babel/core": "^7.23.7",
+    "@rollup/pluginutils": "^5.0.5"
+  },
+  "devDependencies": {
+    "@types/babel__core": "^7.20.5",
+    "@types/node": "^26.6.6",
+    "forgetti": "workspace:*",
+    "rollup": "^3.15.0",
+    "tsdown": "^0.23.7",
+    "typescript": "^7.0.2"
+  },
+  "peerDependencies": {
+    "forgetti": "^0.8",
+    "rollup": "^3"
   }
 }

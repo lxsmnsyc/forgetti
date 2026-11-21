@@ -86,7 +86,7 @@ function TodoListForm({
         type="text"
         value={message}
         onInput={(e): void => {
-          setMessage((e.target as HTMLInputElement).value);
+          setMessage(e.currentTarget.value);
         }}
       />
       <button type="submit" disabled={message === ''}>

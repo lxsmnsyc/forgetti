@@ -48,8 +48,8 @@ export default function forgettiPlugin(
   options: ForgettiPluginOptions = { preset: 'react' },
 ): Plugin {
   const filter = createFilter(
-    options.filter?.include || DEFAULT_INCLUDE,
-    options.filter?.exclude || DEFAULT_EXCLUDE,
+    options.filter?.include ?? DEFAULT_INCLUDE,
+    options.filter?.exclude ?? DEFAULT_EXCLUDE,
   );
   const { preset } = options;
   const plugin: Plugin = {
@@ -57,6 +57,8 @@ export default function forgettiPlugin(
     enforce: 'pre',
     configResolved(config) {
       // run our plugin before the following plugins:
+      // Vite lets a plugin reorder the resolved list. It is typed readonly only to stop accidents.
+      // oxlint-disable-next-line typescript/no-unsafe-type-assertion
       repushPlugin(config.plugins as Plugin[], plugin, [
         // https://github.com/withastro/astro/blob/main/packages/astro/src/vite-plugin-jsx/index.ts#L173
         'astro:jsx',
@@ -78,11 +80,11 @@ export default function forgettiPlugin(
         }
         const result = await babel.transformAsync(code, {
           ...options.babel,
-          plugins: [pluginOption, ...(options.babel?.plugins || [])],
+          plugins: [pluginOption, ...(options.babel?.plugins ?? [])],
           parserOpts: {
-            ...(options.babel?.parserOpts || {}),
+            ...options.babel?.parserOpts,
             plugins: [
-              ...(options.babel?.parserOpts?.plugins || []),
+              ...(options.babel?.parserOpts?.plugins ?? []),
               ...plugins,
             ],
           },
@@ -96,7 +98,7 @@ export default function forgettiPlugin(
 
         if (result) {
           return {
-            code: result.code || '',
+            code: result.code ?? '',
             map: result.map,
           };
         }

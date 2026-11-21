@@ -1,47 +1,16 @@
 {
   "name": "forgetti",
-  "type": "module",
   "version": "0.8.5",
-  "files": [
-    "dist",
-    "src"
-  ],
-  "engines": {
-    "node": ">=10"
-  },
-  "license": "MIT",
-  "keywords": [
-    "pridepack"
-  ],
-  "devDependencies": {
-    "@babel/core": "^7.23.7",
-    "@types/babel__core": "^7.20.5",
-    "@types/babel__traverse": "^7.20.3",
-    "@types/node": "^20.11.1",
-    "pridepack": "2.6.0",
-    "tslib": "^2.6.2",
-    "typescript": "^5.3.3",
-    "vitest": "^0.34.6"
-  },
-  "dependencies": {
-    "@babel/traverse": "^7.23.2",
-    "@babel/types": "^7.23.0"
-  },
-  "peerDependencies": {
-    "@babel/core": "^7"
-  },
-  "scripts": {
-    "prepublishOnly": "pridepack clean && pridepack build",
-    "build": "pridepack build",
-    "type-check": "pridepack check",
-    "clean": "pridepack clean",
-    "watch": "pridepack watch",
-    "start": "pridepack start",
-    "dev": "pridepack dev",
-    "test": "vitest",
-    "optimize": "node example > output.js"
-  },
   "description": "Solve your hook spaghetti. Inspired by React Forget",
+  "keywords": [
+    "react",
+    "preact",
+    "compiler",
+    "babel",
+    "memoization"
+  ],
+  "license": "MIT",
+  "author": "Alexis Munsayac",
   "repository": {
     "url": "https://github.com/lxsmnsyc/forgetti.git",
     "type": "git"
@@ -50,39 +19,80 @@
   "bugs": {
     "url": "https://github.com/lxsmnsyc/forgetti/issues"
   },
-  "publishConfig": {
-    "access": "public"
-  },
-  "author": "Alexis Munsayac",
-  "private": false,
-  "typesVersions": {
-    "*": {
-      "runtime": [
-        "./dist/types/runtime/index.d.ts"
-      ]
-    }
-  },
-  "types": "./dist/types/src/index.d.ts",
-  "main": "./dist/cjs/production/index.cjs",
-  "module": "./dist/esm/production/index.mjs",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "src",
+    "runtime"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.cts",
   "exports": {
     ".": {
-      "development": {
-        "require": "./dist/cjs/development/index.cjs",
-        "import": "./dist/esm/development/index.mjs"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
       },
-      "require": "./dist/cjs/production/index.cjs",
-      "import": "./dist/esm/production/index.mjs",
-      "types": "./dist/types/src/index.d.ts"
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "default": "./dist/index.js"
     },
     "./runtime": {
       "development": {
-        "require": "./dist/cjs/development/runtime.cjs",
-        "import": "./dist/esm/development/runtime.mjs"
+        "import": {
+          "types": "./dist/runtime.d.ts",
+          "default": "./dist/development/runtime.js"
+        },
+        "require": {
+          "types": "./dist/runtime.d.cts",
+          "default": "./dist/development/runtime.cjs"
+        }
       },
-      "require": "./dist/cjs/production/runtime.cjs",
-      "import": "./dist/esm/production/runtime.mjs",
-      "types": "./dist/types/runtime/index.d.ts"
-    }
+      "import": {
+        "types": "./dist/runtime.d.ts",
+        "default": "./dist/runtime.js"
+      },
+      "require": {
+        "types": "./dist/runtime.d.cts",
+        "default": "./dist/runtime.cjs"
+      },
+      "default": "./dist/runtime.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prepublishOnly": "pnpm build",
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "optimize": "node example > output.js"
+  },
+  "engines": {
+    "node": ">=10"
+  },
+  "dependencies": {
+    "@babel/traverse": "^7.23.2",
+    "@babel/types": "^7.23.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.7",
+    "@types/babel__core": "^7.20.5",
+    "@types/babel__traverse": "^7.20.3",
+    "@types/node": "^26.6.6",
+    "tsdown": "^0.23.7",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.1"
+  },
+  "peerDependencies": {
+    "@babel/core": "^7"
   }
 }

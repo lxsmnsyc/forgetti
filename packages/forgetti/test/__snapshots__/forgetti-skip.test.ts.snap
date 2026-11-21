@@ -1,12 +1,12 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`forgetti skip > should optimize non-skipped function declaration 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
-import { $$cache as _$$cache } from \\"forgetti/runtime\\";
-import { $$equals as _$$equals } from \\"forgetti/runtime\\";
-import { memo as _memo } from \\"react\\";
-import { $$memo as _$$memo } from \\"forgetti/runtime\\";
-const _Example = _$$memo(_memo, \\"_Example\\", _values => <h1 className={_values[0]}>{_values[1]}</h1>);
+"import { useMemo as _useMemo } from "react";
+import { $$cache as _$$cache } from "forgetti/runtime";
+import { $$equals as _$$equals } from "forgetti/runtime";
+import { memo as _memo } from "react";
+import { $$memo as _$$memo } from "forgetti/runtime";
+const _Example = _$$memo(_memo, "_Example", _values => <h1 className={_values[0]}>{_values[1]}</h1>);
 function Example(props) {
   let _cache = _$$cache(_useMemo, 8),
     _equals = _$$equals(_cache, 0, props),
@@ -25,12 +25,12 @@ function Example(props) {
 `;
 
 exports[`forgetti skip > should optimize non-skipped function expression 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
-import { $$cache as _$$cache } from \\"forgetti/runtime\\";
-import { $$equals as _$$equals } from \\"forgetti/runtime\\";
-import { memo as _memo } from \\"react\\";
-import { $$memo as _$$memo } from \\"forgetti/runtime\\";
-const _Example = _$$memo(_memo, \\"_Example\\", _values => <h1 className={_values[0]}>{_values[1]}</h1>);
+"import { useMemo as _useMemo } from "react";
+import { $$cache as _$$cache } from "forgetti/runtime";
+import { $$equals as _$$equals } from "forgetti/runtime";
+import { memo as _memo } from "react";
+import { $$memo as _$$memo } from "forgetti/runtime";
+const _Example = _$$memo(_memo, "_Example", _values => <h1 className={_values[0]}>{_values[1]}</h1>);
 const Example = function (props) {
   let _cache = _$$cache(_useMemo, 8),
     _equals = _$$equals(_cache, 0, props),
@@ -49,12 +49,12 @@ const Example = function (props) {
 `;
 
 exports[`forgetti skip > should optimize non-skipped variable declaration 1`] = `
-"import { useMemo as _useMemo } from \\"react\\";
-import { $$cache as _$$cache } from \\"forgetti/runtime\\";
-import { $$equals as _$$equals } from \\"forgetti/runtime\\";
-import { memo as _memo } from \\"react\\";
-import { $$memo as _$$memo } from \\"forgetti/runtime\\";
-const _Example = _$$memo(_memo, \\"_Example\\", _values => <h1 className={_values[0]}>{_values[1]}</h1>);
+"import { useMemo as _useMemo } from "react";
+import { $$cache as _$$cache } from "forgetti/runtime";
+import { $$equals as _$$equals } from "forgetti/runtime";
+import { memo as _memo } from "react";
+import { $$memo as _$$memo } from "forgetti/runtime";
+const _Example = _$$memo(_memo, "_Example", _values => <h1 className={_values[0]}>{_values[1]}</h1>);
 const Example = props => {
   let _cache = _$$cache(_useMemo, 8),
     _equals = _$$equals(_cache, 0, props),
