@@ -1,0 +1,151 @@
+{
+  "goal": "Design a new set of compiler phases for forgetti on oxc and magic-string that keep the tree cache, are sound on React 19 and Preact 11, and beat both forgetti 0.8 and React Compiler 1.0 on the measured corpus",
+  "research": true,
+  "max_rounds": 3,
+  "roadmap": null,
+  "supersedes": null,
+  "extra_axes": [],
+  "claims": [
+    {
+      "id": "J1",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "device",
+      "text": "8 cores, 8 GB RAM, about 3.4 GB free, load 5.8. capacity.py recommends 1 parallel worktree, limited by CPU. 26 GB free disk.",
+      "evidence": {
+        "type": "measured",
+        "source": "pr-author capacity.py --json",
+        "detail": "evidence/capacity.json"
+      },
+      "ruling": "upheld"
+    },
+    {
+      "id": "J2",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "On the 15-file corpus, forgetti 0.8.5 output differs from uncompiled React in 3 cases (forloop stale rows, usectx stale context, bailout cached side effect). React Compiler 1.0.0 output differs in 0 cases.",
+      "evidence": {
+        "type": "measured",
+        "source": "evidence/runtime.mjs and evidence/extra.mjs",
+        "detail": "evidence/out/runtime-table.txt, evidence/out/extra-stale.txt"
+      },
+      "ruling": "upheld"
+    },
+    {
+      "id": "J3",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "forgetti 0.8 output is 1.7 to 4.3 times larger than React Compiler output in raw bytes on the 14 files React Compiler compiled, and uses 2 to 4 times more slots.",
+      "evidence": {
+        "type": "measured",
+        "source": "evidence/compile.mjs",
+        "detail": "evidence/out/compile-table.json"
+      },
+      "ruling": "upheld"
+    },
+    {
+      "id": "J4",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "Neither compiler wins on re-renders. React Compiler re-renders fewer children on jsxprops, earlyreturn and deepprop. forgetti 0.8 re-renders or recomputes less on derived, hook, ternary, map (Row1 against Row3 on one replaced item) and mutate.",
+      "evidence": {
+        "type": "measured",
+        "source": "evidence/runtime.mjs",
+        "detail": "evidence/out/runtime-table.txt and research.md 'Re-renders and recomputes'"
+      },
+      "ruling": "upheld"
+    },
+    {
+      "id": "J5",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "Platform constraints: useMemo may discard its cache; use() may be called in branches and loops and must not be cached; other hooks keep a fixed order before any early return; react/compiler-runtime c() is undocumented and absent in Preact 11; Preact 11 compares deps with Object.is.",
+      "evidence": {
+        "type": "source",
+        "source": "https://react.dev/reference/react/useMemo, https://react.dev/reference/react/use, https://react.dev/reference/rules/rules-of-hooks, https://preactjs.com/guide/v11/upgrade-guide/",
+        "detail": "research.md 'Constraints from React 19 and Preact 11'"
+      },
+      "ruling": "upheld"
+    },
+    {
+      "id": "J6",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "Lab prior art: solid-optimizer is an oxc-parser plus magic-string compiler of 15,588 lines of TypeScript (scope.ts alone is 707 lines), built over 251 commits. silmaril is 9,119 lines and solid-styled 3,294 lines on the same stack.",
+      "evidence": {
+        "type": "measured",
+        "source": "git ls-files '*.ts' | xargs cat | wc -l in each repo"
+      },
+      "ruling": "upheld"
+    },
+    {
+      "id": "J7",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "forgetti 0.8 compiler source is 3,849 lines (src/ plus runtime/) with 50 snapshot tests.",
+      "evidence": {
+        "type": "measured",
+        "source": "wc -l packages/forgetti/src/**/*.ts packages/forgetti/runtime/index.ts"
+      },
+      "ruling": "upheld"
+    },
+    {
+      "id": "J8",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "Fixed by the user: oxc-parser plus magic-string, the tree cache stays, React 19 and Preact 11 are the targets, and the phases must not follow React Compiler's design. React Compiler is only measured as a black box.",
+      "evidence": {
+        "type": "inferred",
+        "source": "user prompt 2026-11-21: 'stick in the concept of a tree cache structure', 'consideration of React 19 and latest Preact', 'DO NOT FOLLOW THE REACT COMPILER'; toolchain answer 'oxc + magic-string'",
+        "detail": "fixed choices, not open to the debate"
+      },
+      "ruling": "upheld"
+    },
+    {
+      "id": "J9",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "tokens",
+      "text": "Context an agent loads to work on the compiler: research.md is about 2,400 words; forgetti 0.8 src is about 3,700 lines (roughly 35k tokens); the corpus is 15 files under 40 lines each.",
+      "evidence": {
+        "type": "measured",
+        "source": "wc on docs/roadmaps/compiler-rewrite/debate/research.md and packages/forgetti/src"
+      },
+      "ruling": "upheld"
+    },
+    {
+      "id": "J10",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "Prior art outside the lab: React Compiler 1.0 (released 2025-10-07) builds a control-flow IR, infers mutation and aliasing effects, and groups values into reactive scopes over one flat cache from useMemoCache. Million Lint and forgetti 0.8 work on the AST without a mutation model.",
+      "evidence": {
+        "type": "prior-art",
+        "source": "https://react.dev/blog/2025/10/07/react-compiler-1 and evidence/out/react-compiler/*.jsx",
+        "detail": "negative result for 0.8: J2 divergences come from the missing mutation and hook model"
+      },
+      "ruling": "upheld"
+    }
+  ],
+  "questions": [],
+  "proofs": [],
+  "hypothesis": null,
+  "spend": []
+}

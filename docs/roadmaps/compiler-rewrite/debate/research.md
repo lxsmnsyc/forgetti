@@ -1,6 +1,6 @@
 # Compiler rewrite: research
 
-Status: research for the compiler rewrite. Nothing here is decided. The debate in `docs/compiler-rewrite/debate.md` settles the phase design. The roadmap comes after the debate.
+Status: research for the compiler rewrite. Nothing here is decided. The debate in `docs/roadmaps/compiler-rewrite/debate/debate.md` settles the phase design. The roadmap comes after the debate.
 
 ## Summary
 
@@ -62,7 +62,7 @@ Measured with `babel-plugin-react-compiler@1.0.0`. Only the output was read.
 
 ## Measured comparison
 
-The corpus, scripts and outputs are in `docs/compiler-rewrite/evidence/`. Versions: babel-plugin-react-compiler 1.0.0, forgetti 0.8.5, react 19.3.1, happy-dom 21.0.4, Node 26.12.1. Render counts come from uncompiled child components. Recompute counts come from a counted `costly()` function.
+The corpus, scripts and outputs are in `docs/roadmaps/compiler-rewrite/debate/evidence/`. Versions: babel-plugin-react-compiler 1.0.0, forgetti 0.8.5, react 19.3.1, happy-dom 21.0.4, Node 26.12.1. Render counts come from uncompiled child components. Recompute counts come from a counted `costly()` function.
 
 ### Size and slots
 
