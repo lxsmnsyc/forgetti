@@ -6,7 +6,7 @@ priority: must
 type: feature
 milestone: sound-baseline
 size: M
-verify: pnpm --filter forgetti test -- test/next/eligibility
+verify: pnpm --filter forgetti test test/next/eligibility
 owns:
   - packages/forgetti/src/next/eligibility/**
   - packages/forgetti/test/next/eligibility/**

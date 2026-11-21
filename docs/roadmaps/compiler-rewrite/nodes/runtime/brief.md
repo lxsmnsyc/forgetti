@@ -6,7 +6,7 @@ priority: must
 type: feature
 milestone: sound-baseline
 size: M
-verify: pnpm --filter forgetti test -- test/next/runtime
+verify: pnpm --filter forgetti test test/next/runtime
 owns:
   - packages/forgetti/runtime/next.ts
   - packages/forgetti/test/next/runtime.test.ts

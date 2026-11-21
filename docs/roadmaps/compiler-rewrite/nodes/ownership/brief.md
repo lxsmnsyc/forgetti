@@ -6,7 +6,7 @@ priority: must
 type: feature
 milestone: grouped-slots
 size: L
-verify: pnpm --filter forgetti test -- test/next/ownership
+verify: pnpm --filter forgetti test test/next/ownership
 owns:
   - packages/forgetti/src/next/ownership/**
   - packages/forgetti/test/next/ownership/**

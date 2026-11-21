@@ -6,7 +6,7 @@ priority: must
 type: feature
 milestone: sound-baseline
 size: L
-verify: pnpm --filter forgetti test -- test/next/emit
+verify: pnpm --filter forgetti test test/next/emit
 owns:
   - packages/forgetti/src/next/emit/**
   - packages/forgetti/test/next/emit/**

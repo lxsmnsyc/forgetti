@@ -6,7 +6,7 @@ priority: must
 type: feature
 milestone: sound-baseline
 size: L
-verify: pnpm --filter forgetti test -- test/next/parse
+verify: pnpm --filter forgetti test test/next/parse
 owns:
   - packages/forgetti/src/next/parse/**
   - packages/forgetti/test/next/parse/**
