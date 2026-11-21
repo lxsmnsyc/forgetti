@@ -25,11 +25,7 @@ export function $$cache(hook: MemoHook, size: number): unknown[] {
   return hook(() => new Array<unknown>(size), EMPTY_ARRAY);
 }
 
-export function $$branch(
-  parent: unknown[],
-  index: number,
-  size: number,
-): unknown[] {
+export function $$branch(parent: unknown[], index: number, size: number): unknown[] {
   // A branch slot holds either nothing yet or the branch's own cache.
   const current = parent[index];
   if (Array.isArray(current)) {

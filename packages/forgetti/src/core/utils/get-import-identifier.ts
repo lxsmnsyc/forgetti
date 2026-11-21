@@ -18,9 +18,7 @@ export function getImportIdentifier(
   const uid = programParent.generateUidIdentifier(
     registration.kind === 'named' ? registration.name : 'default',
   );
-  const newPath = (
-    programParent.path as babel.NodePath<t.Program>
-  ).unshiftContainer(
+  const newPath = (programParent.path as babel.NodePath<t.Program>).unshiftContainer(
     'body',
     t.importDeclaration(
       [

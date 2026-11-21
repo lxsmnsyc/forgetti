@@ -1,17 +1,9 @@
 {
-  "exclude": [
-    "node_modules"
-  ],
-  "include": [
-    "src",
-    "runtime",
-    "test"
-  ],
+  "exclude": ["node_modules"],
+  "include": ["src", "runtime", "test"],
   "compilerOptions": {
     "module": "preserve",
-    "lib": [
-      "ESNext"
-    ],
+    "lib": ["ESNext"],
     "declaration": true,
     "strict": true,
     "noUnusedLocals": true,
@@ -23,10 +15,7 @@
     "jsxImportSource": "react",
     "esModuleInterop": true,
     "target": "es2022",
-    "types": [
-      "node",
-      "vite/client"
-    ],
+    "types": ["node", "vite/client"],
     "noEmit": true,
     "skipLibCheck": true
   }

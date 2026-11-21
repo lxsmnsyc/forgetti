@@ -5,7 +5,7 @@ on:
     branches:
       - main
     # docs/ holds no build inputs and no changesets.
-    paths-ignore: ["docs/**"]
+    paths-ignore: ['docs/**']
 
 # Only one release runs at a time.
 concurrency: ${{ github.workflow }}-${{ github.ref }}

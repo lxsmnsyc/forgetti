@@ -3,28 +3,28 @@
   "version": "0.8.5",
   "description": "Solve your hook spaghetti. Inspired by React Forget",
   "keywords": [
-    "react",
-    "preact",
-    "compiler",
     "babel",
-    "memoization"
+    "compiler",
+    "memoization",
+    "preact",
+    "react"
   ],
-  "license": "MIT",
-  "author": "Alexis Munsayac",
-  "repository": {
-    "url": "https://github.com/lxsmnsyc/forgetti.git",
-    "type": "git"
-  },
   "homepage": "https://github.com/lxsmnsyc/forgetti/tree/main/packages/vite",
   "bugs": {
     "url": "https://github.com/lxsmnsyc/forgetti/issues"
   },
-  "type": "module",
-  "sideEffects": false,
+  "license": "MIT",
+  "author": "Alexis Munsayac",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lxsmnsyc/forgetti.git"
+  },
   "files": [
     "dist",
     "src"
   ],
+  "type": "module",
+  "sideEffects": false,
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.cts",
@@ -50,9 +50,6 @@
     "build": "tsdown",
     "typecheck": "tsc --noEmit"
   },
-  "engines": {
-    "node": ">=10"
-  },
   "dependencies": {
     "@babel/core": "^7.23.7",
     "@rollup/pluginutils": "^5.0.2"
@@ -68,5 +65,8 @@
   "peerDependencies": {
     "forgetti": "^0.8",
     "vite": "^3 || ^4 || ^5"
+  },
+  "engines": {
+    "node": ">=10"
   }
 }

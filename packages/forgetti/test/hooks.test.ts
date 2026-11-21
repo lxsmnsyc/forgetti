@@ -83,9 +83,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should optimize useCallback with auto dependencies', async ({
-    expect,
-  }) => {
+  it('should optimize useCallback with auto dependencies', async ({ expect }) => {
     const code = `
 import { useCallback } from 'react';
 function Example(props) {
@@ -121,9 +119,7 @@ function Example(props) {
 `;
     expect(await compile(code)).toMatchSnapshot();
   });
-  it('should correct transform nested hooks call (issue #14)', async ({
-    expect,
-  }) => {
+  it('should correct transform nested hooks call (issue #14)', async ({ expect }) => {
     const code = `
 import { useDeferredValue } from 'react';
 import { useAtomValue } from 'jotai';

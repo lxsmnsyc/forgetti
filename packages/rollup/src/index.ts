@@ -32,9 +32,9 @@ export default function forgettiPlugin(
     async transform(code, id): Promise<TransformResult> {
       if (filter(id)) {
         const pluginOption = [forgettiBabel, { preset }];
-        const plugins: NonNullable<
-          NonNullable<babel.TransformOptions['parserOpts']>['plugins']
-        > = ['jsx'];
+        const plugins: NonNullable<NonNullable<babel.TransformOptions['parserOpts']>['plugins']> = [
+          'jsx',
+        ];
         if (/\.[mc]?tsx?$/i.test(id)) {
           plugins.push('typescript');
         }
@@ -43,10 +43,7 @@ export default function forgettiPlugin(
           plugins: [pluginOption, ...(options.babel?.plugins ?? [])],
           parserOpts: {
             ...options.babel?.parserOpts,
-            plugins: [
-              ...(options.babel?.parserOpts?.plugins ?? []),
-              ...plugins,
-            ],
+            plugins: [...(options.babel?.parserOpts?.plugins ?? []), ...plugins],
           },
           filename: path.basename(id),
           ast: false,

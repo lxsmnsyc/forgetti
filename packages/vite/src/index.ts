@@ -17,11 +17,7 @@ export interface ForgettiPluginOptions extends Options {
 }
 
 // From: https://github.com/bluwy/whyframe/blob/master/packages/jsx/src/index.js#L27-L37
-function repushPlugin(
-  plugins: Plugin[],
-  plugin: Plugin,
-  pluginNames: string[],
-): void {
+function repushPlugin(plugins: Plugin[], plugin: Plugin, pluginNames: string[]): void {
   const namesSet = new Set(pluginNames);
 
   let baseIndex = -1;
@@ -72,9 +68,9 @@ export default function forgettiPlugin(
     async transform(code, id) {
       if (filter(id)) {
         const pluginOption = [forgettiBabel, { preset }];
-        const plugins: NonNullable<
-          NonNullable<babel.TransformOptions['parserOpts']>['plugins']
-        > = ['jsx'];
+        const plugins: NonNullable<NonNullable<babel.TransformOptions['parserOpts']>['plugins']> = [
+          'jsx',
+        ];
         if (/\.[mc]?tsx?$/i.test(id)) {
           plugins.push('typescript');
         }
@@ -83,10 +79,7 @@ export default function forgettiPlugin(
           plugins: [pluginOption, ...(options.babel?.plugins ?? [])],
           parserOpts: {
             ...options.babel?.parserOpts,
-            plugins: [
-              ...(options.babel?.parserOpts?.plugins ?? []),
-              ...plugins,
-            ],
+            plugins: [...(options.babel?.parserOpts?.plugins ?? []), ...plugins],
           },
           filename: path.basename(id),
           ast: false,

@@ -3,29 +3,29 @@
   "version": "0.8.5",
   "description": "Solve your hook spaghetti. Inspired by React Forget",
   "keywords": [
-    "react",
-    "preact",
-    "compiler",
     "babel",
-    "memoization"
+    "compiler",
+    "memoization",
+    "preact",
+    "react"
   ],
-  "license": "MIT",
-  "author": "Alexis Munsayac",
-  "repository": {
-    "url": "https://github.com/lxsmnsyc/forgetti.git",
-    "type": "git"
-  },
   "homepage": "https://github.com/lxsmnsyc/forgetti/tree/main/packages/forgetti",
   "bugs": {
     "url": "https://github.com/lxsmnsyc/forgetti/issues"
   },
-  "type": "module",
-  "sideEffects": false,
+  "license": "MIT",
+  "author": "Alexis Munsayac",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lxsmnsyc/forgetti.git"
+  },
   "files": [
     "dist",
     "src",
     "runtime"
   ],
+  "type": "module",
+  "sideEffects": false,
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.cts",
@@ -75,9 +75,6 @@
     "test:watch": "vitest",
     "optimize": "node example > output.js"
   },
-  "engines": {
-    "node": ">=10"
-  },
   "dependencies": {
     "@babel/traverse": "^7.23.2",
     "@babel/types": "^7.23.0"
@@ -94,5 +91,8 @@
   },
   "peerDependencies": {
     "@babel/core": "^7"
+  },
+  "engines": {
+    "node": ">=10"
   }
 }

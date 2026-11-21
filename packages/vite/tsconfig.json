@@ -1,17 +1,9 @@
 {
-  "exclude": [
-    "node_modules"
-  ],
-  "include": [
-    "src",
-    "types"
-  ],
+  "exclude": ["node_modules"],
+  "include": ["src", "types"],
   "compilerOptions": {
     "module": "preserve",
-    "lib": [
-      "ESNext",
-      "DOM"
-    ],
+    "lib": ["ESNext", "DOM"],
     "declaration": true,
     "strict": true,
     "noUnusedLocals": true,
@@ -22,9 +14,7 @@
     "jsx": "react",
     "esModuleInterop": true,
     "target": "es2022",
-    "types": [
-      "node"
-    ],
+    "types": ["node"],
     "noEmit": true,
     "skipLibCheck": true
   }

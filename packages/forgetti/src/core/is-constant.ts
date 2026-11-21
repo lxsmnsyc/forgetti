@@ -2,15 +2,8 @@ import type * as babel from '@babel/core';
 import * as t from '@babel/types';
 import type OptimizerScope from './optimizer-scope';
 import type { ComponentNode, StateContext } from './types';
-import {
-  isNestedExpression,
-  isPathValid,
-  shouldSkipNode,
-} from './utils/checks';
-import {
-  getForeignBindings,
-  isForeignBinding,
-} from './utils/get-foreign-bindings';
+import { isNestedExpression, isPathValid, shouldSkipNode } from './utils/checks';
+import { getForeignBindings, isForeignBinding } from './utils/get-foreign-bindings';
 import { getHookCallType } from './utils/get-hook-call-type';
 
 interface OptimizerInstance {
@@ -87,9 +80,7 @@ function isBinaryExpressionConstant(
   const left = path.get('left');
   const right = path.get('right');
   return (
-    isPathValid(left, t.isExpression) &&
-    isConstant(instance, left) &&
-    isConstant(instance, right)
+    isPathValid(left, t.isExpression) && isConstant(instance, left) && isConstant(instance, right)
   );
 }
 
@@ -97,10 +88,7 @@ function isLogicalExpressionConstant(
   instance: OptimizerInstance,
   path: babel.NodePath<t.LogicalExpression>,
 ): boolean {
-  return (
-    isConstant(instance, path.get('left')) &&
-    isConstant(instance, path.get('right'))
-  );
+  return isConstant(instance, path.get('left')) && isConstant(instance, path.get('right'));
 }
 
 function isUnaryExpressionConstant(
@@ -132,10 +120,7 @@ function isCallExpressionConstant(
       if (isPathValid(arg, t.isExpression) && !isConstant(instance, arg)) {
         return false;
       }
-      if (
-        isPathValid(arg, t.isSpreadElement) &&
-        !isConstant(instance, arg.get('argument'))
-      ) {
+      if (isPathValid(arg, t.isSpreadElement) && !isConstant(instance, arg.get('argument'))) {
         return false;
       }
     }
@@ -229,10 +214,7 @@ function isObjectExpressionConstant(
     ) {
       return false;
     }
-    if (
-      isPathValid(property, t.isObjectMethod) &&
-      !isObjectMethodConstant(instance, property)
-    ) {
+    if (isPathValid(property, t.isObjectMethod) && !isObjectMethodConstant(instance, property)) {
       return false;
     }
   }
@@ -251,10 +233,7 @@ function isNewExpressionConstant(
       if (isPathValid(arg, t.isExpression) && !isConstant(instance, arg)) {
         return false;
       }
-      if (
-        isPathValid(arg, t.isSpreadElement) &&
-        !isConstant(instance, arg.get('argument'))
-      ) {
+      if (isPathValid(arg, t.isSpreadElement) && !isConstant(instance, arg.get('argument'))) {
         return false;
       }
     }
@@ -280,10 +259,7 @@ function isTaggedTemplateExpressionConstant(
   instance: OptimizerInstance,
   path: babel.NodePath<t.TaggedTemplateExpression>,
 ): boolean {
-  return (
-    isConstant(instance, path.get('tag')) &&
-    isConstant(instance, path.get('quasi'))
-  );
+  return isConstant(instance, path.get('tag')) && isConstant(instance, path.get('quasi'));
 }
 
 function isJSXExpressionContainerConstant(
@@ -301,22 +277,13 @@ function isJSXChildrenConstant(
   const children = path.get('children');
   for (let i = 0, len = children.length; i < len; i++) {
     const child = children[i];
-    if (
-      isPathValid(child, t.isJSXElement) &&
-      !isJSXElementConstant(instance, child)
-    ) {
+    if (isPathValid(child, t.isJSXElement) && !isJSXElementConstant(instance, child)) {
       return false;
     }
-    if (
-      isPathValid(child, t.isJSXFragment) &&
-      !isJSXChildrenConstant(instance, child)
-    ) {
+    if (isPathValid(child, t.isJSXFragment) && !isJSXChildrenConstant(instance, child)) {
       return false;
     }
-    if (
-      isPathValid(child, t.isJSXSpreadChild) &&
-      !isConstant(instance, child.get('expression'))
-    ) {
+    if (isPathValid(child, t.isJSXSpreadChild) && !isConstant(instance, child.get('expression'))) {
       return false;
     }
     if (
@@ -331,9 +298,7 @@ function isJSXChildrenConstant(
 
 function isJSXNameConstant(
   instance: OptimizerInstance,
-  path: babel.NodePath<
-    t.JSXIdentifier | t.JSXMemberExpression | t.JSXNamespacedName
-  >,
+  path: babel.NodePath<t.JSXIdentifier | t.JSXMemberExpression | t.JSXNamespacedName>,
 ): boolean {
   if (isPathValid(path, t.isJSXNamespacedName)) {
     return true;
@@ -354,16 +319,10 @@ function isJSXAttributeConstant(
   attr: babel.NodePath<t.JSXAttribute>,
 ): boolean {
   const value = attr.get('value');
-  if (
-    isPathValid(value, t.isJSXElement) &&
-    !isJSXElementConstant(instance, value)
-  ) {
+  if (isPathValid(value, t.isJSXElement) && !isJSXElementConstant(instance, value)) {
     return false;
   }
-  if (
-    isPathValid(value, t.isJSXFragment) &&
-    !isJSXChildrenConstant(instance, value)
-  ) {
+  if (isPathValid(value, t.isJSXFragment) && !isJSXChildrenConstant(instance, value)) {
     return false;
   }
   if (isPathValid(value, t.isJSXExpressionContainer)) {
@@ -383,10 +342,7 @@ function isJSXOpeningElementConstant(
     const attrs = path.get('attributes');
     for (let i = 0, len = attrs.length; i < len; i++) {
       const attr = attrs[i];
-      if (
-        isPathValid(attr, t.isJSXAttribute) &&
-        !isJSXAttributeConstant(instance, attr)
-      ) {
+      if (isPathValid(attr, t.isJSXAttribute) && !isJSXAttributeConstant(instance, attr)) {
         return false;
       }
       if (
@@ -448,22 +404,13 @@ function uncachedIsConstant(
   if (isPathValid(path, t.isCallExpression)) {
     return isCallExpressionConstant(instance, path);
   }
-  if (
-    isPathValid(path, t.isFunctionExpression) ||
-    isPathValid(path, t.isArrowFunctionExpression)
-  ) {
+  if (isPathValid(path, t.isFunctionExpression) || isPathValid(path, t.isArrowFunctionExpression)) {
     return isFunctionExpressionConstant(instance, path);
   }
-  if (
-    isPathValid(path, t.isArrayExpression) ||
-    isPathValid(path, t.isTupleExpression)
-  ) {
+  if (isPathValid(path, t.isArrayExpression) || isPathValid(path, t.isTupleExpression)) {
     return isArrayExpressionConstant(instance, path);
   }
-  if (
-    isPathValid(path, t.isObjectExpression) ||
-    isPathValid(path, t.isRecordExpression)
-  ) {
+  if (isPathValid(path, t.isObjectExpression) || isPathValid(path, t.isRecordExpression)) {
     return isObjectExpressionConstant(instance, path);
   }
   if (isPathValid(path, t.isNewExpression)) {

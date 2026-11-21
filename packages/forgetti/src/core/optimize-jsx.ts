@@ -25,9 +25,7 @@ interface State {
 }
 
 function getJSXIdentifier(
-  el: babel.NodePath<
-    t.JSXIdentifier | t.JSXNamespacedName | t.JSXMemberExpression
-  >,
+  el: babel.NodePath<t.JSXIdentifier | t.JSXNamespacedName | t.JSXMemberExpression>,
 ): babel.NodePath<t.JSXIdentifier | t.JSXNamespacedName> {
   if (isPathValid(el, t.isJSXMemberExpression)) {
     return getJSXIdentifier(el.get('object'));
@@ -40,10 +38,7 @@ function extractJSXExpressionFromNormalAttribute(
   attr: babel.NodePath<t.JSXAttribute>,
 ): void {
   const value = attr.get('value');
-  if (
-    isPathValid(value, t.isJSXElement) ||
-    isPathValid(value, t.isJSXFragment)
-  ) {
+  if (isPathValid(value, t.isJSXElement) || isPathValid(value, t.isJSXFragment)) {
     extractJSXExpressions(value, state, false);
   }
   if (isPathValid(value, t.isJSXExpressionContainer)) {
@@ -88,17 +83,12 @@ function extractJSXExpressionsFromAttributes(
     }
     if (isPathValid(attr, t.isJSXSpreadAttribute)) {
       const arg = attr.get('argument');
-      if (
-        isPathValid(arg, t.isJSXElement) ||
-        isPathValid(arg, t.isJSXFragment)
-      ) {
+      if (isPathValid(arg, t.isJSXElement) || isPathValid(arg, t.isJSXFragment)) {
         extractJSXExpressions(arg, state, false);
       } else {
         const id = state.expressions.length;
         state.expressions.push(arg.node);
-        arg.replaceWith(
-          t.memberExpression(state.source, t.numericLiteral(id), true),
-        );
+        arg.replaceWith(t.memberExpression(state.source, t.numericLiteral(id), true));
       }
     }
   }
@@ -146,9 +136,7 @@ function extractJSXExpressionsFromJSXExpressionContainer(
   } else if (isPathValid(expr, t.isExpression)) {
     const id = state.expressions.length;
     state.expressions.push(expr.node);
-    expr.replaceWith(
-      t.memberExpression(state.source, t.numericLiteral(id), true),
-    );
+    expr.replaceWith(t.memberExpression(state.source, t.numericLiteral(id), true));
   }
 }
 
@@ -162,9 +150,7 @@ function extractJSXExpressionsFromJSXSpreadChild(
   } else {
     const id = state.expressions.length;
     state.expressions.push(arg.node);
-    arg.replaceWith(
-      t.memberExpression(state.source, t.numericLiteral(id), true),
-    );
+    arg.replaceWith(t.memberExpression(state.source, t.numericLiteral(id), true));
   }
 }
 
@@ -182,10 +168,7 @@ function extractJSXExpressions(
   for (let i = 0, len = children.length; i < len; i++) {
     const child = children[i];
 
-    if (
-      isPathValid(child, t.isJSXElement) ||
-      isPathValid(child, t.isJSXFragment)
-    ) {
+    if (isPathValid(child, t.isJSXElement) || isPathValid(child, t.isJSXFragment)) {
       extractJSXExpressions(child, state, false);
     } else if (isPathValid(child, t.isJSXExpressionContainer)) {
       extractJSXExpressionsFromJSXExpressionContainer(state, child);
@@ -210,17 +193,13 @@ function transformJSX(
   };
   extractJSXExpressions(path, state, true);
 
-  const memoComponent = path.scope.generateUidIdentifier(
-    getDescriptiveName(path, 'Memo'),
-  );
+  const memoComponent = path.scope.generateUidIdentifier(getDescriptiveName(path, 'Memo'));
 
   let body: t.Expression | t.BlockStatement;
   if (state.jsxs.length) {
     const declarations: t.VariableDeclarator[] = [];
     for (let i = 0, len = state.jsxs.length; i < len; i++) {
-      declarations.push(
-        t.variableDeclarator(state.jsxs[i].id, state.jsxs[i].value),
-      );
+      declarations.push(t.variableDeclarator(state.jsxs[i].id, state.jsxs[i].value));
     }
     body = t.blockStatement([
       t.variableDeclaration('const', declarations),
@@ -250,12 +229,7 @@ function transformJSX(
   const attrs = [];
 
   if (state.key) {
-    attrs.push(
-      t.jsxAttribute(
-        t.jsxIdentifier('key'),
-        t.jsxExpressionContainer(state.key),
-      ),
-    );
+    attrs.push(t.jsxAttribute(t.jsxIdentifier('key'), t.jsxExpressionContainer(state.key)));
   }
 
   attrs.push(
@@ -280,10 +254,7 @@ function transformJSX(
   );
 }
 
-export default function optimizeJSX(
-  ctx: StateContext,
-  path: babel.NodePath<ComponentNode>,
-): void {
+export default function optimizeJSX(ctx: StateContext, path: babel.NodePath<ComponentNode>): void {
   const memoDefinition = ctx.preset.runtime.memo;
   if (memoDefinition) {
     path.traverse({
