@@ -19,6 +19,9 @@ depends_on:
   - on: tree-branches
     kind: hard
     why: both passes rewrite the same CachePlan tree; nested `.map` inside a branch needs the branch pass first
+  - on: fix-control-deps
+    kind: hard
+    why: loops add control dependence of their own and must build on the fixed block inputs in groups.ts
 ---
 
 # S3: positional iteration caches and keep()
