@@ -8,8 +8,8 @@ import { plan as derived, source as derivedSource } from './fixtures/derived.pla
 import { plan as map, source as mapSource } from './fixtures/map.plan';
 import { plan as ternary, source as ternarySource } from './fixtures/ternary.plan';
 
-describe('compile stub', () => {
-  it('returns the input and lists units from a name scan', () => {
+describe('compile', () => {
+  it('caches the returned element and lists the units', () => {
     const code = [
       "import { useState } from 'react';",
       'export function Card({ title }) { return <h1>{title}</h1>; }',
@@ -19,21 +19,22 @@ describe('compile stub', () => {
     ].join('\n');
     const result = compile(code, { preset: 'react', filename: 'card.jsx' });
 
-    expect(result.code).toBe(code);
-    expect(result.map).toBeNull();
+    expect(result.code).toContain('useCache(useRef, 2)');
+    expect(result.code).toContain('<h1>{title}</h1>');
+    expect(result.code).toContain('export const useCount = () => useState(0);');
     expect(result.diagnostics).toEqual([]);
     expect(result.units).toEqual([
-      { name: 'Card', compiled: false },
-      { name: 'useCount', compiled: false },
+      { name: 'Card', compiled: true },
+      { name: 'useCount', compiled: true },
     ]);
   });
 
-  it('keeps non-ASCII input byte for byte', () => {
+  it('keeps non-ASCII input outside the cached element', () => {
     const code = 'const note = "é 日本語 😀";\nexport function Label() { return <p>{note}</p>; }\n';
     const result = compile(code, { preset: 'react', filename: 'label.jsx' });
 
-    expect(result.code).toBe(code);
-    expect(result.units).toEqual([{ name: 'Label', compiled: false }]);
+    expect(result.code).toContain('const note = "é 日本語 😀";');
+    expect(result.units).toEqual([{ name: 'Label', compiled: true }]);
   });
 
   it('reports parse error offsets as UTF-16 indices', () => {
@@ -57,7 +58,7 @@ describe('compile stub', () => {
       },
     });
 
-    expect(result.units).toEqual([{ name: 'widget', compiled: false }]);
+    expect(result.units).toEqual([{ name: 'widget', compiled: true }]);
   });
 });
 
@@ -133,8 +134,8 @@ describe('plan fixtures', () => {
 });
 
 describe('planner and ownership stubs', () => {
-  it('lists the four planner passes in order', () => {
-    expect(passes.map((pass) => pass.name)).toEqual(['baseline', 'groups', 'branches', 'loops']);
+  it('lists the planner passes in order', () => {
+    expect(passes.map((pass) => pass.name)).toEqual(['groups', 'branches', 'loops']);
   });
 
   it('returns the plan unchanged and no groups', () => {

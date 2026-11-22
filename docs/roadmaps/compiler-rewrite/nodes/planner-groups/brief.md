@@ -1,7 +1,8 @@
 ---
 id: planner-groups
 title: S2: dependency-set slot groups and the cheap-expression rule
-status: todo
+status: done
+spent: 266547
 priority: must
 type: feature
 milestone: grouped-slots
@@ -40,10 +41,10 @@ Replace the baseline planner with the S2 planner: values with the same input set
 
 ## Acceptance
 
-- [ ] 0 differences on `base` and `tuning`, React and Preact.
-- [ ] Compiled share on `base` and `tuning` is at least React Compiler's. Each unit the rewrite skips and React Compiler compiles is listed in `outcome.md` with its reason (debate P15).
-- [ ] The O12 case (an unknown call feeding a child) re-renders the child no more than React Compiler.
-- [ ] Fast check passes.
+- [x] 0 differences on `base` and `tuning`, React and Preact.
+- [x] Compiled share on `base` and `tuning` is at least React Compiler's. Each unit the rewrite skips and React Compiler compiles is listed in `outcome.md` with its reason (debate P15).
+- [x] The O12 case (an unknown call feeding a child) re-renders the child no more than React Compiler.
+- [x] Fast check passes.
 
 ## Sizing
 

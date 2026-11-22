@@ -1,7 +1,8 @@
 ---
 id: tree-branches
 title: S3: child caches for branches
-status: todo
+status: done
+spent: 252297
 priority: must
 type: feature
 milestone: tree-cache
@@ -26,11 +27,11 @@ Give each branch of `if`, `switch`, a ternary and `&&`, `||`, `??` that holds a 
 
 ## Acceptance
 
-- [ ] 0 differences on `base` and `tuning`.
-- [ ] `ternary` and `switch` re-render counts match proof T2's hand output (no re-render on an inactive branch input).
-- [ ] Early returns keep the cache hook above them (debate J5).
-- [ ] The size threshold holds on `base` and `tuning` (premortem 5).
-- [ ] Fast check passes.
+- [x] 0 differences on `base` and `tuning`.
+- [x] `ternary` and `switch` re-render counts match proof T2's hand output (no re-render on an inactive branch input).
+- [x] Early returns keep the cache hook above them (debate J5).
+- [x] The size threshold holds on `base` and `tuning` (premortem 5).
+- [x] Fast check passes.
 
 ## Sizing
 

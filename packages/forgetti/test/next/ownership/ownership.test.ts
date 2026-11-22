@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import type { OwnershipReport } from '../../../src/next/ownership';
+import type { OwnershipResult } from '../../../src/next/ir';
 import { analyzeOwnership } from '../../../src/next/ownership';
 import type { ParseResult } from '../../../src/next/parse';
 import { parseAndScope } from '../../../src/next/parse';
@@ -24,7 +24,7 @@ interface Readable {
   bailout?: { reason: string; text: string };
 }
 
-function analyze(code: string): { scope: ParseResult; report: OwnershipReport } {
+function analyze(code: string): { scope: ParseResult; report: OwnershipResult } {
   const scope = parseAndScope(code, { filename: 'input.jsx', preset: 'react' });
   return { scope, report: analyzeOwnership(scope, scope.units[0].id) };
 }

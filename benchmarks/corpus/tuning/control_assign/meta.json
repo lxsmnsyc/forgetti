@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "A child is assigned inside a conditional, and only the test changes between renders.",
+  "targets": ["react", "preact"]
+}
