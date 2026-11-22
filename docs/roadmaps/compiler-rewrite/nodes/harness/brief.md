@@ -1,7 +1,7 @@
 ---
 id: harness
 title: Corpus harness for forgetti 0.8, React Compiler and the new compiler
-status: todo
+status: active
 priority: must
 type: feature
 milestone: sound-baseline
