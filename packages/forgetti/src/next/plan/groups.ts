@@ -53,9 +53,9 @@ const IMPURE_SYNTAX = new Set([
  * `element`: JSX, split into sub-elements. `fresh`: a literal that makes a fresh value.
  * `value`: anything else, such as a call result, which needs inputs to be cached.
  */
-type CandidateKind = 'element' | 'fresh' | 'value';
+export type CandidateKind = 'element' | 'fresh' | 'value';
 
-interface Candidate {
+export interface Candidate {
   expr: AstNode;
   /** The block code goes before this range. */
   at: Range;
@@ -91,7 +91,7 @@ interface PositionedRef {
   position: number;
 }
 
-function unwrap(node: AstNode | undefined): AstNode | undefined {
+export function unwrap(node: AstNode | undefined): AstNode | undefined {
   let current = node;
   while (current?.type === 'ParenthesizedExpression') {
     current = getChild(current, 'expression');
@@ -121,7 +121,7 @@ function findSubElements(node: AstNode): AstNode[] {
   return found;
 }
 
-function classify(expr: AstNode): CandidateKind {
+export function classify(expr: AstNode): CandidateKind {
   if (isElement(expr)) {
     return 'element';
   }
@@ -143,7 +143,7 @@ function scanRange(root: AstNode, range: Range, visit: (node: AstNode) => boolea
   return true;
 }
 
-function isGlobalStable(ctx: Context, range: Range): boolean {
+export function isGlobalStable(ctx: Context, range: Range): boolean {
   for (const reference of ctx.globals) {
     if (isInside(reference.range, range)) {
       const node: unknown = reference.node;
@@ -157,7 +157,7 @@ function isGlobalStable(ctx: Context, range: Range): boolean {
   return true;
 }
 
-class GroupPlanner {
+export class GroupPlanner {
   private readonly groupOf = new Map<number, Group>();
 
   /** Bindings that receive the output of a block. */
@@ -212,9 +212,28 @@ class GroupPlanner {
     };
   }
 
-  /** Finds the expression a statement may cache: a returned value, or the initializer of a `const`. */
-  private findCandidate(statement: AstNode): Candidate | undefined {
+  /** The blocks planned so far and the slot count they use. */
+  take(): { size: number; blocks: SlotBlock[] } {
+    return { size: this.size, blocks: this.blocks };
+  }
+
+  /**
+   * Finds the expression a statement may cache: a returned value, or the initializer of a
+   * `const`. With `allowAssign`, also `name = <jsx />`, which branch arms use.
+   */
+  findCandidate(statement: AstNode, allowAssign = false): Candidate | undefined {
     const at = getRange(statement);
+
+    // `name = <jsx />`
+    if (allowAssign && statement.type === 'ExpressionStatement') {
+      const assignment = unwrap(getChild(statement, 'expression'));
+      const right = unwrap(assignment && getChild(assignment, 'right'));
+      const left = assignment && getChild(assignment, 'left');
+      const isPlain = assignment?.type === 'AssignmentExpression' && assignment.operator === '=';
+      return isPlain && left?.type === 'Identifier' && isElement(right)
+        ? { expr: right, at, kind: 'element' }
+        : undefined;
+    }
 
     // `return <expr>`
     if (statement.type === 'ReturnStatement') {
@@ -251,7 +270,8 @@ class GroupPlanner {
     return { expr: init, at, kind, result };
   }
 
-  private planCandidate(candidate: Candidate): void {
+  /** Plans the blocks of one candidate. */
+  planCandidate(candidate: Candidate): void {
     // An expression cheaper than one compare gets no slot.
     if (candidate.kind !== 'element' && isCheap(candidate.expr)) {
       return;

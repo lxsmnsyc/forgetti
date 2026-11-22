@@ -1,15 +1,6 @@
 import type { AstIndex, AstNode } from '../emit/ast';
-import { getChild, getChildren, indexProgram, isNode } from '../emit/ast';
-import type {
-  Binding,
-  CachePlan,
-  OwnershipResult,
-  Range,
-  Reference,
-  ScopeResult,
-  SlotBlock,
-  ValueRef,
-} from '../ir';
+import { getChild, indexProgram, isNode } from '../emit/ast';
+import type { Binding, OwnershipResult, Range, Reference, ScopeResult } from '../ir';
 import type { ParseResult } from '../parse';
 import { PRESETS } from '../parse/presets';
 
@@ -95,15 +86,6 @@ export interface Context {
   /** References in the whole module that resolve to no binding. */
   globals: Reference[];
   names: Set<string>;
-}
-
-interface Candidate {
-  /** The expression to cache. */
-  expr: AstNode;
-  /** Its block is inserted before this range. */
-  at: Range;
-  /** The `const` binding that receives a call result. */
-  result?: Binding;
 }
 
 export function getRange(node: AstNode): Range {
@@ -401,86 +383,10 @@ export function isPureSyntax(ctx: Context, expr: AstNode): boolean {
   });
 }
 
-/** Returns the inputs of a candidate, or undefined when it may not be cached. */
-function collectInputs(
-  ctx: Context,
-  expr: AstNode,
-  statementStart: number,
-): ValueRef[] | undefined {
-  if (!isPureSyntax(ctx, expr)) {
-    return undefined;
-  }
-  const range = getRange(expr);
-
-  // A global that can change between renders makes the block unsafe.
-  for (const reference of ctx.globals) {
-    if (isInside(reference.range, range)) {
-      const node: unknown = reference.node;
-      const name = isNode(node) ? getName(node) : undefined;
-      if (name === undefined || !STABLE_GLOBALS.has(name)) {
-        return undefined;
-      }
-    }
-  }
-
-  // Every outer binding the block reads must be plain. Render-level ones become inputs.
-  const inputs: ValueRef[] = [];
-  const seen = new Set<number>();
-  for (const { reference, binding } of ctx.refs) {
-    if (!isInside(reference.range, range) || isInside(binding.declaration, range)) {
-      continue;
-    }
-    if (!isPlainInput(ctx, binding, statementStart)) {
-      return undefined;
-    }
-    if (isInside(binding.declaration, ctx.unitRange) && !seen.has(binding.id)) {
-      seen.add(binding.id);
-      inputs.push({ kind: 'binding', id: binding.id });
-    }
-  }
-  return inputs;
-}
-
 export function isElement(
   node: AstNode | undefined,
 ): node is AstNode & { type: 'JSXElement' | 'JSXFragment' } {
   return node?.type === 'JSXElement' || node?.type === 'JSXFragment';
-}
-
-/** Finds the expression a statement may cache: a JSX return, or a `const` holding JSX or a call. */
-function findCandidate(ctx: Context, statement: AstNode): Candidate | undefined {
-  const at = getRange(statement);
-
-  // `return <jsx />`
-  if (statement.type === 'ReturnStatement') {
-    const argument = getChild(statement, 'argument');
-    return isElement(argument) ? { expr: argument, at } : undefined;
-  }
-
-  // `const x = <jsx />` or `const x = f(...)`, with one declarator and a plain name.
-  if (statement.type !== 'VariableDeclaration') {
-    return undefined;
-  }
-  const declarators = getChildren(statement, 'declarations');
-  if (declarators.length !== 1) {
-    return undefined;
-  }
-  const id = getChild(declarators[0], 'id');
-  const init = getChild(declarators[0], 'init');
-  if (id?.type !== 'Identifier' || !init) {
-    return undefined;
-  }
-  if (isElement(init)) {
-    return { expr: init, at };
-  }
-  if (init.type !== 'CallExpression') {
-    return undefined;
-  }
-  const result = ctx.scope.bindings.find((item) => item.declaration.start === id.start);
-  if (!result || ctx.unsafe.has(result.id) || !isResultReadOnly(ctx, result)) {
-    return undefined;
-  }
-  return { expr: init, at, result };
 }
 
 export function createLocal(ctx: Context, index: number): string {
@@ -532,65 +438,4 @@ export function createContext(
     globals: unresolved,
     names,
   };
-}
-
-/**
- * Baseline planner. It caches a returned JSX element, a `const` JSX element and a `const`
- * call result in the root node, each by its plain inputs. Anything that reads a mutated or
- * reassigned local, a ref, or a global that can change is left as written.
- */
-export function runBaseline(
-  scope: ScopeResult,
-  ownership: OwnershipResult,
-  plan: CachePlan,
-): CachePlan {
-  // Locate the unit's function and its body.
-  const unit = scope.units.find((item) => item.id === plan.unit);
-  const node: unknown = unit?.node;
-  if (!unit || !isNode(node)) {
-    return plan;
-  }
-  const ctx = createContext(scope, ownership, getRange(node));
-  const body = getChild(node, 'body');
-  if (!ctx || !body) {
-    return plan;
-  }
-
-  // An expression body is one statement. A block body is a list of them.
-  const candidates: Candidate[] = [];
-  if (body.type === 'BlockStatement') {
-    for (const statement of getChildren(body, 'body')) {
-      const candidate = findCandidate(ctx, statement);
-      if (candidate) {
-        candidates.push(candidate);
-      }
-    }
-  } else if (isElement(body)) {
-    candidates.push({ expr: body, at: getRange(body) });
-  }
-
-  // One value block per candidate whose inputs are all plain.
-  const blocks: SlotBlock[] = [];
-  let size = plan.root.size;
-  for (const candidate of candidates) {
-    const inputs = collectInputs(ctx, candidate.expr, candidate.at.start);
-    // A call without inputs has nothing that says when to run it again.
-    if (!inputs || (candidate.result && inputs.length === 0)) {
-      continue;
-    }
-    const id = plan.root.blocks.length + blocks.length;
-    blocks.push({
-      id,
-      kind: 'value',
-      first: size,
-      inputs,
-      outputs: [{ range: getRange(candidate.expr), local: createLocal(ctx, id) }],
-      at: candidate.at,
-    });
-    size += inputs.length + 1;
-  }
-  if (blocks.length === 0) {
-    return plan;
-  }
-  return { ...plan, root: { ...plan.root, size, blocks: [...plan.root.blocks, ...blocks] } };
 }
