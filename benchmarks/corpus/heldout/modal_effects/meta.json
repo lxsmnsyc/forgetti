@@ -1,0 +1,8 @@
+{
+  "source": "https://github.com/excalidraw/excalidraw/blob/master/packages/excalidraw/components/Modal.tsx",
+  "license": "MIT",
+  "derived": true,
+  "tests": "A modal with escape and scroll-lock effects, focus restore, a ref handler and a parent dialog.",
+  "adaptation": "Rewritten without createPortal or @excalidraw/common. The dialog renders inline. Escape and scroll-lock effects, focus handling and the settings dialog are added around the Modal shape.",
+  "targets": ["react", "preact"]
+}

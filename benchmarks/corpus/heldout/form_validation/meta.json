@@ -1,0 +1,8 @@
+{
+  "source": "https://github.com/react-hook-form/react-hook-form/blob/master/examples/V7/registerWithErrorMessages.tsx",
+  "license": "MIT",
+  "derived": true,
+  "tests": "A signup form that validates every field on each render and shows errors after touch.",
+  "adaptation": "Rewritten with local state instead of react-hook-form. Fields, rules and error messages follow the V7 basicValidation and registerWithErrorMessages examples.",
+  "targets": ["react", "preact"]
+}

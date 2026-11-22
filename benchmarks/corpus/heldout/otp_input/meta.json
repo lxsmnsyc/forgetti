@@ -1,0 +1,8 @@
+{
+  "source": "https://github.com/devfolioco/react-otp-input/blob/master/src/index.tsx",
+  "license": "MIT",
+  "derived": false,
+  "tests": "A one-time code input with focus state, a ref array, many inline handlers and a render-prop input.",
+  "adaptation": "TypeScript types and one ts-expect-error comment removed. React.useState, React.useRef, React.useEffect and React.Fragment become named imports. The exported OtpField at the end is added: it holds the value in useState and supplies onChange, renderInput and renderSeparator, as in the README. The OTPInput code is unchanged.",
+  "targets": ["react", "preact"]
+}

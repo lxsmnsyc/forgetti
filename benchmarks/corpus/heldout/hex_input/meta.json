@@ -1,0 +1,8 @@
+{
+  "source": "https://github.com/omgovich/react-colorful/tree/master/src/components",
+  "license": "MIT",
+  "derived": false,
+  "tests": "A color text input with local state, useCallback handlers, a ref-based event callback and a sync effect.",
+  "adaptation": "Files HexColorInput.tsx and ColorInput.tsx joined into one file with validHex and useEventCallback. TypeScript types removed. Logic and comments unchanged.",
+  "targets": ["react", "preact"]
+}

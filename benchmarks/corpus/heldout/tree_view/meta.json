@@ -1,0 +1,8 @@
+{
+  "source": "https://github.com/reduxjs/redux/tree/master/examples/tree-view",
+  "license": "MIT",
+  "derived": true,
+  "tests": "A recursive memo tree node with local open state, a reducer over a flat node map and a derived descendant count.",
+  "adaptation": "The Redux store becomes useReducer and the connected Node takes the tree as a prop. Open state per node and the descendant count are added.",
+  "targets": ["react", "preact"]
+}

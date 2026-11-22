@@ -1,0 +1,8 @@
+{
+  "source": "https://github.com/reduxjs/redux/tree/master/examples/shopping-cart",
+  "license": "MIT",
+  "derived": true,
+  "tests": "A shop with a cart reducer, a derived total, a memo product item and a cart list.",
+  "adaptation": "Cart, Product, ProductItem and ProductsList merged into one file. The Redux store becomes useReducer and the products come from props.",
+  "targets": ["react", "preact"]
+}
