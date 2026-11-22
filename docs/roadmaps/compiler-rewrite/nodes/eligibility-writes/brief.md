@@ -1,11 +1,12 @@
 ---
 id: eligibility-writes
 title: Eligibility: writes to hook results, kept state instances, prop spread copies
-status: active
+status: done
 priority: must
 type: fix
 milestone: sound-baseline
 size: M
+spent: 290000
 added: 2026-11-22
 verify: pnpm --filter forgetti test test/next/eligibility
 owns:

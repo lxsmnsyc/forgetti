@@ -57,3 +57,5 @@
 ## Size
 
 - Estimated M, actual M.
+
+Landed as `92b6244` on `batch/compiler-rewrite` after five review rounds. Remaining gaps moved to node `eligibility-store-gaps`.
