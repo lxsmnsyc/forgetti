@@ -1,7 +1,7 @@
 ---
 id: ownership
 title: Phase 3: ownership and alias groups
-status: todo
+status: active
 priority: must
 type: feature
 milestone: grouped-slots
