@@ -1,7 +1,7 @@
 ---
 id: corpus-heldout
 title: Held-out corpus of real-shaped components
-status: todo
+status: active
 priority: must
 type: feature
 milestone: sound-baseline
