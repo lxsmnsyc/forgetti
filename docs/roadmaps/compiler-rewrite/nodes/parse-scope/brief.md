@@ -1,7 +1,7 @@
 ---
 id: parse-scope
 title: Phase 1: parse, find units, build bindings
-status: todo
+status: active
 priority: must
 type: feature
 milestone: sound-baseline
