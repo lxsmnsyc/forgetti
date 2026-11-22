@@ -1,6 +1,6 @@
 ---
 name: phase-ir
-version: 2
+version: 3
 status: frozen
 defined_by: contracts
 ---
@@ -14,22 +14,22 @@ The data each phase hands to the next. Lives in `packages/forgetti/src/next/ir.t
 ## Interface
 
 ```ts
-import type { Program, Function as OxcFunction, ArrowFunctionExpression, IdentifierReference } from 'oxc-parser'; // oxc-parser re-exports @oxc-project/types
+import type { Program, Function as OxcFunction, ArrowFunctionExpression, IdentifierReference, JSXIdentifier } from 'oxc-parser'; // oxc-parser re-exports @oxc-project/types
 
 export interface Range { start: number; end: number }
 
 // Phase 1: parse and scope
-// A lexical scope inside a unit. Branch and loop scopes let eligibility find conditional hooks.
+// A lexical scope. Scope 0 is the module. Branch and loop scopes let eligibility find conditional hooks.
 export interface Scope {
   id: number;
   parent: number | null;
-  kind: 'unit' | 'function' | 'block' | 'branch' | 'loop' | 'catch';
+  kind: 'module' | 'unit' | 'function' | 'block' | 'branch' | 'loop' | 'catch';
   range: Range;
 }
 export interface Reference {
   range: Range;
   write: boolean;
-  node: IdentifierReference;
+  node: IdentifierReference | JSXIdentifier; // a JSX tag name such as `<Child />` is a reference
   scope: number;
   // Set when the reference sits inside a nested function of the unit.
   closure?: number;
@@ -57,7 +57,7 @@ export interface ScopeResult {
   bindings: Binding[];
   scopes: Scope[];
   // Keyed by node identity.
-  bindingOf(node: IdentifierReference): Binding | undefined;
+  bindingOf(node: IdentifierReference | JSXIdentifier): Binding | undefined;
 }
 
 // Phase 2: eligibility
@@ -138,3 +138,4 @@ Type-level only. Each phase's own tests check its output against this shape.
 
 - v1: initial, frozen by `contracts`. Branch `at` rule, nested outputs and slot counting are clarified. `Binding.imported.name` is a plain string.
 - v2: outputs are read from their value slot instead of a `let` local (change request from `emit`, accepted 2026-11-22). The `let` form made ternary and derived 22% larger than the hand output.
+- v3: scope 0 has kind `module`, and `Reference.node` may be a `JSXIdentifier` (change request from `parse-scope`, accepted 2026-11-22).

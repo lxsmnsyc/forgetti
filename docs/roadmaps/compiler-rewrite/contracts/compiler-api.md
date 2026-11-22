@@ -99,4 +99,4 @@ export function compile(code: string, options: CompileOptions): CompileResult;
 ## Changes
 
 - v1: initial, frozen by `contracts`. Parse error message format, severity filter, stub scan and lint-style array types are the only differences from the draft.
-
+- v1 note (2026-11-22): "like 0.8" for `@forgetti skip` means where users put the comment, not 0.8's exact Babel comment attachment. A skip comment before `export function Foo`, or before a statement that wraps the unit in a HOC call, also skips it. The hook filter is `^use[A-Z0-9]`, so `use2` is a hook, unlike 0.8.
