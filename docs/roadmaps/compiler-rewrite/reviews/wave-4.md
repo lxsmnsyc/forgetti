@@ -31,5 +31,6 @@ All three landed on `batch/compiler-rewrite` after a fresh review.
 
 ## State for the next session
 
-- The batch carries 4 uncut nodes (cut every 5).
+- Cut 3 (s1-baseline, planner-groups, tree-branches, fix-control-deps) is open as PR #45 for the maintainer. Merge it with a merge commit, then fast-forward the batch branch to `main`.
+- Nothing is active.
 - Next ready (sequential, take the first): `corpus-heldout`, then `eligibility-writes`, `tree-loops`.
