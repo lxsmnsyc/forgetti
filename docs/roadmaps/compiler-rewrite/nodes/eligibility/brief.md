@@ -1,11 +1,12 @@
 ---
 id: eligibility
 title: Phase 2: eligibility and bailout diagnostics
-status: todo
+status: done
 priority: must
 type: feature
 milestone: sound-baseline
 size: M
+spent: 333182
 verify: pnpm --filter forgetti test test/next/eligibility
 owns:
   - packages/forgetti/src/next/eligibility/**
@@ -33,9 +34,9 @@ Phase 2: decide per unit whether it can be compiled, and give a `BailoutReason` 
 
 ## Acceptance
 
-- [ ] One test per bailout reason, plus one per allowed pattern next to it (for example `use()` in a branch is allowed, `useState` in a branch is not).
-- [ ] Every 15-file base case except `bailout` is eligible.
-- [ ] Fast check passes.
+- [x] One test per bailout reason, plus one per allowed pattern next to it (for example `use()` in a branch is allowed, `useState` in a branch is not).
+- [x] Every 15-file base case except `bailout` is eligible.
+- [x] Fast check passes. (`pnpm lint` already fails on the batch base from files outside this node.)
 
 ## Sizing
 

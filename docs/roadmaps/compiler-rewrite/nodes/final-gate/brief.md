@@ -24,6 +24,9 @@ depends_on:
   - on: corpus-tuning
     kind: hard
     why: the tuning set is part of the gate
+  - on: eligibility-writes
+    kind: hard
+    why: the gate measures the finished soundness rules
 ---
 
 # S4: hypothesis gate on the full corpus

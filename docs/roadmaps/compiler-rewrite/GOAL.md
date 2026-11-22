@@ -58,6 +58,8 @@ forgetti ships a new compiler built on oxc-parser and magic-string. It replaces 
 ## Verification
 
 - Fast check (safe in parallel worktrees): `pnpm --filter forgetti test && pnpm lint`
+- In a fresh worktree, run `pnpm build` once before `pnpm lint`. Lint is type-aware, and `packages/vite`, `packages/rollup` and the examples resolve `forgetti` types from `packages/forgetti/dist`. Without a build, lint reports errors in those files that are not real. CI already builds first.
+- Lint warnings do not fail the check. If a wrapper reports `pnpm lint` as failed with no error lines, check the raw exit code (`rtk proxy pnpm lint`).
 - Full check (at checkpoints): `pnpm build && pnpm lint && pnpm format:check && pnpm typecheck && pnpm test`, then `pnpm --filter compare gate` once the harness exists (about 1 minute, no shared resources).
 
 ## Numbered resources

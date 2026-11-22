@@ -1,11 +1,12 @@
 ---
 id: ownership
 title: Phase 3: ownership and alias groups
-status: todo
+status: done
 priority: must
 type: feature
 milestone: grouped-slots
 size: L
+spent: 1137609
 verify: pnpm --filter forgetti test test/next/ownership
 owns:
   - packages/forgetti/src/next/ownership/**
@@ -34,9 +35,9 @@ Phase 3: classify values in each unit as fresh, frozen or opaque, and build alia
 
 ## Acceptance
 
-- [ ] Unit tests for every join and bailout above.
-- [ ] On each tuning alias case, the groups and freeze points match a hand-written expectation in the test.
-- [ ] Fast check passes.
+- [x] Unit tests for every join and bailout above.
+- [x] On each tuning alias case, the groups and freeze points match a hand-written expectation in the test.
+- [x] Fast check passes.
 
 ## Sizing
 

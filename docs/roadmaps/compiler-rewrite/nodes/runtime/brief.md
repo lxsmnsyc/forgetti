@@ -1,11 +1,12 @@
 ---
 id: runtime
 title: Runtime: useCache, branch and keep
-status: todo
+status: done
 priority: must
 type: feature
 milestone: sound-baseline
 size: M
+spent: 324351
 verify: pnpm --filter forgetti test test/next/runtime
 owns:
   - packages/forgetti/runtime/next.ts
@@ -31,10 +32,10 @@ Implement and test the runtime in `contracts/runtime-api.md` for React 19.3 and 
 
 ## Acceptance
 
-- [ ] Every T1 case matches uncompiled output on React and Preact with hand-written slot code that follows the write rule.
-- [ ] A test shows the inputs-first write order fails on throw and retry, so the rule stays documented in a test.
-- [ ] `keep` returns the stored array for equal elements, including `NaN`, and stores the new one otherwise.
-- [ ] Minified runtime size is printed by a test and is under 400 bytes.
+- [x] Every T1 case matches uncompiled output on React and Preact with hand-written slot code that follows the write rule. (StrictMode and interrupted-transition cases run on React only; Preact has neither.)
+- [x] A test shows the inputs-first write order fails on throw and retry, so the rule stays documented in a test.
+- [x] `keep` returns the stored array for equal elements, including `NaN`, and stores the new one otherwise.
+- [x] Minified runtime size is printed by a test and is under 400 bytes.
 
 ## Sizing
 
