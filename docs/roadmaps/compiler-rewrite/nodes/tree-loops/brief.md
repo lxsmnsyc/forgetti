@@ -1,7 +1,7 @@
 ---
 id: tree-loops
 title: S3: positional iteration caches and keep()
-status: todo
+status: active
 priority: must
 type: feature
 milestone: tree-cache
