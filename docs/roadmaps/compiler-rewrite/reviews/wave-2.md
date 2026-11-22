@@ -24,7 +24,7 @@ All four landed on `batch/compiler-rewrite` after a fresh review. Each has a `sp
 
 ## State for the next session
 
-- Cut 1 is open as PR #43 (`batch/compiler-rewrite` into `main`), for the maintainer. The batch branch keeps going from the same commit. Push new batch commits to it only after #43 merges, or they join that PR.
+- Cut 1 merged as PR #43 on 2026-11-22. `main` is merged back into the batch branch. The next cut is due after 5 more nodes.
 - Nothing is active.
 - Next ready (sequential, take the first): `runtime`, then `eligibility`, `ownership`, `corpus-heldout`, `harness-timeout`.
 - Open: the bump level of `switch` (GOAL.md).
