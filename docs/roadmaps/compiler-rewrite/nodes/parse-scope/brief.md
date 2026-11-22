@@ -1,11 +1,12 @@
 ---
 id: parse-scope
 title: Phase 1: parse, find units, build bindings
-status: active
+status: done
 priority: must
 type: feature
 milestone: sound-baseline
 size: L
+spent: 273720
 verify: pnpm --filter forgetti test test/next/parse
 owns:
   - packages/forgetti/src/next/parse/**
@@ -30,9 +31,9 @@ Phase 1 of the pipeline: parse with oxc-parser, find components and hooks by the
 
 ## Acceptance
 
-- [ ] Units found match 0.8's on every `benchmarks/corpus/base` file (or the 15 files in `debate/evidence/corpus/` if the harness is not merged yet).
-- [ ] Every identifier reference in a unit resolves to a binding or is reported as global. A test covers shadowing, closures, destructuring, `catch` and TS type positions (which are not references).
-- [ ] Fast check passes.
+- [x] Units found match 0.8's on every `benchmarks/corpus/base` file (or the 15 files in `debate/evidence/corpus/` if the harness is not merged yet).
+- [x] Every identifier reference in a unit resolves to a binding or is reported as global. A test covers shadowing, closures, destructuring, `catch` and TS type positions (which are not references).
+- [x] Fast check passes.
 
 ## Sizing
 

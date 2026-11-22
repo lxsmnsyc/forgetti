@@ -40,3 +40,7 @@ Phase 2: decide per unit whether it can be compiled, and give a `BailoutReason` 
 ## Sizing
 
 M: rules are listed; tests are the bulk.
+
+## Notes for the worker
+
+- From `parse-scope` (see its outcome): when a unit has a parameter default or a computed parameter key, its body bindings live in a child `block` scope under the `unit` scope. Walk the scope chain; never test `scope === unitScope`. `arguments` resolves as a global.

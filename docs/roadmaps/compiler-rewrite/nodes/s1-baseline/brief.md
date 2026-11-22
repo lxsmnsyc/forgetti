@@ -59,3 +59,5 @@ M: glue plus a simple planner, but it is the first end-to-end run.
 ## Notes for the worker
 
 - From `emit` (see its outcome): emit inserts a block's code before the statement that holds `at`, so it runs before the rest of that statement (`f(g(), c ? a : b)`). Pick `at` so that hoisting does not reorder side effects. Emit treats neither optional chaining nor default parameters as conditional: never place a block inside one. `Output.local` names must not clash with user bindings. Emit does not check that an output range lies inside its anchor, so a wrong plan reads a stale slot instead of failing.
+
+- From `parse-scope` (see its outcome): when a unit has a parameter default or a computed parameter key, its body bindings live in a child `block` scope under the `unit` scope. Walk the scope chain; never test `scope === unitScope`. `arguments` resolves as a global.

@@ -69,3 +69,5 @@
 ## Size
 
 - Estimated L, actual L: 1,334 lines of source and 523 of tests.
+
+Landed on `batch/compiler-rewrite` as `554eee0`. phase-ir v3 is in the contract.
