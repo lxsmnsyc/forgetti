@@ -53,3 +53,9 @@
 ## Size
 
 - Estimated M, actual M (about 330 lines in `branches.ts`, 230 in tests).
+
+## Landed
+
+- Commit `2385223` on `batch/compiler-rewrite`, after one clean fresh review.
+- The orchestrator accepted the edits outside the owned paths: exports and `take()` in `plan/groups.ts`, dead code removed from `plan/baseline.ts`.
+- Static arms keep their `EMPTY`-guarded slot. Skipping them would re-create the static element on every active render. Hoisting static elements to module constants is a possible later step.
