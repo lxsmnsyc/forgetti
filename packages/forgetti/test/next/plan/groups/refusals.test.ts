@@ -9,7 +9,7 @@ function countCaches(code: string): number {
   return code.match(/useCache\(useRef, \d+\)/g)?.length ?? 0;
 }
 
-describe('baseline planner', () => {
+describe('groups planner refusals', () => {
   it('caches a returned element by its props', () => {
     const { code, units } = run('export function Card({ title }) { return <h1>{title}</h1>; }\n');
 
@@ -35,7 +35,7 @@ describe('baseline planner', () => {
     expect(code).toContain('Object.is($[2], x)');
   });
 
-  it('does not cache a value read from a mutated local', () => {
+  it('keys a value read from a mutated local on the group inputs', () => {
     const { code, units } = run(
       [
         'export function Pushed({ a, b }) {',
@@ -47,7 +47,10 @@ describe('baseline planner', () => {
       ].join('\n'),
     );
 
-    expect(countCaches(code)).toBe(0);
+    expect(code).toContain('useCache(useRef, 3)');
+    expect(code).toContain('Object.is($[0], a)');
+    expect(code).toContain('Object.is($[1], b)');
+    expect(code).not.toMatch(/Object\.is\(\$\[\d\], arr\)/);
     expect(units).toEqual([{ name: 'Pushed', compiled: true }]);
   });
 

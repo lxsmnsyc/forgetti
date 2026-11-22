@@ -134,8 +134,8 @@ describe('plan fixtures', () => {
 });
 
 describe('planner and ownership stubs', () => {
-  it('lists the four planner passes in order', () => {
-    expect(passes.map((pass) => pass.name)).toEqual(['baseline', 'groups', 'branches', 'loops']);
+  it('lists the planner passes in order', () => {
+    expect(passes.map((pass) => pass.name)).toEqual(['groups', 'branches', 'loops']);
   });
 
   it('returns the plan unchanged and no groups', () => {

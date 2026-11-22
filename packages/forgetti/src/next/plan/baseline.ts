@@ -13,10 +13,10 @@ import type {
 import type { ParseResult } from '../parse';
 import { PRESETS } from '../parse/presets';
 
-const HOOK_NAME = /^use(?:$|[A-Z0-9])/;
+export const HOOK_NAME = /^use(?:$|[A-Z0-9])/;
 
 // Calls that change their receiver. A cached block must not contain one.
-const MUTATORS = new Set([
+export const MUTATORS = new Set([
   'push',
   'pop',
   'shift',
@@ -37,7 +37,7 @@ const MUTATORS = new Set([
 ]);
 
 // Globals whose value never changes between renders.
-const STABLE_GLOBALS = new Set([
+export const STABLE_GLOBALS = new Set([
   'Math',
   'Object',
   'Array',
@@ -68,7 +68,7 @@ const STABLE_GLOBALS = new Set([
 ]);
 
 // Member names that read hidden state: `Math.random()`, `Date.now()`, `ref.current`.
-const IMPURE_MEMBERS = new Set(['random', 'now', 'current']);
+export const IMPURE_MEMBERS = new Set(['random', 'now', 'current']);
 
 const HOOK_TYPES = new Map<string, string>();
 for (const preset of [PRESETS.react, PRESETS.preact]) {
@@ -79,12 +79,12 @@ for (const preset of [PRESETS.react, PRESETS.preact]) {
   }
 }
 
-interface UnitRef {
+export interface UnitRef {
   reference: Reference;
   binding: Binding;
 }
 
-interface Context {
+export interface Context {
   scope: ScopeResult;
   index: AstIndex;
   unitRange: Range;
@@ -106,20 +106,20 @@ interface Candidate {
   result?: Binding;
 }
 
-function getRange(node: AstNode): Range {
+export function getRange(node: AstNode): Range {
   return { start: node.start, end: node.end };
 }
 
-function isInside(inner: Range, outer: Range): boolean {
+export function isInside(inner: Range, outer: Range): boolean {
   return outer.start <= inner.start && inner.end <= outer.end;
 }
 
-function getName(node: AstNode): string | undefined {
+export function getName(node: AstNode): string | undefined {
   return typeof node.name === 'string' ? node.name : undefined;
 }
 
 /** The name a member expression reads: `a.b`, `a["b"]`. Undefined for any other computed key. */
-function getMemberName(member: AstNode): string | undefined {
+export function getMemberName(member: AstNode): string | undefined {
   const property = getChild(member, 'property');
   if (!property) {
     return undefined;
@@ -133,7 +133,7 @@ function getMemberName(member: AstNode): string | undefined {
 }
 
 /** The called name of `f()`, `a.f()` and `a["f"]()`. Undefined when the callee has no fixed name. */
-function getCalleeName(call: AstNode): string | undefined {
+export function getCalleeName(call: AstNode): string | undefined {
   const callee = getChild(call, 'callee');
   if (callee?.type === 'Identifier') {
     return getName(callee);
@@ -141,7 +141,7 @@ function getCalleeName(call: AstNode): string | undefined {
   return callee?.type === 'MemberExpression' ? getMemberName(callee) : undefined;
 }
 
-function pushChildren(node: AstNode, stack: AstNode[]): void {
+export function pushChildren(node: AstNode, stack: AstNode[]): void {
   for (const key of Object.keys(node)) {
     if (key === 'parent') {
       continue;
@@ -159,7 +159,7 @@ function pushChildren(node: AstNode, stack: AstNode[]): void {
   }
 }
 
-function walkNodes(root: AstNode, visit: (node: AstNode) => boolean): boolean {
+export function walkNodes(root: AstNode, visit: (node: AstNode) => boolean): boolean {
   const stack: AstNode[] = [root];
   for (let node = stack.pop(); node; node = stack.pop()) {
     if (!visit(node)) {
@@ -171,7 +171,7 @@ function walkNodes(root: AstNode, visit: (node: AstNode) => boolean): boolean {
 }
 
 /** The declarator initializer of a binding, when it has one. */
-function findInitializer(ctx: Context, binding: Binding): AstNode | undefined {
+export function findInitializer(ctx: Context, binding: Binding): AstNode | undefined {
   let node: AstNode | undefined;
   walkNodes(ctx.index.root, (item) => {
     if (item.type === 'VariableDeclarator' && isInside(binding.declaration, getRange(item))) {
@@ -187,7 +187,7 @@ function findInitializer(ctx: Context, binding: Binding): AstNode | undefined {
 }
 
 /** True for a binding that holds a ref or an effect event, which render must not read. */
-function isHiddenState(ctx: Context, binding: Binding): boolean {
+export function isHiddenState(ctx: Context, binding: Binding): boolean {
   const init = findInitializer(ctx, binding);
   if (init?.type !== 'CallExpression') {
     return false;
@@ -279,7 +279,7 @@ function readsChangingState(ctx: Context, fn: AstNode, visited: Set<number>): bo
 }
 
 /** True when an outer binding keeps one value for the whole module's life. */
-function isStableOuter(ctx: Context, binding: Binding): boolean {
+export function isStableOuter(ctx: Context, binding: Binding): boolean {
   if (ctx.scope.scopes[binding.scope].kind !== 'module') {
     return false;
   }
@@ -296,7 +296,7 @@ function isStableOuter(ctx: Context, binding: Binding): boolean {
 }
 
 /** True when a binding may be read by a cached block placed before `statementStart`. */
-function isPlainInput(ctx: Context, binding: Binding, statementStart: number): boolean {
+export function isPlainInput(ctx: Context, binding: Binding, statementStart: number): boolean {
   // A mutated value, or a binding that is ever assigned, can change under a cached block.
   if (ctx.unsafe.has(binding.id)) {
     return false;
@@ -344,7 +344,7 @@ function isReadOnlyUse(ctx: Context, node: AstNode): boolean {
 }
 
 /** True when every use of the call result `binding` only reads it. */
-function isResultReadOnly(ctx: Context, binding: Binding): boolean {
+export function isResultReadOnly(ctx: Context, binding: Binding): boolean {
   for (const reference of binding.references) {
     const node: unknown = reference.node;
     if (reference.write || !isNode(node) || !isReadOnlyUse(ctx, node)) {
@@ -355,7 +355,7 @@ function isResultReadOnly(ctx: Context, binding: Binding): boolean {
 }
 
 /** Checks the syntax of a candidate. Returns false when any part may change or read hidden state. */
-function isPureSyntax(ctx: Context, expr: AstNode): boolean {
+export function isPureSyntax(ctx: Context, expr: AstNode): boolean {
   const range = getRange(expr);
   return walkNodes(expr, (node) => {
     switch (node.type) {
@@ -441,7 +441,7 @@ function collectInputs(
   return inputs;
 }
 
-function isElement(
+export function isElement(
   node: AstNode | undefined,
 ): node is AstNode & { type: 'JSXElement' | 'JSXFragment' } {
   return node?.type === 'JSXElement' || node?.type === 'JSXFragment';
@@ -483,7 +483,7 @@ function findCandidate(ctx: Context, statement: AstNode): Candidate | undefined 
   return { expr: init, at, result };
 }
 
-function createLocal(ctx: Context, index: number): string {
+export function createLocal(ctx: Context, index: number): string {
   let name = `_t${index}`;
   while (ctx.names.has(name)) {
     name = `_${name}`;
@@ -492,7 +492,7 @@ function createLocal(ctx: Context, index: number): string {
   return name;
 }
 
-function createContext(
+export function createContext(
   scope: ScopeResult,
   ownership: OwnershipResult,
   unitRange: Range,

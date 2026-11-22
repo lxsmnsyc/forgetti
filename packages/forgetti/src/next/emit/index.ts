@@ -437,6 +437,13 @@ function getCallbackIndex(state: State, fn: AstNode, node: CacheNode): string {
   return index;
 }
 
+/** A slot read that replaces a JSX child or attribute value needs braces to stay an expression. */
+function wrapJsxRead(state: State, range: Range, read: string): string {
+  const parent = state.index.parents.get(findExact(state.index, range));
+  const isChild = parent?.type === 'JSXElement' || parent?.type === 'JSXFragment';
+  return isChild || parent?.type === 'JSXAttribute' ? `{${read}}` : read;
+}
+
 function getBlockTarget(state: State, block: SlotBlock): AstNode {
   // An `at` that names a whole block or case, as a branch arm does, means the statement
   // inside it that holds the output.
@@ -490,7 +497,11 @@ function emitNode(
     const texts: string[] = [];
     for (const [position, output] of block.outputs.entries()) {
       texts.push(takeText(state, output.range));
-      state.ms.overwrite(output.range.start, output.range.end, reads[position]);
+      state.ms.overwrite(
+        output.range.start,
+        output.range.end,
+        wrapJsxRead(state, output.range, reads[position]),
+      );
     }
     insertCode(state, anchor, createBlockCode(state, cache, block, texts));
   }

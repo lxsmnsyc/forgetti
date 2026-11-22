@@ -90,6 +90,8 @@ export interface OwnershipResult {
   unit: number;
   groups: Group[];
   opaque: number[];
+  /** Set when a closure leaves render too early (`escaping-closure`). The unit then gets no plan. */
+  bailout?: Extract<Eligibility, { ok: false }>;
 }
 
 // Phase 4: cache-tree plan

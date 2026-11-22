@@ -1,17 +1,8 @@
 import type { AstNode } from '../emit/ast';
 import { getChild, isNode } from '../emit/ast';
-import type { Eligibility, OwnershipResult, Range, ScopeResult, Unit } from '../ir';
+import type { OwnershipResult, Range, ScopeResult, Unit } from '../ir';
 import { GroupBuilder } from './groups';
 import { UnitWalker } from './walk';
-
-/**
- * Phase 3 output for one unit. `bailout` is set when a closure leaves render too early
- * (`escaping-closure`); the unit then gets no plan. This is phase-ir v4 as asked in
- * `contracts/phase-ir.ownership.change-request.md`, until `ir.ts` carries the field.
- */
-export interface OwnershipReport extends OwnershipResult {
-  bailout?: Extract<Eligibility, { ok: false }>;
-}
 
 function findUnit(scope: ScopeResult, id: number): Unit | undefined {
   for (const unit of scope.units) {
@@ -49,8 +40,8 @@ function isRenderScope(scope: ScopeResult, id: number, unitScope: number): boole
  * bindings that may point at one fresh value, its mutations, its freeze point and its
  * non-fresh inputs. Non-fresh locals that change during render are listed as opaque.
  */
-export function analyzeOwnership(scope: ScopeResult, unitId: number): OwnershipReport {
-  const empty: OwnershipReport = { unit: unitId, groups: [], opaque: [] };
+export function analyzeOwnership(scope: ScopeResult, unitId: number): OwnershipResult {
+  const empty: OwnershipResult = { unit: unitId, groups: [], opaque: [] };
   const unit = findUnit(scope, unitId);
   const node: unknown = unit?.node;
   if (!unit || !isNode(node)) {
@@ -88,7 +79,7 @@ export function analyzeOwnership(scope: ScopeResult, unitId: number): OwnershipR
     facts,
   }).build();
 
-  const result: OwnershipReport = { unit: unitId, groups: built.groups, opaque: built.opaque };
+  const result: OwnershipResult = { unit: unitId, groups: built.groups, opaque: built.opaque };
   if (built.violation) {
     const { name } = scope.bindings[built.violation.binding];
     result.bailout = {
