@@ -1,7 +1,7 @@
 # Change request: phase-ir v3 to v4
 
 - From node: ownership
-- Status: open
+- Status: accepted
 
 ## Problem
 
@@ -33,3 +33,4 @@ Behavior: "A unit with `ok: false` gets no ownership result and no plan" also co
 
 ## Decision
 
+Accepted 2026-11-22 by the orchestrator after the fresh review of `ownership`. phase-ir is now v4. The node that wires `compile()` moves the field into `ir.ts` and drops `OwnershipReport`.

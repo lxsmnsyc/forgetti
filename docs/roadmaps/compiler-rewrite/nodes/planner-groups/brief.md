@@ -14,6 +14,8 @@ owns:
 shared:
   - packages/forgetti/src/next/plan/index.ts
   - packages/forgetti/src/next/index.ts
+  - packages/forgetti/src/next/ir.ts
+  - packages/forgetti/src/next/ownership/index.ts
 depends_on:
   - on: s1-baseline
     kind: hard
@@ -32,6 +34,7 @@ Replace the baseline planner with the S2 planner: values with the same input set
 ## Context
 
 - `compile()` already calls `analyzeOwnership()` (stub from `contracts`, real since `ownership`). Check it is wired, and pass its result to the planner.
+- phase-ir v4: when `analyzeOwnership()` returns `bailout`, report it as a diagnostic and do not plan the unit. Move `bailout` into `OwnershipResult` in `ir.ts` and drop `OwnershipReport` from `ownership/index.ts`. Read `nodes/ownership/outcome.md` for the group rules (a rebind counts as a mutation, so `let el` assigned per switch case freezes after the switch).
 
 - The cost rule (`cost.ts`): literals, `a + 1`-style arithmetic, property reads of an input, and template strings of inputs are cheap. Unknown calls and JSX are not.
 

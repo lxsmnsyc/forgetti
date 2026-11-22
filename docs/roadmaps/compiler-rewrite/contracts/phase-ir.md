@@ -1,6 +1,6 @@
 ---
 name: phase-ir
-version: 3
+version: 4
 status: frozen
 defined_by: contracts
 ---
@@ -76,7 +76,14 @@ export interface Group {
   frozenAt: number; // index after the last mutation, extended to the end of any loop that holds one
   inputs: number[]; // binding ids of the group's non-fresh inputs (props, state, hook results)
 }
-export interface OwnershipResult { unit: number; groups: Group[]; opaque: number[] }
+export interface OwnershipResult {
+  unit: number;
+  groups: Group[];
+  opaque: number[];
+  // Set when ownership finds a bailout (`escaping-closure`). The unit then gets no plan,
+  // as for an `ok: false` entry from eligibility.
+  bailout?: Extract<Eligibility, { ok: false }>;
+}
 
 // Phase 4: cache-tree plan
 export type ValueRef =
@@ -139,3 +146,4 @@ Type-level only. Each phase's own tests check its output against this shape.
 - v1: initial, frozen by `contracts`. Branch `at` rule, nested outputs and slot counting are clarified. `Binding.imported.name` is a plain string.
 - v2: outputs are read from their value slot instead of a `let` local (change request from `emit`, accepted 2026-11-22). The `let` form made ternary and derived 22% larger than the hand output.
 - v3: scope 0 has kind `module`, and `Reference.node` may be a `JSXIdentifier` (change request from `parse-scope`, accepted 2026-11-22).
+- v4: `OwnershipResult.bailout` carries the `escaping-closure` bailout. `compile()` reports it as a diagnostic and does not plan the unit (change request from `ownership`, accepted 2026-11-22). Until `ir.ts` adds the field, `ownership/index.ts` exports it as `OwnershipReport`.
