@@ -1,6 +1,7 @@
 import type {
   ArrowFunctionExpression,
   IdentifierReference,
+  JSXIdentifier,
   Function as OxcFunction,
   Program,
 } from 'oxc-parser';
@@ -13,18 +14,20 @@ export interface Range {
 
 // Phase 1: parse and scope
 
-/** A lexical scope inside a unit. Branch and loop scopes let eligibility find conditional hooks. */
+/** A lexical scope of the module. Branch and loop scopes let eligibility find conditional hooks. */
 export interface Scope {
   id: number;
   parent: number | null;
-  kind: 'unit' | 'function' | 'block' | 'branch' | 'loop' | 'catch';
+  /** `module` is scope 0, the only scope with `parent: null`. */
+  kind: 'module' | 'unit' | 'function' | 'block' | 'branch' | 'loop' | 'catch';
   range: Range;
 }
 
 export interface Reference {
   range: Range;
   write: boolean;
-  node: IdentifierReference;
+  /** A JSX tag name such as `Child`, or the object of `<ns.Child>`, is a JSXIdentifier. */
+  node: IdentifierReference | JSXIdentifier;
   scope: number;
   /** Set when the reference sits inside a nested function of the unit. */
   closure?: number;
@@ -56,7 +59,7 @@ export interface ScopeResult {
   bindings: Binding[];
   scopes: Scope[];
   /** Looks a binding up by node identity. */
-  bindingOf(node: IdentifierReference): Binding | undefined;
+  bindingOf(node: IdentifierReference | JSXIdentifier): Binding | undefined;
 }
 
 // Phase 2: eligibility
