@@ -1,0 +1,9 @@
+PASS soundness on react: 0 differences
+PASS soundness on preact: 0 differences
+FAIL total work below each baseline on react: next 461, forgetti-0.8 274, react-compiler 500
+FAIL no file above the better baseline on react: base/bailout 2 > 1; base/callback 3 > 1; base/forloop 11 > 0; base/hook 6 > 2; base/jsxprops 6 > 1; base/mutate 4 > 1; base/trycatch 4 > 2; tuning/alias_branch 4 > 0; tuning/alias_closure 4 > 0; tuning/alias_field 4 > 0; tuning/alias_push 4 > 0; tuning/alias_spread 3 > 0; tuning/alias_unknown 4 > 0; tuning/hook_nested 11 > 4; tuning/hook_object 5 > 0; tuning/loop_shapes 23 > 11; tuning/throw_boundary_swap 3 > 2; tuning/throw_call 3 > 2; tuning/throw_group 6 > 5; heldout/cart_summary 54 > 22; heldout/dashboard_card 32 > 12; heldout/form_validation 72 > 25; heldout/list_filters 13 > 8; heldout/table_sort 77 > 44; heldout/tree_view 40 > 25
+FAIL total work below each baseline on preact: next 442, forgetti-0.8 252
+FAIL no file above the better baseline on preact: base/bailout 2 > 1; base/callback 3 > 1; base/forloop 11 > 0; base/hook 6 > 2; base/jsxprops 6 > 4; base/mutate 4 > 1; base/trycatch 4 > 2; tuning/alias_branch 4 > 0; tuning/alias_closure 4 > 0; tuning/alias_field 4 > 0; tuning/alias_push 4 > 0; tuning/alias_spread 3 > 0; tuning/alias_unknown 4 > 0; tuning/hook_nested 11 > 4; tuning/hook_object 5 > 0; tuning/loop_shapes 24 > 12; tuning/throw_boundary_swap 3 > 1; tuning/throw_call 2 > 1; tuning/throw_group 4 > 3; heldout/cart_summary 54 > 22; heldout/dashboard_card 32 > 23; heldout/form_validation 72 > 29; heldout/list_filters 13 > 8; heldout/table_sort 77 > 44; heldout/tree_view 40 > 25
+PASS total gzip at most 1 x React Compiler: next 33782, react-compiler 43834, ratio 0.771
+FAIL no file above 1.15 x React Compiler gzip: heldout/tree_view 1985 > 1634 x 1.15
+PASS compiled share at least React Compiler's on heldout: next 29/31, react-compiler 19/38
