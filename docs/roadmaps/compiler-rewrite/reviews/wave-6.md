@@ -16,4 +16,5 @@
 ## State for the next session
 
 - Nothing is active. The batch carries corpus-heldout, eligibility-writes and tree-loops (local only, worktree `../forgetti-batch`).
-- Next ready (sequential, take the first): `eligibility-store-gaps`, `harness-timeout`, `runtime-test-speed`. `final-gate` needs those it depends on and the cut on `main` before it runs.
+- Next ready (sequential, take the first): `final-gate` (must, experiment, gated: the user sees the result before anything builds on it), then `eligibility-store-gaps`, `harness-timeout`, `runtime-test-speed`.
+- Cut 4 (3 nodes) is due. It needs the full check on the batch, then one pull request for the maintainer.
