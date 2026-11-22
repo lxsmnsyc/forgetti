@@ -24,5 +24,6 @@ All three landed on `batch/compiler-rewrite` after a fresh review.
 
 ## State for the next session
 
+- Cut 2 (eligibility, runtime, ownership) is open as PR #44 for the maintainer. Merge it with a merge commit, then merge `main` back into the batch branch.
 - Nothing is active.
-- Next ready (sequential, take the first): run `plan.py ready`. Expected: `s1-baseline`, `eligibility-writes`, `corpus-heldout`, `harness-timeout`, `runtime-test-speed`.
+- Next ready (sequential, take the first): run `plan.py ready`. Expected: `s1-baseline`, `corpus-heldout`, `eligibility-writes`, `harness-timeout`, `runtime-test-speed`.
