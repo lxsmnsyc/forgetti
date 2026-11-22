@@ -1,7 +1,7 @@
 ---
 id: planner-groups
 title: S2: dependency-set slot groups and the cheap-expression rule
-status: todo
+status: active
 priority: must
 type: feature
 milestone: grouped-slots
