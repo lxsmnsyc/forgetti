@@ -1,7 +1,8 @@
 ---
 id: s1-baseline
 title: S1: wire phases 1, 2 and 5 into a sound baseline compiler
-status: active
+status: done
+spent: 223366
 priority: must
 type: feature
 milestone: sound-baseline
@@ -47,10 +48,10 @@ Make `compile()` real with a baseline planner: JSX elements and call results are
 
 ## Acceptance
 
-- [ ] 0 differences from uncompiled output on `base` and `tuning`, React and Preact.
-- [ ] Every unit the harness reports is either compiled or has a diagnostic.
-- [ ] `outcome.md` records lines written and tokens spent so far against the debate budget (9k lines, 600k tokens). If S1 alone passes half of either, say so first.
-- [ ] Fast check passes.
+- [x] 0 differences from uncompiled output on `base` and `tuning`, React and Preact.
+- [x] Every unit the harness reports is either compiled or has a diagnostic.
+- [x] `outcome.md` records lines written and tokens spent so far against the debate budget (9k lines, 600k tokens). If S1 alone passes half of either, say so first.
+- [x] Fast check passes.
 
 ## Sizing
 

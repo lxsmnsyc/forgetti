@@ -54,3 +54,7 @@
 ## Size
 
 - Estimated M, actual M.
+
+## Landed
+
+- Commit `f9befc3` on `batch/compiler-rewrite`, squashed from the worker branch after two fresh review rounds and an orchestrator probe check of the round 2 fix.
