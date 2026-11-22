@@ -1,7 +1,7 @@
 ---
 id: eligibility-writes
 title: Eligibility: writes to hook results, kept state instances, prop spread copies
-status: todo
+status: active
 priority: must
 type: fix
 milestone: sound-baseline
