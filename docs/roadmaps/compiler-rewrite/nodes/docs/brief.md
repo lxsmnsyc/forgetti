@@ -15,9 +15,9 @@ owns:
   - docs/optimizations.md
   - packages/forgetti/test/docs/**
 depends_on:
-  - on: final-gate
+  - on: regate
     kind: hard
-    why: the documented output is final only after the gate
+    why: the documented output is final only after the regate
   - on: switch
     kind: behavior
     via: compiler-api
