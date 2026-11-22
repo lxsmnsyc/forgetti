@@ -28,6 +28,7 @@ import {
   isResultReadOnly,
   isStableOuter,
   pushChildren,
+  walkNodes,
 } from './baseline';
 import { isCheap } from './cost';
 
@@ -38,6 +39,14 @@ const FRESH_LITERALS = new Set([
   'FunctionExpression',
   'ClassExpression',
   'NewExpression',
+]);
+
+const LOOPS = new Set([
+  'ForStatement',
+  'ForInStatement',
+  'ForOfStatement',
+  'WhileStatement',
+  'DoWhileStatement',
 ]);
 
 const IMPURE_SYNTAX = new Set([
@@ -170,6 +179,9 @@ export class GroupPlanner {
   private at: Range = { start: 0, end: 0 };
 
   private frozen = new Map<number, boolean>();
+
+  /** Binding ids read by the tests that guard each frozen group's writes. */
+  private readonly guardIds = new Map<number, number[]>();
 
   constructor(
     private readonly ctx: Context,
@@ -454,7 +466,7 @@ export class GroupPlanner {
     }
     const group = this.groupOf.get(binding.id);
     if (group && this.isFrozenGroup(group)) {
-      return group.inputs;
+      return [...group.inputs, ...(this.guardIds.get(group.id) ?? [])];
     }
     return isPlainInput(ctx, binding, this.at.start) ? [binding.id] : undefined;
   }
@@ -479,6 +491,15 @@ export class GroupPlanner {
         }
       }
     }
+    // A write inside a conditional also depends on the tests that decide whether it runs.
+    if (ok) {
+      const guards = this.findGuardIds(group);
+      if (guards) {
+        this.guardIds.set(group.id, guards);
+      } else {
+        ok = false;
+      }
+    }
     if (ok) {
       for (const id of group.inputs) {
         if (!isPlainInput(this.ctx, this.ctx.scope.bindings[id], this.at.start)) {
@@ -489,6 +510,132 @@ export class GroupPlanner {
     }
     this.frozen.set(group.id, ok);
     return ok;
+  }
+
+  /**
+   * The binding ids read by every test that guards a write or mutation of the group, outside
+   * the group's own inputs. Undefined when a test is impure or reads a value that can change.
+   */
+  private findGuardIds(group: Group): number[] | undefined {
+    const ctx = this.ctx;
+    const writes = this.findMemberWrites(group);
+    if (!writes) {
+      return undefined;
+    }
+    const ranges = [...group.created, ...writes];
+    for (const mutation of group.mutations) {
+      ranges.push(mutation.range);
+    }
+
+    // Collect the tests on the path from the unit body to each write.
+    const tests: AstNode[] = [];
+    for (const range of ranges) {
+      if (!this.findGuards(range, tests)) {
+        return undefined;
+      }
+    }
+
+    // Each test must be pure and read plain inputs only.
+    const ids: number[] = [];
+    for (const test of tests) {
+      const testRange = getRange(test);
+      if (!isPureSyntax(ctx, test) || !isGlobalStable(ctx, testRange)) {
+        return undefined;
+      }
+      for (const { reference, binding } of ctx.refs) {
+        if (!isInside(reference.range, testRange)) {
+          continue;
+        }
+        if (!isPlainInput(ctx, binding, this.at.start)) {
+          return undefined;
+        }
+        if (isInside(binding.declaration, ctx.unitRange) && !ids.includes(binding.id)) {
+          ids.push(binding.id);
+        }
+      }
+    }
+    return ids;
+  }
+
+  /**
+   * Adds the tests of the `if`, `switch`, ternary and logical nodes that hold `range` in a branch.
+   * Returns false when a loop, or an earlier `break`, `continue` or `throw` in a labeled
+   * statement, `try` block or `switch` case, can skip the range.
+   */
+  private findGuards(range: Range, tests: AstNode[]): boolean {
+    let node: AstNode = this.ctx.index.root;
+    while (node.start !== range.start || node.end !== range.end) {
+      const children: AstNode[] = [];
+      pushChildren(node, children);
+      let next: AstNode | undefined;
+      for (const child of children) {
+        if (isInside(range, getRange(child))) {
+          next = child;
+          break;
+        }
+      }
+      if (!next) {
+        return true;
+      }
+      if (this.canSkip(node, next, range)) {
+        return false;
+      }
+      this.addGuards(node, next, tests);
+      node = next;
+    }
+    return true;
+  }
+
+  private canSkip(node: AstNode, child: AstNode, range: Range): boolean {
+    if (!isInside(getRange(node), this.ctx.unitRange)) {
+      return false;
+    }
+    // Any loop repeats the write, and the cache cannot tell which pass it keeps.
+    if (LOOPS.has(node.type)) {
+      return true;
+    }
+    const isRegion =
+      node.type === 'LabeledStatement' ||
+      node.type === 'SwitchCase' ||
+      (node.type === 'TryStatement' && child === getChild(node, 'block'));
+    if (!isRegion) {
+      return false;
+    }
+    // An exit before the write, in the same region, can skip it.
+    return !walkNodes(node, (item) => {
+      const isExit =
+        item.type === 'BreakStatement' ||
+        item.type === 'ContinueStatement' ||
+        item.type === 'ThrowStatement';
+      return !(isExit && item.end <= range.start);
+    });
+  }
+
+  private addGuards(node: AstNode, child: AstNode, tests: AstNode[]): void {
+    if (node.type === 'IfStatement' || node.type === 'ConditionalExpression') {
+      if (child !== getChild(node, 'test')) {
+        this.addTest(getChild(node, 'test'), tests);
+      }
+    } else if (node.type === 'LogicalExpression') {
+      if (child === getChild(node, 'right')) {
+        this.addTest(getChild(node, 'left'), tests);
+      }
+    } else if (node.type === 'SwitchStatement' && child.type === 'SwitchCase') {
+      // A case also runs by falling through, so every test up to this case counts.
+      this.addTest(getChild(node, 'discriminant'), tests);
+      for (const item of getChildren(node, 'cases')) {
+        this.addTest(getChild(item, 'test'), tests);
+        if (item === child) {
+          break;
+        }
+      }
+    }
+  }
+
+  private addTest(test: AstNode | undefined, tests: AstNode[]): void {
+    if (test && isInside(getRange(test), this.ctx.unitRange)) {
+      tests.push(test);
+    }
   }
 
   /** The initializers and assignments that give the group's members their values. */
