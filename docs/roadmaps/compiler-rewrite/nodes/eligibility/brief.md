@@ -1,7 +1,7 @@
 ---
 id: eligibility
 title: Phase 2: eligibility and bailout diagnostics
-status: todo
+status: active
 priority: must
 type: feature
 milestone: sound-baseline
