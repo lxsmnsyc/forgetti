@@ -1,7 +1,7 @@
 ---
 id: final-gate
 title: S4: hypothesis gate on the full corpus
-status: todo
+status: active
 priority: must
 type: experiment
 milestone: tree-cache
