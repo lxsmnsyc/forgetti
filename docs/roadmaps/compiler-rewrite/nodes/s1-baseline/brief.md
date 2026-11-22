@@ -1,7 +1,7 @@
 ---
 id: s1-baseline
 title: S1: wire phases 1, 2 and 5 into a sound baseline compiler
-status: todo
+status: active
 priority: must
 type: feature
 milestone: sound-baseline
