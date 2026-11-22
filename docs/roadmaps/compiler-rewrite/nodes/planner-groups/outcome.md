@@ -63,3 +63,13 @@
 ## Size
 
 - Estimated M, actual M (about 520 lines in `groups.ts` and `cost.ts`, about 270 lines of test).
+
+## Landed
+
+- Commit `59390a2` on `batch/compiler-rewrite`, after one clean fresh review.
+- The orchestrator accepted the edits outside the owned paths: `emit/index.ts` (`wrapJsxRead`), `plan/baseline.ts` (helpers exported), `test/next/api.test.ts` and `test/next/ownership/ownership.test.ts`.
+
+## Review nits left open
+
+- `runBaseline` in `plan/baseline.ts` is unused. Remove it when `tree-branches` or `tree-loops` next touches the planner.
+- Fixed-name calls to imported or prop functions are assumed pure. `<div>{side()}</div>` with an imported `side` is cached once behind an `EMPTY` guard, and `ext(o)` with a group member is keyed on the inputs only. This matches the baseline assumption and React Compiler.
