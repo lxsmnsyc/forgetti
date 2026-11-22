@@ -179,3 +179,5 @@ The 15 files of `debate/evidence/corpus/` converted by `harness` to `benchmarks/
 - v1: initial, frozen by `harness`. Adds `component`, object `context`, `wrap(h, element)`, step `context`, function props, the `(mount)` step and the `phases()` helper to the draft. Defines value comparison as HTML plus error.
 
 ~~~~
+
+Landed on `batch/compiler-rewrite` as `96e1e81`.
