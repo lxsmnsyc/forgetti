@@ -6,7 +6,7 @@ priority: must
 type: feature
 milestone: sound-baseline
 size: M
-verify: pnpm --filter compare test --set tuning
+verify: pnpm --filter compare test
 owns:
   - benchmarks/corpus/tuning/**
 depends_on:
