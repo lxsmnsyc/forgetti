@@ -17,4 +17,4 @@
 - PR #41 merged on 2026-11-21. Lint and format skip `docs/**`, and `main` is merged into the batch (`8a0c116`). Lint, format and typecheck pass there.
 - Next ready (sequential, take the first): `harness`, then `emit`, `parse-scope`, `eligibility`, `runtime`, `ownership`.
 - Gotcha from `contracts`: run `pnpm build` before `pnpm lint`. The plugins and examples import the built `forgetti` types.
-- Open: the Release workflow fails until "Allow GitHub Actions to create and approve pull requests" is on. The bump level of `switch` is still open (GOAL.md).
+- Open: the bump level of `switch` (GOAL.md). The Release workflow works again (run 44910108653).
