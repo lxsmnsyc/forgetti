@@ -86,6 +86,8 @@ export interface Context {
   /** References in the whole module that resolve to no binding. */
   globals: Reference[];
   names: Set<string>;
+  /** Loop counters that keep one value for each pass of their loop body. The loops pass sets them. */
+  perIteration?: Set<number>;
 }
 
 export function getRange(node: AstNode): Range {
@@ -282,6 +284,10 @@ export function isPlainInput(ctx: Context, binding: Binding, statementStart: num
   // A mutated value, or a binding that is ever assigned, can change under a cached block.
   if (ctx.unsafe.has(binding.id)) {
     return false;
+  }
+  // A loop counter is written by its loop header only, so each pass of the body sees one value.
+  if (ctx.perIteration?.has(binding.id)) {
+    return binding.declaration.end <= statementStart;
   }
   for (const reference of binding.references) {
     if (reference.write) {
