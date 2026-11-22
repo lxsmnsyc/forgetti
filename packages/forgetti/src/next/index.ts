@@ -1,5 +1,10 @@
 import type { SourceMap } from 'magic-string';
-import { parseSync } from 'oxc-parser';
+import { checkEligibility } from './eligibility';
+import { emit } from './emit';
+import type { CachePlan } from './ir';
+import { analyzeOwnership } from './ownership';
+import { parseAndScope, resolvePreset } from './parse';
+import { runPlanPasses } from './plan';
 
 // Same shapes as 0.8 (`src/core/presets.ts`), so plugin options keep working.
 export type ImportDefinition =
@@ -73,68 +78,76 @@ export interface CompileResult {
   units: { name: string; compiled: boolean }[];
 }
 
-const DEFAULT_FILTERS: Preset['filters'] = {
-  component: { source: '^[A-Z]', flags: '' },
-  hook: { source: '^use[A-Z0-9]', flags: '' },
-};
-
-// Matches `function Name`, and `const Name =` followed by `function` or an arrow.
-const DECLARATION =
-  /(?:\bfunction\s*\*?\s*([\p{L}_$][\p{L}\p{N}_$]*))|(?:\b(?:const|let|var)\s+([\p{L}_$][\p{L}\p{N}_$]*)\s*=\s*(?:async\s+)?(?:function\b|\([^)]*\)\s*=>|[\p{L}_$][\p{L}\p{N}_$]*\s*=>))/gu;
-
-function getFilters(preset: CompileOptions['preset']): Preset['filters'] {
-  if (typeof preset === 'string') {
-    return DEFAULT_FILTERS;
-  }
-  return preset.filters;
-}
-
-function createRegExp(raw: RawRegExp): RegExp {
-  return new RegExp(raw.source, raw.flags);
-}
-
-/** Throws an `Error` that names the first parse error and its UTF-16 offset. */
-function assertParses(code: string, filename: string): void {
-  const { errors } = parseSync(filename, code, { preserveParens: false });
-  for (const error of errors) {
-    if (error.severity.toString() !== 'Error') {
-      continue;
-    }
-    const start = error.labels[0]?.start ?? 0;
-    throw new Error(`${error.message} (at ${start})`);
-  }
-}
-
-/** Stub: finds unit names with a text scan, so the harness can count units before any phase exists. */
-function scanUnits(code: string, filters: Preset['filters']): CompileResult['units'] {
-  const component = createRegExp(filters.component);
-  const hook = filters.hook ? createRegExp(filters.hook) : null;
-  const units: CompileResult['units'] = [];
-  const seen = new Set<string>();
-
-  for (const match of code.matchAll(DECLARATION)) {
-    const name: string | undefined = match[1] || match[2];
-    if (!name || seen.has(name)) {
-      continue;
-    }
-    if (component.test(name) || hook?.test(name)) {
-      seen.add(name);
-      units.push({ name, compiled: false });
-    }
-  }
-  return units;
-}
-
-/** Compiles one module. The stub returns the input unchanged and lists the units it finds. */
+/** Compiles one module. Throws on a syntax error, like `parseAndScope`. */
 export function compile(code: string, options: CompileOptions): CompileResult {
-  // Parse first, so a syntax error surfaces the same way it will once phases exist.
-  assertParses(code, options.filename);
+  // Phase 1: parse, find units and build scopes.
+  const preset = resolvePreset(options.preset);
+  const parsed = parseAndScope(code, options);
 
-  // No phase exists yet: nothing is compiled and nothing bails out.
-  return {
-    code,
-    map: null,
-    diagnostics: [],
-    units: scanUnits(code, getFilters(options.preset)),
-  };
+  // Phase 2: eligibility. Skipped units get neither a diagnostic nor a plan.
+  const eligibility = checkEligibility(parsed, preset);
+  const diagnostics: Diagnostic[] = [];
+  const units: CompileResult['units'] = [];
+  const plans: CachePlan[] = [];
+
+  for (const unit of parsed.units) {
+    const entry = eligibility.find((item) => item.unit === unit.id);
+    if (unit.skip) {
+      units.push({ name: unit.name, compiled: false });
+      continue;
+    }
+    if (entry && !entry.ok) {
+      diagnostics.push({
+        unit: unit.name,
+        reason: entry.reason,
+        start: entry.range.start,
+        end: entry.range.end,
+        message: entry.message,
+      });
+      units.push({ name: unit.name, compiled: false });
+      continue;
+    }
+
+    // Phase 3: ownership. A closure that escapes early bails the unit out.
+    const ownership = analyzeOwnership(parsed, unit.id);
+    const bailout = ownership.bailout;
+    if (bailout) {
+      diagnostics.push({
+        unit: unit.name,
+        reason: bailout.reason,
+        start: bailout.range.start,
+        end: bailout.range.end,
+        message: bailout.message,
+      });
+      units.push({ name: unit.name, compiled: false });
+      continue;
+    }
+
+    // Phase 4: the planner passes. A unit with no block is compiled and left as written.
+    const empty: CachePlan = {
+      unit: unit.id,
+      root: {
+        kind: 'root',
+        range: { start: unit.node.start, end: unit.node.end },
+        size: 0,
+        blocks: [],
+        children: [],
+      },
+    };
+    const plan = runPlanPasses(parsed, ownership, empty);
+    if (plan.root.blocks.length > 0 || plan.root.children.length > 0) {
+      plans.push(plan);
+    }
+    units.push({ name: unit.name, compiled: true });
+  }
+
+  // Phase 5: emit. Nothing is written when no unit has a plan.
+  if (plans.length === 0) {
+    return { code, map: null, diagnostics, units };
+  }
+  const result = emit(
+    { code, program: parsed.program, bindings: parsed.bindings, plans },
+    { useRef: preset.runtime.useRef, filename: options.filename, sourceMap: options.sourceMap },
+  );
+  return { code: result.code, map: result.map, diagnostics, units };
 }
