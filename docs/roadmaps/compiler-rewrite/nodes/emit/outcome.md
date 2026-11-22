@@ -64,3 +64,5 @@
 ## Size
 
 - Estimated L, actual L. 900 lines of source and 1,020 of tests.
+
+Landed on `batch/compiler-rewrite` as `d03b180`. The phase-ir change request is accepted (phase-ir v2).

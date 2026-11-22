@@ -1,7 +1,7 @@
 # Change request: phase-ir v1 to v2
 
 - From node: emit
-- Status: open
+- Status: accepted
 
 ## Problem
 
@@ -37,3 +37,4 @@ And in "Behavior", add: "A `ValueRef` of kind `output` reads the same slot."
 
 ## Decision
 
+Accepted 2026-11-22 by the orchestrator after a fresh review found the slot read equivalent to the local in every case: throw mid-block, several outputs, nested outputs, branch and iteration caches. phase-ir is now v2.

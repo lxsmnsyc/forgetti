@@ -35,3 +35,7 @@ Give each branch of `if`, `switch`, a ternary and `&&`, `||`, `??` that holds a 
 ## Sizing
 
 M: one planner pass, emit already supports branch nodes.
+
+## Notes for the worker
+
+- From `emit` (see its outcome): emit inserts a block's code before the statement that holds `at`, so it runs before the rest of that statement (`f(g(), c ? a : b)`). Pick `at` so that hoisting does not reorder side effects. Emit treats neither optional chaining nor default parameters as conditional: never place a block inside one. `Output.local` names must not clash with user bindings. Emit does not check that an output range lies inside its anchor, so a wrong plan reads a stale slot instead of failing.

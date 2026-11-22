@@ -1,11 +1,12 @@
 ---
 id: emit
 title: Phase 5: emit a CachePlan with magic-string
-status: active
+status: done
 priority: must
 type: feature
 milestone: sound-baseline
 size: L
+spent: 313487
 verify: pnpm --filter forgetti test test/next/emit
 owns:
   - packages/forgetti/src/next/emit/**
@@ -33,10 +34,10 @@ Phase 5: turn a `CachePlan` into code with magic-string at the plan's source ran
 
 ## Acceptance
 
-- [ ] For the `ternary` and `derived` fixtures, the emitted code behaves like proof T2's hand output in the T2 scenarios, and its raw bytes are within 10% of it.
-- [ ] Hand-built plans with branch and iteration nodes emit `branch()` and `keep()` calls, tested by running the output.
-- [ ] A throw-and-retry test for a call slot, a grouped slot and a per-row cache matches uncompiled output.
-- [ ] Fast check passes.
+- [x] For the `ternary` and `derived` fixtures, the emitted code behaves like proof T2's hand output in the T2 scenarios, and its raw bytes are within 10% of it.
+- [x] Hand-built plans with branch and iteration nodes emit `branch()` and `keep()` calls, tested by running the output.
+- [x] A throw-and-retry test for a call slot, a grouped slot and a per-row cache matches uncompiled output.
+- [x] Fast check passes.
 
 ## Sizing
 

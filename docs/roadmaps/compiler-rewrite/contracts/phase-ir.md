@@ -1,6 +1,6 @@
 ---
 name: phase-ir
-version: 1
+version: 2
 status: frozen
 defined_by: contracts
 ---
@@ -93,8 +93,9 @@ export interface SlotBlock {
   // Root and iteration nodes: the block's code is inserted before the statement that holds `at`.
   // Branch nodes: `at` is the arm, and the code goes inside the arm, which emit lowers to a
   // statement list (an `if`/`else` built from the conditional, switch or logical expression).
-  // In both cases each output's range is replaced by its local, and the local is declared with
-  // `let` in the inserted code.
+  // In both cases each output's range is replaced by a read of its value slot, such as `$[1]`.
+  // `Output.local` names a temporary only when a value block has more than one output: all
+  // values are computed into their locals before any slot is written.
   at: Range;
 }
 export interface CacheNode {
@@ -121,7 +122,8 @@ export interface CachePlan { unit: number; root: CacheNode }
 - A child node's range lies inside its parent's. Blocks inside one node do not overlap. `emit` applies edits from the innermost node out, so magic-string never sees two edits at one range in the wrong order.
 - A unit with `ok: false` gets no ownership result and no plan.
 - Every block's inputs are compared with `Object.is`. A `value` block holds `inputs.length + outputs.length` slots. A `keep` block has no inputs, one output and one slot. A child node holds one slot in its parent, at `parentIndex`. `size` is at least the sum, and a gap is allowed.
-- Output ranges of different blocks in one node may nest, when the outer block reads the inner block's output through a `ValueRef` of kind `output`. The inner block has the lower `first`. Emit moves the outer expression's text with the inner range already replaced by its local.
+- Output ranges of different blocks in one node may nest, when the outer block reads the inner block's output through a `ValueRef` of kind `output`. The inner block has the lower `first`. Emit moves the outer expression's text with the inner range already replaced by its slot read.
+- A `ValueRef` of kind `output` reads the same slot as the output's range.
 - Binding ids in fixtures follow the order the bindings are declared: parameters first, then locals in source order.
 
 ## Stub
@@ -135,4 +137,4 @@ Type-level only. Each phase's own tests check its output against this shape.
 ## Changes
 
 - v1: initial, frozen by `contracts`. Branch `at` rule, nested outputs and slot counting are clarified. `Binding.imported.name` is a plain string.
-
+- v2: outputs are read from their value slot instead of a `let` local (change request from `emit`, accepted 2026-11-22). The `let` form made ternary and derived 22% larger than the hand output.
