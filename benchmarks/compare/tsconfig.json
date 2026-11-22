@@ -1,0 +1,19 @@
+{
+  "include": ["src", "test", "vitest.config.ts"],
+  "compilerOptions": {
+    "module": "preserve",
+    "lib": ["ESNext", "DOM"],
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
+    "target": "es2022",
+    "types": ["node"],
+    "noEmit": true,
+    "skipLibCheck": true
+  }
+}

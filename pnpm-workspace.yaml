@@ -1,6 +1,7 @@
 packages:
   - packages/*
   - examples/*
+  - benchmarks/compare
 linkWorkspacePackages: true
 preferWorkspacePackages: true
 

@@ -1,0 +1,182 @@
+{
+  "react-compiler/bailout": {
+    "raw": 287,
+    "gz": 197,
+    "slots": 0,
+    "bailed": true
+  },
+  "react-compiler/callback": {
+    "raw": 722,
+    "gz": 371,
+    "slots": 8,
+    "bailed": false
+  },
+  "react-compiler/deepprop": {
+    "raw": 481,
+    "gz": 281,
+    "slots": 5,
+    "bailed": false
+  },
+  "react-compiler/derived": {
+    "raw": 591,
+    "gz": 324,
+    "slots": 6,
+    "bailed": false
+  },
+  "react-compiler/earlyreturn": {
+    "raw": 1002,
+    "gz": 479,
+    "slots": 10,
+    "bailed": false
+  },
+  "react-compiler/forloop": {
+    "raw": 586,
+    "gz": 331,
+    "slots": 5,
+    "bailed": false
+  },
+  "react-compiler/hook": {
+    "raw": 537,
+    "gz": 300,
+    "slots": 3,
+    "bailed": false
+  },
+  "react-compiler/jsxprops": {
+    "raw": 652,
+    "gz": 327,
+    "slots": 8,
+    "bailed": false
+  },
+  "react-compiler/map": {
+    "raw": 554,
+    "gz": 312,
+    "slots": 5,
+    "bailed": false
+  },
+  "react-compiler/mutate": {
+    "raw": 710,
+    "gz": 371,
+    "slots": 8,
+    "bailed": false
+  },
+  "react-compiler/statememo": {
+    "raw": 937,
+    "gz": 478,
+    "slots": 8,
+    "bailed": false
+  },
+  "react-compiler/switch": {
+    "raw": 1036,
+    "gz": 404,
+    "slots": 7,
+    "bailed": false
+  },
+  "react-compiler/ternary": {
+    "raw": 418,
+    "gz": 265,
+    "slots": 4,
+    "bailed": false
+  },
+  "react-compiler/trycatch": {
+    "raw": 643,
+    "gz": 354,
+    "slots": 5,
+    "bailed": false
+  },
+  "react-compiler/usectx": {
+    "raw": 581,
+    "gz": 296,
+    "slots": 5,
+    "bailed": false
+  },
+  "forgetti-0.8/bailout": {
+    "raw": 2782,
+    "gz": 814,
+    "slots": 23,
+    "bailed": false
+  },
+  "forgetti-0.8/callback": {
+    "raw": 1423,
+    "gz": 529,
+    "slots": 9,
+    "bailed": false
+  },
+  "forgetti-0.8/deepprop": {
+    "raw": 1636,
+    "gz": 533,
+    "slots": 13,
+    "bailed": false
+  },
+  "forgetti-0.8/derived": {
+    "raw": 1636,
+    "gz": 554,
+    "slots": 13,
+    "bailed": false
+  },
+  "forgetti-0.8/earlyreturn": {
+    "raw": 1997,
+    "gz": 653,
+    "slots": 15,
+    "bailed": false
+  },
+  "forgetti-0.8/forloop": {
+    "raw": 2369,
+    "gz": 760,
+    "slots": 7,
+    "bailed": false
+  },
+  "forgetti-0.8/hook": {
+    "raw": 1958,
+    "gz": 644,
+    "slots": 16,
+    "bailed": false
+  },
+  "forgetti-0.8/jsxprops": {
+    "raw": 1646,
+    "gz": 545,
+    "slots": 12,
+    "bailed": false
+  },
+  "forgetti-0.8/map": {
+    "raw": 1395,
+    "gz": 508,
+    "slots": 8,
+    "bailed": false
+  },
+  "forgetti-0.8/mutate": {
+    "raw": 1852,
+    "gz": 616,
+    "slots": 14,
+    "bailed": false
+  },
+  "forgetti-0.8/statememo": {
+    "raw": 1574,
+    "gz": 590,
+    "slots": 10,
+    "bailed": false
+  },
+  "forgetti-0.8/switch": {
+    "raw": 2660,
+    "gz": 756,
+    "slots": 21,
+    "bailed": false
+  },
+  "forgetti-0.8/ternary": {
+    "raw": 1807,
+    "gz": 563,
+    "slots": 13,
+    "bailed": false
+  },
+  "forgetti-0.8/trycatch": {
+    "raw": 1497,
+    "gz": 558,
+    "slots": 10,
+    "bailed": false
+  },
+  "forgetti-0.8/usectx": {
+    "raw": 1557,
+    "gz": 525,
+    "slots": 11,
+    "bailed": false
+  }
+}
