@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "A fresh array is pushed to through an alias, so the alias and the array must share one slot.",
+  "targets": ["react", "preact"]
+}

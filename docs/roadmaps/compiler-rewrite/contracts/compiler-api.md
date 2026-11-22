@@ -1,7 +1,7 @@
 ---
 name: compiler-api
 version: 1
-status: draft
+status: frozen
 defined_by: contracts
 ---
 
@@ -35,7 +35,7 @@ export interface Preset {
   filters: { component: RawRegExp; hook?: RawRegExp };
   runtime: { useRef: ImportDefinition };
   imports: {
-    hooks: Array<ImportDefinition & { type: HookType }>;
+    hooks: (ImportDefinition & { type: HookType })[];
     // HOCs whose first argument is a component, such as memo and forwardRef.
     hocs: ImportDefinition[];
   };
@@ -71,7 +71,7 @@ export interface CompileResult {
   map: import('magic-string').SourceMap | null;
   diagnostics: Diagnostic[];
   // Every component and hook found, compiled or not, for the bailout-rate gate.
-  units: Array<{ name: string; compiled: boolean }>;
+  units: { name: string; compiled: boolean }[];
 }
 
 export function compile(code: string, options: CompileOptions): CompileResult;
@@ -80,7 +80,8 @@ export function compile(code: string, options: CompileOptions): CompileResult;
 ## Behavior
 
 - Pure function of its inputs. It never throws on valid JS, JSX or TS.
-- `oxc-parser`'s `parseSync` does not throw. When its `errors` array is not empty, `compile()` throws an `Error` with the first error's message and its first label's `start`.
+- `oxc-parser`'s `parseSync` does not throw. When its `errors` array holds an entry with severity `Error`, `compile()` throws an `Error` whose message is `<first error message> (at <first label start>)`. Entries with other severities are ignored.
+- Comments, needed for `@forgetti skip`, come from `parseSync`'s `comments` array. The `Program` node does not carry them.
 - Every offset (`Diagnostic.start`, `Diagnostic.end`, `Range`) is a UTF-16 code unit index into the input string, as oxc-parser and magic-string use. Not a byte offset.
 - `compile()` parses with `preserveParens: false`.
 - A unit that bails out is left byte for byte as it was, and gets one `Diagnostic`.
@@ -89,7 +90,7 @@ export function compile(code: string, options: CompileOptions): CompileResult;
 
 ## Stub
 
-`contracts` ships `compile()` returning the input unchanged, with `units` filled from a name scan, so the harness can run before any phase exists.
+`contracts` ships `compile()` returning the input unchanged, with `map: null` and `units` filled from a text scan, so the harness can run before any phase exists. The scan lists `function Name` declarations and `const Name = function | arrow` declarations whose names match the preset filters. The `'react'` and `'preact'` presets use `^[A-Z]` for components and `^use[A-Z0-9]` for hooks, so a name that starts with a non-ASCII capital is not a component. Every listed unit has `compiled: false`.
 
 ## Contract tests
 
@@ -97,4 +98,5 @@ export function compile(code: string, options: CompileOptions): CompileResult;
 
 ## Changes
 
-- v1: initial.
+- v1: initial, frozen by `contracts`. Parse error message format, severity filter, stub scan and lint-style array types are the only differences from the draft.
+- v1 note (2026-11-22): "like 0.8" for `@forgetti skip` means where users put the comment, not 0.8's exact Babel comment attachment. A skip comment before `export function Foo`, or before a statement that wraps the unit in a HOC call, also skips it. The hook filter is `^use[A-Z0-9]`, so `use2` is a hook, unlike 0.8.

@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "A spread copy of a prop array is mutated, and the prop array must stay unchanged.",
+  "targets": ["react", "preact"]
+}

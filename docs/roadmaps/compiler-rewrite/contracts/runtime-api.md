@@ -1,7 +1,7 @@
 ---
 name: runtime-api
 version: 1
-status: draft
+status: frozen
 defined_by: contracts
 ---
 
@@ -21,6 +21,7 @@ export const EMPTY: unique symbol;
 export function useCache(useRef: <T>(initial: T) => { current: T }, size: number): unknown[];
 
 // Child cache at parent[index], created on first use with `size` EMPTY slots.
+// `index` may lie past the parent's length, as in an iteration node whose parent has size 0.
 export function branch(parent: unknown[], index: number, size: number): unknown[];
 
 // Returns the array stored at cache[index] when it has the same length and Object.is-equal
@@ -31,6 +32,8 @@ export function keep<T extends unknown[]>(cache: unknown[], index: number, next:
 ## Behavior
 
 - Equality is `Object.is` everywhere.
+- `keep` stores `next` itself, not a copy, and returns the stored array on a hit so its identity is stable.
+- `branch` treats any non-array value at `parent[index]`, including `EMPTY` and `undefined`, as missing.
 - `useCache` and `branch` fill new arrays with `EMPTY`. Neither writes to an existing array.
 - Emitted code follows one write rule: compute the value into a local, then write every input and the value after it returns. The runtime never writes inputs on behalf of a slot.
 
@@ -44,4 +47,5 @@ export function keep<T extends unknown[]>(cache: unknown[], index: number, next:
 
 ## Changes
 
-- v1: initial.
+- v1: initial, frozen by `contracts`. Clarifications only.
+

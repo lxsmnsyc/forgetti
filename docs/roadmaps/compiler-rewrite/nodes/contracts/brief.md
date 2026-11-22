@@ -1,12 +1,13 @@
 ---
 id: contracts
 title: Freeze the compiler, runtime and phase contracts
-status: todo
+status: done
 priority: must
 type: contract
 milestone: sound-baseline
 gate: true
 size: M
+spent: 185582
 verify: pnpm --filter forgetti typecheck && pnpm --filter forgetti test
 owns:
   - packages/forgetti/src/next/ir.ts
@@ -42,13 +43,13 @@ Turn the three draft contracts in `contracts/` into code and freeze them. After 
 
 ## Acceptance
 
-- [ ] `src/next/ir.ts` exports the phase-ir types and typechecks against `oxc-parser`'s types.
-- [ ] `src/next/index.ts` exports `compile()` as the stub in `compiler-api.md`, returning the input and a `units` list.
-- [ ] `runtime/next.ts` exports `EMPTY`, `useCache`, `branch` and `keep`.
-- [ ] Fixtures `test/next/fixtures/ternary.plan.ts`, `derived.plan.ts` and `map.plan.ts` hold hand-written `CachePlan`s for the debate corpus files, matching proof T2's hand output. Together they cover a branch node, an iteration node and a `keep` block.
-- [ ] `api.test.ts` has a non-ASCII input, so offsets are checked as UTF-16 indices.
-- [ ] `test/next/api.test.ts` covers the stub.
-- [ ] Fast check passes: `pnpm --filter forgetti test`
+- [x] `src/next/ir.ts` exports the phase-ir types and typechecks against `oxc-parser`'s types.
+- [x] `src/next/index.ts` exports `compile()` as the stub in `compiler-api.md`, returning the input and a `units` list.
+- [x] `runtime/next.ts` exports `EMPTY`, `useCache`, `branch` and `keep`.
+- [x] Fixtures `test/next/fixtures/ternary.plan.ts`, `derived.plan.ts` and `map.plan.ts` hold hand-written `CachePlan`s for the debate corpus files, matching proof T2's hand output. Together they cover a branch node, an iteration node and a `keep` block.
+- [x] `api.test.ts` has a non-ASCII input, so offsets are checked as UTF-16 indices.
+- [x] `test/next/api.test.ts` covers the stub.
+- [x] Fast check passes: `pnpm --filter forgetti test`
 
 ## Sizing
 

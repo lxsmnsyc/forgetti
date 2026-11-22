@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "A mounted component suspends on a new promise at update, then resumes after it resolves.",
+  "targets": ["react"]
+}

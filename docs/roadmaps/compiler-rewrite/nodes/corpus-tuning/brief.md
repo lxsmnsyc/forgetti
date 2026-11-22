@@ -1,12 +1,13 @@
 ---
 id: corpus-tuning
 title: Tuning corpus: alias, hooks, Suspense and throw cases
-status: todo
+status: done
 priority: must
 type: feature
 milestone: sound-baseline
 size: M
-verify: pnpm --filter compare test --set tuning
+spent: 222666
+verify: pnpm --filter compare test
 owns:
   - benchmarks/corpus/tuning/**
 depends_on:
@@ -30,9 +31,9 @@ Add the cases the debate found missing, so the gates can see alias, hook and ren
 
 ## Acceptance
 
-- [ ] At least 19 cases in `benchmarks/corpus/tuning/`, each with scenarios, in `corpus-format`.
-- [ ] Uncompiled output gives 0 differences on React and Preact (harness self-check).
-- [ ] Each case's `meta.json` says what it tests in one line.
+- [x] At least 19 cases in `benchmarks/corpus/tuning/`, each with scenarios, in `corpus-format`.
+- [x] Uncompiled output gives 0 differences on React and Preact (harness self-check).
+- [x] Each case's `meta.json` says what it tests in one line.
 
 ## Sizing
 

@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "A custom hook calls another custom hook and keeps its own state.",
+  "targets": ["react", "preact"]
+}

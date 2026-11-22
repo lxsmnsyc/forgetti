@@ -557,7 +557,9 @@
         "P6"
       ],
       "ruling": "upheld",
-      "ruling_why": "upheld as the budget, an estimate with silmaril (J6) as basis; measure against it after S1"
+      "ruling_why": "upheld as the budget, an estimate with silmaril (J6) as basis; measure against it after S1",
+      "user_ruling": "rejected",
+      "user_why": "contracts (an M node) measured 186k tokens with a fresh review, so the 600k estimate and the 800k kill line undercount agent reading; the user set the budget to 3.5M on 2026-11-21"
     },
     {
       "id": "P10",

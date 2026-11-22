@@ -17,9 +17,14 @@ export default defineConfig({
   ],
   overrides: [
     {
+      // The stubs of later nodes hold one named export each.
+      files: ['packages/forgetti/src/next/**'],
+      rules: { 'import/prefer-default-export': 'off' },
+    },
+    {
       // The 0.8 compiler predates these rules. The compiler rewrite replaces this
       // folder, so it is exempt until then instead of being fixed twice.
-      files: ['packages/forgetti/src/**'],
+      files: ['packages/forgetti/src/core/**', 'packages/forgetti/src/index.ts'],
       rules: {
         'no-multi-assign': 'off',
         'import/prefer-default-export': 'off',

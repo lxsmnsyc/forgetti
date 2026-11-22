@@ -7,5 +7,5 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["preact-demo", "react-demo"]
+  "ignore": ["compare", "preact-demo", "react-demo"]
 }

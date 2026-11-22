@@ -41,3 +41,7 @@ Phase 3: classify values in each unit as fresh, frozen or opaque, and build alia
 ## Sizing
 
 L: uncertainty medium (new design), size medium to high.
+
+## Notes for the worker
+
+- From `parse-scope` (see its outcome): when a unit has a parameter default or a computed parameter key, its body bindings live in a child `block` scope under the `unit` scope. Walk the scope chain; never test `scope === unitScope`. `arguments` resolves as a global.

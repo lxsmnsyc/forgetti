@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "A component computes a value then suspends on a promise at mount, so React discards that render.",
+  "targets": ["react", "preact"]
+}

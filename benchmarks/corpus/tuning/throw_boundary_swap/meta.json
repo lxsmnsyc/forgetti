@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "An error boundary swaps live and safe props on the same element, so the child keeps its type and position.",
+  "targets": ["react", "preact"]
+}

@@ -1,11 +1,12 @@
 ---
 id: harness
 title: Corpus harness for forgetti 0.8, React Compiler and the new compiler
-status: todo
+status: done
 priority: must
 type: feature
 milestone: sound-baseline
 size: M
+spent: 216111
 verify: pnpm --filter compare test
 owns:
   - benchmarks/compare/**
@@ -37,10 +38,10 @@ Turn the debate's measurement scripts into a workspace package that compiles eve
 
 ## Acceptance
 
-- [ ] `pnpm --filter compare table` prints, per case: bytes raw and gzip, slots, compile ms, bailouts, and per scenario the renders, recomputes and HTML match, for each compiler and target.
-- [ ] `pnpm --filter compare gate --set <set>` exits 1 when any hypothesis threshold in `debate/debate.md` fails for the chosen sets, and prints which.
-- [ ] `pnpm --filter compare test` reports 0 differences for uncompiled output on `base`.
-- [ ] The numbers for React Compiler and forgetti 0.8 on `base` match `debate/evidence/out/` within noise.
+- [x] `pnpm --filter compare table` prints, per case: bytes raw and gzip, slots, compile ms, bailouts, and per scenario the renders, recomputes and HTML match, for each compiler and target.
+- [x] `pnpm --filter compare gate --set <set>` exits 1 when any hypothesis threshold in `debate/debate.md` fails for the chosen sets, and prints which.
+- [x] `pnpm --filter compare test` reports 0 differences for uncompiled output on `base`.
+- [x] The numbers for React Compiler and forgetti 0.8 on `base` match `debate/evidence/out/` within noise.
 
 ## Sizing
 

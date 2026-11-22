@@ -1,0 +1,349 @@
+{
+  "plain": {
+    "derived/same": {
+      "x": 1,
+      "y": 1
+    },
+    "derived/one_b": {
+      "x": 1,
+      "y": 1
+    },
+    "derived/one_a": {
+      "x": 1,
+      "y": 1
+    },
+    "jsxprops/same": {
+      "Child": 2
+    },
+    "jsxprops/one_cls": {
+      "Child": 2
+    },
+    "jsxprops/one_x": {
+      "Child": 2
+    },
+    "earlyreturn/same": {
+      "head": 1,
+      "body": 1,
+      "Child": 1
+    },
+    "earlyreturn/one_b": {
+      "head": 1,
+      "body": 1,
+      "Child": 1
+    },
+    "earlyreturn/one_loading": {
+      "head": 1
+    },
+    "ternary/same": {
+      "Child": 1
+    },
+    "ternary/inactive_b": {
+      "Child": 1
+    },
+    "ternary/active_a": {
+      "Child": 1
+    },
+    "map/same": {
+      "Row": 3
+    },
+    "map/one_title": {
+      "Row": 3
+    },
+    "map/deep_item": {
+      "Row": 3
+    },
+    "map/append": {
+      "Row": 4
+    },
+    "forloop/same": {
+      "Row": 3
+    },
+    "forloop/one_title": {
+      "Row": 3
+    },
+    "forloop/new_array_same": {
+      "Row": 3
+    },
+    "forloop/deep_item": {
+      "Row": 3
+    },
+    "hook/same": {
+      "x": 1,
+      "y": 1
+    },
+    "hook/one_b": {
+      "x": 1,
+      "y": 1
+    },
+    "hook/one_a": {
+      "x": 1,
+      "y": 1
+    },
+    "callback/same": {
+      "Btn": 1
+    },
+    "callback/one_other": {
+      "Btn": 1
+    },
+    "callback/one_id": {
+      "Btn": 1
+    },
+    "statememo/same": {},
+    "statememo/one_tag": {},
+    "statememo/new_list_same_content": {
+      "total": 1
+    },
+    "statememo/setState": {},
+    "mutate/same": {
+      "Child": 2
+    },
+    "mutate/one_c": {
+      "Child": 2
+    },
+    "mutate/one_a": {
+      "Child": 2
+    },
+    "deepprop/same": {
+      "Child": 1
+    },
+    "deepprop/one_other": {
+      "Child": 1
+    },
+    "deepprop/deep_leaf": {
+      "Child": 1
+    },
+    "deepprop/deep_newrefs_same_leaf": {
+      "Child": 1
+    },
+    "usectx/same": {},
+    "usectx/one_name": {},
+    "usectx/flag_off": {},
+    "trycatch/same": {
+      "risky": 1
+    },
+    "trycatch/one_label": {
+      "risky": 1
+    },
+    "trycatch/one_a": {
+      "risky": 1
+    },
+    "trycatch/throw": {
+      "risky": 1
+    },
+    "switch/same": {
+      "Child": 1
+    },
+    "switch/inactive_b": {
+      "Child": 1
+    },
+    "switch/active_a": {
+      "Child": 1
+    },
+    "switch/kind_b": {
+      "Child": 1
+    },
+    "bailout/same": {
+      "Child": 1
+    },
+    "bailout/one_a": {
+      "Child": 1
+    }
+  },
+  "react-compiler": {
+    "derived/same": {
+      "x": 1
+    },
+    "derived/one_b": {
+      "x": 1,
+      "y": 1
+    },
+    "derived/one_a": {
+      "x": 1
+    },
+    "jsxprops/same": {},
+    "jsxprops/one_cls": {},
+    "jsxprops/one_x": {
+      "Child": 1
+    },
+    "earlyreturn/same": {},
+    "earlyreturn/one_b": {
+      "body": 1
+    },
+    "earlyreturn/one_loading": {},
+    "ternary/same": {},
+    "ternary/inactive_b": {
+      "Child": 1
+    },
+    "ternary/active_a": {
+      "Child": 1
+    },
+    "map/same": {},
+    "map/one_title": {},
+    "map/deep_item": {
+      "Row": 3
+    },
+    "map/append": {
+      "Row": 4
+    },
+    "forloop/same": {},
+    "forloop/one_title": {},
+    "forloop/new_array_same": {
+      "Row": 3
+    },
+    "forloop/deep_item": {
+      "Row": 3
+    },
+    "hook/same": {
+      "x": 1,
+      "y": 1
+    },
+    "hook/one_b": {
+      "x": 1,
+      "y": 1
+    },
+    "hook/one_a": {
+      "x": 1,
+      "y": 1
+    },
+    "callback/same": {},
+    "callback/one_other": {},
+    "callback/one_id": {
+      "Btn": 1
+    },
+    "statememo/same": {},
+    "statememo/one_tag": {},
+    "statememo/new_list_same_content": {
+      "total": 1
+    },
+    "statememo/setState": {},
+    "mutate/same": {},
+    "mutate/one_c": {},
+    "mutate/one_a": {
+      "Child": 2
+    },
+    "deepprop/same": {},
+    "deepprop/one_other": {},
+    "deepprop/deep_leaf": {
+      "Child": 1
+    },
+    "deepprop/deep_newrefs_same_leaf": {},
+    "usectx/same": {},
+    "usectx/one_name": {},
+    "usectx/flag_off": {},
+    "trycatch/same": {},
+    "trycatch/one_label": {},
+    "trycatch/one_a": {
+      "risky": 1
+    },
+    "trycatch/throw": {
+      "risky": 1
+    },
+    "switch/same": {},
+    "switch/inactive_b": {},
+    "switch/active_a": {
+      "Child": 1
+    },
+    "switch/kind_b": {
+      "Child": 1
+    },
+    "bailout/same": {
+      "Child": 1
+    },
+    "bailout/one_a": {
+      "Child": 1
+    }
+  },
+  "forgetti-0.8": {
+    "derived/same": {},
+    "derived/one_b": {
+      "y": 1
+    },
+    "derived/one_a": {
+      "x": 1
+    },
+    "jsxprops/same": {},
+    "jsxprops/one_cls": {
+      "Child": 2
+    },
+    "jsxprops/one_x": {
+      "Child": 2
+    },
+    "earlyreturn/same": {},
+    "earlyreturn/one_b": {
+      "body": 1,
+      "Child": 1
+    },
+    "earlyreturn/one_loading": {},
+    "ternary/same": {},
+    "ternary/inactive_b": {},
+    "ternary/active_a": {
+      "Child": 1
+    },
+    "map/same": {},
+    "map/one_title": {},
+    "map/deep_item": {
+      "Row": 1
+    },
+    "map/append": {
+      "Row": 1
+    },
+    "forloop/same": {},
+    "forloop/one_title": {},
+    "forloop/new_array_same": {},
+    "forloop/deep_item": {},
+    "hook/same": {},
+    "hook/one_b": {
+      "y": 1
+    },
+    "hook/one_a": {
+      "x": 1
+    },
+    "callback/same": {},
+    "callback/one_other": {},
+    "callback/one_id": {
+      "Btn": 1
+    },
+    "statememo/same": {},
+    "statememo/one_tag": {},
+    "statememo/new_list_same_content": {
+      "total": 1
+    },
+    "statememo/setState": {},
+    "mutate/same": {},
+    "mutate/one_c": {},
+    "mutate/one_a": {
+      "Child": 1
+    },
+    "deepprop/same": {},
+    "deepprop/one_other": {
+      "Child": 1
+    },
+    "deepprop/deep_leaf": {
+      "Child": 1
+    },
+    "deepprop/deep_newrefs_same_leaf": {},
+    "usectx/same": {},
+    "usectx/one_name": {},
+    "usectx/flag_off": {},
+    "trycatch/same": {},
+    "trycatch/one_label": {},
+    "trycatch/one_a": {
+      "risky": 1
+    },
+    "trycatch/throw": {
+      "risky": 1
+    },
+    "switch/same": {},
+    "switch/inactive_b": {},
+    "switch/active_a": {
+      "Child": 1
+    },
+    "switch/kind_b": {
+      "Child": 1
+    },
+    "bailout/same": {},
+    "bailout/one_a": {
+      "Child": 1
+    }
+  }
+}
