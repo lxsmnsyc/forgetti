@@ -10,6 +10,8 @@ export const RENDER_KEYS = new Set(['Child', 'Row', 'Btn']);
 export interface CaseMeta {
   source: string;
   license: string;
+  /** One line that says what the case tests. */
+  tests?: string;
   targets: Target[];
 }
 

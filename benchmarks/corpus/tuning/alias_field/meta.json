@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "A fresh array stored in an object field is mutated through the field and read through the original name.",
+  "targets": ["react", "preact"]
+}

@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "A fresh array is mutated in one branch only, so the later read sees a conditional write.",
+  "targets": ["react", "preact"]
+}

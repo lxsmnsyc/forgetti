@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "A custom hook returns a fresh object with a value and a state, read by the component.",
+  "targets": ["react", "preact"]
+}

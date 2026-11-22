@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "A call slot throws once on an update, and the same mounted component retries with the same inputs.",
+  "targets": ["react", "preact"]
+}

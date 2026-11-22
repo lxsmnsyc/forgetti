@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "use() of a context runs inside a condition between memoizable computations.",
+  "targets": ["react", "preact"]
+}

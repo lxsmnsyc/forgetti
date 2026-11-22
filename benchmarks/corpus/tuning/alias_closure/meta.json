@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "A closure that pushes to a fresh array is called in a loop before the array is read.",
+  "targets": ["react", "preact"]
+}

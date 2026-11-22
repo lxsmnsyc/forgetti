@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "useEffectEvent reads a prop inside an effect that depends on another prop.",
+  "targets": ["react"]
+}

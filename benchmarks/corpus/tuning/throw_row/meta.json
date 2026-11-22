@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "A row of a per-row cache throws once on an update, and the mounted rows retry with the same inputs.",
+  "targets": ["react", "preact"]
+}

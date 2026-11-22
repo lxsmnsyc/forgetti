@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "A fresh array is passed to a function from props that mutates it, so the call must count as a mutation.",
+  "targets": ["react", "preact"]
+}

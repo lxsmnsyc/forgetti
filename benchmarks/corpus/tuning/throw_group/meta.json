@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "The second value of a grouped slot throws once after the first is computed, and the mounted component retries.",
+  "targets": ["react", "preact"]
+}

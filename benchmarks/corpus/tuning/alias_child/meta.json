@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "An unknown call from props feeds a counted child, so a new function must rerender the child.",
+  "targets": ["react", "preact"]
+}
