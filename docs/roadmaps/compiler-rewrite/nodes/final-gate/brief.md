@@ -49,3 +49,5 @@ M: runs existing tools; the judgment is in reading the result.
 ## Notes for the worker
 
 - Do not change compiler code in this node. A failing case becomes a follow-up node.
+- From `tree-loops` review: nested `var` loops with closures reading both loop variables (`for (var r of rows) for (var c of r)`, or `let` outer with `var` inner) show soundness differences for every compiler, React Compiler and forgetti 0.8 included, on the batch before `tree-loops` too. The cause is not confirmed; it looks like a harness artifact. If a held-out case has this shape, find the cause before counting its row.
+- `tuning/loop_shapes` scenarios `var_counter_same` and `var_counter_shrink` do not fail without the `var` fix (only `var_of/*` do). The unit test in `test/next/plan/loops/` guards the counter case.
