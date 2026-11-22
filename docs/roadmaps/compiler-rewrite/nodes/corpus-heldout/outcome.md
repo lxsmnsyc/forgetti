@@ -78,3 +78,5 @@ Not an experiment node.
 ## Size
 
 - Estimated M, actual M.
+
+Landed as `6a6af21` on `batch/compiler-rewrite`.
