@@ -1,7 +1,7 @@
 ---
 id: emit
 title: Phase 5: emit a CachePlan with magic-string
-status: todo
+status: active
 priority: must
 type: feature
 milestone: sound-baseline
