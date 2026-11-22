@@ -1,7 +1,7 @@
 ---
 id: fix-control-deps
 title: Key blocks on the tests that guard assignments they read
-status: todo
+status: active
 priority: must
 type: fix
 milestone: tree-cache
