@@ -28,6 +28,7 @@ Close the soundness gaps that `eligibility-writes` lists under "remaining gaps" 
 - Stores made by a callee: `fill(o, p); o.x.n = 1`. Rated low to moderate (helpers like `assign(o, p)`). A cheap rule: an unknown call that receives a local and a watched argument makes the local watched.
 - Aliasing a local before a store: `const a = o; a.x = p.box; o.x.n = 1`.
 - Store targets that are not a name: `getList().push(p.box)`, `(g[k] ||= []).push(p.box)` followed by a write below.
+- False bailout to remove if cheap: clone, then mutate the clone. `const n = list.map(i => ({ ...i })); const it = n.find(i => i.id === id); it.done = true;` bails as `mutates-state` because a `map` callback that mentions state is treated as watched. A callback that returns a fresh literal should yield a copy.
 - An imported or passed-in helper that returns a captured prop with no watched argument. Needs hidden module state; prove it can happen before changing code.
 
 ## Acceptance
