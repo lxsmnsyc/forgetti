@@ -55,3 +55,7 @@
 ## Size
 
 - Estimated M, actual S (about 90 lines in `groups.ts`, 60 in tests).
+
+## Landed
+
+- Commit `64c31da` on `batch/compiler-rewrite`. One fresh review round, then the orchestrator checked the loop and early-exit refusal with 10 probe compiles.

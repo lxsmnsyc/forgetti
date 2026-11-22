@@ -23,7 +23,13 @@ All three landed on `batch/compiler-rewrite` after a fresh review.
 - `pnpm --filter compare gate` has no `--only` flag. The `verify` lines of `s1-baseline`, `planner-groups`, `tree-branches` and `tree-loops` use it, so they always run the work checks and exit 1 until the work thresholds pass. Fix the open briefs, or add the flag to the harness.
 - Probe compiles must import the child components. An unknown global makes the unit bail, which hides planner bugs.
 
+## fix-control-deps
+
+- Landed as `64c31da` after one fresh review round and an orchestrator probe check. Blocks now key on `if`, `switch`, ternary and logical tests that guard the writes they read. Writes inside loops, or after a `break`, `continue` or `throw` that can skip them, make the group uncacheable.
+- New tuning case `control_assign` (four scenarios). Base plus tuning is now 49 files.
+- Total work on React: 166, level with React Compiler's 166. `base/forloop` rose from 14 to 17. `tree-loops` has a note to win it back.
+
 ## State for the next session
 
-- The batch carries 3 uncut nodes (cut every 5).
-- Next ready (sequential, take the first): `fix-control-deps`, then `corpus-heldout`, `eligibility-writes`, `tree-loops`.
+- The batch carries 4 uncut nodes (cut every 5).
+- Next ready (sequential, take the first): `corpus-heldout`, then `eligibility-writes`, `tree-loops`.

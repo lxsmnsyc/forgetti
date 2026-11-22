@@ -1,7 +1,8 @@
 ---
 id: fix-control-deps
 title: Key blocks on the tests that guard assignments they read
-status: active
+status: done
+spent: 166262
 priority: must
 type: fix
 milestone: tree-cache
@@ -39,11 +40,11 @@ emits `if (!Object.is($[0], b)) { $[1] = <div>{el}</div>; $[0] = b; }`. When `k`
 
 ## Acceptance
 
-- [ ] A test in `test/next/plan/control/` fails on the target before the fix and passes after, for each of: `if` without `else`, `if`/`else`, `switch` with and without `default`, `&&` and ternary assignment (`k && (el = <B/>)`), and a nested `if` whose outer test is the only changed input.
-- [ ] A new tuning case `benchmarks/corpus/tuning/control_assign/` in the corpus format, with a scenario that flips the test while the other inputs stay the same. It shows a difference on the target before the fix and 0 after, React and Preact.
-- [ ] 0 differences on `base` and `tuning`, React and Preact.
-- [ ] Total work on React does not rise above React Compiler's (162 at `6e36370`). Record the before and after numbers.
-- [ ] Fast check passes.
+- [x] A test in `test/next/plan/control/` fails on the target before the fix and passes after, for each of: `if` without `else`, `if`/`else`, `switch` with and without `default`, `&&` and ternary assignment (`k && (el = <B/>)`), and a nested `if` whose outer test is the only changed input.
+- [x] A new tuning case `benchmarks/corpus/tuning/control_assign/` in the corpus format, with a scenario that flips the test while the other inputs stay the same. It shows a difference on the target before the fix and 0 after, React and Preact.
+- [x] 0 differences on `base` and `tuning`, React and Preact.
+- [x] Total work on React does not rise above React Compiler's (162 at `6e36370`). Record the before and after numbers.
+- [x] Fast check passes.
 
 ## Notes for the worker
 
