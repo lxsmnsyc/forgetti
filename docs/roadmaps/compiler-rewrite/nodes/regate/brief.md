@@ -49,3 +49,7 @@ Run the thresholds in `debate/amendment-1.md` on every set and both targets, and
 
 - Do not change compiler code. A failing case becomes a follow-up node.
 - Gzip and counts are exact; compile time is not a threshold.
+
+## Orchestrator notes
+
+- `fix-tree-view-size` chose the prune pass threshold (`MIN_INPUTS = 4` in `plan/cost.ts`) while measuring `heldout/tree_view`. Report `heldout2` gzip per file next to `heldout`, so a size win that only holds on the tuned file shows.

@@ -1,12 +1,13 @@
 ---
 id: fix-tree-view-size
 title: Bring heldout/tree_view under 1.15 times React Compiler gzip
-status: active
+status: done
 priority: must
 type: fix
 milestone: tree-cache
 size: S
 added: 2026-11-24
+spent: 174559
 verify: pnpm --filter compare gate --set base --set tuning --set heldout
 owns:
   - packages/forgetti/src/next/emit/**
