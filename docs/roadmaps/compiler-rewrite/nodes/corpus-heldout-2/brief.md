@@ -1,12 +1,13 @@
 ---
 id: corpus-heldout-2
 title: Second held-out corpus, unseen before the regate
-status: active
+status: done
 priority: must
 type: feature
 milestone: tree-cache
 size: M
 added: 2026-11-24
+spent: 376370
 verify: pnpm --filter compare test --set heldout2
 owns:
   - benchmarks/corpus/heldout2/**
