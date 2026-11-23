@@ -1,0 +1,9 @@
+{
+  "source": "https://github.com/react-bootstrap/react-bootstrap/tree/v2.10.10/src",
+  "license": "MIT",
+  "commit": "tag v2.10.10",
+  "derived": false,
+  "tests": "A pager with components made by a factory, spread props, forwardRef, a theme context consumer, event callback hooks, a keyed list and a memo child.",
+  "adaptation": "Mostly vendored, partly rewritten: Pagination.tsx and PageItem.tsx (with the First, Prev, Ellipsis, Next and Last factory) joined with types, propTypes and docs removed. Anchor and useEventCallback (react-restart) are rewritten in reduced form. classnames is replaced by a local classNames. Pager, Summary and the window memo are new. Summary carries bump('Row'). Pager exposes go on globalThis.",
+  "targets": ["react", "preact"]
+}

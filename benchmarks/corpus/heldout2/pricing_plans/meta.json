@@ -1,0 +1,9 @@
+{
+  "source": "https://github.com/vercel/nextjs-subscription-payments/tree/main/components/ui",
+  "license": "MIT",
+  "commit": "bdd0813206e47e6b218d42f15a7976c8a0d3c3eb",
+  "derived": false,
+  "tests": "A pricing page with a billing interval state, a loading id state, an async click handler, a forwardRef button with merged refs and spread props, and a keyed product list.",
+  "adaptation": "Pricing.tsx and Button.tsx joined with types removed. The router, the Stripe client, the checkout helper and the Supabase user are replaced by the onNavigate and checkout props. classnames and react-merge-refs are replaced by local cn and mergeRefs, the CSS module by plain class names, and LogoCloud is dropped. LoadingDots is a three span stub. Long class strings of the two interval tabs are moved into constants. The interval list and the price format are moved into listIntervals and formatPrice, which carry bump('intervals') and bump('format') and return the value. bump('Btn') is added to Button. An effect exposes setBillingInterval and the click handler on globalThis.",
+  "targets": ["react", "preact"]
+}
