@@ -13,6 +13,9 @@ owns:
   - packages/forgetti/test/**
   - benchmarks/compare/mutate/operators/**
 depends_on:
+  - on: fix-mutant-soundness
+    kind: hard
+    why: same planner files; the mutation check must pass before a family relaxes rules
   - on: census
     kind: hard
     why: the census picks the family
