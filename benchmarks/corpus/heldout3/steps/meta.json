@@ -1,0 +1,9 @@
+{
+  "source": "https://github.com/react-component/steps/tree/d1060e22f700db45f223dab3622962e989408198/src",
+  "license": "MIT",
+  "commit": "d1060e22f700db45f223dab3622962e989408198",
+  "derived": false,
+  "tests": "A steps bar: memoized item filtering, status list and context value, a render function per item, a step child per item with two context reads, a nested context provider with an inline value, an icon forwardRef child, a rail child, render props, and click handlers built in render.",
+  "adaptation": "Vendored with types removed and the file split kept: Steps.tsx is the input, Step.tsx, StepIcon.tsx, Rail.tsx, Context.ts and UnstableContext.ts are siblings. React namespace calls became named imports because the harness retargets named imports only. clsx, isNonNullable and pickAttrs (from @rc-component/util) are reduced local versions in util.js. Step counts bump('Row') and StepIcon counts bump('Child'). The input re-exports UnstableContext for the context scenarios. CheckoutSteps is new: it holds the current step in state, exposes the setter and its root element on globalThis, and counts finished steps with countDone.",
+  "targets": ["react", "preact"]
+}

@@ -1,0 +1,9 @@
+{
+  "source": "https://github.com/react-component/rate/tree/78030fa08ff6a626ed0079ed79ad5e475931cef9/src",
+  "license": "MIT",
+  "commit": "78030fa08ff6a626ed0079ed79ad5e475931cef9",
+  "derived": false,
+  "tests": "A star rating: forwardRef with an imperative handle, a controlled-state hook, a ref-array hook, star children built with Array.fill().map and a ref callback per star, handlers rebuilt each render, and keyboard and click events.",
+  "adaptation": "Vendored with types removed and the file split kept: Rate.tsx is the input, Star.tsx, useRefs.ts and util.ts are siblings (types removed because the harness cannot lower .tsx siblings under Babel 8). React namespace calls (React.useRef, React.forwardRef) became named imports because the harness retargets named imports only. KeyCode, pickAttrs and useControlledState from @rc-component/util and clsx are reduced local versions in util.ts. Star counts bump('Row'). ReviewRating is new: it holds the value in state, exposes the setter and its root element on globalThis for DOM events, and computes a caption counted by describeScore.",
+  "targets": ["react", "preact"]
+}

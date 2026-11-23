@@ -1,0 +1,9 @@
+{
+  "source": "https://github.com/react-component/switch/blob/dd99fb19dfd14eb97cb20839b3592ca0ed419500/src/index.tsx",
+  "license": "MIT",
+  "commit": "dd99fb19dfd14eb97cb20839b3592ca0ed419500",
+  "derived": false,
+  "tests": "A switch: forwardRef with destructured defaults and rest props, a controlled-state hook, inner function handlers, computed class keys; used in a settings list of memo rows that get an inline callback per row, with a functional state update and a keyed list.",
+  "adaptation": "Single file, vendored with types removed. React namespace calls became named imports because the harness retargets named imports only. clsx, KeyCode and useControlledState (@rc-component/util) are reduced local versions in the file. SettingRow and SettingsPanel are new: the panel holds the values in state, exposes the setter and its list element on globalThis, and counts enabled settings with countEnabled. SettingRow counts bump('Row').",
+  "targets": ["react", "preact"]
+}

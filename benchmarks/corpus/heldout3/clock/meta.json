@@ -1,0 +1,9 @@
+{
+  "source": "https://github.com/wojtekmaj/react-clock/tree/82fcaefa788d6d5cbde839d12736a4edb92be362/packages/react-clock/src",
+  "license": "MIT",
+  "commit": "82fcaefa788d6d5cbde839d12736a4edb92be362",
+  "derived": false,
+  "tests": "An analog clock that builds 60 marks in render loops, memo mark children in their own modules, hand children without memo, a formatter prop with a default, and a sample page with state and a caption.",
+  "adaptation": "Vendored with types and prop docs removed. Clock.tsx is the input; Hand.tsx, Mark.tsx and MarkNumber.tsx are siblings with their file split kept. shared/hourFormatter.ts and shared/utils.ts are siblings; get-user-locale is replaced by a fixed 'en-US', clsx by a local clsx in utils.js, and the @wojtekmaj/date-utils time getters by reduced local versions in utils.js. Hand counts bump('Child'), Mark and MarkNumber count bump('Row'). ClockSample is new: it holds the value and the numbers toggle in state, exposed on globalThis, and a caption memo counted by describeTime.",
+  "targets": ["react", "preact"]
+}

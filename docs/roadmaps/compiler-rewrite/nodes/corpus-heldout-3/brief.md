@@ -1,12 +1,13 @@
 ---
 id: corpus-heldout-3
 title: Third held-out corpus, sealed from planner work
-status: active
+status: done
 priority: must
 type: feature
 milestone: planner
 size: L
 added: 2026-11-23
+spent: 481199
 verify: pnpm --filter compare test --set heldout3
 owns:
   - benchmarks/corpus/heldout3/**

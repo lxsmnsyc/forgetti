@@ -1,0 +1,9 @@
+{
+  "source": "https://github.com/wojtekmaj/react-calendar/tree/1e423045a85a226f29332d019448427dd7c1c334/packages/react-calendar/src",
+  "license": "MIT",
+  "commit": "1e423045a85a226f29332d019448427dd7c1c334",
+  "derived": false,
+  "tests": "A calendar year view: a render-prop tile group that computes classes per tile, a date-transform callback made in render, rest props spread through three component layers, memoized class and content per tile, cloneElement in a flex wrapper, inline event handlers per tile, and a picker with value and hover state.",
+  "adaptation": "Vendored with types and prop docs removed and the file split kept: YearView.tsx and YearView/Months.tsx are joined in the input; Month.tsx, Tile.tsx, TileGroup.tsx and Flex.tsx are siblings, as are shared/utils.ts, shared/dateFormatter.ts (three formatters kept) and shared/dates.ts reduced to year, month and day ranges. The @wojtekmaj/date-utils getters are reduced local versions in dates.js, get-user-locale is a fixed 'en-US', and clsx is a local clsx in utils.js. Flex maps its children array instead of Children.map, because the harness maps Children to Preact core, which has no such export. Tile counts bump('Row'). MonthPicker is new: it keeps the value and hovered month in state as Calendar does, exposes the setters and its root on globalThis, and describes the value with describeValue.",
+  "targets": ["react", "preact"]
+}
