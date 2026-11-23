@@ -1,12 +1,13 @@
 ---
 id: census
 title: Refusal census weighted by lost steps
-status: active
+status: done
 priority: must
 type: chore
 milestone: planner
 size: M
 added: 2026-11-23
+spent: 485000
 owns:
   - benchmarks/compare/results/census/**
 depends_on:

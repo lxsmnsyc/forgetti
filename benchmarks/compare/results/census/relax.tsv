@@ -1,0 +1,13 @@
+run	keys	lost_saved_react	lost_saved_preact	steps_saved_react	steps_saved_preact	excess_saved	diff_steps_react	diff_steps_preact	lost_saved_react_by_file	excess_saved_by_file
+relax-all	outer:identity,outer:purity,result,global,props	60	60	27	27	18	9	9	heldout2/form_check:27 heldout2/toast_stack:19 heldout2/discussions_table:6 base/hook:4 heldout2/pricing_plans:2 tuning/callback_globals:2	heldout2/discussions_table:6 heldout2/toast_stack:6 heldout2/form_check:3 tuning/callback_globals:2 heldout2/pricing_plans:1
+relax-global-all	global	8	8	3	3	8	6	6	heldout2/discussions_table:6 tuning/callback_globals:2	heldout2/discussions_table:6 tuning/callback_globals:2
+relax-global-date	global:Date	6	6	1	1	6	0	0	heldout2/discussions_table:6	heldout2/discussions_table:6
+relax-identity-member	outer:identity:wrapper_member_write,outer:identity:wrapper_member_read	46	46	19	19	9	0	0	heldout2/form_check:27 heldout2/toast_stack:19	heldout2/toast_stack:6 heldout2/form_check:3
+relax-identity-purity	outer:identity,outer:purity	52	52	20	20	15	0	0	heldout2/form_check:27 heldout2/toast_stack:19 heldout2/discussions_table:6	heldout2/discussions_table:6 heldout2/toast_stack:6 heldout2/form_check:3
+relax-identity	outer:identity	46	46	19	19	9	0	0	heldout2/form_check:27 heldout2/toast_stack:19	heldout2/toast_stack:6 heldout2/form_check:3
+relax-props	props	0	0	0	0	0	3	3		
+relax-purity	outer:purity	6	6	1	1	6	0	0	heldout2/discussions_table:6	heldout2/discussions_table:6
+relax-result-call	result:call	6	6	5	5	1	0	0	base/hook:4 heldout2/pricing_plans:2	heldout2/pricing_plans:1
+variant-plain	-	25	25	7	7	25	0	0	heldout2/toaster_store:25	heldout2/toaster_store:25
+variant-purity-identity	outer:purity,outer:identity	81	81	17	17	67	0	0	heldout2/discussions_table:56 heldout2/toaster_store:25	heldout2/discussions_table:42 heldout2/toaster_store:25
+variant-purity	outer:purity	31	31	8	8	31	0	0	heldout2/toaster_store:25 heldout2/discussions_table:6	heldout2/toaster_store:25 heldout2/discussions_table:6

@@ -1,0 +1,26 @@
+case	step	excess	next	rc	plain	next_counts	rc_counts
+heldout2/discussions_table	same/same	6	6	0	6	Row=3,formatDate=3	
+heldout2/discussions_table	first_page/first_page	6	6	0	6	Row=3,formatDate=3	
+heldout2/discussions_table	last_page/last_page	6	6	0	6	Row=3,formatDate=3	
+heldout2/discussions_table	no_meta/no_meta	6	6	0	6	Row=3,formatDate=3	
+heldout2/discussions_table	paging/page_3	6	6	0	6	Row=3,formatDate=3	
+heldout2/discussions_table	paging/page_3_again	6	6	0	6	Row=3,formatDate=3	
+heldout2/discussions_table	paging/page_4	6	6	0	6	Row=3,formatDate=3	
+heldout2/form_check	same/same	3	3	0	3	Child=3	
+heldout2/pricing_plans	same/same	2	3	1	5	Btn=2,intervals=1	intervals=1
+heldout2/toast_stack	same/same	2	2	0	2	Child=2	
+heldout2/toast_stack	same_initial/same_initial	2	2	0	2	Child=2	
+heldout2/toast_stack	timer/same_timer	2	2	0	2	Child=2	
+heldout2/toaster_store	same/same	4	4	0	4	Child=3,merge=1	
+heldout2/toaster_store	same_seed/same_seed	4	4	0	4	Child=3,merge=1	
+heldout2/toaster_store	bottom/bottom	1	4	3	4	Child=3,merge=1	Child=3
+heldout2/toaster_store	gutter/gutter	4	4	0	4	Child=3,merge=1	
+heldout2/toaster_store	reverse/reverse	4	4	0	4	Child=3,merge=1	
+heldout2/toaster_store	class_name/class_name	4	4	0	4	Child=3,merge=1	
+heldout2/toaster_store	pause/pause	4	4	0	4	Child=3,merge=1	
+heldout2/toaster_store	pause/same	4	4	0	4	Child=3,merge=1	
+tuning/callback_globals	GlobalMemo/again_clear	1	1	0	1	CallMemo=1	
+tuning/callback_globals	GlobalPlain/again_clear	1	1	0	1	Call=1	
+tuning/callback_globals	PropsFill_same/same	1	1	0	1	Child=1	
+tuning/callback_globals	PropsFill_same/same_again	1	1	0	1	Child=1	
+tuning/callback_globals	PropsFill_one_a/same_again	1	1	0	1	Child=1	

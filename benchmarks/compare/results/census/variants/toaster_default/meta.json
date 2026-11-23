@@ -1,0 +1,9 @@
+{
+  "source": "https://github.com/timolins/react-hot-toast/tree/main/src",
+  "license": "MIT",
+  "commit": "e725d38e0faec05f7b8fb10644b616ef978d2f4d",
+  "derived": false,
+  "tests": "A module-level store with a subscribe and unsubscribe effect, an effect that sets and clears one timer per toast, many useCallback handlers, a ref callback, a keyed list and a memo child.",
+  "adaptation": "core/store.ts, core/use-toaster.ts and components/toaster.tsx joined with types and enums turned into plain objects. UPSERT_TOAST, the remove queue (addToRemoveQueue and its effect), the toast API, goober styles and the reduced-motion check are removed. toast.dismiss is inlined as a dispatch. ToastBar is reduced to a memo child that prints the message and carries bump('Child'). bump('merge') is added in useStore. SeededToaster is new: it clears and seeds the store on first render so each scenario starts alike. Scenarios use one toasterId per scenario.",
+  "targets": ["react", "preact"]
+}
