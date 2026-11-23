@@ -54,7 +54,7 @@ describe('groups planner refusals', () => {
     expect(units).toEqual([{ name: 'Pushed', compiled: true }]);
   });
 
-  it('does not cache a reassigned local', () => {
+  it('keys a block on a local that is assigned only before it', () => {
     const { code } = run(
       [
         'export function Counter({ a }) {',
@@ -66,7 +66,35 @@ describe('groups planner refusals', () => {
       ].join('\n'),
     );
 
-    expect(countCaches(code)).toBe(0);
+    expect(code).toContain('Object.is($[0], n)');
+  });
+
+  it('does not cache a local that is assigned after the block or in a closure', () => {
+    const after = run(
+      [
+        'export function After({ a, b }) {',
+        '  let n = a;',
+        '  const first = <p>{n}</p>;',
+        '  n = b;',
+        '  return <div>{first}{n}</div>;',
+        '}',
+        '',
+      ].join('\n'),
+    );
+    const closure = run(
+      [
+        'export function Closure({ items }) {',
+        '  let n = 0;',
+        '  items.forEach(() => { n += 1; });',
+        '  return <p>{n}</p>;',
+        '}',
+        '',
+      ].join('\n'),
+    );
+
+    // The first element reads `n` before it changes, so no slot holds it.
+    expect(after.code).toContain('const first = <p>{n}</p>;');
+    expect(countCaches(closure.code)).toBe(0);
   });
 
   it('does not cache a call result that is passed to another call', () => {

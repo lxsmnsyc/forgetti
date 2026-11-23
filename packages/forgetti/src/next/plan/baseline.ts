@@ -1,5 +1,5 @@
 import type { AstIndex, AstNode } from '../emit/ast';
-import { getChild, indexProgram, isNode } from '../emit/ast';
+import { getChild, getChildren, indexProgram, isNode } from '../emit/ast';
 import type { Binding, OwnershipResult, Range, Reference, ScopeResult } from '../ir';
 import type { ParseResult } from '../parse';
 import { PRESETS } from '../parse/presets';
@@ -223,6 +223,20 @@ export function isHiddenState(ctx: Context, binding: Binding): boolean {
   return type === 'ref' || type === 'effect-event';
 }
 
+// Calls whose result is a component that is created once and never changes.
+const COMPONENT_WRAPPERS = new Set(['memo', 'forwardRef']);
+
+// The packages whose `memo` and `forwardRef` are the library ones.
+const COMPONENT_SOURCES = /^(?:react|preact(?:\/.+)?)$/;
+
+const LOOP_TYPES = new Set([
+  'ForStatement',
+  'ForInStatement',
+  'ForOfStatement',
+  'WhileStatement',
+  'DoWhileStatement',
+]);
+
 const PLAIN_INITIALIZERS = new Set([
   'Literal',
   'ArrowFunctionExpression',
@@ -319,11 +333,104 @@ export function isStableOuter(ctx: Context, binding: Binding): boolean {
     return !readsChangingState(ctx, fn, new Set([binding.id]));
   }
   const init = findInitializer(ctx, binding);
+  if (init?.type === 'CallExpression') {
+    return isComponentWrapper(ctx, binding, init);
+  }
   return init !== undefined && PLAIN_INITIALIZERS.has(init.type);
 }
 
-/** True when a binding may be read by a cached block placed before `statementStart`. */
-export function isPlainInput(ctx: Context, binding: Binding, statementStart: number): boolean {
+/**
+ * True for `const View = memo(...)` or `forwardRef(...)` when the wrapper is an import and
+ * `View` is only ever read as a whole, such as a JSX tag. Its identity is fixed at module load.
+ */
+function isComponentWrapper(ctx: Context, binding: Binding, init: AstNode): boolean {
+  if (binding.kind !== 'const' || !isWrapperCall(ctx, init)) {
+    return false;
+  }
+  // A property write such as `View.defaultProps = ...` would change what an element reads.
+  for (const reference of binding.references) {
+    const node: unknown = reference.node;
+    const parent = isNode(node) ? ctx.index.parents.get(node) : undefined;
+    if (reference.write || parent?.type === 'MemberExpression') {
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * `memo(x)` skips a render on equal props, as an unchanged element does, so what it wraps
+ * does not matter. A comparator, or `forwardRef(fn)`, can render again on equal props, so
+ * `fn` must read no state that changes.
+ */
+function isWrapperCall(ctx: Context, call: AstNode): boolean {
+  const callee = getChild(call, 'callee');
+  let root = callee;
+  while (root?.type === 'MemberExpression') {
+    root = getChild(root, 'object');
+  }
+  const rootStart = root?.type === 'Identifier' ? root.start : -1;
+  let imported: Binding['imported'];
+  for (const item of ctx.scope.bindings) {
+    for (const reference of item.references) {
+      if (item.kind === 'import' && reference.range.start === rootStart) {
+        imported = item.imported;
+      }
+    }
+  }
+  if (!imported || !COMPONENT_SOURCES.test(imported.source)) {
+    return false;
+  }
+  // `memo(x)` and `memo as m` name the export. `React.memo(x)` reads it from a default or
+  // namespace import. The local alias says nothing.
+  const isNamed = callee?.type === 'Identifier';
+  const name = isNamed ? imported.name : getCalleeName(call);
+  const isRight = isNamed || imported.name === 'default' || imported.name === '*';
+  const args = getChildren(call, 'arguments');
+  if (!isRight || !COMPONENT_WRAPPERS.has(name ?? '') || args.length !== 1) {
+    return false;
+  }
+  if (name === 'memo') {
+    return true;
+  }
+  return FUNCTIONS.has(args[0].type) && !readsChangingState(ctx, args[0], new Set());
+}
+
+/**
+ * True when every write of a local happens before `statementStart`, outside any closure and
+ * outside any loop that also holds the statement. The value read there is then its final one.
+ */
+function isSettledLocal(ctx: Context, binding: Binding, statementStart: number): boolean {
+  for (const reference of binding.references) {
+    if (!reference.write) {
+      continue;
+    }
+    const node: unknown = reference.node;
+    if (reference.closure !== undefined || reference.range.end > statementStart || !isNode(node)) {
+      return false;
+    }
+    // A loop that holds the write and the statement runs the write again after the block.
+    for (let up = ctx.index.parents.get(node); up; up = ctx.index.parents.get(up)) {
+      if (LOOP_TYPES.has(up.type) && up.start <= statementStart && statementStart <= up.end) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+/**
+ * True when a binding may be read by a cached block placed before `statementStart`. With
+ * `atBlock` set, a local assigned only before the block counts, since the block compares
+ * the value it holds there. Code that ran earlier, such as a group's creation, needs
+ * `atBlock` off: the value may have changed since.
+ */
+export function isPlainInput(
+  ctx: Context,
+  binding: Binding,
+  statementStart: number,
+  atBlock = true,
+): boolean {
   // A mutated value, or a binding that is ever assigned, can change under a cached block.
   if (ctx.unsafe.has(binding.id)) {
     return false;
@@ -332,13 +439,23 @@ export function isPlainInput(ctx: Context, binding: Binding, statementStart: num
   if (ctx.perIteration?.has(binding.id)) {
     return binding.declaration.end <= statementStart;
   }
-  for (const reference of binding.references) {
-    if (reference.write) {
-      return false;
-    }
-  }
   if (!isInside(binding.declaration, ctx.unitRange)) {
+    for (const reference of binding.references) {
+      if (reference.write) {
+        return false;
+      }
+    }
     return isStableOuter(ctx, binding);
+  }
+  // A local assigned only before the block, as in a loop that sums, holds its final value.
+  if (!atBlock) {
+    for (const reference of binding.references) {
+      if (reference.write) {
+        return false;
+      }
+    }
+  } else if (!isSettledLocal(ctx, binding, statementStart)) {
+    return false;
   }
   // A binding declared after the statement may not exist yet when the block runs.
   return binding.declaration.end <= statementStart && !isHiddenState(ctx, binding);

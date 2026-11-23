@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "Children that must not render again when their inputs are equal: a map that builds memo wrapper elements inside a returned tree, a let that a loop sums, and an element keyed on a string read from an object.",
+  "targets": ["react", "preact"]
+}

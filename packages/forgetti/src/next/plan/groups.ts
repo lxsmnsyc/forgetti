@@ -85,6 +85,8 @@ interface Piece {
   flat: Dep[] | undefined;
   /** Elements nested in unconditional positions: children, attribute values, `{<jsx />}`. */
   subs: Piece[];
+  /** A primitive-valued expression whose value, not its inputs, keys the element that holds it. */
+  isKey?: boolean;
 }
 
 /** A piece that owns a block. `children` own the blocks nested inside its range. */
@@ -156,6 +158,83 @@ function findSubElements(node: AstNode, isCallSite: (call: AstNode) => boolean):
     const inner =
       direct?.type === 'JSXExpressionContainer' ? unwrap(getChild(direct, 'expression')) : direct;
     if (inner && (isElement(inner) || isCallSite(inner))) {
+      found.push(inner);
+    }
+  }
+  return found;
+}
+
+const COLLAPSING = new Set([
+  'TemplateLiteral',
+  'BinaryExpression',
+  'UnaryExpression',
+  'ConditionalExpression',
+  'LogicalExpression',
+]);
+
+/** True when the expression always yields a primitive, whatever it reads. */
+function isPrimitiveValue(node: AstNode | undefined): boolean {
+  const expr = unwrap(node);
+  switch (expr?.type) {
+    case 'Literal':
+    case 'TemplateLiteral':
+    case 'BinaryExpression':
+      return true;
+    case 'UnaryExpression':
+      return expr.operator !== 'delete';
+    case 'ConditionalExpression':
+      return (
+        isPrimitiveValue(getChild(expr, 'consequent')) &&
+        isPrimitiveValue(getChild(expr, 'alternate'))
+      );
+    case 'LogicalExpression':
+      // `a && b` gives a falsy `a`, which is a primitive, or `b`.
+      return (
+        isPrimitiveValue(getChild(expr, 'right')) &&
+        (expr.operator === '&&' || isPrimitiveValue(getChild(expr, 'left')))
+      );
+    case 'MemberExpression':
+      return expr.computed !== true && getMemberName(expr) === 'length';
+    default:
+      return false;
+  }
+}
+
+/** True when the expression reads a property, holds no element or closure, and yields a primitive. */
+function isKeyExpression(expr: AstNode): boolean {
+  if (!COLLAPSING.has(expr.type) || !isPrimitiveValue(expr)) {
+    return false;
+  }
+  let reads = false;
+  const isPlain = walkNodes(expr, (node) => {
+    reads ||= node.type === 'MemberExpression';
+    return (
+      !isElement(node) &&
+      node.type !== 'ArrowFunctionExpression' &&
+      node.type !== 'FunctionExpression'
+    );
+  });
+  return isPlain && reads;
+}
+
+/** The attribute values and children of an element that are key expressions. */
+function findKeyExpressions(node: AstNode): AstNode[] {
+  const found: AstNode[] = [];
+  const items: (AstNode | undefined)[] = [];
+  const opening = getChild(node, 'openingElement');
+  for (const attribute of opening ? getChildren(opening, 'attributes') : []) {
+    if (attribute.type === 'JSXAttribute') {
+      items.push(getChild(attribute, 'value'));
+    }
+  }
+  items.push(...getChildren(node, 'children'));
+  for (const item of items) {
+    const direct = unwrap(item);
+    const inner =
+      direct?.type === 'JSXExpressionContainer'
+        ? unwrap(getChild(direct, 'expression'))
+        : undefined;
+    if (inner && isKeyExpression(inner)) {
       found.push(inner);
     }
   }
@@ -400,6 +479,16 @@ export class GroupPlanner {
     }
     const range = getRange(node);
     const deps = this.isCacheable(node) ? this.collectDeps(range, []) : undefined;
+    // An element keys on the value of a property read that collapses to a primitive.
+    if (deps) {
+      for (const expr of findKeyExpressions(node)) {
+        const keyRange = getRange(expr);
+        const keyDeps = this.isCacheable(expr) ? this.collectDeps(keyRange, []) : undefined;
+        if (keyDeps && keyDeps.length > 0) {
+          subs.push({ node: expr, range: keyRange, flat: keyDeps, subs: [], isKey: true });
+        }
+      }
+    }
     return { node, range, flat: deps, subs };
   }
 
@@ -407,7 +496,9 @@ export class GroupPlanner {
   private place(piece: Piece, ownerKey: string | undefined, region: Owner[]): void {
     if (!piece.flat) {
       for (const sub of piece.subs) {
-        this.place(sub, undefined, region);
+        if (!sub.isKey) {
+          this.place(sub, undefined, region);
+        }
       }
       return;
     }
@@ -416,7 +507,7 @@ export class GroupPlanner {
       keys.push(dep.key);
     }
     const key = keys.sort().join(',');
-    if (ownerKey === key) {
+    if (ownerKey === key && !piece.isKey) {
       for (const sub of piece.subs) {
         this.place(sub, key, region);
       }
@@ -689,7 +780,7 @@ export class GroupPlanner {
     }
     if (ok) {
       for (const id of group.inputs) {
-        if (!isPlainInput(this.ctx, this.ctx.scope.bindings[id], this.at.start)) {
+        if (!isPlainInput(this.ctx, this.ctx.scope.bindings[id], this.at.start, false)) {
           ok = false;
           break;
         }
@@ -733,7 +824,7 @@ export class GroupPlanner {
         if (!isInside(reference.range, testRange)) {
           continue;
         }
-        if (!isPlainInput(ctx, binding, this.at.start)) {
+        if (!isPlainInput(ctx, binding, this.at.start, false)) {
           return undefined;
         }
         if (isInside(binding.declaration, ctx.unitRange) && !ids.includes(binding.id)) {

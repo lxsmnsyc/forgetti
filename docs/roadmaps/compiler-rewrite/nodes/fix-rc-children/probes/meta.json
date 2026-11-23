@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "Tries to make the caches of stable_children stale: wrappers that render on equal props, a let written in a closure, after a read, in a loop, a switch and a catch, and key expressions over mutated or hidden state.",
+  "targets": ["react", "preact"]
+}
