@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "Local helper closures that build elements and are called several times in one render. They change nothing they capture, so the component can be cached.",
+  "targets": ["react", "preact"]
+}

@@ -32,6 +32,8 @@ export interface Created {
   closure: boolean;
   /** True for a closure that changes a captured fresh value when it runs. */
   mutating?: boolean;
+  /** True for a closure that hands a captured fresh value to a call that may change it. */
+  passes?: boolean;
 }
 
 /** An `if` test, loop test or logical left side that decides whether `arm` runs. */
@@ -220,6 +222,12 @@ export class UnitWalker {
   /** Bindings that hold a mutating closure, from the previous walk. */
   private holders = new Set<number>();
 
+  /** Bindings that hold a closure that passes a captured value to a call, from the previous walk. */
+  private passers = new Set<number>();
+
+  /** The same set for the walk in progress. */
+  private foundPassers = new Set<number>();
+
   constructor(
     private readonly scope: ScopeResult,
     /** Render-level bindings of the unit: not parameters and not inside a closure. */
@@ -248,6 +256,7 @@ export class UnitWalker {
   run(body: AstNode): Facts {
     for (;;) {
       this.facts = UnitWalker.createFacts();
+      this.foundPassers = new Set();
       if (body.type === 'BlockStatement') {
         this.walkStatements(getChildren(body, 'body'), []);
       } else {
@@ -256,11 +265,16 @@ export class UnitWalker {
         this.recordEscape(value, body);
       }
       const { fresh, holders } = this.facts;
-      if (fresh.size <= this.fresh.size && holders.size <= this.holders.size) {
+      if (
+        fresh.size <= this.fresh.size &&
+        holders.size <= this.holders.size &&
+        this.foundPassers.size <= this.passers.size
+      ) {
         return this.facts;
       }
       this.fresh = fresh;
       this.holders = holders;
+      this.passers = this.foundPassers;
     }
   }
 
@@ -303,6 +317,9 @@ export class UnitWalker {
     this.facts.fresh.add(binding);
     if (this.isMutatingValue(value)) {
       this.facts.holders.add(binding);
+    }
+    if (this.isPassingValue(value)) {
+      this.foundPassers.add(binding);
     }
     for (const candidate of value.candidates) {
       if (candidate !== binding) {
@@ -368,6 +385,21 @@ export class UnitWalker {
     }
     for (const candidate of value.candidates) {
       if (this.holders.has(candidate)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /** True when the value is or holds a closure that passes a captured fresh value to a call. */
+  private isPassingValue(value: Value): boolean {
+    for (const created of value.created) {
+      if (created.passes === true) {
+        return true;
+      }
+    }
+    for (const candidate of value.candidates) {
+      if (this.passers.has(candidate)) {
         return true;
       }
     }
@@ -889,7 +921,12 @@ export class UnitWalker {
         this.facts.opaque.add(reference.binding);
       }
     }
-    result.created.push({ range, closure: true, mutating: this.hasCapturedMutation(node) });
+    result.created.push({
+      range,
+      closure: true,
+      mutating: this.hasCapturedMutation(node),
+      passes: this.scanFor(node, new Set(), (item, aliases) => this.isCapturedPass(item, aliases)),
+    });
     return result;
   }
 
@@ -909,12 +946,58 @@ export class UnitWalker {
    * over one, or a parameter of a callback method called on one.
    */
   private scanForMutation(node: AstNode, aliases: Set<number>): boolean {
+    return this.scanFor(node, aliases, (item, names) => this.isCapturedMutation(item, names));
+  }
+
+  private scanFor(
+    node: AstNode,
+    aliases: Set<number>,
+    check: (item: AstNode, aliases: Set<number>) => boolean,
+  ): boolean {
     this.addAliases(node, aliases);
-    if (this.isCapturedMutation(node, aliases)) {
+    if (check(node, aliases)) {
       return true;
     }
     for (const child of listChildNodes(node)) {
-      if (this.scanForMutation(child, aliases)) {
+      if (this.scanFor(child, aliases, check)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * True for a call that is not known to be pure and receives a captured fresh value, or a
+   * value that holds one, as an argument. The callee may change it.
+   */
+  private isCapturedPass(node: AstNode, aliases: Set<number>): boolean {
+    if (node.type !== 'CallExpression') {
+      return false;
+    }
+    const rawCallee = getChild(node, 'callee');
+    const callee = rawCallee ? unwrap(rawCallee) : undefined;
+    if (callee && this.isPureCall(callee)) {
+      return false;
+    }
+    for (const argument of getChildren(node, 'arguments')) {
+      if (this.holdsFresh(argument, aliases)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /** True when any name inside the node is a fresh local or an alias of a captured one. */
+  private holdsFresh(node: AstNode, aliases: Set<number>): boolean {
+    if (node.type === 'Identifier' && isIdentifierReference(node)) {
+      const binding = this.scope.bindingOf(node);
+      return (
+        binding !== undefined &&
+        (aliases.has(binding.id) || (this.locals.has(binding.id) && this.fresh.has(binding.id)))
+      );
+    }
+    for (const child of listChildNodes(node)) {
+      if (this.holdsFresh(child, aliases)) {
         return true;
       }
     }
@@ -1242,9 +1325,15 @@ export class UnitWalker {
       return this.joinAll([receiver, ...args], node, controls);
     }
 
-    // Calling a fresh closure mutates what it captures, and it may keep its arguments.
+    // Calling a fresh closure mutates what it captures only when its body changes a captured
+    // value. It may write through its parameters and keep its arguments.
     if (calleeValue.candidates.size > 0) {
-      this.mutateAll(calleeValue.candidates, node, controls);
+      if (this.isMutatingValue(calleeValue) || this.isPassingValue(calleeValue)) {
+        this.mutateAll(calleeValue.candidates, node, controls);
+      }
+      for (const value of args) {
+        this.mutateAll(value.candidates, node, controls);
+      }
       return this.joinAll([calleeValue, ...args], node, controls);
     }
     // Known globals only read. A callback method on another value calls its callbacks now.

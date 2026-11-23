@@ -324,6 +324,12 @@ export function isStableOuter(ctx: Context, binding: Binding): boolean {
   if (ctx.scope.scopes[binding.scope].kind !== 'module') {
     return false;
   }
+  // A module `let` that any code assigns keeps no single value.
+  for (const reference of binding.references) {
+    if (reference.write) {
+      return false;
+    }
+  }
   // Imported functions are assumed pure. A same-module function must not read changing state.
   if (binding.kind === 'import' || binding.kind === 'class') {
     return true;
@@ -461,6 +467,20 @@ export function isPlainInput(
   return binding.declaration.end <= statementStart && !isHiddenState(ctx, binding);
 }
 
+/** True for `Object.keys(x)` on the global `Object`. It reads `x` and returns new strings. */
+function isObjectKeysCall(ctx: Context, call: AstNode): boolean {
+  const callee = getChild(call, 'callee');
+  if (callee?.type !== 'MemberExpression' || getMemberName(callee) !== 'keys') {
+    return false;
+  }
+  const object = getChild(callee, 'object');
+  return (
+    object?.type === 'Identifier' &&
+    object.name === 'Object' &&
+    !ctx.refs.some((item) => item.reference.range.start === object.start)
+  );
+}
+
 /** True when the node is only read by whatever holds it, never changed or handed to a call. */
 export function isReadOnlyUse(ctx: Context, node: AstNode): boolean {
   const parent = ctx.index.parents.get(node);
@@ -486,6 +506,8 @@ export function isReadOnlyUse(ctx: Context, node: AstNode): boolean {
     case 'TSNonNullExpression':
     case 'TSAsExpression':
       return isReadOnlyUse(ctx, parent);
+    case 'CallExpression':
+      return isObjectKeysCall(ctx, parent) && getChild(parent, 'callee') !== node;
     default:
       return false;
   }

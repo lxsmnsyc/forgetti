@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "Soundness probes for the narrowed escaping-closure rule. Not part of the corpus.",
+  "targets": ["react", "preact"]
+}
