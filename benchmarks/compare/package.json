@@ -5,7 +5,8 @@
   "scripts": {
     "table": "node src/cli.ts table",
     "gate": "node src/cli.ts gate",
-    "typecheck": "tsc --noEmit",
+    "mutate": "node mutate/index.ts",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p mutate",
     "test": "node src/test.ts"
   },
   "dependencies": {

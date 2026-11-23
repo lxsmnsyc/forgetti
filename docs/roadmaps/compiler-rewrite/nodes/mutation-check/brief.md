@@ -1,12 +1,13 @@
 ---
 id: mutation-check
 title: Mutation soundness check on the corpus
-status: active
+status: done
 priority: must
 type: feature
 milestone: planner
 size: M
 added: 2026-11-23
+spent: 874507
 verify: pnpm --filter compare mutate
 owns:
   - benchmarks/compare/mutate/**

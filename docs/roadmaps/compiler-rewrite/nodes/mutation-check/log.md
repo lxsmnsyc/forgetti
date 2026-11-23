@@ -1,0 +1,29 @@
+# Log: mutation-check
+
+- 2026-11-23: branch `feat/mutation-check` reset to `batch/compiler-rewrite` (3bacf58).
+- Parser: Babel 8 `parseSync`, as the harness already uses it. Edits are source ranges (`applyEdits`), so neither oxc-parser nor magic-string is added and `pnpm-lock.yaml` does not change.
+- Every probe renders its value in the component's returned JSX: first child of the outermost host element or fragment, else a fragment around the returned expression. So a mutant is live when its component renders and the value is not empty.
+- Shared scenario objects are reused across cells. Marks use a `Symbol` made per loaded module, so a mark from the plain cell never shows in the next cell.
+- The runner installs a getter `globalThis.__mutG` (returns 1, 2, 3 ... per read) and a stepped `Date.now` (one day per call). Both reset before each cell.
+- `compileCase` times 20 extra compiles per file. The mutate runner calls each compiler once with the same options, otherwise forgetti 0.8 and React Compiler took minutes on 4 files.
+- First full run hung on `tuning/hook_effect_event`: `fresh-literal` put the changing global in a `useEffect` dependency list, the effect sets state, and React looped forever (the update-depth message is only a warning for effects). Hook dependency lists are now skipped.
+- Sensitivity check on `map`, `form_check`, `alias_push`, `callback_globals` with all compilers: forgetti 0.8 and React Compiler differ on 78 of 93 mutants; next on 0.
+- Full run 1 (per-read global): next failed on throw and strict-mode cases. `throw_call` global-read showed plain 4, next 3: next reads the global on every render (checked its output), React just rendered a different number of times during error recovery. Switched the global and `Date.now` to move once per scenario step, found through the case counter (the harness clears it per step). `ref` variant now copies the global in an effect. Throw and strict differences went away.
+- Remaining next differences behind `memo` (`hue_slider` `InteractiveBase` under `memo(InteractiveBase)`, `cart_summary` `Product` under `MemoProductItem`): next keeps the props of a `memo` child equal, so React skips it. Added the `memo` render graph and the allowed bucket; load and error differences still fail.
+- One Vite server per case: `list_group` took 54 s, mostly later mutants. A new server every 8 mutants: 12 s. Full run 287 s.
+- Final next failures, 8 mutants in 5 files: result written after `find`/`map` (3), filter callback that marks its element (1), method on a module object in a `.map` callback (1), `displayName` written in a function body (2), child marking elements of a cached prop (1). Recorded in outcome.md.
+- Review round (changes requested, 7 findings):
+  - Clock now counts the harness's counter clears through a proxy prototype (`for...in` walks it). It no longer depends on reads.
+  - `memo` exemption is per instance: providers on memo bodies, a context read and a `<mut-memo>` wrapper in the hazard component, and a difference is allowed only when it disappears without the marked contents.
+  - `identity-write/cond` writes inside X's render behind `if (X.p === undefined)`, so it can fail.
+  - No cap by default. A 4-worker fork pool hands out one mutant at a time with a 30 s timeout. A plain hang is reported as hung (toaster_store `call#14`, the layout loop); a compiled hang or crash is broken.
+  - Full run: 2320 mutants, 42 failing, 61 allowed, 1 hung, 264 s. Run twice, identical numbers.
+  - Triage: discard_suspense `call#2` differs at `ready/same` with a resolved resource, so it is a cached impure child (D), not a Suspense discard. `alias-prop-call` failures where next renders a lower count are D (child skipped); a higher count is E (reused object). toaster_store `call#13` throws in next because React froze the cached `style` object (E).
+- Ruling: props mutation (E) is out of contract; plain hangs do not fail. Operators set `propsMutation` from the site: `alias-prop-call` always, `callback-mutate` and `result-mutate/find` when the list's root name is a prop, and `default-param/existing`. Such differences, errors and skipped steps included, are "allowed (props mutation)". Full run: 25 failing (A 2, C 1, D 22), 56 allowed (memo), 22 allowed (props), 1 hung, 206 s.
+- Round 2 (R1, R2):
+  - Memo marks are now step stamps on the memo bodies' output. A difference is allowed only inside a mark whose compiled stamp is older than the step. Stamp-only differences are ignored. Marks are removed before the inert check.
+  - The review's counter-example is a fixture test; it fails on next.
+  - First run: `cart_summary` `memo-ref#4` failed because a ref value carries an earlier allowed skip. That variant now stamps with its ref's commit step.
+  - `default-param/existing` is split into `existing-default` (counted, census D) and `existing-passed` (props mutation), using `{ x = {}, x: __mutRaw }`.
+  - Final run: 25 failing (A 2, C 1, D 22), 56 memo (none became failures), 22 props, 1 hung, 254 s.
+- Shell rule slip: one `python3` heredoc edited `mutate/index.ts` (moved option parsing to `options.ts`). Everything else used Edit and Write.
