@@ -1,7 +1,7 @@
 ---
 id: harness-rc-babel7
 title: Run React Compiler under Babel 7 in the compare harness
-status: todo
+status: active
 priority: must
 type: fix
 milestone: planner
