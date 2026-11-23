@@ -50,3 +50,4 @@ Run the thresholds of `debate-2/debate.md` on `heldout3` alone, then on all sets
 
 - `src/gate.ts` names `heldout2` as `CLEAN_SET`. Make it take `heldout3` (an option or a constant change) in a separate first commit, before reading any `heldout3` row of next. `gate.ts` is owned for that change.
 - React Compiler now runs under Babel 7 (`harness-rc-babel7`). Earlier gates ran it under Babel 8, which weakened it on `heldout` and `heldout2`; compare against `results/rc-babel7/`, not `results/regate/`.
+- The compiled share counts one unit per React Compiler error event, not per function (`harness-rc-babel7` review, finding 3): in `heldout2/form_check`, 4 functions logged 16 errors. Count per function before reading `heldout3`.

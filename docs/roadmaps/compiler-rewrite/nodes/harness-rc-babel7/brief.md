@@ -1,12 +1,13 @@
 ---
 id: harness-rc-babel7
 title: Run React Compiler under Babel 7 in the compare harness
-status: active
+status: done
 priority: must
 type: fix
 milestone: planner
 size: S
 added: 2026-11-23
+spent: 252500
 verify: pnpm --filter compare test
 owns:
   - benchmarks/compare/src/compilers.ts

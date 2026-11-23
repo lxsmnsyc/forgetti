@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "A case whose input has a default in object destructuring and imports a .tsx and a .ts sibling.",
+  "targets": ["react", "preact"]
+}

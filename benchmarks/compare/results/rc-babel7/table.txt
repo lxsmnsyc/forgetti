@@ -1,0 +1,855 @@
+case                           | compiler       | target | raw   | gzip | slots | ms     | compiled | bailouts
+base/bailout                   | plain          | react  | 288   | 197  | 0     | 0      | -        | -
+base/bailout                   | forgetti-0.8   | react  | 2782  | 814  | 23    | 8.44   | 1/1      | 0
+base/bailout                   | react-compiler | react  | 287   | 197  | 0     | 9.52   | 0/1      | 1
+base/bailout                   | next           | react  | 288   | 197  | 0     | 0.48   | 0/1      | 1
+base/bailout                   | plain          | preact | 295   | 204  | 0     | 0      | -        | -
+base/bailout                   | forgetti-0.8   | preact | 2811  | 824  | 23    | 9.34   | 1/1      | 0
+base/bailout                   | next           | preact | 295   | 204  | 0     | 0.59   | 0/1      | 1
+base/callback                  | plain          | react  | 217   | 177  | 0     | 0      | -        | -
+base/callback                  | forgetti-0.8   | react  | 1423  | 529  | 9     | 5.79   | 1/1      | 0
+base/callback                  | react-compiler | react  | 991   | 496  | 9     | 11.86  | 1/1      | 0
+base/callback                  | next           | react  | 593   | 337  | 8     | 2.16   | 1/1      | 0
+base/callback                  | plain          | preact | 217   | 177  | 0     | 0      | -        | -
+base/callback                  | forgetti-0.8   | preact | 1438  | 540  | 9     | 3.3    | 1/1      | 0
+base/callback                  | next           | preact | 600   | 341  | 8     | 1.37   | 1/1      | 0
+base/deepprop                  | plain          | react  | 157   | 147  | 0     | 0      | -        | -
+base/deepprop                  | forgetti-0.8   | react  | 1636  | 533  | 13    | 3.88   | 1/1      | 0
+base/deepprop                  | react-compiler | react  | 750   | 412  | 6     | 6.85   | 1/1      | 0
+base/deepprop                  | next           | react  | 424   | 269  | 5     | 0.72   | 1/1      | 0
+base/deepprop                  | plain          | preact | 157   | 147  | 0     | 0      | -        | -
+base/deepprop                  | forgetti-0.8   | preact | 1651  | 542  | 13    | 2.9    | 1/1      | 0
+base/deepprop                  | next           | preact | 431   | 273  | 5     | 0.71   | 1/1      | 0
+base/derived                   | plain          | react  | 232   | 172  | 0     | 0      | -        | -
+base/derived                   | forgetti-0.8   | react  | 1636  | 554  | 13    | 4.38   | 1/1      | 0
+base/derived                   | react-compiler | react  | 860   | 450  | 7     | 16.42  | 1/1      | 0
+base/derived                   | next           | react  | 570   | 324  | 8     | 1.53   | 1/1      | 0
+base/derived                   | plain          | preact | 232   | 172  | 0     | 0      | -        | -
+base/derived                   | forgetti-0.8   | preact | 1651  | 566  | 13    | 4.48   | 1/1      | 0
+base/derived                   | next           | preact | 577   | 327  | 8     | 1.32   | 1/1      | 0
+base/earlyreturn               | plain          | react  | 296   | 207  | 0     | 0      | -        | -
+base/earlyreturn               | forgetti-0.8   | react  | 1997  | 653  | 15    | 4.28   | 1/1      | 0
+base/earlyreturn               | react-compiler | react  | 1274  | 579  | 11    | 9.37   | 1/1      | 0
+base/earlyreturn               | next           | react  | 765   | 414  | 11    | 1.75   | 1/1      | 0
+base/earlyreturn               | plain          | preact | 296   | 207  | 0     | 0      | -        | -
+base/earlyreturn               | forgetti-0.8   | preact | 2012  | 665  | 15    | 4.5    | 1/1      | 0
+base/earlyreturn               | next           | preact | 772   | 416  | 11    | 1.91   | 1/1      | 0
+base/forloop                   | plain          | react  | 242   | 194  | 0     | 0      | -        | -
+base/forloop                   | forgetti-0.8   | react  | 2369  | 760  | 7     | 5.17   | 1/1      | 0
+base/forloop                   | react-compiler | react  | 855   | 453  | 6     | 9.48   | 1/1      | 0
+base/forloop                   | next           | react  | 538   | 338  | 4     | 1.45   | 1/1      | 0
+base/forloop                   | plain          | preact | 242   | 194  | 0     | 0      | -        | -
+base/forloop                   | forgetti-0.8   | preact | 2384  | 772  | 7     | 4.96   | 1/1      | 0
+base/forloop                   | next           | preact | 545   | 342  | 4     | 1.31   | 1/1      | 0
+base/hook                      | plain          | react  | 288   | 188  | 0     | 0      | -        | -
+base/hook                      | forgetti-0.8   | react  | 1958  | 644  | 16    | 4.5    | 2/2      | 0
+base/hook                      | react-compiler | react  | 806   | 434  | 4     | 6.15   | 1/1      | 0
+base/hook                      | next           | react  | 605   | 295  | 6     | 1.34   | 2/2      | 0
+base/hook                      | plain          | preact | 288   | 188  | 0     | 0      | -        | -
+base/hook                      | forgetti-0.8   | preact | 1973  | 654  | 16    | 4.79   | 2/2      | 0
+base/hook                      | next           | preact | 612   | 299  | 6     | 1.29   | 2/2      | 0
+base/jsxprops                  | plain          | react  | 203   | 154  | 0     | 0      | -        | -
+base/jsxprops                  | forgetti-0.8   | react  | 1646  | 545  | 12    | 3.19   | 1/1      | 0
+base/jsxprops                  | react-compiler | react  | 921   | 457  | 9     | 5.54   | 1/1      | 0
+base/jsxprops                  | next           | react  | 597   | 315  | 8     | 0.91   | 1/1      | 0
+base/jsxprops                  | plain          | preact | 203   | 154  | 0     | 0      | -        | -
+base/jsxprops                  | forgetti-0.8   | preact | 1661  | 555  | 12    | 3.25   | 1/1      | 0
+base/jsxprops                  | next           | preact | 604   | 320  | 8     | 0.98   | 1/1      | 0
+base/map                       | plain          | react  | 200   | 163  | 0     | 0      | -        | -
+base/map                       | forgetti-0.8   | react  | 1395  | 508  | 8     | 2.81   | 1/1      | 0
+base/map                       | react-compiler | react  | 823   | 442  | 6     | 8.16   | 1/1      | 0
+base/map                       | next           | react  | 605   | 347  | 7     | 1.24   | 1/1      | 0
+base/map                       | plain          | preact | 200   | 163  | 0     | 0      | -        | -
+base/map                       | forgetti-0.8   | preact | 1410  | 518  | 8     | 4      | 1/1      | 0
+base/map                       | next           | preact | 612   | 348  | 7     | 1.05   | 1/1      | 0
+base/mutate                    | plain          | react  | 216   | 183  | 0     | 0      | -        | -
+base/mutate                    | forgetti-0.8   | react  | 1852  | 616  | 14    | 3.71   | 1/1      | 0
+base/mutate                    | react-compiler | react  | 979   | 496  | 9     | 6.95   | 1/1      | 0
+base/mutate                    | next           | react  | 514   | 314  | 6     | 1.41   | 1/1      | 0
+base/mutate                    | plain          | preact | 216   | 183  | 0     | 0      | -        | -
+base/mutate                    | forgetti-0.8   | preact | 1867  | 629  | 14    | 4.79   | 1/1      | 0
+base/mutate                    | next           | preact | 521   | 318  | 6     | 1.39   | 1/1      | 0
+base/statememo                 | plain          | react  | 394   | 260  | 0     | 0      | -        | -
+base/statememo                 | forgetti-0.8   | react  | 1574  | 590  | 10    | 3.71   | 1/1      | 0
+base/statememo                 | react-compiler | react  | 1206  | 581  | 9     | 13.43  | 1/1      | 0
+base/statememo                 | next           | react  | 636   | 359  | 4     | 1.31   | 1/1      | 0
+base/statememo                 | plain          | preact | 401   | 264  | 0     | 0      | -        | -
+base/statememo                 | forgetti-0.8   | preact | 1596  | 600  | 10    | 4.89   | 1/1      | 0
+base/statememo                 | next           | preact | 650   | 364  | 4     | 3.29   | 1/1      | 0
+base/switch                    | plain          | react  | 264   | 186  | 0     | 0      | -        | -
+base/switch                    | forgetti-0.8   | react  | 2660  | 756  | 21    | 8.03   | 1/1      | 0
+base/switch                    | react-compiler | react  | 1305  | 504  | 8     | 15.39  | 1/1      | 0
+base/switch                    | next           | react  | 775   | 397  | 12    | 2.74   | 1/1      | 0
+base/switch                    | plain          | preact | 264   | 186  | 0     | 0      | -        | -
+base/switch                    | forgetti-0.8   | preact | 2675  | 767  | 21    | 6.53   | 1/1      | 0
+base/switch                    | next           | preact | 782   | 402  | 12    | 2.7    | 1/1      | 0
+base/ternary                   | plain          | react  | 159   | 143  | 0     | 0      | -        | -
+base/ternary                   | forgetti-0.8   | react  | 1807  | 563  | 13    | 4.85   | 1/1      | 0
+base/ternary                   | react-compiler | react  | 687   | 393  | 5     | 9.46   | 1/1      | 0
+base/ternary                   | next           | react  | 495   | 282  | 6     | 1.25   | 1/1      | 0
+base/ternary                   | plain          | preact | 159   | 143  | 0     | 0      | -        | -
+base/ternary                   | forgetti-0.8   | preact | 1822  | 573  | 13    | 3.7    | 1/1      | 0
+base/ternary                   | next           | preact | 502   | 285  | 6     | 1.25   | 1/1      | 0
+base/trycatch                  | plain          | react  | 277   | 205  | 0     | 0      | -        | -
+base/trycatch                  | forgetti-0.8   | react  | 1497  | 558  | 10    | 4.3    | 1/1      | 0
+base/trycatch                  | react-compiler | react  | 912   | 482  | 6     | 9.7    | 1/1      | 0
+base/trycatch                  | next           | react  | 542   | 330  | 5     | 1.08   | 1/1      | 0
+base/trycatch                  | plain          | preact | 277   | 205  | 0     | 0      | -        | -
+base/trycatch                  | forgetti-0.8   | preact | 1512  | 571  | 10    | 3.68   | 1/1      | 0
+base/trycatch                  | next           | preact | 549   | 335  | 5     | 1.09   | 1/1      | 0
+base/usectx                    | plain          | react  | 224   | 163  | 0     | 0      | -        | -
+base/usectx                    | forgetti-0.8   | react  | 1557  | 525  | 11    | 3.99   | 1/1      | 0
+base/usectx                    | react-compiler | react  | 850   | 428  | 6     | 8.03   | 1/1      | 0
+base/usectx                    | next           | react  | 535   | 293  | 6     | 1.01   | 1/1      | 0
+base/usectx                    | plain          | preact | 257   | 174  | 0     | 0      | -        | -
+base/usectx                    | forgetti-0.8   | preact | 1605  | 542  | 11    | 4.79   | 1/1      | 0
+base/usectx                    | next           | preact | 575   | 308  | 6     | 0.94   | 1/1      | 0
+tuning/alias_branch            | plain          | react  | 183   | 162  | 0     | 0      | -        | -
+tuning/alias_branch            | forgetti-0.8   | react  | 1647  | 567  | 14    | 4.15   | 1/1      | 0
+tuning/alias_branch            | react-compiler | react  | 834   | 442  | 7     | 9.09   | 1/1      | 0
+tuning/alias_branch            | next           | react  | 419   | 271  | 4     | 1.03   | 1/1      | 0
+tuning/alias_branch            | plain          | preact | 183   | 162  | 0     | 0      | -        | -
+tuning/alias_branch            | forgetti-0.8   | preact | 1662  | 579  | 14    | 4.01   | 1/1      | 0
+tuning/alias_branch            | next           | preact | 426   | 275  | 4     | 1.4    | 1/1      | 0
+tuning/alias_child             | plain          | react  | 161   | 141  | 0     | 0      | -        | -
+tuning/alias_child             | forgetti-0.8   | react  | 1491  | 513  | 10    | 3.09   | 1/1      | 0
+tuning/alias_child             | react-compiler | react  | 1041  | 489  | 12    | 8      | 1/1      | 0
+tuning/alias_child             | next           | react  | 611   | 323  | 11    | 0.98   | 1/1      | 0
+tuning/alias_child             | plain          | preact | 161   | 141  | 0     | 0      | -        | -
+tuning/alias_child             | forgetti-0.8   | preact | 1506  | 523  | 10    | 2.92   | 1/1      | 0
+tuning/alias_child             | next           | preact | 618   | 326  | 11    | 1.22   | 1/1      | 0
+tuning/alias_closure           | plain          | react  | 238   | 193  | 0     | 0      | -        | -
+tuning/alias_closure           | forgetti-0.8   | react  | 1844  | 641  | 12    | 6.07   | 1/1      | 0
+tuning/alias_closure           | react-compiler | react  | 875   | 471  | 6     | 13.63  | 1/1      | 0
+tuning/alias_closure           | next           | react  | 238   | 193  | 0     | 0.99   | 1/1      | 0
+tuning/alias_closure           | plain          | preact | 238   | 193  | 0     | 0      | -        | -
+tuning/alias_closure           | forgetti-0.8   | preact | 1859  | 654  | 12    | 4.58   | 1/1      | 0
+tuning/alias_closure           | next           | preact | 238   | 193  | 0     | 1.19   | 1/1      | 0
+tuning/alias_field             | plain          | react  | 217   | 175  | 0     | 0      | -        | -
+tuning/alias_field             | forgetti-0.8   | react  | 2065  | 664  | 18    | 4.39   | 1/1      | 0
+tuning/alias_field             | react-compiler | react  | 974   | 491  | 9     | 10.19  | 1/1      | 0
+tuning/alias_field             | next           | react  | 451   | 287  | 4     | 1      | 1/1      | 0
+tuning/alias_field             | plain          | preact | 217   | 175  | 0     | 0      | -        | -
+tuning/alias_field             | forgetti-0.8   | preact | 2080  | 674  | 18    | 4.23   | 1/1      | 0
+tuning/alias_field             | next           | preact | 458   | 292  | 4     | 0.97   | 1/1      | 0
+tuning/alias_push              | plain          | react  | 187   | 164  | 0     | 0      | -        | -
+tuning/alias_push              | forgetti-0.8   | react  | 1485  | 528  | 12    | 2.66   | 1/1      | 0
+tuning/alias_push              | react-compiler | react  | 828   | 444  | 7     | 4.92   | 1/1      | 0
+tuning/alias_push              | next           | react  | 421   | 274  | 4     | 0.66   | 1/1      | 0
+tuning/alias_push              | plain          | preact | 187   | 164  | 0     | 0      | -        | -
+tuning/alias_push              | forgetti-0.8   | preact | 1500  | 540  | 12    | 2.18   | 1/1      | 0
+tuning/alias_push              | next           | preact | 428   | 278  | 4     | 0.67   | 1/1      | 0
+tuning/alias_spread            | plain          | react  | 197   | 170  | 0     | 0      | -        | -
+tuning/alias_spread            | forgetti-0.8   | react  | 1588  | 554  | 13    | 2.09   | 1/1      | 0
+tuning/alias_spread            | react-compiler | react  | 882   | 457  | 7     | 4.72   | 1/1      | 0
+tuning/alias_spread            | next           | react  | 408   | 274  | 3     | 0.61   | 1/1      | 0
+tuning/alias_spread            | plain          | preact | 197   | 170  | 0     | 0      | -        | -
+tuning/alias_spread            | forgetti-0.8   | preact | 1603  | 562  | 13    | 2.41   | 1/1      | 0
+tuning/alias_spread            | next           | preact | 415   | 276  | 3     | 0.65   | 1/1      | 0
+tuning/alias_unknown           | plain          | react  | 185   | 163  | 0     | 0      | -        | -
+tuning/alias_unknown           | forgetti-0.8   | react  | 1634  | 554  | 13    | 2.1    | 1/1      | 0
+tuning/alias_unknown           | react-compiler | react  | 905   | 467  | 9     | 5.8    | 1/1      | 0
+tuning/alias_unknown           | next           | react  | 421   | 276  | 4     | 0.63   | 1/1      | 0
+tuning/alias_unknown           | plain          | preact | 185   | 163  | 0     | 0      | -        | -
+tuning/alias_unknown           | forgetti-0.8   | preact | 1649  | 567  | 13    | 2.26   | 1/1      | 0
+tuning/alias_unknown           | next           | preact | 428   | 278  | 4     | 0.65   | 1/1      | 0
+tuning/callback_globals        | plain          | react  | 888   | 384  | 0     | 0      | -        | -
+tuning/callback_globals        | forgetti-0.8   | react  | 6863  | 1639 | 57    | 11.62  | 6/6      | 0
+tuning/callback_globals        | react-compiler | react  | 4554  | 858  | 40    | 29.39  | 6/6      | 0
+tuning/callback_globals        | next           | react  | 1761  | 569  | 20    | 7.59   | 6/6      | 0
+tuning/callback_globals        | plain          | preact | 896   | 390  | 0     | 0      | -        | -
+tuning/callback_globals        | forgetti-0.8   | preact | 6886  | 1651 | 57    | 9.68   | 6/6      | 0
+tuning/callback_globals        | next           | preact | 1776  | 579  | 20    | 5.77   | 6/6      | 0
+tuning/control_assign          | plain          | react  | 566   | 227  | 0     | 0      | -        | -
+tuning/control_assign          | forgetti-0.8   | react  | 6031  | 1396 | 42    | 7.8    | 4/4      | 0
+tuning/control_assign          | react-compiler | react  | 2874  | 611  | 23    | 14.78  | 4/4      | 0
+tuning/control_assign          | next           | react  | 1349  | 411  | 18    | 5.4    | 4/4      | 0
+tuning/control_assign          | plain          | preact | 566   | 227  | 0     | 0      | -        | -
+tuning/control_assign          | forgetti-0.8   | preact | 6046  | 1408 | 42    | 10.08  | 4/4      | 0
+tuning/control_assign          | next           | preact | 1356  | 413  | 18    | 10.15  | 4/4      | 0
+tuning/discard_strict          | plain          | react  | 520   | 307  | 0     | 0      | -        | -
+tuning/discard_strict          | forgetti-0.8   | react  | 2535  | 825  | 17    | 7.25   | 2/2      | 0
+tuning/discard_strict          | react-compiler | react  | 1896  | 702  | 14    | 13.04  | 2/2      | 0
+tuning/discard_strict          | next           | react  | 822   | 432  | 6     | 1.57   | 2/2      | 0
+tuning/discard_suspense_mount  | plain          | react  | 391   | 246  | 0     | 0      | -        | -
+tuning/discard_suspense_mount  | forgetti-0.8   | react  | 2643  | 788  | 20    | 4.36   | 2/2      | 0
+tuning/discard_suspense_mount  | react-compiler | react  | 1590  | 583  | 11    | 9.46   | 2/2      | 0
+tuning/discard_suspense_mount  | next           | react  | 875   | 421  | 10    | 3.13   | 2/2      | 0
+tuning/discard_suspense_mount  | plain          | preact | 399   | 251  | 0     | 0      | -        | -
+tuning/discard_suspense_mount  | forgetti-0.8   | preact | 2666  | 799  | 20    | 5.19   | 2/2      | 0
+tuning/discard_suspense_mount  | next           | preact | 890   | 431  | 10    | 1.79   | 2/2      | 0
+tuning/discard_suspense_update | plain          | react  | 392   | 248  | 0     | 0      | -        | -
+tuning/discard_suspense_update | forgetti-0.8   | react  | 2652  | 793  | 20    | 3.55   | 2/2      | 0
+tuning/discard_suspense_update | react-compiler | react  | 1591  | 584  | 11    | 9.9    | 2/2      | 0
+tuning/discard_suspense_update | next           | react  | 876   | 423  | 10    | 1.88   | 2/2      | 0
+tuning/discard_transition      | plain          | react  | 453   | 287  | 0     | 0      | -        | -
+tuning/discard_transition      | forgetti-0.8   | react  | 2303  | 757  | 17    | 3.09   | 1/1      | 0
+tuning/discard_transition      | react-compiler | react  | 1568  | 693  | 14    | 6.92   | 1/1      | 0
+tuning/discard_transition      | next           | react  | 747   | 403  | 6     | 1.18   | 1/1      | 0
+tuning/discard_transition      | plain          | preact | 492   | 300  | 0     | 0      | -        | -
+tuning/discard_transition      | forgetti-0.8   | preact | 2357  | 772  | 17    | 2.7    | 1/1      | 0
+tuning/discard_transition      | next           | preact | 793   | 413  | 6     | 1.05   | 1/1      | 0
+tuning/escaping_closure        | plain          | react  | 1527  | 701  | 0     | 0      | -        | -
+tuning/escaping_closure        | forgetti-0.8   | react  | 7774  | 2122 | 57    | 9.33   | 3/3      | 0
+tuning/escaping_closure        | react-compiler | react  | 4661  | 1470 | 48    | 19.76  | 3/3      | 0
+tuning/escaping_closure        | next           | react  | 2721  | 1054 | 30    | 4.98   | 3/3      | 0
+tuning/escaping_closure        | plain          | preact | 1527  | 701  | 0     | 0      | -        | -
+tuning/escaping_closure        | forgetti-0.8   | preact | 7789  | 2132 | 57    | 8.75   | 3/3      | 0
+tuning/escaping_closure        | next           | preact | 2728  | 1058 | 30    | 5.78   | 3/3      | 0
+tuning/hook_effect_event       | plain          | react  | 333   | 215  | 0     | 0      | -        | -
+tuning/hook_effect_event       | forgetti-0.8   | react  | 1550  | 558  | 10    | 1.95   | 1/1      | 0
+tuning/hook_effect_event       | react-compiler | react  | 1183  | 541  | 10    | 6.24   | 1/1      | 0
+tuning/hook_effect_event       | next           | react  | 540   | 305  | 3     | 0.51   | 1/1      | 0
+tuning/hook_nested             | plain          | react  | 471   | 291  | 0     | 0      | -        | -
+tuning/hook_nested             | forgetti-0.8   | react  | 2880  | 881  | 24    | 3.66   | 3/3      | 0
+tuning/hook_nested             | react-compiler | react  | 1572  | 613  | 9     | 7.04   | 2/2      | 0
+tuning/hook_nested             | next           | react  | 746   | 404  | 5     | 1.07   | 3/3      | 0
+tuning/hook_nested             | plain          | preact | 478   | 295  | 0     | 0      | -        | -
+tuning/hook_nested             | forgetti-0.8   | preact | 2902  | 889  | 24    | 3.64   | 3/3      | 0
+tuning/hook_nested             | next           | preact | 760   | 409  | 5     | 1.1    | 3/3      | 0
+tuning/hook_object             | plain          | react  | 435   | 269  | 0     | 0      | -        | -
+tuning/hook_object             | forgetti-0.8   | react  | 2604  | 813  | 21    | 3.44   | 2/2      | 0
+tuning/hook_object             | react-compiler | react  | 1896  | 692  | 16    | 8.83   | 2/2      | 0
+tuning/hook_object             | next           | react  | 811   | 393  | 7     | 1.01   | 2/2      | 0
+tuning/hook_object             | plain          | preact | 442   | 273  | 0     | 0      | -        | -
+tuning/hook_object             | forgetti-0.8   | preact | 2626  | 823  | 21    | 3.26   | 2/2      | 0
+tuning/hook_object             | next           | preact | 825   | 398  | 7     | 0.97   | 2/2      | 0
+tuning/hook_use_cond           | plain          | react  | 354   | 235  | 0     | 0      | -        | -
+tuning/hook_use_cond           | forgetti-0.8   | react  | 1950  | 650  | 15    | 2.17   | 1/1      | 0
+tuning/hook_use_cond           | react-compiler | react  | 830   | 460  | 3     | 4.25   | 1/1      | 0
+tuning/hook_use_cond           | next           | react  | 584   | 333  | 4     | 0.9    | 1/1      | 0
+tuning/hook_use_cond           | plain          | preact | 387   | 243  | 0     | 0      | -        | -
+tuning/hook_use_cond           | forgetti-0.8   | preact | 1998  | 664  | 15    | 3.07   | 1/1      | 0
+tuning/hook_use_cond           | next           | preact | 624   | 344  | 4     | 0.82   | 1/1      | 0
+tuning/loop_shapes             | plain          | react  | 1405  | 477  | 0     | 0      | -        | -
+tuning/loop_shapes             | forgetti-0.8   | react  | 16081 | 3473 | 76    | 24.83  | 10/10    | 0
+tuning/loop_shapes             | react-compiler | react  | 5840  | 1031 | 43    | 30.32  | 8/11     | 3
+tuning/loop_shapes             | next           | react  | 3644  | 941  | 47    | 15.98  | 10/10    | 0
+tuning/loop_shapes             | plain          | preact | 1405  | 477  | 0     | 0      | -        | -
+tuning/loop_shapes             | forgetti-0.8   | preact | 16096 | 3487 | 76    | 20.48  | 10/10    | 0
+tuning/loop_shapes             | next           | preact | 3651  | 944  | 47    | 16.35  | 10/10    | 0
+tuning/stable_children         | plain          | react  | 1349  | 622  | 0     | 0      | -        | -
+tuning/stable_children         | forgetti-0.8   | react  | 9082  | 2347 | 69    | 11.25  | 5/5      | 0
+tuning/stable_children         | react-compiler | react  | 4772  | 1296 | 42    | 31.05  | 5/5      | 0
+tuning/stable_children         | next           | react  | 2798  | 1036 | 34    | 15.19  | 5/5      | 0
+tuning/stable_children         | plain          | preact | 1357  | 628  | 0     | 0      | -        | -
+tuning/stable_children         | forgetti-0.8   | preact | 9105  | 2359 | 69    | 21.49  | 5/5      | 0
+tuning/stable_children         | next           | preact | 2813  | 1047 | 34    | 9.81   | 5/5      | 0
+tuning/throw_boundary_swap     | plain          | react  | 800   | 441  | 0     | 0      | -        | -
+tuning/throw_boundary_swap     | forgetti-0.8   | react  | 2948  | 991  | 19    | 4.71   | 2/2      | 0
+tuning/throw_boundary_swap     | react-compiler | react  | 2174  | 844  | 14    | 7.98   | 2/2      | 0
+tuning/throw_boundary_swap     | next           | react  | 1290  | 619  | 9     | 2.06   | 2/2      | 0
+tuning/throw_boundary_swap     | plain          | preact | 832   | 447  | 0     | 0      | -        | -
+tuning/throw_boundary_swap     | forgetti-0.8   | preact | 2995  | 1006 | 19    | 3.5    | 2/2      | 0
+tuning/throw_boundary_swap     | next           | preact | 1329  | 627  | 9     | 1.97   | 2/2      | 0
+tuning/throw_call              | plain          | react  | 655   | 372  | 0     | 0      | -        | -
+tuning/throw_call              | forgetti-0.8   | react  | 2490  | 853  | 15    | 2.75   | 2/2      | 0
+tuning/throw_call              | react-compiler | react  | 1727  | 692  | 10    | 6.19   | 2/2      | 0
+tuning/throw_call              | next           | react  | 1044  | 522  | 8     | 3.35   | 2/2      | 0
+tuning/throw_call              | plain          | preact | 656   | 373  | 0     | 0      | -        | -
+tuning/throw_call              | forgetti-0.8   | preact | 2506  | 865  | 15    | 4.83   | 2/2      | 0
+tuning/throw_call              | next           | preact | 1052  | 527  | 8     | 1.87   | 2/2      | 0
+tuning/throw_group             | plain          | react  | 890   | 469  | 0     | 0      | -        | -
+tuning/throw_group             | forgetti-0.8   | react  | 3623  | 1116 | 26    | 8.05   | 2/2      | 0
+tuning/throw_group             | react-compiler | react  | 1808  | 729  | 6     | 17.3   | 2/2      | 0
+tuning/throw_group             | next           | react  | 1316  | 618  | 9     | 3.86   | 2/2      | 0
+tuning/throw_group             | plain          | preact | 891   | 469  | 0     | 0      | -        | -
+tuning/throw_group             | forgetti-0.8   | preact | 3639  | 1127 | 26    | 6.49   | 2/2      | 0
+tuning/throw_group             | next           | preact | 1324  | 623  | 9     | 3.08   | 2/2      | 0
+tuning/throw_row               | plain          | react  | 703   | 400  | 0     | 0      | -        | -
+tuning/throw_row               | forgetti-0.8   | react  | 2798  | 934  | 16    | 5.47   | 2/2      | 0
+tuning/throw_row               | react-compiler | react  | 1885  | 746  | 11    | 7.97   | 2/2      | 0
+tuning/throw_row               | next           | react  | 1187  | 583  | 9     | 2.07   | 2/2      | 0
+tuning/throw_row               | plain          | preact | 704   | 401  | 0     | 0      | -        | -
+tuning/throw_row               | forgetti-0.8   | preact | 2814  | 944  | 16    | 3.55   | 2/2      | 0
+tuning/throw_row               | next           | preact | 1195  | 588  | 9     | 1.73   | 2/2      | 0
+heldout/cart_summary           | plain          | react  | 3587  | 1275 | 0     | 0      | -        | -
+heldout/cart_summary           | forgetti-0.8   | react  | 14090 | 3590 | 97    | 15.13  | 5/5      | 0
+heldout/cart_summary           | react-compiler | react  | 9043  | 2377 | 68    | 34.05  | 5/5      | 0
+heldout/cart_summary           | next           | react  | 6270  | 2006 | 57    | 24.36  | 5/5      | 0
+heldout/cart_summary           | plain          | preact | 3626  | 1285 | 0     | 0      | -        | -
+heldout/cart_summary           | forgetti-0.8   | preact | 14144 | 3606 | 97    | 31.83  | 5/5      | 0
+heldout/cart_summary           | next           | preact | 6316  | 2017 | 57    | 31.1   | 5/5      | 0
+heldout/dashboard_card         | plain          | react  | 3956  | 1566 | 0     | 0      | -        | -
+heldout/dashboard_card         | forgetti-0.8   | react  | 18265 | 4711 | 125   | 27.19  | 4/4      | 0
+heldout/dashboard_card         | react-compiler | react  | 8508  | 2771 | 75    | 57.06  | 3/4      | 1
+heldout/dashboard_card         | next           | react  | 5072  | 1900 | 26    | 26.3   | 4/4      | 0
+heldout/dashboard_card         | plain          | preact | 3963  | 1570 | 0     | 0      | -        | -
+heldout/dashboard_card         | forgetti-0.8   | preact | 18294 | 4720 | 125   | 26.32  | 4/4      | 0
+heldout/dashboard_card         | next           | preact | 5079  | 1904 | 26    | 28.54  | 4/4      | 0
+heldout/form_validation        | plain          | react  | 4556  | 1650 | 0     | 0      | -        | -
+heldout/form_validation        | forgetti-0.8   | react  | 14338 | 3881 | 90    | 18.5   | 2/2      | 0
+heldout/form_validation        | react-compiler | react  | 9457  | 2995 | 76    | 50.78  | 2/2      | 0
+heldout/form_validation        | next           | react  | 7570  | 2500 | 67    | 30.94  | 2/2      | 0
+heldout/form_validation        | plain          | preact | 4563  | 1654 | 0     | 0      | -        | -
+heldout/form_validation        | forgetti-0.8   | preact | 14360 | 3891 | 90    | 34.6   | 2/2      | 0
+heldout/form_validation        | next           | preact | 7584  | 2504 | 67    | 35.14  | 2/2      | 0
+heldout/hex_input              | plain          | react  | 3196  | 1222 | 0     | 0      | -        | -
+heldout/hex_input              | forgetti-0.8   | react  | 8202  | 2370 | 54    | 10.62  | 3/3      | 0
+heldout/hex_input              | react-compiler | react  | 5701  | 1865 | 49    | 32.02  | 2/4      | 2
+heldout/hex_input              | next           | react  | 3480  | 1356 | 4     | 6.18   | 3/3      | 0
+heldout/hex_input              | plain          | preact | 3203  | 1226 | 0     | 0      | -        | -
+heldout/hex_input              | forgetti-0.8   | preact | 8231  | 2377 | 54    | 13.02  | 3/3      | 0
+heldout/hex_input              | next           | preact | 3487  | 1359 | 4     | 8.87   | 3/3      | 0
+heldout/hue_slider             | plain          | react  | 6380  | 2027 | 0     | 0      | -        | -
+heldout/hue_slider             | forgetti-0.8   | react  | 14094 | 3796 | 74    | 37.58  | 4/4      | 0
+heldout/hue_slider             | react-compiler | react  | 8769  | 2752 | 36    | 63.13  | 2/5      | 3
+heldout/hue_slider             | next           | react  | 7574  | 2390 | 29    | 30.2   | 4/4      | 0
+heldout/hue_slider             | plain          | preact | 6419  | 2044 | 0     | 0      | -        | -
+heldout/hue_slider             | forgetti-0.8   | preact | 14155 | 3809 | 74    | 16.14  | 4/4      | 0
+heldout/hue_slider             | next           | preact | 7613  | 2403 | 29    | 26.54  | 4/4      | 0
+heldout/list_filters           | plain          | react  | 5217  | 1710 | 0     | 0      | -        | -
+heldout/list_filters           | forgetti-0.8   | react  | 16059 | 4119 | 104   | 18.12  | 3/3      | 0
+heldout/list_filters           | react-compiler | react  | 10903 | 3035 | 92    | 62.32  | 3/3      | 0
+heldout/list_filters           | next           | react  | 8446  | 2571 | 76    | 45.71  | 3/3      | 0
+heldout/list_filters           | plain          | preact | 5256  | 1722 | 0     | 0      | -        | -
+heldout/list_filters           | forgetti-0.8   | preact | 16113 | 4132 | 104   | 30.32  | 3/3      | 0
+heldout/list_filters           | next           | preact | 8492  | 2584 | 76    | 32.95  | 3/3      | 0
+heldout/modal_effects          | plain          | react  | 3811  | 1390 | 0     | 0      | -        | -
+heldout/modal_effects          | forgetti-0.8   | react  | 12064 | 3236 | 80    | 15.85  | 4/4      | 0
+heldout/modal_effects          | react-compiler | react  | 8495  | 2602 | 72    | 47.3   | 3/4      | 1
+heldout/modal_effects          | next           | react  | 5404  | 1881 | 35    | 18.68  | 4/4      | 0
+heldout/modal_effects          | plain          | preact | 3818  | 1393 | 0     | 0      | -        | -
+heldout/modal_effects          | forgetti-0.8   | preact | 12093 | 3246 | 80    | 14.03  | 4/4      | 0
+heldout/modal_effects          | next           | preact | 5411  | 1885 | 35    | 21.17  | 4/4      | 0
+heldout/otp_input              | plain          | react  | 7330  | 2380 | 0     | 0      | -        | -
+heldout/otp_input              | forgetti-0.8   | react  | 16307 | 4487 | 88    | 32.65  | 2/2      | 0
+heldout/otp_input              | react-compiler | react  | 8229  | 2804 | 12    | 117.38 | 1/2      | 1
+heldout/otp_input              | next           | react  | 7454  | 2447 | 1     | 7.46   | 1/2      | 1
+heldout/otp_input              | plain          | preact | 7362  | 2392 | 0     | 0      | -        | -
+heldout/otp_input              | forgetti-0.8   | preact | 16361 | 4504 | 88    | 31.05  | 2/2      | 0
+heldout/otp_input              | next           | preact | 7486  | 2457 | 1     | 5.21   | 1/2      | 1
+heldout/table_sort             | plain          | react  | 3956  | 1463 | 0     | 0      | -        | -
+heldout/table_sort             | forgetti-0.8   | react  | 13965 | 3705 | 98    | 15.98  | 2/2      | 0
+heldout/table_sort             | react-compiler | react  | 8195  | 2625 | 69    | 52.45  | 2/2      | 0
+heldout/table_sort             | next           | react  | 6431  | 2183 | 56    | 34.06  | 2/2      | 0
+heldout/table_sort             | plain          | preact | 3963  | 1467 | 0     | 0      | -        | -
+heldout/table_sort             | forgetti-0.8   | preact | 13987 | 3712 | 98    | 15.67  | 2/2      | 0
+heldout/table_sort             | next           | preact | 6445  | 2188 | 56    | 23.67  | 2/2      | 0
+heldout/tree_view              | plain          | react  | 3114  | 1188 | 0     | 0      | -        | -
+heldout/tree_view              | forgetti-0.8   | react  | 11832 | 3115 | 81    | 12.26  | 2/2      | 0
+heldout/tree_view              | react-compiler | react  | 4420  | 1634 | 15    | 22.64  | 1/2      | 1
+heldout/tree_view              | next           | react  | 5121  | 1806 | 46    | 23.9   | 2/2      | 0
+heldout/tree_view              | plain          | preact | 3153  | 1199 | 0     | 0      | -        | -
+heldout/tree_view              | forgetti-0.8   | preact | 11886 | 3130 | 81    | 19.47  | 2/2      | 0
+heldout/tree_view              | next           | preact | 5167  | 1817 | 46    | 31.46  | 2/2      | 0
+heldout2/accordion             | plain          | react  | 6910  | 1923 | 0     | 0      | -        | -
+heldout2/accordion             | forgetti-0.8   | react  | 26356 | 6113 | 185   | 37.36  | 10/10    | 0
+heldout2/accordion             | react-compiler | react  | 17066 | 3472 | 145   | 130.58 | 10/10    | 0
+heldout2/accordion             | next           | react  | 9471  | 2534 | 53    | 80.62  | 9/10     | 1
+heldout2/accordion             | plain          | preact | 6959  | 1932 | 0     | 0      | -        | -
+heldout2/accordion             | forgetti-0.8   | preact | 26435 | 6132 | 185   | 34.71  | 10/10    | 0
+heldout2/accordion             | next           | preact | 9527  | 2542 | 53    | 47.88  | 9/10     | 1
+heldout2/discussions_table     | plain          | react  | 7516  | 2066 | 0     | 0      | -        | -
+heldout2/discussions_table     | forgetti-0.8   | react  | 39244 | 8438 | 272   | 42.66  | 18/18    | 0
+heldout2/discussions_table     | react-compiler | react  | 23468 | 3695 | 218   | 83.14  | 18/18    | 0
+heldout2/discussions_table     | next           | react  | 11507 | 2564 | 81    | 93.34  | 18/18    | 0
+heldout2/discussions_table     | plain          | preact | 7524  | 2071 | 0     | 0      | -        | -
+heldout2/discussions_table     | forgetti-0.8   | preact | 39267 | 8450 | 272   | 40.05  | 18/18    | 0
+heldout2/discussions_table     | next           | preact | 11522 | 2572 | 81    | 79.85  | 18/18    | 0
+heldout2/form_check            | plain          | react  | 6190  | 1883 | 0     | 0      | -        | -
+heldout2/form_check            | forgetti-0.8   | react  | 24771 | 5864 | 177   | 23.83  | 6/6      | 0
+heldout2/form_check            | react-compiler | react  | 14533 | 3724 | 136   | 72.96  | 6/6      | 0
+heldout2/form_check            | next           | react  | 7527  | 2205 | 27    | 31.87  | 6/6      | 0
+heldout2/form_check            | plain          | preact | 6239  | 1893 | 0     | 0      | -        | -
+heldout2/form_check            | forgetti-0.8   | preact | 24850 | 5883 | 177   | 22.27  | 6/6      | 0
+heldout2/form_check            | next           | preact | 7583  | 2210 | 27    | 25.23  | 6/6      | 0
+heldout2/list_group            | plain          | react  | 6065  | 2040 | 0     | 0      | -        | -
+heldout2/list_group            | forgetti-0.8   | react  | 27818 | 6623 | 216   | 28.46  | 9/9      | 0
+heldout2/list_group            | react-compiler | react  | 15082 | 3695 | 126   | 64.09  | 9/9      | 0
+heldout2/list_group            | next           | react  | 8418  | 2638 | 51    | 26.52  | 8/9      | 1
+heldout2/list_group            | plain          | preact | 6110  | 2049 | 0     | 0      | -        | -
+heldout2/list_group            | forgetti-0.8   | preact | 27904 | 6636 | 216   | 25.06  | 9/9      | 0
+heldout2/list_group            | next           | preact | 8463  | 2646 | 51    | 27.27  | 8/9      | 1
+heldout2/pagination            | plain          | react  | 5495  | 1972 | 0     | 0      | -        | -
+heldout2/pagination            | forgetti-0.8   | react  | 25039 | 6127 | 180   | 26.69  | 8/8      | 0
+heldout2/pagination            | react-compiler | react  | 15221 | 4004 | 146   | 60.53  | 8/8      | 0
+heldout2/pagination            | next           | react  | 7152  | 2427 | 35    | 34.17  | 8/8      | 0
+heldout2/pagination            | plain          | preact | 5540  | 1977 | 0     | 0      | -        | -
+heldout2/pagination            | forgetti-0.8   | preact | 25125 | 6142 | 180   | 30.44  | 8/8      | 0
+heldout2/pagination            | next           | preact | 7197  | 2433 | 35    | 39.67  | 8/8      | 0
+heldout2/pricing_plans         | plain          | react  | 7570  | 2519 | 0     | 0      | -        | -
+heldout2/pricing_plans         | forgetti-0.8   | react  | 18534 | 5046 | 107   | 16.04  | 3/3      | 0
+heldout2/pricing_plans         | react-compiler | react  | 10701 | 3499 | 59    | 46.3   | 3/3      | 0
+heldout2/pricing_plans         | next           | react  | 9320  | 3044 | 34    | 41.35  | 3/3      | 0
+heldout2/pricing_plans         | plain          | preact | 7609  | 2532 | 0     | 0      | -        | -
+heldout2/pricing_plans         | forgetti-0.8   | preact | 18595 | 5056 | 107   | 16.23  | 3/3      | 0
+heldout2/pricing_plans         | next           | preact | 9359  | 3058 | 34    | 49.02  | 3/3      | 0
+heldout2/toast_stack           | plain          | react  | 6308  | 1985 | 0     | 0      | -        | -
+heldout2/toast_stack           | forgetti-0.8   | react  | 21643 | 5326 | 144   | 34.7   | 10/10    | 0
+heldout2/toast_stack           | react-compiler | react  | 15093 | 3559 | 123   | 87.94  | 9/10     | 1
+heldout2/toast_stack           | next           | react  | 7150  | 2231 | 16    | 33.47  | 9/10     | 1
+heldout2/toast_stack           | plain          | preact | 6355  | 1992 | 0     | 0      | -        | -
+heldout2/toast_stack           | forgetti-0.8   | preact | 21729 | 5340 | 144   | 27.66  | 10/10    | 0
+heldout2/toast_stack           | next           | preact | 7197  | 2237 | 16    | 27.44  | 9/10     | 1
+heldout2/toaster_store         | plain          | react  | 8579  | 2738 | 0     | 0      | -        | -
+heldout2/toaster_store         | forgetti-0.8   | react  | 20393 | 5379 | 102   | 24.09  | 6/6      | 0
+heldout2/toaster_store         | react-compiler | react  | 12790 | 3654 | 48    | 45.89  | 4/6      | 2
+heldout2/toaster_store         | next           | react  | 9493  | 3016 | 17    | 24.37  | 6/6      | 0
+heldout2/toaster_store         | plain          | preact | 8618  | 2748 | 0     | 0      | -        | -
+heldout2/toaster_store         | forgetti-0.8   | preact | 20454 | 5391 | 102   | 19.02  | 6/6      | 0
+heldout2/toaster_store         | next           | preact | 9532  | 3028 | 17    | 21.02  | 6/6      | 0
+
+scenario                                                     | plain@react | forgetti-0.8@react | react-compiler@react | next@react | plain@preact | forgetti-0.8@preact | next@preact
+base/bailout/same/same                                       | r1 c0       | r0 c0 DIFF         | r1 c0                | r1 c0      | r1 c0        | r0 c0 DIFF          | r1 c0
+base/bailout/one_a/one_a                                     | r1 c0       | r1 c0              | r1 c0                | r1 c0      | r1 c0        | r1 c0               | r1 c0
+base/callback/same/same                                      | r1 c0       | r0 c0              | r0 c0                | r0 c0      | r1 c0        | r0 c0               | r0 c0
+base/callback/one_other/one_other                            | r1 c0       | r0 c0              | r0 c0                | r0 c0      | r1 c0        | r0 c0               | r0 c0
+base/callback/one_id/one_id                                  | r1 c0       | r1 c0              | r1 c0                | r1 c0      | r1 c0        | r1 c0               | r1 c0
+base/deepprop/same/same                                      | r1 c0       | r0 c0              | r0 c0                | r0 c0      | r1 c0        | r0 c0               | r0 c0
+base/deepprop/one_other/one_other                            | r1 c0       | r1 c0              | r0 c0                | r0 c0      | r1 c0        | r1 c0               | r0 c0
+base/deepprop/deep_leaf/deep_leaf                            | r1 c0       | r1 c0              | r1 c0                | r1 c0      | r1 c0        | r1 c0               | r1 c0
+base/deepprop/deep_newrefs_same_leaf/deep_newrefs_same_leaf  | r1 c0       | r0 c0              | r0 c0                | r0 c0      | r1 c0        | r0 c0               | r0 c0
+base/derived/same/same                                       | r0 c2       | r0 c0              | r0 c1                | r0 c0      | r0 c2        | r0 c0               | r0 c0
+base/derived/one_b/one_b                                     | r0 c2       | r0 c1              | r0 c2                | r0 c1      | r0 c2        | r0 c1               | r0 c1
+base/derived/one_a/one_a                                     | r0 c2       | r0 c1              | r0 c1                | r0 c1      | r0 c2        | r0 c1               | r0 c1
+base/earlyreturn/same/same                                   | r1 c2       | r0 c0              | r0 c0                | r0 c0      | r1 c2        | r0 c0               | r0 c0
+base/earlyreturn/one_b/one_b                                 | r1 c2       | r1 c1              | r0 c1                | r0 c1      | r1 c2        | r1 c1               | r0 c1
+base/earlyreturn/one_loading/one_loading                     | r0 c1       | r0 c0              | r0 c0                | r0 c0      | r0 c1        | r0 c0               | r0 c0
+base/forloop/same/same                                       | r3 c0       | r0 c0              | r0 c0                | r0 c0      | r3 c0        | r0 c0               | r0 c0
+base/forloop/one_title/one_title                             | r3 c0       | r0 c0              | r0 c0                | r0 c0      | r3 c0        | r0 c0               | r0 c0
+base/forloop/new_array_same/new_array_same                   | r3 c0       | r0 c0              | r3 c0                | r3 c0      | r3 c0        | r0 c0               | r3 c0
+base/forloop/deep_item/deep_item                             | r3 c0       | r0 c0 DIFF         | r3 c0                | r3 c0      | r3 c0        | r0 c0 DIFF          | r3 c0
+base/forloop/grow_shrink/grow                                | r4 c0       | r0 c0 DIFF         | r4 c0                | r4 c0      | r4 c0        | r0 c0 DIFF          | r4 c0
+base/forloop/grow_shrink/shrink                              | r1 c0       | r0 c0 DIFF         | r1 c0                | r1 c0      | r1 c0        | r0 c0 DIFF          | r1 c0
+base/hook/same/same                                          | r0 c2       | r0 c0              | r0 c2                | r0 c2      | r0 c2        | r0 c0               | r0 c2
+base/hook/one_b/one_b                                        | r0 c2       | r0 c1              | r0 c2                | r0 c2      | r0 c2        | r0 c1               | r0 c2
+base/hook/one_a/one_a                                        | r0 c2       | r0 c1              | r0 c2                | r0 c2      | r0 c2        | r0 c1               | r0 c2
+base/jsxprops/same/same                                      | r2 c0       | r0 c0              | r0 c0                | r0 c0      | r2 c0        | r0 c0               | r0 c0
+base/jsxprops/one_cls/one_cls                                | r2 c0       | r2 c0              | r0 c0                | r0 c0      | r2 c0        | r2 c0               | r0 c0
+base/jsxprops/one_x/one_x                                    | r2 c0       | r2 c0              | r1 c0                | r1 c0      | r2 c0        | r2 c0               | r1 c0
+base/map/same/same                                           | r3 c0       | r0 c0              | r0 c0                | r0 c0      | r3 c0        | r0 c0               | r0 c0
+base/map/one_title/one_title                                 | r3 c0       | r0 c0              | r0 c0                | r0 c0      | r3 c0        | r0 c0               | r0 c0
+base/map/deep_item/deep_item                                 | r3 c0       | r1 c0              | r3 c0                | r1 c0      | r3 c0        | r1 c0               | r1 c0
+base/map/append/append                                       | r4 c0       | r1 c0              | r4 c0                | r1 c0      | r4 c0        | r1 c0               | r1 c0
+base/mutate/same/same                                        | r2 c0       | r0 c0              | r0 c0                | r0 c0      | r2 c0        | r0 c0               | r0 c0
+base/mutate/one_c/one_c                                      | r2 c0       | r0 c0              | r0 c0                | r0 c0      | r2 c0        | r0 c0               | r0 c0
+base/mutate/one_a/one_a                                      | r2 c0       | r1 c0              | r2 c0                | r2 c0      | r2 c0        | r1 c0               | r2 c0
+base/statememo/same/same                                     | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+base/statememo/one_tag/one_tag                               | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+base/statememo/new_list_same_content/new_list_same_content   | r0 c1       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c1               | r0 c1
+base/statememo/setState/setState                             | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+base/switch/same/same                                        | r1 c0       | r0 c0              | r0 c0                | r0 c0      | r1 c0        | r0 c0               | r0 c0
+base/switch/inactive_b/inactive_b                            | r1 c0       | r0 c0              | r0 c0                | r0 c0      | r1 c0        | r0 c0               | r0 c0
+base/switch/active_a/active_a                                | r1 c0       | r1 c0              | r1 c0                | r1 c0      | r1 c0        | r1 c0               | r1 c0
+base/switch/kind_b/kind_b                                    | r1 c0       | r1 c0              | r1 c0                | r1 c0      | r1 c0        | r1 c0               | r1 c0
+base/ternary/same/same                                       | r1 c0       | r0 c0              | r0 c0                | r0 c0      | r1 c0        | r0 c0               | r0 c0
+base/ternary/inactive_b/inactive_b                           | r1 c0       | r0 c0              | r1 c0                | r0 c0      | r1 c0        | r0 c0               | r0 c0
+base/ternary/active_a/active_a                               | r1 c0       | r1 c0              | r1 c0                | r1 c0      | r1 c0        | r1 c0               | r1 c0
+base/trycatch/same/same                                      | r0 c1       | r0 c0              | r0 c0                | r0 c0      | r0 c1        | r0 c0               | r0 c0
+base/trycatch/one_label/one_label                            | r0 c1       | r0 c0              | r0 c0                | r0 c0      | r0 c1        | r0 c0               | r0 c0
+base/trycatch/one_a/one_a                                    | r0 c1       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c1               | r0 c1
+base/trycatch/throw/throw                                    | r0 c1       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c1               | r0 c1
+base/usectx/same/same                                        | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+base/usectx/one_name/one_name                                | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+base/usectx/flag_off/flag_off                                | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+base/usectx/context_change/to_B                              | r0 c0       | r0 c0 DIFF         | r0 c0                | r0 c0      | r0 c0        | r0 c0 DIFF          | r0 c0
+tuning/alias_branch/same/same                                | r0 c1       | r0 c0              | r0 c1                | r0 c1      | r0 c1        | r0 c0               | r0 c1
+tuning/alias_branch/flag_off/flag_off                        | r0 c1       | r0 c0 DIFF         | r0 c1                | r0 c1      | r0 c1        | r0 c0 DIFF          | r0 c1
+tuning/alias_branch/one_a/one_a                              | r0 c1       | r0 c0              | r0 c1                | r0 c1      | r0 c1        | r0 c0               | r0 c1
+tuning/alias_branch/one_b/one_b                              | r0 c1       | r0 c0 DIFF         | r0 c1                | r0 c1      | r0 c1        | r0 c0 DIFF          | r0 c1
+tuning/alias_child/same/same                                 | r2 c0       | r0 c0              | r0 c0                | r0 c0      | r2 c0        | r0 c0               | r0 c0
+tuning/alias_child/one_a/one_a                               | r2 c0       | r2 c0              | r1 c0                | r1 c0      | r2 c0        | r2 c0               | r1 c0
+tuning/alias_child/one_b/one_b                               | r2 c0       | r2 c0              | r2 c0                | r2 c0      | r2 c0        | r2 c0               | r2 c0
+tuning/alias_child/new_pick/new_pick                         | r2 c0       | r0 c0              | r0 c0                | r0 c0      | r2 c0        | r0 c0               | r0 c0
+tuning/alias_closure/same/same                               | r0 c1       | r0 c0              | r0 c1                | r0 c1      | r0 c1        | r0 c0               | r0 c1
+tuning/alias_closure/new_list/new_list                       | r0 c1       | r0 c0              | r0 c1                | r0 c1      | r0 c1        | r0 c0               | r0 c1
+tuning/alias_closure/one_item/one_item                       | r0 c1       | r0 c0 DIFF         | r0 c1                | r0 c1      | r0 c1        | r0 c0 DIFF          | r0 c1
+tuning/alias_closure/one_tag/one_tag                         | r0 c1       | r0 c0              | r0 c1                | r0 c1      | r0 c1        | r0 c0               | r0 c1
+tuning/alias_field/same/same                                 | r0 c1       | r0 c0              | r0 c1                | r0 c1      | r0 c1        | r0 c0               | r0 c1
+tuning/alias_field/one_a/one_a                               | r0 c1       | r0 c0              | r0 c1                | r0 c1      | r0 c1        | r0 c0               | r0 c1
+tuning/alias_field/one_b/one_b                               | r0 c1       | r0 c0 DIFF         | r0 c1                | r0 c1      | r0 c1        | r0 c0 DIFF          | r0 c1
+tuning/alias_field/one_tag/one_tag                           | r0 c1       | r0 c0              | r0 c1                | r0 c1      | r0 c1        | r0 c0               | r0 c1
+tuning/alias_push/same/same                                  | r0 c1       | r0 c0              | r0 c1                | r0 c1      | r0 c1        | r0 c0               | r0 c1
+tuning/alias_push/one_a/one_a                                | r0 c1       | r0 c0              | r0 c1                | r0 c1      | r0 c1        | r0 c0               | r0 c1
+tuning/alias_push/one_b/one_b                                | r0 c1       | r0 c0 DIFF         | r0 c1                | r0 c1      | r0 c1        | r0 c0 DIFF          | r0 c1
+tuning/alias_push/one_tag/one_tag                            | r0 c1       | r0 c0              | r0 c1                | r0 c1      | r0 c1        | r0 c0               | r0 c1
+tuning/alias_spread/same/same                                | r0 c1       | r0 c0              | r0 c1                | r0 c1      | r0 c1        | r0 c0               | r0 c1
+tuning/alias_spread/new_list/new_list                        | r0 c1       | r0 c0              | r0 c1                | r0 c1      | r0 c1        | r0 c0               | r0 c1
+tuning/alias_spread/one_extra/one_extra                      | r0 c1       | r0 c0 DIFF         | r0 c1                | r0 c1      | r0 c1        | r0 c0 DIFF          | r0 c1
+tuning/alias_unknown/same/same                               | r0 c1       | r0 c0              | r0 c1                | r0 c1      | r0 c1        | r0 c0               | r0 c1
+tuning/alias_unknown/one_a/one_a                             | r0 c1       | r0 c0              | r0 c1                | r0 c1      | r0 c1        | r0 c0               | r0 c1
+tuning/alias_unknown/one_b/one_b                             | r0 c1       | r0 c0 DIFF         | r0 c1                | r0 c1      | r0 c1        | r0 c0 DIFF          | r0 c1
+tuning/alias_unknown/new_grow/new_grow                       | r0 c1       | r0 c0 DIFF         | r0 c1                | r0 c1      | r0 c1        | r0 c0 DIFF          | r0 c1
+tuning/callback_globals/GlobalMap/set_global                 | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+tuning/callback_globals/GlobalMap/again                      | r0 c0       | r0 c0 DIFF         | r0 c0 DIFF           | r0 c0      | r0 c0        | r0 c0 DIFF          | r0 c0
+tuning/callback_globals/GlobalMap/clear_global               | r0 c0       | r0 c0 DIFF         | r0 c0 DIFF           | r0 c0      | r0 c0        | r0 c0 DIFF          | r0 c0
+tuning/callback_globals/GlobalMap/again_clear                | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+tuning/callback_globals/GlobalMemo/set_global                | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+tuning/callback_globals/GlobalMemo/again                     | r0 c1       | r0 c0 DIFF         | r0 c0 DIFF           | r0 c1      | r0 c1        | r0 c0 DIFF          | r0 c1
+tuning/callback_globals/GlobalMemo/clear_global              | r0 c0       | r0 c0 DIFF         | r0 c0 DIFF           | r0 c0      | r0 c0        | r0 c0 DIFF          | r0 c0
+tuning/callback_globals/GlobalMemo/again_clear               | r0 c1       | r0 c0              | r0 c0                | r0 c1      | r0 c1        | r0 c0               | r0 c1
+tuning/callback_globals/GlobalPlain/set_global               | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+tuning/callback_globals/GlobalPlain/again                    | r0 c1       | r0 c0 DIFF         | r0 c0 DIFF           | r0 c1      | r0 c1        | r0 c0 DIFF          | r0 c1
+tuning/callback_globals/GlobalPlain/clear_global             | r0 c0       | r0 c0 DIFF         | r0 c0 DIFF           | r0 c0      | r0 c0        | r0 c0 DIFF          | r0 c0
+tuning/callback_globals/GlobalPlain/again_clear              | r0 c1       | r0 c0              | r0 c0                | r0 c1      | r0 c1        | r0 c0               | r0 c1
+tuning/callback_globals/PropsFill_same/same                  | r1 c0       | r0 c0 DIFF         | r0 c0                | r1 c0      | r1 c0        | r0 c0 DIFF          | r1 c0
+tuning/callback_globals/PropsFill_same/same_again            | r1 c0       | r0 c0 DIFF         | r0 c0                | r1 c0      | r1 c0        | r0 c0 DIFF          | r1 c0
+tuning/callback_globals/PropsFill_one_a/one_a                | r1 c0       | r1 c0              | r1 c0                | r1 c0      | r1 c0        | r1 c0               | r1 c0
+tuning/callback_globals/PropsFill_one_a/same_again           | r1 c0       | r0 c0 DIFF         | r0 c0                | r1 c0      | r1 c0        | r0 c0 DIFF          | r1 c0
+tuning/control_assign/if_flip/test_off                       | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+tuning/control_assign/if_flip/test_on                        | r1 c0       | r1 c0              | r1 c0                | r1 c0      | r1 c0        | r1 c0               | r1 c0
+tuning/control_assign/switch_flip/test_off                   | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+tuning/control_assign/switch_flip/test_on                    | r1 c0       | r1 c0              | r1 c0                | r1 c0      | r1 c0        | r1 c0               | r1 c0
+tuning/control_assign/and_flip/test_off                      | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+tuning/control_assign/and_flip/test_on                       | r1 c0       | r1 c0              | r1 c0                | r1 c0      | r1 c0        | r1 c0               | r1 c0
+tuning/control_assign/skip_flip/test_off                     | r1 c0       | r1 c0              | r1 c0                | r1 c0      | r1 c0        | r1 c0               | r1 c0
+tuning/control_assign/skip_flip/test_on                      | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+tuning/discard_strict/same/same                              | r0 c2       | r0 c0              | r0 c0                | r0 c0      |              |                     |
+tuning/discard_strict/new_list/new_list                      | r0 c2       | r0 c1              | r0 c1                | r0 c1      |              |                     |
+tuning/discard_strict/one_tag/one_tag                        | r0 c4       | r0 c2              | r0 c2                | r0 c2      |              |                     |
+tuning/discard_strict/setState/setState                      | r0 c2       | r0 c0              | r0 c0                | r0 c0      |              |                     |
+tuning/discard_suspense_mount/resolve/resolve                | r0 c1       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c1               | r0 c1
+tuning/discard_suspense_mount/resolve/one_tag                | r0 c1       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c1               | r0 c1
+tuning/discard_suspense_mount/ready/one_tag                  | r0 c1       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c1               | r0 c1
+tuning/discard_suspense_mount/ready/same                     | r0 c1       | r0 c0              | r0 c0                | r0 c0      | r0 c1        | r0 c0               | r0 c0
+tuning/discard_suspense_mount/tag_while_pending/one_tag      | r0 c2       | r0 c2              | r0 c2                | r0 c2      | r0 c0        | r0 c0               | r0 c0
+tuning/discard_suspense_mount/tag_while_pending/resolve      | r0 c1       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c1               | r0 c1
+tuning/discard_suspense_update/suspend_same_tag/suspend      | r0 c2       | r0 c0 DIFF         | r0 c0                | r0 c0      |              |                     |
+tuning/discard_suspense_update/suspend_same_tag/resolve      | r0 c1       | r0 c0              | r0 c0                | r0 c0      |              |                     |
+tuning/discard_suspense_update/suspend_same_tag/same         | r0 c1       | r0 c0              | r0 c0                | r0 c0      |              |                     |
+tuning/discard_suspense_update/suspend_new_tag/suspend       | r0 c2       | r0 c1 DIFF         | r0 c2                | r0 c1      |              |                     |
+tuning/discard_suspense_update/suspend_new_tag/resolve       | r0 c1       | r0 c0 DIFF         | r0 c1                | r0 c0      |              |                     |
+tuning/discard_suspense_update/suspend_new_tag/one_tag       | r0 c1       | r0 c1              | r0 c1                | r0 c1      |              |                     |
+tuning/discard_suspense_update/retag_while_pending/suspend   | r0 c2       | r0 c1 DIFF         | r0 c2                | r0 c1      |              |                     |
+tuning/discard_suspense_update/retag_while_pending/retag     | r0 c2       | r0 c1 DIFF         | r0 c2                | r0 c1      |              |                     |
+tuning/discard_suspense_update/retag_while_pending/resolve   | r0 c1       | r0 c0              | r0 c1                | r0 c0      |              |                     |
+tuning/discard_transition/same/same                          | r1 c2       | r0 c0              | r0 c0                | r0 c0      | r1 c2        | r0 c0               | r0 c0
+tuning/discard_transition/one_tag/one_tag                    | r1 c2       | r1 c0              | r0 c0                | r0 c0      | r1 c2        | r1 c0               | r0 c0
+tuning/discard_transition/setState/setState                  | r2 c4       | r2 c2              | r0 c2                | r0 c2      | r1 c2        | r1 c2               | r0 c2
+tuning/discard_transition/interrupt/interrupt                | r2 c4       | r2 c2              | r0 c2                | r0 c2      | r1 c2        | r1 c2               | r0 c2
+tuning/discard_transition/interrupt/after                    | r1 c2       | r1 c0              | r0 c0                | r0 c0      | r1 c2        | r1 c0               | r0 c0
+tuning/escaping_closure/Rows_same/same                       | r0 c3       | r0 c0              | r0 c0                | r0 c0      | r0 c3        | r0 c0               | r0 c0
+tuning/escaping_closure/Rows_new_prefix/new_prefix           | r0 c3       | r0 c3              | r0 c3                | r0 c3      | r0 c3        | r0 c3               | r0 c3
+tuning/escaping_closure/Rows_new_pick/new_pick               | r0 c3       | r0 c3              | r0 c3                | r0 c3      | r0 c3        | r0 c3               | r0 c3
+tuning/escaping_closure/Pair_same/same                       | r2 c0       | r0 c0              | r0 c0                | r0 c0      | r2 c0        | r0 c0               | r0 c0
+tuning/escaping_closure/Pair_new_join/new_join               | r2 c0       | r2 c0              | r2 c0                | r2 c0      | r2 c0        | r2 c0               | r2 c0
+tuning/escaping_closure/Check_same/same                      | r1 c1       | r0 c0              | r0 c0                | r0 c0      | r1 c1        | r0 c0               | r0 c0
+tuning/escaping_closure/Check_new_values/new_values          | r1 c1       | r1 c1              | r0 c1                | r0 c1      | r1 c1        | r1 c1               | r0 c1
+tuning/escaping_closure/Check_one_value/one_value            | r1 c1       | r1 c1              | r1 c1                | r1 c1      | r1 c1        | r1 c1               | r1 c1
+tuning/escaping_closure/Check_new_label/new_label            | r1 c1       | r1 c0              | r0 c0                | r0 c0      | r1 c1        | r1 c0               | r0 c0
+tuning/hook_effect_event/one_n/one_n                         | r0 c0       | r0 c0              | r0 c0                | r0 c0      |              |                     |
+tuning/hook_effect_event/one_tag/one_tag                     | r0 c1       | r0 c1              | r0 c1                | r0 c1      |              |                     |
+tuning/hook_effect_event/both/one_n                          | r0 c0       | r0 c0              | r0 c0                | r0 c0      |              |                     |
+tuning/hook_effect_event/both/one_tag                        | r0 c1       | r0 c1              | r0 c1                | r0 c1      |              |                     |
+tuning/hook_nested/same/same                                 | r1 c2       | r0 c0              | r0 c2                | r0 c2      | r1 c2        | r0 c0               | r0 c2
+tuning/hook_nested/one_v/one_v                               | r1 c2       | r1 c0              | r0 c2                | r0 c2      | r1 c2        | r1 c0               | r0 c2
+tuning/hook_nested/one_tag/one_tag                           | r1 c2       | r1 c0              | r0 c2                | r0 c2      | r1 c2        | r1 c0               | r0 c2
+tuning/hook_nested/one_other/one_other                       | r1 c2       | r1 c0              | r1 c2                | r1 c2      | r1 c2        | r1 c0               | r1 c2
+tuning/hook_nested/setState/setState                         | r1 c2       | r1 c0              | r0 c2                | r0 c2      | r1 c2        | r1 c0               | r0 c2
+tuning/hook_object/same/same                                 | r0 c1       | r0 c0              | r0 c1                | r0 c1      | r0 c1        | r0 c0               | r0 c1
+tuning/hook_object/new_list/new_list                         | r0 c1       | r0 c0              | r0 c1                | r0 c1      | r0 c1        | r0 c0               | r0 c1
+tuning/hook_object/one_scale/one_scale                       | r0 c1       | r0 c0              | r0 c1                | r0 c1      | r0 c1        | r0 c0               | r0 c1
+tuning/hook_object/one_tag/one_tag                           | r0 c1       | r0 c0              | r0 c1                | r0 c1      | r0 c1        | r0 c0               | r0 c1
+tuning/hook_object/setState/setState                         | r0 c1       | r0 c0              | r0 c1                | r0 c1      | r0 c1        | r0 c0               | r0 c1
+tuning/hook_use_cond/same/same                               | r0 c1       | r0 c0              | r0 c1                | r0 c0      | r0 c1        | r0 c0               | r0 c0
+tuning/hook_use_cond/one_name/one_name                       | r0 c1       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c1               | r0 c1
+tuning/hook_use_cond/flag_off/flag_off                       | r0 c1       | r0 c0              | r0 c1                | r0 c0      | r0 c1        | r0 c0               | r0 c0
+tuning/hook_use_cond/flag_toggle/off                         | r0 c1       | r0 c0              | r0 c1                | r0 c0      | r0 c1        | r0 c0               | r0 c0
+tuning/hook_use_cond/flag_toggle/on                          | r0 c1       | r0 c0              | r0 c1                | r0 c0      | r0 c1        | r0 c0               | r0 c0
+tuning/hook_use_cond/context_change/to_B                     | r0 c1       | r0 c0 DIFF         | r0 c1                | r0 c0      | r0 c1        | r0 c0 DIFF          | r0 c0
+tuning/loop_shapes/arm_same/same                             | r3 c0       | r0 c0              | r0 c0                | r0 c0      | r3 c0        | r0 c0               | r0 c0
+tuning/loop_shapes/arm_replace/replace                       | r3 c0       | r1 c0              | r3 c0                | r1 c0      | r3 c0        | r1 c0               | r1 c0
+tuning/loop_shapes/arm_append/append                         | r4 c0       | r1 c0              | r4 c0                | r1 c0      | r4 c0        | r1 c0               | r1 c0
+tuning/loop_shapes/arm_off/off                               | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+tuning/loop_shapes/arm_toggle/off                            | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+tuning/loop_shapes/arm_toggle/on                             | r3 c0       | r3 c0              | r3 c0                | r3 c0      | r3 c0        | r3 c0               | r3 c0
+tuning/loop_shapes/callback_same/same                        | r3 c0       | r0 c0              | r0 c0                | r0 c0      | r3 c0        | r0 c0               | r0 c0
+tuning/loop_shapes/callback_value/value                      | r3 c0       | r1 c0              | r3 c0                | r3 c0      | r3 c0        | r1 c0               | r3 c0
+tuning/loop_shapes/callback_replace/replace                  | r3 c0       | r1 c0              | r3 c0                | r1 c0      | r3 c0        | r2 c0               | r2 c0
+tuning/loop_shapes/callback_append/append                    | r4 c0       | r1 c0              | r4 c0                | r1 c0      | r4 c0        | r1 c0               | r1 c0
+tuning/loop_shapes/nested_same/same                          | r3 c0       | r0 c0              | r0 c0                | r0 c0      | r3 c0        | r0 c0               | r0 c0
+tuning/loop_shapes/nested_deep/deep                          | r4 c0       | r2 c0              | r4 c0                | r2 c0      | r4 c0        | r2 c0               | r2 c0
+tuning/loop_shapes/nested_fresh/fresh                        | r3 c0       | r0 c0              | r3 c0                | r0 c0      | r3 c0        | r0 c0               | r0 c0
+tuning/loop_shapes/and_same/same                             | r3 c0       | r0 c0              | r0 c0                | r0 c0      | r3 c0        | r0 c0               | r0 c0
+tuning/loop_shapes/and_replace/replace                       | r3 c0       | r1 c0              | r3 c0                | r1 c0      | r3 c0        | r1 c0               | r1 c0
+tuning/loop_shapes/and_gone/gone                             | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+tuning/loop_shapes/of_same/same                              | r3 c0       | r0 c0              | r0 c0                | r0 c0      | r3 c0        | r0 c0               | r0 c0
+tuning/loop_shapes/of_title/title                            | r3 c0       | r0 c0              | r0 c0                | r0 c0      | r3 c0        | r0 c0               | r0 c0
+tuning/loop_shapes/of_replace/replace                        | r3 c0       | r0 c0 DIFF         | r3 c0                | r1 c0      | r3 c0        | r0 c0 DIFF          | r1 c0
+tuning/loop_shapes/of_append/append                          | r4 c0       | r0 c0 DIFF         | r4 c0                | r1 c0      | r4 c0        | r0 c0 DIFF          | r1 c0
+tuning/loop_shapes/of_shrink/shrink                          | r1 c0       | r0 c0 DIFF         | r1 c0                | r1 c0      | r1 c0        | r0 c0 DIFF          | r1 c0
+tuning/loop_shapes/counter_same/same                         | r3 c0       | r0 c0              | r0 c0                | r0 c0      | r3 c0        | r0 c0               | r0 c0
+tuning/loop_shapes/counter_value/value                       | r3 c0       | r0 c0 DIFF         | r3 c0                | r3 c0      | r3 c0        | r0 c0 DIFF          | r3 c0
+tuning/loop_shapes/counter_grow/grow                         | r4 c0       | r0 c0 DIFF         | r4 c0                | r1 c0      | r4 c0        | r0 c0 DIFF          | r1 c0
+tuning/loop_shapes/counter_shrink/shrink                     | r1 c0       | r0 c0 DIFF         | r1 c0                | r0 c0      | r1 c0        | r0 c0 DIFF          | r0 c0
+tuning/loop_shapes/skip_same/same                            | r2 c0       | r0 c0              | r0 c0                | r0 c0      | r2 c0        | r0 c0               | r0 c0
+tuning/loop_shapes/skip_value/value                          | r2 c0       | r0 c0 DIFF         | r2 c0                | r2 c0      | r2 c0        | r0 c0 DIFF          | r2 c0
+tuning/loop_shapes/skip_hide/hide                            | r1 c0       | r0 c0 DIFF         | r1 c0                | r0 c0      | r1 c0        | r0 c0 DIFF          | r0 c0
+tuning/loop_shapes/skip_show/show                            | r3 c0       | r0 c0 DIFF         | r3 c0                | r1 c0      | r3 c0        | r0 c0 DIFF          | r1 c0
+tuning/loop_shapes/var_of/same                               | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+tuning/loop_shapes/var_of/shrink                             | r0 c0       | r0 c0 DIFF         | r0 c0                | r0 c0      | r0 c0        | r0 c0 DIFF          | r0 c0
+tuning/loop_shapes/var_of/grow                               | r0 c0       | r0 c0 DIFF         | r0 c0                | r0 c0      | r0 c0        | r0 c0 DIFF          | r0 c0
+tuning/loop_shapes/var_counter_same/same                     | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+tuning/loop_shapes/var_counter_shrink/shrink                 | r0 c0       | r0 c0 DIFF         | r0 c0                | r0 c0      | r0 c0        | r0 c0 DIFF          | r0 c0
+tuning/stable_children/Picker_same/same                      | r3 c0       | r0 c0              | r0 c0                | r0 c0      | r3 c0        | r0 c0               | r0 c0
+tuning/stable_children/Picker_new_items/new_items            | r3 c0       | r0 c0              | r3 c0                | r0 c0      | r3 c0        | r0 c0               | r0 c0
+tuning/stable_children/Picker_new_heading/new_heading        | r3 c0       | r0 c0              | r0 c0                | r0 c0      | r3 c0        | r0 c0               | r0 c0
+tuning/stable_children/Picker_new_pick/new_pick              | r3 c0       | r0 c0              | r3 c0                | r3 c0      | r3 c0        | r0 c0               | r3 c0
+tuning/stable_children/Picker_one_item/one_item              | r3 c0       | r0 c0              | r3 c0                | r1 c0      | r3 c0        | r0 c0               | r1 c0
+tuning/stable_children/Totals_same/same                      | r1 c1       | r0 c0              | r0 c1                | r0 c0      | r1 c1        | r0 c0               | r0 c0
+tuning/stable_children/Totals_new_entries/new_entries        | r1 c1       | r0 c0              | r0 c1                | r0 c0      | r1 c1        | r0 c0               | r0 c0
+tuning/stable_children/Totals_one_currency/one_currency      | r1 c1       | r1 c0              | r0 c1                | r0 c1      | r1 c1        | r1 c0               | r0 c1
+tuning/stable_children/Totals_one_amount/one_amount          | r1 c1       | r1 c1              | r0 c1                | r0 c1      | r1 c1        | r1 c1               | r0 c1
+tuning/stable_children/Totals_new_top/new_top                | r1 c1       | r1 c1              | r1 c1                | r1 c1      | r1 c1        | r1 c1               | r1 c1
+tuning/stable_children/Totals_no_entries/no_entries          | r2 c1       | r1 c1              | r2 c1                | r2 c1      | r2 c1        | r1 c1               | r2 c1
+tuning/stable_children/Mode_same/same                        | r1 c0       | r0 c0              | r0 c0                | r0 c0      | r1 c0        | r0 c0               | r0 c0
+tuning/stable_children/Mode_new_user/new_user                | r1 c0       | r0 c0              | r0 c0                | r0 c0      | r1 c0        | r0 c0               | r0 c0
+tuning/stable_children/Mode_other_user/other_user            | r2 c0       | r1 c0              | r2 c0                | r2 c0      | r2 c0        | r1 c0               | r2 c0
+tuning/stable_children/Mode_no_user/no_user                  | r2 c0       | r1 c0              | r2 c0                | r2 c0      | r2 c0        | r1 c0               | r2 c0
+tuning/stable_children/Mode_flag_on/flag_on                  | r1 c0       | r1 c0              | r1 c0                | r1 c0      | r1 c0        | r1 c0               | r1 c0
+tuning/throw_boundary_swap/swap/arm                          | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+tuning/throw_boundary_swap/swap/reset                        | r0 c1       | r0 c0 DIFF         | r0 c1                | r0 c1      | r0 c1        | r0 c0 DIFF          | r0 c1
+tuning/throw_boundary_swap/swap/one_tag                      | r0 c1       | r0 c0 DIFF         | r0 c0                | r0 c0      | r0 c1        | r0 c0 DIFF          | r0 c0
+tuning/throw_boundary_swap/mount_swap/reset                  | r0 c1       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c0 DIFF          | r0 c1
+tuning/throw_boundary_swap/mount_swap/one_a                  | r0 c1       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c1               | r0 c1
+tuning/throw_call/update_throws/arm                          | r0 c2       | r0 c1 DIFF         | r0 c2                | r0 c2      | r0 c1        | r0 c0 DIFF          | r0 c1
+tuning/throw_call/update_throws/same                         | r0 c1       | r0 c0 DIFF         | r0 c0                | r0 c0      | r0 c1        | r0 c0 DIFF          | r0 c0
+tuning/throw_call/update_throws/one_tag                      | r0 c1       | r0 c0 DIFF         | r0 c0                | r0 c0      | r0 c1        | r0 c0 DIFF          | r0 c0
+tuning/throw_call/mount_throws/same                          | r0 c1       | r0 c0              | r0 c0                | r0 c0      | r0 c1        | r0 c0 DIFF          | r0 c0
+tuning/throw_call/mount_throws/one_a                         | r0 c1       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c1               | r0 c1
+tuning/throw_group/update_throws/arm                         | r0 c5       | r0 c3 DIFF         | r0 c5                | r0 c4      | r0 c3        | r0 c1 DIFF          | r0 c2
+tuning/throw_group/update_throws/same                        | r0 c2       | r0 c0 DIFF         | r0 c2                | r0 c0      | r0 c2        | r0 c0 DIFF          | r0 c0
+tuning/throw_group/update_throws/one_tag                     | r0 c2       | r0 c2              | r0 c2                | r0 c2      | r0 c2        | r0 c2               | r0 c2
+tuning/throw_group/mount_throws/same                         | r0 c2       | r0 c0              | r0 c2                | r0 c0      | r0 c2        | r0 c0 DIFF          | r0 c0
+tuning/throw_group/mount_throws/one_tag                      | r0 c2       | r0 c0              | r0 c2                | r0 c0      | r0 c2        | r0 c0 DIFF          | r0 c0
+tuning/throw_row/update_throws/arm                           | r6 c6       | r3 c3 DIFF         | r6 c6                | r6 c6      | r3 c3        | r0 c0 DIFF          | r3 c3
+tuning/throw_row/update_throws/same                          | r3 c3       | r0 c0 DIFF         | r0 c0                | r0 c0      | r3 c3        | r0 c0 DIFF          | r0 c0
+tuning/throw_row/update_throws/grow                          | r4 c4       | r4 c4              | r4 c4                | r1 c1      | r4 c4        | r4 c4               | r1 c1
+tuning/throw_row/mount_throws/same                           | r3 c3       | r0 c0              | r0 c0                | r0 c0      | r3 c3        | r0 c0 DIFF          | r0 c0
+tuning/throw_row/mount_throws/grow                           | r4 c4       | r4 c4              | r4 c4                | r1 c1      | r4 c4        | r4 c4               | r1 c1
+heldout/cart_summary/same/same                               | r4 c1       | r0 c0              | r0 c1                | r0 c1      | r4 c1        | r0 c0               | r0 c1
+heldout/cart_summary/new_products/new_products               | r4 c1       | r1 c1              | r3 c1                | r0 c1      | r4 c1        | r1 c1               | r0 c1
+heldout/cart_summary/one_price/one_price                     | r4 c1       | r1 c1              | r3 c1                | r1 c1      | r4 c1        | r1 c1               | r1 c1
+heldout/cart_summary/one_discount/one_discount               | r4 c1       | r0 c0              | r0 c1                | r0 c1      | r4 c1        | r0 c0               | r0 c1
+heldout/cart_summary/new_checkout/new_checkout               | r4 c1       | r1 c0              | r0 c1                | r0 c1      | r4 c1        | r1 c0               | r0 c1
+heldout/cart_summary/shopping/add_ipad                       | r4 c2       | r1 c2              | r0 c2                | r0 c2      | r4 c2        | r1 c2               | r0 c2
+heldout/cart_summary/shopping/add_shirt                      | r4 c2       | r1 c2              | r0 c2                | r0 c2      | r4 c2        | r1 c2               | r0 c2
+heldout/cart_summary/shopping/add_ipad_again                 | r4 c2       | r1 c2              | r0 c2                | r0 c2      | r4 c2        | r1 c2               | r0 c2
+heldout/cart_summary/shopping/discount                       | r4 c1       | r1 c0              | r0 c1                | r0 c1      | r4 c1        | r1 c0               | r0 c1
+heldout/cart_summary/shopping/remove_shirt                   | r4 c2       | r1 c2              | r0 c2                | r0 c2      | r4 c2        | r1 c2               | r0 c2
+heldout/cart_summary/shopping/checkout                       | r4 c2       | r1 c2              | r0 c2                | r0 c2      | r4 c2        | r1 c2               | r0 c2
+heldout/cart_summary/shopping/count                          | r4 c1       | r1 c0              | r1 c1                | r1 c1      | r4 c1        | r1 c0               | r1 c1
+heldout/dashboard_card/same/same                             | r1 c4       | r0 c0              | r0 c0                | r0 c0      | r1 c4        | r0 c0               | r0 c0
+heldout/dashboard_card/new_title/new_title                   | r1 c4       | r1 c0              | r0 c0                | r0 c0      | r1 c4        | r1 c0               | r0 c0
+heldout/dashboard_card/new_history/new_history               | r1 c4       | r1 c0              | r0 c0                | r0 c0      | r1 c4        | r1 c0               | r0 c0
+heldout/dashboard_card/new_quotes/new_quotes                 | r1 c4       | r1 c0              | r0 c0                | r0 c0      | r1 c4        | r1 c0               | r0 c0
+heldout/dashboard_card/one_price/one_price                   | r1 c4       | r1 c2              | r0 c2                | r0 c2      | r1 c4        | r1 c2               | r0 c2
+heldout/dashboard_card/one_currency/one_currency             | r1 c4       | r1 c4              | r0 c4                | r0 c4      | r1 c4        | r1 c4               | r0 c4
+heldout/dashboard_card/one_limit/one_limit                   | r1 c3       | r1 c1              | r0 c1                | r0 c1      | r1 c3        | r1 c1               | r0 c1
+heldout/dashboard_card/interaction/sort_change               | r1 c4       | r1 c0 DIFF         | r0 c0                | r0 c0      | r1 c4        | r1 c0 DIFF          | r0 c0
+heldout/dashboard_card/interaction/collapse                  | r1 c1       | r1 c0              | r0 c0                | r0 c0      | r1 c1        | r1 c0               | r0 c0
+heldout/dashboard_card/interaction/tick_collapsed            | r1 c1       | r1 c1              | r0 c1                | r0 c1      | r1 c1        | r1 c1               | r0 c1
+heldout/dashboard_card/interaction/expand                    | r1 c5       | r1 c4              | r0 c4                | r0 c4      | r1 c5        | r1 c4               | r0 c4
+heldout/dashboard_card/interaction/sort_symbol               | r1 c4       | r1 c0 DIFF         | r0 c0                | r0 c0      | r1 c4        | r1 c0 DIFF          | r0 c0
+heldout/form_validation/same/same                            | r2 c6       | r0 c0              | r0 c0                | r0 c0      | r2 c6        | r0 c0               | r0 c0
+heldout/form_validation/new_defaults/new_defaults            | r2 c6       | r0 c0              | r0 c0                | r0 c0      | r2 c6        | r0 c0               | r0 c0
+heldout/form_validation/one_mode/one_mode                    | r2 c6       | r1 c0              | r0 c0                | r0 c0      | r2 c6        | r1 c0               | r0 c0
+heldout/form_validation/new_submit/new_submit                | r2 c6       | r2 c0              | r1 c0                | r1 c0      | r2 c6        | r2 c0               | r1 c0
+heldout/form_validation/typing/bad_email                     | r2 c6       | r2 c6              | r2 c6                | r2 c6      | r2 c6        | r2 c6               | r2 c6
+heldout/form_validation/typing/touch_email                   | r2 c6       | r1 c0              | r0 c0                | r0 c0      | r2 c6        | r1 c0               | r0 c0
+heldout/form_validation/typing/fix_email                     | r2 c6       | r2 c6              | r2 c6                | r2 c6      | r2 c6        | r2 c6               | r2 c6
+heldout/form_validation/typing/long_phone                    | r2 c6       | r2 c6              | r1 c6                | r1 c6      | r2 c6        | r2 c6               | r1 c6
+heldout/form_validation/typing/submit                        | r2 c6       | r1 c0              | r1 c0                | r1 c0      | r2 c6        | r1 c0               | r1 c0
+heldout/hex_input/same/same                                  | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hex_input/one_color/one_color                        | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hex_input/short_color/short_color                    | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hex_input/no_prefix/no_prefix                        | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hex_input/with_alpha/with_alpha                      | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hex_input/new_change/new_change                      | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hex_input/new_blur/new_blur                          | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hex_input/one_class/one_class                        | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hex_input/typing/valid                               | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hex_input/typing/invalid                             | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hex_input/typing/blur_invalid                        | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hex_input/typing/junk                                | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hex_input/typing/new_color                           | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hex_input/typing/blur_valid                          | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hue_slider/same/same                                 | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hue_slider/one_hue/one_hue                           | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hue_slider/far_hue/far_hue                           | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hue_slider/end_hue/end_hue                           | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hue_slider/one_class/one_class                       | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hue_slider/new_callback/new_callback                 | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hue_slider/new_end/new_end                           | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hue_slider/no_end/no_end                             | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hue_slider/keys/right                                | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hue_slider/keys/left                                 | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hue_slider/keys/other_key                            | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hue_slider/keys/new_hue                              | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/hue_slider/keys/right_again                          | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/list_filters/same/same                               | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/list_filters/route_active/route_active               | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/list_filters/route_completed/route_completed         | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/list_filters/new_next_id/new_next_id                 | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/list_filters/edits/toggle                            | r1 c1       | r0 c1              | r1 c1                | r1 c1      | r1 c1        | r0 c1               | r1 c1
+heldout/list_filters/edits/draft                             | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout/list_filters/edits/update                            | r1 c1       | r0 c1              | r1 c1                | r1 c1      | r1 c1        | r0 c1               | r1 c1
+heldout/list_filters/edits/toggle_all                        | r3 c1       | r0 c1              | r3 c1                | r3 c1      | r3 c1        | r0 c1               | r3 c1
+heldout/list_filters/edits/clear                             | r0 c1       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c1               | r0 c1
+heldout/list_filters/edits/add                               | r1 c1       | r1 c1              | r1 c1                | r1 c1      | r1 c1        | r1 c1               | r1 c1
+heldout/list_filters/filtered_edit/toggle_hides              | r0 c1       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c1               | r0 c1
+heldout/list_filters/filtered_edit/remove                    | r0 c1       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c1               | r0 c1
+heldout/modal_effects/same/same                              | r2 c0       | r0 c0              | r0 c0                | r0 c0      | r2 c0        | r0 c0               | r0 c0
+heldout/modal_effects/new_user/new_user                      | r2 c0       | r2 c0              | r1 c0                | r1 c0      | r2 c0        | r2 c0               | r1 c0
+heldout/modal_effects/new_options/new_options                | r2 c0       | r1 c0              | r0 c0                | r0 c0      | r2 c0        | r1 c0               | r0 c0
+heldout/modal_effects/one_flag/one_flag                      | r2 c0       | r1 c0              | r0 c0                | r0 c0      | r2 c0        | r1 c0               | r0 c0
+heldout/modal_effects/open_mounted/same                      | r3 c0       | r0 c0              | r0 c0                | r0 c0      | r3 c0        | r0 c0               | r0 c0
+heldout/modal_effects/open_mounted/new_user                  | r3 c0       | r2 c0              | r1 c0                | r1 c0      | r3 c0        | r2 c0               | r1 c0
+heldout/modal_effects/open_close/open                        | r4 c1       | r3 c1              | r2 c1                | r2 c1      | r4 c1        | r3 c1               | r2 c1
+heldout/modal_effects/open_close/select                      | r3 c0       | r2 c0              | r1 c0                | r1 c0      | r3 c0        | r2 c0               | r1 c0
+heldout/modal_effects/open_close/escape                      | r2 c0       | r1 c0              | r0 c0                | r0 c0      | r2 c0        | r1 c0               | r0 c0
+heldout/modal_effects/open_close/reopen                      | r4 c1       | r3 c1              | r2 c1                | r2 c1      | r4 c1        | r3 c1               | r2 c1
+heldout/modal_effects/open_close/new_user_open               | r3 c0       | r2 c0              | r1 c0                | r1 c0      | r3 c0        | r2 c0               | r1 c0
+heldout/modal_effects/open_close/close                       | r2 c0       | r1 c0              | r0 c0                | r0 c0      | r2 c0        | r1 c0               | r0 c0
+heldout/otp_input/same/same                                  | r0 c0       | missing            | r0 c0                | r0 c0      | r0 c0        | missing             | r0 c0
+heldout/otp_input/one_value/one_value                        | r0 c0       | missing            | r0 c0                | r0 c0      | r0 c0        | missing             | r0 c0
+heldout/otp_input/empty_value/empty_value                    | r0 c0       | missing            | r0 c0                | r0 c0      | r0 c0        | missing             | r0 c0
+heldout/otp_input/more_inputs/more_inputs                    | r0 c0       | missing            | r0 c0                | r0 c0      | r0 c0        | missing             | r0 c0
+heldout/otp_input/fewer_inputs/fewer_inputs                  | r0 c0       | missing            | r0 c0                | r0 c0      | r0 c0        | missing             | r0 c0
+heldout/otp_input/number_type/number_type                    | r0 c0       | missing            | r0 c0                | r0 c0      | r0 c0        | missing             | r0 c0
+heldout/otp_input/with_placeholder/with_placeholder          | r0 c0       | missing            | r0 c0                | r0 c0      | r0 c0        | missing             | r0 c0
+heldout/otp_input/with_styles/with_styles                    | r0 c0       | missing            | r0 c0                | r0 c0      | r0 c0        | missing             | r0 c0
+heldout/otp_input/skip_styles/skip_styles                    | r0 c0       | missing            | r0 c0                | r0 c0      | r0 c0        | missing             | r0 c0
+heldout/otp_input/new_change/new_change                      | r0 c0       | missing            | r0 c0                | r0 c0      | r0 c0        | missing             | r0 c0
+heldout/otp_input/focus_and_keys/focus_second                | r0 c0       | missing            | r0 c0                | r0 c0      | r0 c0        | missing             | r0 c0
+heldout/otp_input/focus_and_keys/arrow_right                 | r0 c0       | missing            | r0 c0                | r0 c0      | r0 c0        | missing             | r0 c0
+heldout/otp_input/focus_and_keys/backspace                   | r0 c0       | missing            | r0 c0                | r0 c0      | r0 c0        | missing             | r0 c0
+heldout/otp_input/focus_and_keys/same_key                    | r0 c0       | missing            | r0 c0                | r0 c0      | r0 c0        | missing             | r0 c0
+heldout/otp_input/focus_and_keys/space                       | r0 c0       | missing            | r0 c0                | r0 c0      | r0 c0        | missing             | r0 c0
+heldout/otp_input/focus_and_keys/type_third                  | r0 c0       | missing            | r0 c0                | r0 c0      | r0 c0        | missing             | r0 c0
+heldout/otp_input/focus_and_keys/type_fourth                 | r0 c0       | missing            | r0 c0                | r0 c0      | r0 c0        | missing             | r0 c0
+heldout/otp_input/focus_and_keys/type_invalid                | r0 c0       | missing            | r0 c0                | r0 c0      | r0 c0        | missing             | r0 c0
+heldout/otp_input/focus_and_keys/new_count                   | r0 c0       | missing            | r0 c0                | r0 c0      | r0 c0        | missing             | r0 c0
+heldout/otp_input/autofocus/same                             | r0 c0       | missing            | r0 c0                | r0 c0      | r0 c0        | missing             | r0 c0
+heldout/otp_input/autofocus/one_value                        | r0 c0       | missing            | r0 c0                | r0 c0      | r0 c0        | missing             | r0 c0
+heldout/table_sort/same/same                                 | r20 c0      | r0 c0              | r0 c0                | r0 c0      | r20 c0       | r0 c0               | r0 c0
+heldout/table_sort/new_rows/new_rows                         | r20 c1      | r0 c1              | r15 c1               | r0 c1      | r20 c1       | r0 c1               | r0 c1
+heldout/table_sort/new_columns/new_columns                   | r20 c1      | r0 c1              | r15 c1               | r0 c1      | r20 c1       | r0 c1               | r0 c1
+heldout/table_sort/one_page/one_page                         | r25 c0      | r5 c0              | r20 c0               | r5 c0      | r25 c0       | r5 c0               | r5 c0
+heldout/table_sort/one_row/one_row                           | r20 c1      | r1 c1              | r15 c1               | r5 c1      | r20 c1       | r1 c1               | r5 c1
+heldout/table_sort/sorting/by_age                            | r20 c1      | r7 c1              | r17 c1               | r17 c1     | r20 c1       | r7 c1               | r17 c1
+heldout/table_sort/sorting/by_status_desc                    | r20 c1      | r7 c1              | r17 c1               | r7 c1      | r20 c1       | r7 c1               | r7 c1
+heldout/table_sort/sorting/by_rank                           | r20 c1      | r7 c1              | r17 c1               | r7 c1      | r20 c1       | r7 c1               | r7 c1
+heldout/table_sort/sorting/multi_on                          | r20 c0      | r4 c0              | r19 c0               | r4 c0      | r20 c0       | r4 c0               | r4 c0
+heldout/table_sort/sorting/clear                             | r20 c1      | r6 c1              | r16 c1               | r16 c1     | r20 c1       | r6 c1               | r16 c1
+heldout/tree_view/same/same                                  | r0 c5       | r0 c0              | r0 c0                | r0 c0      | r0 c5        | r0 c0               | r0 c0
+heldout/tree_view/new_initial/new_initial                    | r0 c5       | r0 c0              | r0 c0                | r0 c0      | r0 c5        | r0 c0               | r0 c0
+heldout/tree_view/one_title/one_title                        | r0 c5       | r0 c0              | r0 c0                | r0 c0      | r0 c5        | r0 c0               | r0 c0
+heldout/tree_view/editing/increment_root                     | r4 c6       | r0 c6              | r4 c6                | r4 c6      | r4 c6        | r0 c6               | r4 c6
+heldout/tree_view/editing/increment_leaf                     | r4 c6       | r0 c6              | r4 c6                | r4 c6      | r4 c6        | r0 c6               | r4 c6
+heldout/tree_view/editing/add_child                          | r5 c7       | r1 c7              | r5 c7                | r5 c7      | r5 c7        | r1 c7               | r5 c7
+heldout/tree_view/editing/remove_child                       | r3 c4       | r0 c4              | r3 c4                | r3 c4      | r3 c4        | r0 c4               | r3 c4
+heldout/tree_view/editing/unknown                            | r0 c4       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c1               | r0 c1
+heldout2/accordion/same/same                                 | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/accordion/same_items/same_items                     | r0 c1       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c1               | r0 c1
+heldout2/accordion/flush/flush                               | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/accordion/always_open/always_open                   | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/accordion/uncontrolled/uncontrolled                 | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/accordion/query/query                               | r0 c1       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c1               | r0 c1
+heldout2/accordion/query_none/query_none                     | r0 c1       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c1               | r0 c1
+heldout2/accordion/theme/same_theme                          | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/accordion/theme/new_prefix                          | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/accordion/open/open_q2                              | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/accordion/open/open_q2_again                        | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/accordion/open/close                                | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/accordion/open_many/add_q3                          | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/accordion/open_many/filter                          | r0 c1       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c1               | r0 c1
+heldout2/discussions_table/same/same                         | r3 c3       | r0 c0              | r0 c0                | r3 c3      | r3 c3        | r0 c0               | r3 c3
+heldout2/discussions_table/same_discussions/same_discussions | r3 c3       | r0 c0              | r3 c3                | r3 c3      | r3 c3        | r0 c0               | r3 c3
+heldout2/discussions_table/first_page/first_page             | r3 c3       | r0 c0              | r0 c0                | r3 c3      | r3 c3        | r0 c0               | r3 c3
+heldout2/discussions_table/last_page/last_page               | r3 c3       | r0 c0              | r0 c0                | r3 c3      | r3 c3        | r0 c0               | r3 c3
+heldout2/discussions_table/no_meta/no_meta                   | r3 c3       | r0 c0              | r0 c0                | r3 c3      | r3 c3        | r0 c0               | r3 c3
+heldout2/discussions_table/fewer/fewer                       | r2 c2       | r0 c0              | r2 c2                | r2 c2      | r2 c2        | r0 c0               | r2 c2
+heldout2/discussions_table/empty/empty                       | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/discussions_table/not_loaded/not_loaded             | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/discussions_table/prefetch/prefetch                 | r3 c3       | r0 c0              | r3 c3                | r3 c3      | r3 c3        | r0 c0               | r3 c3
+heldout2/discussions_table/paging/page_3                     | r3 c3       | r0 c0              | r0 c0                | r3 c3      | r3 c3        | r0 c0               | r3 c3
+heldout2/discussions_table/paging/page_3_again               | r3 c3       | r0 c0              | r0 c0                | r3 c3      | r3 c3        | r0 c0               | r3 c3
+heldout2/discussions_table/paging/page_4                     | r3 c3       | r0 c0              | r0 c0                | r3 c3      | r3 c3        | r0 c0               | r3 c3
+heldout2/discussions_table/paging/edit_title                 | r3 c3       | r0 c1              | r3 c3                | r3 c3      | r3 c3        | r0 c1               | r3 c3
+heldout2/form_check/same/same                                | r3 c0       | r0 c0              | r0 c0                | r3 c0      | r3 c0        | r0 c0               | r3 c0
+heldout2/form_check/same_options/same_options                | r3 c1       | r0 c1              | r3 c1                | r3 c1      | r3 c1        | r0 c1               | r3 c1
+heldout2/form_check/radio/radio                              | r3 c0       | r0 c0              | r3 c0                | r3 c0      | r3 c0        | r0 c0               | r3 c0
+heldout2/form_check/inline/inline                            | r3 c0       | r0 c0              | r3 c0                | r3 c0      | r3 c0        | r0 c0               | r3 c0
+heldout2/form_check/disabled/disabled                        | r3 c0       | r0 c0              | r3 c0                | r3 c0      | r3 c0        | r0 c0               | r3 c0
+heldout2/form_check/control_id/control_id                    | r3 c0       | r0 c0              | r3 c0                | r3 c0      | r3 c0        | r0 c0               | r3 c0
+heldout2/form_check/theme/same_theme                         | r3 c0       | r0 c0              | r3 c0                | r3 c0      | r3 c0        | r0 c0               | r3 c0
+heldout2/form_check/theme/new_prefix                         | r3 c0       | r0 c0              | r3 c0                | r3 c0      | r3 c0        | r0 c0               | r3 c0
+heldout2/form_check/toggles/check_b                          | r3 c1       | r0 c1              | r3 c1                | r3 c1      | r3 c1        | r0 c1               | r3 c1
+heldout2/form_check/toggles/check_c                          | r3 c1       | r0 c1              | r3 c1                | r3 c1      | r3 c1        | r0 c1               | r3 c1
+heldout2/form_check/toggles/uncheck_a                        | r3 c1       | r0 c1              | r3 c1                | r3 c1      | r3 c1        | r0 c1               | r3 c1
+heldout2/form_check/toggles/clear                            | r3 c1       | r0 c1              | r3 c1                | r3 c1      | r3 c1        | r0 c1               | r3 c1
+heldout2/list_group/same/same                                | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/list_group/same_messages/same_messages              | r0 c1       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c1               | r0 c1
+heldout2/list_group/flush/flush                              | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/list_group/horizontal/horizontal                    | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/list_group/uncontrolled/uncontrolled                | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/list_group/fewer/fewer                              | r0 c1       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c1               | r0 c1
+heldout2/list_group/theme/same_theme                         | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/list_group/theme/new_prefix                         | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/list_group/select/pick_m2                           | r1 c0       | r0 c0              | r1 c0                | r1 c0      | r1 c0        | r0 c0               | r1 c0
+heldout2/list_group/select/pick_m2_again                     | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/list_group/select/pick_m3                           | r1 c0       | r0 c0              | r1 c0                | r1 c0      | r1 c0        | r0 c0               | r1 c0
+heldout2/list_group/select/pick_none                         | r1 c0       | r0 c0              | r1 c0                | r1 c0      | r1 c0        | r0 c0               | r1 c0
+heldout2/pagination/same/same                                | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/pagination/small/small                              | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/pagination/more_total/more_total                    | r1 c1       | r0 c1              | r1 c1                | r1 c1      | r1 c1        | r0 c1               | r1 c1
+heldout2/pagination/fewer_siblings/fewer_siblings            | r0 c1       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c1               | r0 c1
+heldout2/pagination/page_size/page_size                      | r1 c1       | r0 c1              | r1 c1                | r1 c1      | r1 c1        | r0 c1               | r1 c1
+heldout2/pagination/other_start/other_start                  | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/pagination/theme/same_theme                         | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/pagination/theme/new_prefix                         | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/pagination/paging/page_2                            | r1 c1       | r0 c1              | r1 c1                | r1 c1      | r1 c1        | r0 c1               | r1 c1
+heldout2/pagination/paging/page_2_again                      | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/pagination/paging/page_6                            | r1 c1       | r0 c1              | r1 c1                | r1 c1      | r1 c1        | r0 c1               | r1 c1
+heldout2/pagination/paging/page_10                           | r1 c1       | r0 c1              | r1 c1                | r1 c1      | r1 c1        | r0 c1               | r1 c1
+heldout2/pagination/paging/page_1                            | r1 c1       | r0 c1              | r1 c1                | r1 c1      | r1 c1        | r0 c1               | r1 c1
+heldout2/pricing_plans/same/same                             | r2 c3       | r0 c0              | r0 c1                | r2 c1      | r2 c3        | r0 c0               | r2 c1
+heldout2/pricing_plans/same_products/same_products           | r2 c3       | r0 c3              | r2 c3                | r2 c1      | r2 c3        | r0 c3               | r2 c1
+heldout2/pricing_plans/subscribed/subscribed                 | r2 c3       | r0 c2              | r2 c3                | r2 c1      | r2 c3        | r0 c2               | r2 c1
+heldout2/pricing_plans/no_user/no_user                       | r2 c3       | r0 c2              | r2 c3                | r2 c1      | r2 c3        | r0 c2               | r2 c1
+heldout2/pricing_plans/fewer/fewer                           | r1 c2       | r0 c2              | r1 c2                | r1 c1      | r1 c2        | r0 c2               | r1 c1
+heldout2/pricing_plans/empty/empty                           | r0 c1       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c1               | r0 c1
+heldout2/pricing_plans/new_checkout/new_checkout             | r2 c3       | r0 c2              | r2 c3                | r2 c1      | r2 c3        | r0 c2               | r2 c1
+heldout2/pricing_plans/interval/year                         | r2 c3       | r0 c2              | r2 c3                | r2 c3      | r2 c3        | r0 c2               | r2 c3
+heldout2/pricing_plans/interval/year_again                   | r0 c3       | r0 c0              | r0 c1                | r0 c1      | r0 c0        | r0 c0               | r0 c0
+heldout2/pricing_plans/interval/month                        | r2 c3       | r0 c2              | r2 c3                | r2 c3      | r2 c3        | r0 c2               | r2 c3
+heldout2/pricing_plans/buy/buy                               | r0 c3       | r0 c0              | r0 c1                | r0 c1      | r0 c0        | r0 c0               | r0 c0
+heldout2/pricing_plans/buy_signed_out/buy                    | r0 c3       | r0 c0              | r0 c1                | r0 c1      | r0 c0        | r0 c0               | r0 c0
+heldout2/toast_stack/same/same                               | r2 c0       | r0 c0              | r0 c0                | r2 c0      | r2 c0        | r0 c0               | r2 c0
+heldout2/toast_stack/same_initial/same_initial               | r2 c0       | r0 c0              | r0 c0                | r2 c0      | r2 c0        | r0 c0               | r2 c0
+heldout2/toast_stack/autohide/autohide                       | r2 c0       | r0 c0              | r2 c0                | r2 c0      | r2 c0        | r0 c0               | r2 c0
+heldout2/toast_stack/new_delay/new_delay                     | r2 c0       | r0 c0              | r2 c0                | r2 c0      | r2 c0        | r0 c0               | r2 c0
+heldout2/toast_stack/bg/bg                                   | r2 c0       | r0 c0              | r2 c0                | r2 c0      | r2 c0        | r0 c0               | r2 c0
+heldout2/toast_stack/timer/same_timer                        | r2 c0       | r0 c0              | r0 c0                | r2 c0      | r2 c0        | r0 c0               | r2 c0
+heldout2/toast_stack/timer/delay                             | r2 c0       | r0 c0              | r2 c0                | r2 c0      | r2 c0        | r0 c0               | r2 c0
+heldout2/toast_stack/timer/stop_autohide                     | r2 c0       | r0 c0              | r2 c0                | r2 c0      | r2 c0        | r0 c0               | r2 c0
+heldout2/toast_stack/edits/add                               | r3 c1       | r1 c1              | r3 c1                | r3 c1      | r3 c1        | r1 c1               | r3 c1
+heldout2/toast_stack/edits/dismiss                           | r2 c1       | r0 c1              | r2 c1                | r2 c1      | r2 c1        | r0 c1               | r2 c1
+heldout2/toast_stack/edits/mute                              | r0 c1       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c1               | r0 c1
+heldout2/toast_stack/edits/mute_again                        | r0 c0       | r0 c0              | r0 c0                | r0 c0      | r0 c0        | r0 c0               | r0 c0
+heldout2/toast_stack/edits/unmute                            | r2 c1       | r2 c1              | r2 c1                | r2 c1      | r2 c1        | r2 c1               | r2 c1
+heldout2/toaster_store/same/same                             | r3 c1       | r0 c1              | r0 c0                | r3 c1      | r3 c1        | r0 c1               | r3 c1
+heldout2/toaster_store/same_seed/same_seed                   | r3 c1       | r0 c1              | r0 c0                | r3 c1      | r3 c1        | r0 c1               | r3 c1
+heldout2/toaster_store/bottom/bottom                         | r3 c1       | r0 c1              | r3 c0                | r3 c1      | r3 c1        | r0 c1               | r3 c1
+heldout2/toaster_store/gutter/gutter                         | r3 c1       | r0 c1              | r0 c0                | r3 c1      | r3 c1        | r0 c1               | r3 c1
+heldout2/toaster_store/reverse/reverse                       | r3 c1       | r0 c1              | r0 c0                | r3 c1      | r3 c1        | r0 c1               | r3 c1
+heldout2/toaster_store/options/options                       | r3 c1       | r0 c1              | r3 c1                | r3 c1      | r3 c1        | r0 c1               | r3 c1
+heldout2/toaster_store/class_name/class_name                 | r3 c1       | r0 c1              | r0 c0                | r3 c1      | r3 c1        | r0 c1               | r3 c1
+heldout2/toaster_store/store/add                             | r8 c2       | r1 c2              | r8 c2                | r8 c2      | r8 c2        | r1 c2               | r8 c2
+heldout2/toaster_store/store/update                          | r8 c2       | r0 c2              | r8 c2                | r8 c2      | r8 c2        | r0 c2               | r8 c2
+heldout2/toaster_store/store/heights                         | r4 c1       | r0 c1              | r4 c1                | r4 c1      | r4 c1        | r0 c1               | r4 c1
+heldout2/toaster_store/store/remove                          | r3 c1       | r0 c1              | r3 c1                | r3 c1      | r3 c1        | r0 c1               | r3 c1
+heldout2/toaster_store/store/dismiss                         | r3 c1       | r0 c1              | r3 c1                | r3 c1      | r3 c1        | r0 c1               | r3 c1
+heldout2/toaster_store/store/clear                           | r0 c1       | r0 c1              | r0 c1                | r0 c1      | r0 c1        | r0 c1               | r0 c1
+heldout2/toaster_store/pause/pause                           | r3 c1       | r0 c1              | r0 c0                | r3 c1      | r3 c1        | r0 c1               | r3 c1
+heldout2/toaster_store/pause/resume                          | r3 c1       | r0 c1              | r3 c1                | r3 c1      | r3 c1        | r0 c1               | r3 c1
+heldout2/toaster_store/pause/same                            | r3 c1       | r0 c1              | r0 c0                | r3 c1      | r3 c1        | r0 c1               | r3 c1
+
+compiler       | target | steps | files
+forgetti-0.8   | react  | 84    | 19
+react-compiler | react  | 6     | 1
+next           | react  | 0     | 0
+forgetti-0.8   | preact | 87    | 18
+next           | preact | 0     | 0

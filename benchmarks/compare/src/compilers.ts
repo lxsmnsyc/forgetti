@@ -1,6 +1,8 @@
 import { performance } from 'node:perf_hooks';
 import zlib from 'node:zlib';
 import * as babel from '@babel/core';
+// @ts-expect-error: the alias has no type declarations. Babel 7 has the same API as the Babel 8 types.
+import * as babel7Module from '@babel/core-7';
 import reactCompiler from 'babel-plugin-react-compiler';
 import forgetti from 'forgetti-0.8';
 import {
@@ -20,6 +22,8 @@ export type NextCompile = (
   diagnostics: { unit: string; reason: string }[];
   units: { name: string; compiled: boolean }[];
 };
+
+const babel7 = babel7Module as unknown as typeof babel;
 
 const IMPORT_FROM_REACT = /import\s*\{([^}]*)\}\s*from\s*(['"])react\2;?/g;
 
@@ -104,14 +108,21 @@ const SLOT_PATTERNS: Record<Compiler, RegExp | null> = {
   next: /useCache\([\w$]+, (\d+)\)|branch\([\w$]+, [^,()]+, (\d+)\)/g,
 };
 
-function runBabel(code: string, filename: string, plugin: babel.PluginItem | null): string {
+// React Compiler 1.0 is built for Babel 7. Under Babel 8 it fails on syntax such as a default
+// in object destructuring. Every other step of the harness uses Babel 8.
+function runBabel(
+  code: string,
+  filename: string,
+  plugin: babel.PluginItem | null,
+  core: typeof babel = babel,
+): string {
   let parserPlugins: ('jsx' | 'typescript')[] = ['jsx'];
   if (filename.endsWith('.tsx')) {
     parserPlugins = ['jsx', 'typescript'];
   } else if (filename.endsWith('.ts')) {
     parserPlugins = ['typescript'];
   }
-  const result = babel.transformSync(code, {
+  const result = core.transformSync(code, {
     filename,
     configFile: false,
     babelrc: false,
@@ -169,10 +180,12 @@ function compileOnce(
       events.push(event);
     },
   };
-  const out = runBabel(code, filename, [
-    reactCompiler,
-    { logger, panicThreshold: 'none', compilationMode: 'infer' },
-  ]);
+  const out = runBabel(
+    code,
+    filename,
+    [reactCompiler, { logger, panicThreshold: 'none', compilationMode: 'infer' }],
+    babel7,
+  );
   let compiled = 0;
   const bailouts: string[] = [];
   for (const event of events) {
@@ -313,10 +326,9 @@ export function lowerJsx(code: string, filename: string, target: Target): string
       { runtime: 'automatic', importSource: target === 'preact' ? 'preact' : 'react' },
     ],
   ];
-  if (filename.endsWith('.tsx')) {
-    presets.push(['@babel/preset-typescript', { isTSX: true, allExtensions: true }]);
-  } else if (filename.endsWith('.ts')) {
-    presets.push(['@babel/preset-typescript', { isTSX: false, allExtensions: true }]);
+  // Babel 8's preset reads the extension: `.tsx` parses with JSX and `.ts` without.
+  if (filename.endsWith('.tsx') || filename.endsWith('.ts')) {
+    presets.push('@babel/preset-typescript');
   }
   const result = babel.transformSync(code, {
     filename,
