@@ -1,0 +1,824 @@
+{
+  "round": 3,
+  "claims": {
+    "J1": {
+      "id": "J1",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "device",
+      "text": "8 cores, 8 GB RAM, about 3.1 GB free, 25 GB free disk; capacity.py recommends 1 worktree at a time (limited by memory).",
+      "evidence": {
+        "type": "measured",
+        "source": "capacity.py --json",
+        "detail": "debate-2/evidence/capacity.json"
+      }
+    },
+    "J2": {
+      "id": "J2",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "regate missed amendment-1. All sets (62 files): 0 differences; React total 633 vs React Compiler 723 (pass) but 5 files above React Compiler. heldout2 alone (8 files): React 259 vs React Compiler 186 (miss), 4 files above; Preact 256 vs uncompiled 267 (pass); gzip 0.844 (worst 1.025); compiled share 67/70 vs 49/94.",
+      "evidence": {
+        "type": "measured",
+        "source": "pnpm --filter compare gate --set base --set tuning --set heldout --set heldout2",
+        "detail": "benchmarks/compare/results/regate.md, results/regate/checks.txt"
+      }
+    },
+    "J3": {
+      "id": "J3",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "On heldout2, next does exactly the uncompiled work on every step of 7 of 8 files (only pricing_plans is lower), while compiling 67 of 70 units. The losses are steps where a parent re-renders with equal inputs and children re-render anyway.",
+      "evidence": {
+        "type": "measured",
+        "source": "results/regate/checks.txt INFO file lines",
+        "detail": "benchmarks/compare/results/regate/checks.txt"
+      }
+    },
+    "J4": {
+      "id": "J4",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "The regate worker read next's output on 4 heldout2 files and named causes: an event-only closure reading a non-stable global is refused; a .map(fn) list is not cached as a whole when fn calls a method on an input; an array of objects whose methods capture a prop is rebuilt every render; member inputs are off when props reaches a call. heldout2 is now exposed.",
+      "evidence": {
+        "type": "measured",
+        "source": "nodes/regate/outcome.md, proposed follow-up nodes",
+        "detail": "docs/roadmaps/compiler-rewrite/nodes/regate/outcome.md"
+      }
+    },
+    "J5": {
+      "id": "J5",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "Every fix node after final-gate (fix-rc-callbacks, fix-rc-children, fix-escaping-closure) closed its target files in base, tuning or heldout, each adding narrow rules (one closure shape, one wrapper shape, one let shape); heldout2 showed the same families (stable children, lists, closures) unfixed. Each fix node cost 317k to 373k tokens and needed 1 to 2 review rounds that each found a new soundness hole.",
+      "evidence": {
+        "type": "calibration",
+        "source": "nodes/fix-*/outcome.md and brief spent: fields; reviews in this session",
+        "detail": "spent: fix-rc-callbacks 317289, fix-rc-children 373017, fix-escaping-closure 365842"
+      }
+    },
+    "J6": {
+      "id": "J6",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "tokens",
+      "text": "Roadmap spend so far is 6.59M tokens against the 3.5M budget in GOAL.md. M nodes cost 220k to 380k tokens; alias and write analysis nodes ran L to XL (ownership 1.14M, 4 fix rounds; eligibility-writes 290k, 5 fix rounds), each round finding a new soundness gap.",
+      "evidence": {
+        "type": "calibration",
+        "source": "plan.py status; docs/roadmaps/CALIBRATION.md",
+        "detail": "docs/roadmaps/CALIBRATION.md"
+      }
+    },
+    "J7": {
+      "id": "J7",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "next is 8,918 lines. The planner is 2,837 lines (groups.ts 1003, baseline.ts 655, loops.ts 494, branches.ts 360, cost.ts 287); ownership 1,652; eligibility 1,358.",
+      "evidence": {
+        "type": "measured",
+        "source": "wc -l packages/forgetti/src/next/**/*.ts",
+        "detail": "batch commit 5308757"
+      }
+    },
+    "J8": {
+      "id": "J8",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "forgetti 0.8 (per-expression slots, no mutation model) is sound on every heldout2 step and totals 61 work there against next 259 and React Compiler 186, at 2.4 times next's gzip; overall it renders wrong output on steps of 19 files on React and 18 on Preact.",
+      "evidence": {
+        "type": "prior-art",
+        "source": "benchmarks/compare/results/regate.md",
+        "detail": "forgetti 0.8 rows: caching nearly every expression saves renders on unseen code but costs size and soundness"
+      }
+    },
+    "J9": {
+      "id": "J9",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "React Compiler 1.0 caches every reactive value into scopes over one flat cache unless proven unnecessary, using a control-flow IR with mutation and alias effects; it was sound on every corpus step except tuning/callback_globals, and coarse on lists and ternaries.",
+      "evidence": {
+        "type": "prior-art",
+        "source": "debate/debate.md Prior art and J10 of debate/ledger.json",
+        "detail": "React Compiler is used only as a black box through the harness; its source must not be read (GOAL.md constraint)"
+      }
+    },
+    "J10": {
+      "id": "J10",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "Stopping the rewrite is not an option: the user decided to continue. The settled structure of debate/debate.md (oxc and magic-string, five phases, useRef tree cache, React 19 and Preact 11, independence from React Compiler's design) stands unless a claim shows it blocks the goal.",
+      "evidence": {
+        "type": "inferred",
+        "source": "user message in this session: 'there's no sense to stop this project, we've already burned a lot of effort'; user chose 'go with 1' (a new debate on the planner's caching approach)",
+        "detail": "stopping is off the table; scope is the planner's caching approach"
+      }
+    },
+    "J11": {
+      "id": "J11",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "A gate run over all 4 sets on both targets takes a few minutes and is deterministic (three identical runs). heldout and heldout2 are both exposed, so a further clean check needs a third held-out set, which cost 280k to 376k tokens per set to build.",
+      "evidence": {
+        "type": "measured",
+        "source": "nodes/regate/outcome.md; corpus-heldout and corpus-heldout-2 spent:",
+        "detail": "spent: corpus-heldout 280000, corpus-heldout-2 376370"
+      }
+    },
+    "P1": {
+      "id": "P1",
+      "round": 1,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Invert the planner's default from 'cache only shapes proven plain' to 'cache every element, fresh literal and .map result whose reads are frozen render bindings, and refuse only on a named hazard' (a read of hidden state during render, a group not yet frozen, a closure that may run in a child's render). Concretely, an input that cannot be read by member is demoted to a whole-binding input instead of making collectDeps return undefined, a .map(fn) result becomes one block keyed on fn's free bindings, and an object literal holding method closures is a fresh group keyed on its captures. Stays on alias groups and dependency-set slots, so no React Compiler-style scopes or CFG (GOAL.md non-goal).",
+      "estimate": {
+        "value": 900000,
+        "unit": "tokens (range 700k to 1.1M, one L node, about 600 to 900 changed lines in groups.ts and loops.ts)"
+      },
+      "evidence": {
+        "type": "source",
+        "source": "packages/forgetti/src/next/plan/groups.ts lines 84-85, 596-624, 661-717; nodes/regate/outcome.md follow-ups",
+        "detail": "A Piece's flat deps are 'undefined when the element may not be cached'; collectDeps returns undefined when any one binding has no deps (line 690), isCacheable refuses a whole element for one non-stable global read (604-614), and groups.ts has 22 'return undefined' refusals. Three of the four J4 causes (props-fill-member, map-list-cache, object-method-closures) are this all-or-nothing refusal; estimate from J6 (ownership 1.14M with 4 fix rounds, eligibility-writes 290k) and J5 (each narrow fix 317k to 373k)."
+      }
+    },
+    "P2": {
+      "id": "P2",
+      "round": 1,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Add same-module prop-use summaries: for each component defined in the module, record per prop whether render may call it (Call/CallMemo in tuning/callback_globals call fn() in render) or only effects, handlers, refs, host event props and same-module context consumers use it. A closure passed to a prop summarized as deferred may read non-stable globals and still be cached; an unknown or imported component keeps today's refusal, so soundness on callback_globals holds by construction. This closes the event-closure-globals cause (toast_stack onClose -> Toast stores it in an effect ref and a context read only in ToastHeader's useEventCallback).",
+      "estimate": {
+        "value": 350000,
+        "unit": "tokens (one M node, about 250 lines, new file plan/props.ts or in eligibility)"
+      },
+      "evidence": {
+        "type": "source",
+        "source": "benchmarks/corpus/heldout2/toast_stack/input.jsx lines 154-198 and 240; benchmarks/corpus/tuning/callback_globals/input.jsx lines 4-6; groups.ts isCacheable comment 'A closure may run during render wherever it is passed'",
+        "detail": "The refusal exists only because the planner cannot see the callee; both the hazard (Call) and the target (Toast) are in the same module in the corpus. Size from J5 M-node calibration."
+      }
+    },
+    "P3": {
+      "id": "P3",
+      "round": 1,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Before P1 merges, add a differential fuzzer to benchmarks/compare: a small grammar generates components mixing the hazards the planner reasons about (aliased mutation through calls, closures called in a child's render, globals read in render and in handlers, member reads of props passed to calls, .map with method calls, let reassignment in branches), plus scenario steps; each program is compiled by next and checked against uncompiled output with the existing harness oracle. It runs a fixed seed count in CI-free local runs and every P1/P2 review round runs it. This replaces 'review finds the next hole' (J5, J6) with a machine that finds it before review.",
+      "estimate": {
+        "value": 300000,
+        "unit": "tokens (one M node, about 400 lines in benchmarks/compare; device: happy-dom, one worktree, minutes per 1,000 programs)"
+      },
+      "evidence": {
+        "type": "prior-art",
+        "source": "Yang, Chen, Eide, Regehr, 'Finding and Understanding Bugs in C Compilers', PLDI 2011 (Csmith); Livinskii, Babokin, Regehr, 'Random Testing for C and C++ Compilers with YARPGen', OOPSLA 2020",
+        "detail": "Differential random testing found over 325 previously unknown bugs in GCC and LLVM, many in optimizers, the same class of bug as a cache that skips needed work. Negative side: generators find only what the grammar can express, so the grammar must cover the hazard list above. The lab's harness already has the oracle (0 differences against uncompiled, J2)."
+      }
+    },
+    "P4": {
+      "id": "P4",
+      "round": 1,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Build heldout3 first, before any planner change: 8 to 10 real-shaped files from libraries not used in base, tuning, heldout or heldout2 (heldout2 used react-bootstrap and bulletproof-react), built by a corpus node with no access to next's output, committed with a content hash in the brief and never opened by planner workers. heldout and heldout2 become development sets that P1 to P3 may read and tune on.",
+      "estimate": {
+        "value": 330000,
+        "unit": "tokens (range 280k to 376k)"
+      },
+      "evidence": {
+        "type": "calibration",
+        "source": "J11; nodes/corpus-heldout-2/outcome.md; benchmarks/corpus/heldout2/*/meta.json source fields",
+        "detail": "corpus-heldout cost 280k and corpus-heldout-2 376k. heldout2 is what exposed the overfitting (J3, J5), so the same method is the proven check; building it before the planner work keeps it clean by construction rather than by discipline."
+      }
+    },
+    "P5": {
+      "id": "P5",
+      "round": 1,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Ship order and success check: (1) heldout3 (P4) and the fuzzer (P3); (2) P1, gated on 0 fuzzer differences and 0 corpus differences, plus heldout2 work below React Compiler as a development signal; (3) P2; (4) a gate on heldout3 alone with every amendment-1 rule (0 differences on both targets, React total strictly below React Compiler and no file above, Preact below uncompiled, gzip at most 1.0 and no file above 1.15, compiled share at least React Compiler's), plus the same rules re-run on all sets. Fixed before any run: pass means every rule holds on heldout3; kill means a heldout3 difference that cannot be fixed without bailing out more components than React Compiler, or total gzip above 1.3.",
+      "estimate": {
+        "value": 1900000,
+        "unit": "tokens total (range 1.6M to 2.4M, 4 to 5 nodes, one worktree at a time)"
+      },
+      "evidence": {
+        "type": "inferred",
+        "source": "goal text ('meeting amendment-1's work thresholds on a fresh held-out set while staying sound and within size'); debate/amendment-1.md Threshold and Kill; J1 one worktree; memory compiler-rewrite-budget.md (user: do not propose scope cuts for budget reasons)",
+        "detail": "The threshold is amendment-1 unchanged, applied to the fresh set; the order puts the clean check and the soundness net before the risky planner change. Total is P1 + P2 + P3 + P4 + one gate node (~200k, regate was M)."
+      }
+    },
+    "P6": {
+      "id": "P6",
+      "round": 1,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Spend the size headroom deliberately: the prune pass (cost.ts) keeps its 'host-only tree nobody hands to a component' rule and gains a per-unit byte check, so P1's extra blocks are dropped first where they save no child render. Headroom today is total gzip 0.804 of React Compiler overall and 0.844 on heldout2 (about 3.8 KB of 24.5 KB there), worst file 1.105, so P1 may add up to roughly 18% bytes before the 1.0 rule binds; the per-file 1.15 cap binds first on heldout/tree_view.",
+      "estimate": {
+        "value": 18,
+        "unit": "% more gzip allowed on heldout2 before the 1.0 total rule"
+      },
+      "evidence": {
+        "type": "measured",
+        "source": "nodes/regate/outcome.md threshold table; benchmarks/compare/results/regate/per-file.md heldout2 rows; packages/forgetti/src/next/plan/cost.ts findUselessBlocks",
+        "detail": "next gzip 20659 on heldout2 at 0.844 gives React Compiler about 24477; forgetti 0.8 reaches 61 work there at 2.4 times next's size (J8), so caching more saves work but needs the cap."
+      }
+    },
+    "P7": {
+      "id": "P7",
+      "round": 1,
+      "by": "proponent",
+      "kind": "alternative",
+      "text": "Run the four narrow follow-up nodes named in nodes/regate/outcome.md (event-closure-globals, map-list-cache, object-method-closures, props-fill-member) on heldout2, then heldout3 and a gate. Cheaper per step (each M, about 320k to 370k) and each has a known target file, but it repeats the pattern J5 shows closes the target file without moving unseen shapes.",
+      "estimate": {
+        "value": 1700000,
+        "unit": "tokens (4 x ~345k + heldout3 330k)"
+      },
+      "evidence": {
+        "type": "calibration",
+        "source": "nodes/regate/outcome.md proposed follow-up nodes; J5 spent fields",
+        "detail": "fix-rc-callbacks 317k, fix-rc-children 373k, fix-escaping-closure 366k; each closed its file in base/tuning/heldout and heldout2 then showed the same families unfixed."
+      }
+    },
+    "P8": {
+      "id": "P8",
+      "round": 1,
+      "by": "proponent",
+      "kind": "alternative",
+      "text": "Instead of a hand-built heldout3, check generalization with the P3 generator run in 'work' mode: generated components with scenario steps where a parent re-renders with equal inputs, scored against React Compiler through the harness, on seeds nobody has seen. Cheaper in tokens than a corpus node and unlimited in size, but its shapes are synthetic, so it measures the planner's rules rather than real code; it would complement, not replace, a smaller heldout3 of 5 files.",
+      "estimate": {
+        "value": 150000,
+        "unit": "tokens on top of P3 (plus a 5-file heldout3 at about 180k)"
+      },
+      "evidence": {
+        "type": "estimate",
+        "source": "P3 design; J11 corpus costs scaled by file count (heldout2: 8 files, 376k)",
+        "detail": "A held-out seed set is fresh by construction; the weakness is realism, which is why the goal names a held-out set."
+      }
+    },
+    "O1": {
+      "id": "O1",
+      "round": 1,
+      "by": "opponent",
+      "kind": "rebuttal",
+      "answers": [
+        "P1"
+      ],
+      "text": "P1's first mechanism already exists: collectDeps falls back to a whole-binding dep when a read is not a plain member read (groups.ts 693-707), and line 690 returns undefined only when the binding itself may change, a hazard P1 keeps. The props-fill-member cause is that the whole props object is a fresh value every render, so a whole-binding props input never hits; closing it needs knowledge of what the callee does with props (a P2-style summary), not a demotion.",
+      "evidence": {
+        "type": "source",
+        "source": "packages/forgetti/src/next/plan/groups.ts lines 661-717 (collectDeps, isByName, the binding fallback at 704-707); nodes/regate/outcome.md props-fill-member",
+        "detail": "isByName turns false when any props read is not by name; then the dep becomes {kind:'binding', id: propsId}, which changes identity on every parent render. P1's estimate counts this cause as closed by a change that is already in the code."
+      }
+    },
+    "O2": {
+      "id": "O2",
+      "round": 1,
+      "by": "opponent",
+      "kind": "risk",
+      "axis": "tokens",
+      "severity": "medium",
+      "answers": [
+        "P2"
+      ],
+      "text": "Every corpus file is one module: the heldout2 inputs import only react and ../../shared/counter.js, so parent and child always sit together and P2's same-module summaries fire on every corpus file, heldout3 included if built the same way. In real apps the child is usually imported, where P2 falls back to today's refusal, so P2's 350k buys a gate gain that overstates the gain on shapes it was not tuned on. Likely, given the corpus method.",
+      "evidence": {
+        "type": "measured",
+        "source": "grep -rhE '^import|\"source\"' benchmarks/corpus/heldout2 --include=input.jsx --include=meta.json",
+        "detail": "8 of 8 heldout2 files import only from react and shared/counter.js; each was flattened from a multi-file library (react-bootstrap src, react-hot-toast src, bulletproof-react). The real toast_stack source keeps Toast and the toaster in separate files."
+      }
+    },
+    "O3": {
+      "id": "O3",
+      "round": 1,
+      "by": "opponent",
+      "kind": "risk",
+      "axis": "tokens",
+      "severity": "medium",
+      "answers": [
+        "P3"
+      ],
+      "text": "A grammar fuzzer for components must generate only programs that follow the Rules of React (pure render, stable hook order) plus scenario steps where a parent re-renders with equal inputs; without both, oracle differences are false alarms or cache hits are never exercised. The lab has no generator to start from, so the 300k M estimate likely runs to L (400k to 600k), and its run time is closer to 25 minutes per 1,000 programs than 'minutes'.",
+      "evidence": {
+        "type": "prior-art",
+        "source": "Yang, Chen, Eide, Regehr, PLDI 2011 (Csmith), section 2; grep -rli fuzz/fast-check/property-based over docs, packages/forgetti/test and benchmarks/compare (only hit: this ledger); J11",
+        "detail": "Csmith's authors report that most of its design is avoiding undefined behavior so that differences are real bugs; the React analog is render purity. Run time basis: J11 says a gate of 62 files x 4 compilers x 2 targets takes a few minutes (about 0.3 to 0.4 s per cell); a fuzz program needs next and plain on 2 targets, about 1.5 s, so 1,000 programs is about 25 minutes, in one Vite ssrLoadModule process (loader.ts) whose module graph grows with each program on 3.1 GB free (J1)."
+      }
+    },
+    "O4": {
+      "id": "O4",
+      "round": 1,
+      "by": "opponent",
+      "kind": "alternative",
+      "answers": [
+        "P3"
+      ],
+      "text": "Replace the grammar generator with mutation of the 62 existing corpus files: a script inserts the hazards P3 lists (alias a prop into a call, read a changing global in render, pass a closure to a same-file child that calls it in render, add a method call inside .map) into existing components and reuses each file's scenarios.js, which already contains equal-input re-render steps. Shapes stay real, the oracle is unchanged, and no scenario generator is needed.",
+      "estimate": {
+        "value": 180000,
+        "unit": "tokens (one S to M node, about 200 lines in benchmarks/compare)"
+      },
+      "evidence": {
+        "type": "prior-art",
+        "source": "Le, Afshari, Su, 'Compiler Validation via Equivalence Modulo Inputs', PLDI 2014; benchmarks/corpus/*/*/scenarios.js",
+        "detail": "EMI found 147 confirmed GCC and LLVM bugs by mutating existing programs rather than generating new ones, avoiding the undefined-behavior problem because the seeds are already valid. Negative side: mutants cover only hazards placed into existing shapes. Estimate from J5 M-node calibration at its lower end, since the oracle and scenarios exist."
+      }
+    },
+    "O5": {
+      "id": "O5",
+      "round": 1,
+      "by": "opponent",
+      "kind": "alternative",
+      "answers": [
+        "P1",
+        "P7"
+      ],
+      "text": "Before P1, run a refusal census: tag each of the 22 'return undefined' sites in groups.ts and the isCacheable exits with a reason code, run the 4 exposed sets, and count which refusals block units on steps where next does the uncompiled work. P1 then inverts only the refusals that dominate, as one family-level change, instead of reworking the whole default; the census costs one gate run of a few minutes and lets the estimate rest on data rather than on 4 files read by hand.",
+      "estimate": {
+        "value": 100000,
+        "unit": "tokens (one S node, logging only, no behavior change)"
+      },
+      "evidence": {
+        "type": "measured",
+        "source": "benchmarks/compare/results/regate/per-file.md heldout2 rows; nodes/regate/outcome.md ('I read the compiled next output of four heldout2 files'); J3; J11",
+        "detail": "On heldout2 files exceed React Compiler by 80 work units in total (discussions_table 42, toaster_store 29, toast_stack 6, form_check 3); two files hold 71 of the 80, and on accordion, list_group and pagination React Compiler also equals uncompiled. The causes were named from 4 of 8 files, so the refusal mix behind 'same as uncompiled on 7 of 8' is not measured."
+      }
+    },
+    "O6": {
+      "id": "O6",
+      "round": 1,
+      "by": "opponent",
+      "kind": "risk",
+      "axis": "tokens",
+      "severity": "medium",
+      "answers": [
+        "P5",
+        "P4"
+      ],
+      "text": "P5's kill fires only on an unfixable heldout3 difference or gzip above 1.3, not on a work miss, which is exactly how regate ended (missed, no kill fired, stop for the user). A miss on heldout3 exposes it the moment a worker reads output to name causes, so the same structure leads to heldout4 at 280k to 376k plus fix nodes. The hypothesis should fix now what a heldout3 work miss means (stop, or one bounded fix round on development sets and no new held-out set).",
+      "evidence": {
+        "type": "calibration",
+        "source": "nodes/regate/outcome.md Result ('No kill criterion fired. The roadmap stops here.') and Deviations ('heldout2 is now exposed'); J2; J11",
+        "detail": "heldout2 failed 'no file above React Compiler' on 4 of 8 files; with 8 to 10 files, one file decides the rule. Each new held-out set cost 280k (heldout) and 376k (heldout2)."
+      }
+    },
+    "O7": {
+      "id": "O7",
+      "round": 1,
+      "by": "opponent",
+      "kind": "risk",
+      "axis": "output size",
+      "severity": "low",
+      "answers": [
+        "P6",
+        "P1"
+      ],
+      "text": "(Belongs on the proposed 'output size' axis once accepted.) The per-file 1.15 cap leaves 4% on heldout/tree_view (1.105), and tree_view is one of the files where forgetti 0.8 saves work next does not (40 against 25), so P1's new blocks land there and save child renders, which P6's prune keeps by design. Likely to force a work-against-size choice on that file; the 18% total headroom does not help a per-file cap.",
+      "evidence": {
+        "type": "measured",
+        "source": "nodes/regate/outcome.md threshold table; benchmarks/compare/results/regate/checks.txt line 22",
+        "detail": "worst file 1.105 heldout/tree_view; forgetti 0.8 sound and below next on tree_view 40 > 25; forgetti 0.8 on heldout2 is 48916 / 24489 = 2.0 times React Compiler gzip, so full 0.8-style caching would break both caps."
+      }
+    },
+    "J12": {
+      "id": "J12",
+      "round": 1,
+      "by": "judge",
+      "kind": "fact",
+      "axis": "time",
+      "text": "Proof T1 (refusal census, groups.ts only, 362 unique refusals over 4 sets): in heldout2 (164) the top reasons are outer_binding_unstable 51 (31%, an element reading a module or imported binding that isStableOuter rejects, concentrated in discussions_table, pagination, accordion, pricing_plans), cand_result_not_readonly 34 (21%, many are hook calls no compiler caches), cand_destructuring 30 (18%), cheap_expression 26 (16%, deliberate no-slot), impure_syntax 16 (10%). Unstable global reads or writes are 5 of 164. Counts are refusal sites, not lost cache hits; nested JSX inflates outer_binding_unstable; baseline.ts, loops.ts, branches.ts and whole-unit bailouts were not instrumented, and isStableOuter does not say which binding failed.",
+      "evidence": {
+        "type": "measured",
+        "source": "proof T1",
+        "detail": "debate-2/evidence/T1-census.txt"
+      }
+    },
+    "P9": {
+      "id": "P9",
+      "round": 2,
+      "by": "proponent",
+      "kind": "concession",
+      "answers": [
+        "P1"
+      ],
+      "why": "O1 showed the whole-binding fallback already exists, and J12 (census) shows the refusals cluster in two families rather than spreading over the 22 sites, so a whole-default inversion buys risk without data behind it (O5).",
+      "text": "Withdraw P1's whole-default inversion. Replace it with two family-level changes ranked by census share, P10 (outer binding identity, 31% of heldout2 refusals) then P11 (shared call results, 21%); cand_destructuring (18%) is taken up only if the weighted census in P12 shows it costs cache hits."
+    },
+    "P10": {
+      "id": "P10",
+      "round": 2,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Split isStableOuter into identity and purity. A module binding used only as a JSX tag or passed as a value needs a fixed identity: no write after module load, where top-level `X.displayName = ...` and `X.defaultProps = ...` statements count as load-time, not as writes. Purity (readsChangingState) is checked only when the unit calls the binding during render, and only over the callee's eager code (walkEager/findDeferred already exist), so `ref.current` in an effect or `document` in a handler no longer marks a component unstable as a tag. This is the shape the planner was not tuned on: 7 of 8 heldout2 files carry 29 such writes against 0 in all 54 base, tuning and heldout files, and discussions_table (9 writes, 12 of its 15 refusals outer_binding_unstable) holds the largest gap to React Compiler, 42 work.",
+      "estimate": {
+        "value": 280000,
+        "unit": "tokens (one M node, about 150 to 250 changed lines in baseline.ts and groups.ts getBindingDeps)"
+      },
+      "evidence": {
+        "type": "measured",
+        "source": "grep -rc --include=input.jsx '.displayName = \\|.defaultProps = ' benchmarks/corpus; baseline.ts 268-364; groups.ts 736-740; J12",
+        "detail": "debate-2/evidence/P9-outer-identity.txt. Imported bindings are already treated as stable (baseline.ts 334), so this change helps an imported child exactly as much as a same-module one, which O2's objection to P2 does not touch. Estimate from J5 (M fix nodes 317k to 373k) at the low end because the change is inside one predicate."
+      }
+    },
+    "P11": {
+      "id": "P11",
+      "round": 2,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Widen isResultReadOnly from a syntax whitelist to two sound rules: (a) a call to a same-module function whose every return is primitive syntax (comparison, typeof, template, `!x`, a literal) yields a value that sharing cannot expose, whatever its uses; (b) known non-mutating reads count as read-only uses: `x.includes/indexOf/some/every/find/slice/join/map/filter` where x is the result, a JSX attribute, and `const y = x` when y is itself read-only. Hook calls stay excluded. This covers the map-list-cache cause (`selected.includes` in toaster_store, 29 work above React Compiler, 7 of its 17 refusals cand_result_not_readonly) and `const show = isAccordionItemSelected(...)` in accordion.",
+      "estimate": {
+        "value": 300000,
+        "unit": "tokens (one M node; first sub-census of the 34 heldout2 rows to drop hook calls)"
+      },
+      "evidence": {
+        "type": "source",
+        "source": "packages/forgetti/src/next/plan/baseline.ts isReadOnlyUse 485-514 and isResultReadOnly 517-525; debate-2/evidence/T1-census.txt per-file rows; nodes/regate/outcome.md map-list-cache",
+        "detail": "isReadOnlyUse returns false for any call argument, any method call on x (MemberExpression object then CallExpression), any declarator init and any object or array element. Builtin array methods on an array input do not mutate it; mutating ones (push, sort, splice, reverse, fill) stay refused. Census caveat: sites, not hits, so P12 weighs them first."
+      }
+    },
+    "P12": {
+      "id": "P12",
+      "round": 2,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Adopt O5 as the first node, weighted: extend the T1 instrumentation to name which binding failed in isStableOuter and which use failed isResultReadOnly, add baseline.ts, loops.ts and branches.ts exits, and join each refusal to the steps where next equals uncompiled work, run on base, tuning, heldout and heldout2 only. Each family node (P10, P11) then has a pre-stated target: the share of equal-to-uncompiled steps on the development sets it must turn into hits, so a node that closes its share and still misses tells us the family was wrong rather than prompting another narrow rule.",
+      "estimate": {
+        "value": 100000,
+        "unit": "tokens (S node; the T1 instrumentation and script exist)"
+      },
+      "evidence": {
+        "type": "measured",
+        "source": "proof T1 and its caveats in debate-2/evidence/T1-census.txt",
+        "detail": "T1 cost one gate run and showed sites are not weighted, nested JSX inflates outer_binding_unstable, and three planner files are not instrumented; this closes exactly those gaps."
+      }
+    },
+    "P13": {
+      "id": "P13",
+      "round": 2,
+      "by": "proponent",
+      "kind": "concession",
+      "answers": [
+        "P2"
+      ],
+      "why": "O2: every corpus file is one flattened module, so same-module summaries would fire on every gate file and overstate their value on real code where the child is imported; J12 counts unstable global reads and writes at 5 of 164 heldout2 refusals, so the cause P2 targets is small (toast_stack 6 work, form_check 3).",
+      "text": "Drop P2 from the structure. The event-closure-globals cause stays refused; if heldout3 under P14 shows it matters across modules, it comes back as its own debate item with a cross-module design."
+    },
+    "P14": {
+      "id": "P14",
+      "round": 2,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Amend P4 so heldout3 measures imported children fairly: at least half of its files keep the source library's split, with one or more child components in a sibling module of the case folder imported by input.jsx, and the harness compiles sibling .jsx files with the same compiler under test. Then no same-module assumption, today's or a later one, can win on the gate what it would lose in a real app.",
+      "estimate": {
+        "value": 60000,
+        "unit": "tokens on top of P4 (harness change in corpus.ts and run.ts; corpus cost unchanged)"
+      },
+      "evidence": {
+        "type": "source",
+        "source": "benchmarks/compare/src/corpus.ts lines 21-27 and run.ts 128-138; heldout2/*/meta.json adaptation fields; O2",
+        "detail": "The harness compiles only input.jsx per case today, and each heldout2 meta says the library's files were joined. Sibling imports already resolve (cases import ../../shared/counter.js)."
+      }
+    },
+    "P15": {
+      "id": "P15",
+      "round": 2,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Adopt O4 as the soundness net, with operators aimed at P10 and P11: write `X.displayName` or a module `let` inside render or a handler instead of at top level; read `ref.current` or a changing global in the eager body of a component that the parent calls as `X()`; push into or sort a call result after it reaches JSX; pass a same-module primitive-returning function's result to a mutating method. Every P10 and P11 review round runs the mutants on both targets and needs 0 differences before merge.",
+      "estimate": {
+        "value": 180000,
+        "unit": "tokens (O4's estimate; operators are added per family inside P10 and P11 at about 20k each)"
+      },
+      "evidence": {
+        "type": "prior-art",
+        "source": "Le, Afshari, Su, 'Compiler Validation via Equivalence Modulo Inputs', PLDI 2014 (as cited in O4); J5 and J6",
+        "detail": "EMI found compiler bugs by mutating valid seed programs; here the seeds are the 62 corpus files with their scenarios. J5/J6 show each widening found a new soundness hole in review, so the operators target exactly the boundaries P10 and P11 move."
+      }
+    },
+    "P16": {
+      "id": "P16",
+      "round": 2,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Revised ship order and outcomes, fixed now: (1) P12 weighted census; (2) heldout3 under P4 and P14, sealed; (3) P15 mutants; (4) P10; (5) P11; (6) gate on heldout3 alone with every amendment-1 rule, then all sets. Pass: every rule holds on heldout3 and all sets. Kill as before (an unfixable difference, or gzip above 1.3). Work miss (sound and within size, but React work not below React Compiler or a file above it): the planner line stops, no heldout4 is built and no fix round reads heldout3 output; the result goes to the user as measured, with the per-family share P12 predicted against what heldout3 showed, so the user chooses between shipping on the all-sets result and closing the roadmap.",
+      "estimate": {
+        "value": 1250000,
+        "unit": "tokens total (P12 100k + heldout3 330k + P14 60k + P15 180k + P10 280k + P11 300k; gate about 0 extra if run by the orchestrator, else about 200k)"
+      },
+      "evidence": {
+        "type": "inferred",
+        "source": "O6; goal text 'on a fresh held-out set'; nodes/regate/outcome.md (missed, no kill fired, stop for the user); J10 (stopping the rewrite is not an option, but the planner line is the scope here)",
+        "detail": "A fix round on heldout3 output would expose it the way regate exposed heldout2 (J4), so the only outcome that keeps the check clean is to stop and report. Stopping the planner line is not stopping the rewrite: the compiler already passes every all-sets rule except per-file React work (J2)."
+      }
+    },
+    "P17": {
+      "id": "P17",
+      "round": 3,
+      "by": "proponent",
+      "kind": "concession",
+      "answers": [
+        "P10"
+      ],
+      "why": "O8 (a tag-used same-module child with an impure eager body would be skipped by a cached element), O9 (walkEager walks effect callbacks, and the identity/purity split of the 51 sites is unmeasured) and O10 (a two-name whitelist repeats J5's overfitting).",
+      "text": "Amend P10 to the identity side only. A module binding X is identity-stable when every member write or Object.assign(X, ...) on it is an unconditional statement at module top level (displayName, defaultProps, propTypes, compound `X.Item = Item` all count); any other member write, or X handed to a call, keeps the refusal. Purity is unchanged: a same-module component used as a tag still needs a pure eager body, memo still exempt, imports still assumed pure. P12 must report how many of the 51 heldout2 outer_binding_unstable sites fail on identity versus purity; that identity share is P10's target, and P10 ships only if it is nonzero on the development sets. Estimate about 320k (O14 calibration)."
+    },
+    "P18": {
+      "id": "P18",
+      "round": 3,
+      "by": "proponent",
+      "kind": "concession",
+      "answers": [
+        "P11"
+      ],
+      "why": "O11 showed none of P11's named targets is blocked by isResultReadOnly (form_check's `selected` is useState, toaster_store calls a method on a destructured hook result, accordion has no gap), and O12 showed callback methods can change or keep elements.",
+      "text": "Make P11 conditional and narrow. It is built only if P12's weighted census attributes at least 15% of the equal-to-uncompiled steps on the development sets to non-hook cand_result_not_readonly refusals; otherwise it is dropped and its 330k is not spent. If built, rule (b) keeps only methods without callbacks that return a primitive or a fresh copy (includes, indexOf, lastIndexOf, slice, join, at, `length`), callback methods (find, map, filter, some, every) count only when the callback body passes the existing mutation check and the result's uses pass isReadOnlyUse recursively, and rule (a) (primitive-returning functions) is dropped as unproven. The toaster_store gap (29) is left to whatever family P12 names for it."
+    },
+    "P19": {
+      "id": "P19",
+      "round": 3,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Add four P15 mutation operators: (1) for O8, make the eager body of a same-module child used only as a JSX tag read Date.now(), a changing global or ref.current during render, with and without memo; (2) for O12, a map/filter/find/some/every callback that writes a field of its element (`i.seen = true`) or pushes it to an outer array; (3) for O12, a `find` result changed after the call (`y.n++`); (4) for O10, move a top-level `X.displayName = ...` or `X.Item = Item` into a conditional, a function body or a handler. Operators (2) and (3) are needed only if P11 is built. Each P10 and P11 review round runs them on both targets and needs 0 differences.",
+      "estimate": {
+        "value": 30000,
+        "unit": "tokens on top of P15's 180k (four operators in the existing mutator)"
+      },
+      "evidence": {
+        "type": "source",
+        "source": "O8, O10, O12; P15 (upheld) operator list",
+        "detail": "P15's operators covered components called as X() only; these four target the exact boundaries P17 and P18 move, which is where J5/J6 say review keeps finding holes."
+      }
+    },
+    "P20": {
+      "id": "P20",
+      "round": 3,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Restated ship order and outcomes: (1) P12 weighted census with the identity/purity split; (2) heldout3 under P4 and P14 (siblings compiled, file sums in the gate), sealed from planner workers; (3) P15 mutants with P19's operators; (4) P10 as amended by P17, if its identity share is nonzero; (5) P11 as narrowed by P18, only if its share is at least 15%; (6) gate on heldout3 alone with every amendment-1 rule, then on all sets. Pass: every rule holds. Kill: a difference that cannot be fixed without bailing out more components than React Compiler, or total gzip above 1.3. Work miss with soundness and size intact: ship the compiler as it is, replacing forgetti 0.8, record the React miss and the per-family predicted share against the heldout3 result, and leave planner work to later releases (Q1 answer (a)); no heldout4 and no fix round on heldout3 output.",
+      "estimate": {
+        "value": 1600000,
+        "unit": "tokens (range 1.5M to 1.8M per O14; about 1.27M if P12 rules out P11)"
+      },
+      "evidence": {
+        "type": "user",
+        "question": "Q1",
+        "source": "Q1 answer: '(a) Ship the compiler as it is, replacing forgetti 0.8, and record the React miss'",
+        "detail": "Cost from O14: P12 175k + heldout3 330k + P14 125k (O13) + P15 180k + P19 30k + P10 320k + P11 330k + gate 230k to 330k, minus 330k when P11 is not built."
+      }
+    },
+    "P21": {
+      "id": "P21",
+      "round": 3,
+      "by": "proponent",
+      "kind": "proposal",
+      "text": "Hypothesis inputs. Statement: planner changes chosen by a weighted refusal census on the exposed sets (outer-binding identity, and shared call results only if the census supports them) bring next's React work below React Compiler on component shapes it was not tuned on, with 0 differences and within amendment-1's size caps. Metric: amendment-1 work (re-renders plus recomputes) per file and in total, React and Preact, on heldout3 alone, then on all sets. Baseline: next at commit 5308757, heldout2 React 259 against React Compiler 186 with 4 files above, Preact 256 against 267, gzip 0.844; all sets 633 against 723 with 5 files above; next@5308757 is also run on heldout3 in the gate so the gain is visible even on a miss. Threshold: every amendment-1 rule on heldout3 alone and on all sets. Kill: an unfixable difference, total gzip above 1.3, or a family node that closes less than half of its P12-predicted share on the development sets (stopped, not followed by narrower rules). A work miss is not a kill: it ships under Q1 (a).",
+      "evidence": {
+        "type": "inferred",
+        "source": "goal text; debate/amendment-1.md Threshold and Kill; J2; P12, P17, P18; Q1 answer",
+        "detail": "Threshold and kill are amendment-1 unchanged plus one per-node stop that tests the census's predictions, which is the check that narrow fix rules (J5) never had."
+      }
+    },
+    "O8": {
+      "id": "O8",
+      "round": 2,
+      "by": "opponent",
+      "kind": "risk",
+      "axis": "soundness",
+      "severity": "medium",
+      "answers": [
+        "P10",
+        "P15"
+      ],
+      "text": "As written, P10 checks purity only when the unit calls the binding, so a same-module component used only as a tag (`<Clock/>`, whose render reads `Date.now()` or a changing global) would get a cached element, and React then skips Clock's render where uncompiled code re-renders it: a difference. A tag use still needs the child's eager body to be pure; only `memo` already has skip semantics (isWrapperCall's comment says so). P15's matching operator mutates only components 'the parent calls as X()', so the mutants would not catch this hole. Likely if P10 is built as worded.",
+      "evidence": {
+        "type": "source",
+        "source": "packages/forgetti/src/next/plan/baseline.ts 323-346 (isStableOuter runs readsChangingState for every same-module function, tag or call) and 367-371 (memo exemption: 'memo(x) skips a render on equal props, as an unchanged element does'); P10 and P15 text",
+        "detail": "The purity check on tags is what keeps a cached element from skipping a child whose render reads changing state; the code exempts only memo because it alone already skips on equal props. A P15 operator 'read a changing global in the eager body of a same-module child used as a JSX tag' closes the gap in the net."
+      }
+    },
+    "O9": {
+      "id": "O9",
+      "round": 2,
+      "by": "opponent",
+      "kind": "rebuttal",
+      "answers": [
+        "P10"
+      ],
+      "text": "P10's purity narrowing does not exclude effects: walkEager treats any closure that is a call argument as eager, so `useEffect(() => ref.current ...)` and custom hooks such as useEventCallback stay flagged; only closures in JSX attributes (handlers) are deferred. Excluding effects needs a list of hooks known to defer their callback, and custom hooks cannot be on it. The split between identity failures (displayName) and purity failures inside the 51 outer_binding_unstable sites is also unmeasured, since T1 does not name the failing binding (J12).",
+      "evidence": {
+        "type": "source",
+        "source": "packages/forgetti/src/next/plan/baseline.ts 157-198 (CALLS, walkEager: 'A closure written as a call argument may run during render, so it is walked'; findDeferred); J12 caveat",
+        "detail": "deferred = !called && FUNCTIONS.has(type); a useEffect callback sits under a CallExpression, so called is true and its body is walked. P10's example 'ref.current in an effect no longer marks a component unstable' does not follow from reusing walkEager/findDeferred."
+      }
+    },
+    "O10": {
+      "id": "O10",
+      "round": 2,
+      "by": "opponent",
+      "kind": "alternative",
+      "answers": [
+        "P10"
+      ],
+      "text": "Make P10's identity rule structural instead of a two-name whitelist: any assignment to a member of X that is an unconditional statement at module top level runs at load time (displayName, defaultProps, propTypes, compound `X.Item = Item`), and a top-level `Object.assign(X, {...})` counts the same; any other member write or X handed to a call keeps the refusal. Same predicate, same cost, and it covers the static-member shapes real libraries use that the flattened corpus dropped.",
+      "estimate": {
+        "value": 0,
+        "unit": "extra tokens over P10 (same predicate, one AST position test instead of a name list)"
+      },
+      "evidence": {
+        "type": "measured",
+        "source": "grep -rnE 'Object\\.assign\\(|\\.propTypes|^[A-Z][A-Za-z]*\\.[A-Za-z]+ = ' benchmarks/corpus --include=input.jsx; react-bootstrap v2.10 src (Accordion.tsx ends with Object.assign(Accordion, { Button, Collapse, Item, Header, Body }))",
+        "detail": "The corpus holds only displayName writes (29, all heldout2) and no propTypes, defaultProps or compound exports: the corpus nodes flattened them away. A whitelist tuned on heldout2's one name is the overfitting pattern J5 records; a heldout3 from another library may use propTypes or compound members instead."
+      }
+    },
+    "O11": {
+      "id": "O11",
+      "round": 2,
+      "by": "opponent",
+      "kind": "rebuttal",
+      "answers": [
+        "P11"
+      ],
+      "text": "P11's targets are misattributed. `selected.includes` is in form_check (3 work above React Compiler), and there `selected` is a useState value, not a call result, so isResultReadOnly is not what blocks it. toaster_store's map (29 above) calls `handlers.calculateOffset(t, ...)`, a method on a destructured hook result, which neither P11 rule covers. accordion's `isAccordionItemSelected` returns `Array.isArray(k) ? k.includes(e) : k === e`, which is not in rule (a)'s primitive-syntax list, and accordion has 0 gap (next 4, React Compiler 4).",
+      "evidence": {
+        "type": "measured",
+        "source": "grep -rn 'selected.includes|isAccordionItemSelected' benchmarks/corpus/heldout2; heldout2/form_check/input.jsx 188-203; heldout2/toaster_store/input.jsx 204-231; heldout2/accordion/input.jsx 46-50; results/regate/per-file.md",
+        "detail": "form_check: const [selected, setSelected] = useState(initial). toaster_store: const { toasts, handlers } = useToaster(...); toasts.map((t) => { const offset = handlers.calculateOffset(t, {...}); ... }). So P11 has no shown path to the 29-unit toaster_store gap, the second largest on heldout2."
+      }
+    },
+    "O12": {
+      "id": "O12",
+      "round": 2,
+      "by": "opponent",
+      "kind": "risk",
+      "axis": "soundness",
+      "severity": "medium",
+      "answers": [
+        "P11",
+        "P15"
+      ],
+      "text": "P11(b) counts `x.find/map/filter/some/every` on a call result as read-only uses, but their callbacks receive x's elements and may change or keep them (`x.map(i => { i.seen = true; return i })`), and `find` returns an element that later code may change (`const y = x.find(...); y.n++`). Sound only if each callback body passes the same mutation check and the returned element's uses are checked recursively, as isReadOnlyUse already does for `x.a`. P15 has no operator for either; add both.",
+      "evidence": {
+        "type": "source",
+        "source": "packages/forgetti/src/next/plan/baseline.ts 485-525 (isReadOnlyUse recurses through MemberExpression and ConditionalExpression; returns false for any call except Object.keys); J5, J6",
+        "detail": "The current rule recurses on the holder's use for every read path; a method-name whitelist without callback and result checks drops that recursion. J5/J6 record that every widening so far found a new soundness hole in review."
+      }
+    },
+    "O13": {
+      "id": "O13",
+      "round": 2,
+      "by": "opponent",
+      "kind": "cost",
+      "axis": "tokens",
+      "severity": "low",
+      "answers": [
+        "P14"
+      ],
+      "text": "P14's harness change is wider than corpus.ts and run.ts: CompileInfo and collectCell handle one source per cell, writeModule writes one input.js, and relinkCounter, retarget, lowerJsx and the forgetti-0.8 runtime rewrite run once; siblings need all of these per file, and gzip, units, compiled share and bailouts must sum across files in the gate and its tests. It also exercises, for the first time, the 'imported functions are assumed pure' rule (baseline.ts 333-336), so a sibling that reads a ref in render could become a heldout3 difference that is P14's doing, not the planner's. About 100k to 150k rather than 60k.",
+      "estimate": {
+        "value": 125000,
+        "unit": "tokens (range 100k to 150k)"
+      },
+      "evidence": {
+        "type": "source",
+        "source": "benchmarks/compare/src/collect.ts 35-68; run.ts 117-140; corpus.ts 21-31; packages/forgetti/src/next/plan/baseline.ts 333-336; nodes/harness/brief.md spent: 216111",
+        "detail": "The whole harness node cost 216k; sibling support touches collect, run, corpus, compilers' per-file wrappers and the gate's per-file sums, so about half of that scope. The pure-import assumption has never been tested: no corpus case imports a component (O2)."
+      }
+    },
+    "O14": {
+      "id": "O14",
+      "round": 2,
+      "by": "opponent",
+      "kind": "cost",
+      "axis": "tokens",
+      "severity": "low",
+      "answers": [
+        "P16"
+      ],
+      "text": "P16's 1.25M is under the lab's own node calibration: no node has cost less than 174k, yet P12 is set at 100k, and the heldout3 gate at 0 to 200k against 229k (final-gate) and 329k (regate). With a 175k floor for P12, about 125k for P14 (O13), and gates at calibration, the total is about 1.6M (range 1.5M to 1.8M). This is a forecast correction, not a case for cutting scope.",
+      "estimate": {
+        "value": 1600000,
+        "unit": "tokens (range 1.5M to 1.8M)"
+      },
+      "evidence": {
+        "type": "calibration",
+        "source": "grep -rn 'spent:' docs/roadmaps/compiler-rewrite/nodes --include=brief.md",
+        "detail": "spent: fix-tree-view-size 174559 (lowest), harness 216111, corpus-tuning 222666, final-gate 229485, regate 328719, corpus-heldout 280000, corpus-heldout-2 376370; fix nodes 317k to 373k. Sum: P12 175k + heldout3 330k + P14 125k + P15 180k + P10 320k + P11 330k + gate 230k to 330k."
+      }
+    },
+    "O15": {
+      "id": "O15",
+      "round": 2,
+      "by": "opponent",
+      "kind": "concession",
+      "answers": [
+        "O2",
+        "O6"
+      ],
+      "why": "P13 drops P2 and P14 makes half of heldout3 multi-file, which answers O2. P16 fixes a work-miss outcome before any run (no heldout4, no fix round on heldout3 output), which answers O6's main point. O4 and O5 were adopted as P15 and P12.",
+      "text": "Withdraw O2. Narrow O6 to one remaining point: P16's work-miss branch offers 'closing the roadmap', which J10 says the user has ruled out, so what follows a miss is still open; that is asked as Q1 rather than argued."
+    },
+    "O16": {
+      "id": "O16",
+      "round": 3,
+      "by": "opponent",
+      "kind": "rebuttal",
+      "answers": [
+        "P17"
+      ],
+      "text": "P10 cited discussions_table (42 above React Compiler) as its main target, but that file's loss is not an identity refusal. The counted child DeleteDiscussion is rendered as `<Cell entry={entry}/>`, and Cell is a method in a `columns` array literal written inline in DiscussionsList, so Cell is a new component type every render and React remounts the child however Table's forwardRef tags are cached. Caching that literal is refused on purity: it reads formatDate, whose `new Date(value)` uses `Date`, which is not in STABLE_GLOBALS. P17 keeps purity unchanged, so it likely leaves this 42 where it is.",
+      "evidence": {
+        "type": "source",
+        "source": "benchmarks/corpus/heldout2/discussions_table/input.jsx 11-14, 156-189, 192-195, 198-239; scenarios.js (same_discussions, page_3_again); packages/forgetti/src/next/plan/baseline.ts 31-59 (STABLE_GLOBALS has no Date) and 268-280 (readsChangingState)",
+        "detail": "bump('Row') sits in DeleteDiscussion, reached only through the fresh Cell methods. The displayName forwardRef tags (TableElement, TableRow, TableCell...) live in Table, whose columns prop is new every render. This is reasoning from the code, not a planner run; P12's identity/purity split would confirm or refute it."
+      }
+    },
+    "O17": {
+      "id": "O17",
+      "round": 3,
+      "by": "opponent",
+      "kind": "risk",
+      "axis": "tokens",
+      "severity": "medium",
+      "answers": [
+        "P20",
+        "P21"
+      ],
+      "text": "After P17 and P18, no planned node has a shown path to the two files that hold 71 of heldout2's 80 excess work units: discussions_table (a purity refusal on `new Date(arg)` plus a fresh literal of method components, O16) and toaster_store (a method call on a destructured hook result, O11). P20 has fixed slots only for identity and call results, so the likely outcome is about 1.27M spent, then a Q1 (a) ship with the same family of misses on heldout3. Likely, unless P12 ranks identity first by steps.",
+      "evidence": {
+        "type": "measured",
+        "source": "benchmarks/compare/results/regate/per-file.md heldout2 rows; O11; O16; P20 estimate",
+        "detail": "Excess over React Compiler: discussions_table 42, toaster_store 29, toast_stack 6, form_check 3. P18 itself says 'the toaster_store gap (29) is left to whatever family P12 names', but P20 gives no node to such a family."
+      }
+    },
+    "O18": {
+      "id": "O18",
+      "round": 3,
+      "by": "opponent",
+      "kind": "alternative",
+      "answers": [
+        "P20"
+      ],
+      "text": "Make P20's family slots follow the census instead of naming them now. After P12, build at most two family nodes, taken in P12's ranking by lost steps, from any family it finds: outer identity (P17), purity precision (e.g. `new Date(arg)` with an argument, which reads no clock), fresh literals holding method components, method calls on hook results, or shared call results (P18). Each keeps P18's 15% entry rule, P21's half-share kill and P19-style mutation operators for its boundary. The cost and the cap stay the same as P20 with P11; only which two nodes are built changes.",
+      "estimate": {
+        "value": 1600000,
+        "unit": "tokens (same as P20: two family slots at about 320k to 330k each)"
+      },
+      "evidence": {
+        "type": "inferred",
+        "source": "P12 (upheld: weighted census names families); P18 (15% rule); P21 (half-share kill); O16; O17; J5",
+        "detail": "The census was adopted to choose families from data; fixing the slots to identity and call results before it runs brings back the guess-the-cause pattern J5 records. `new Date(value)` date formatting is a common real-world helper, not a heldout2 quirk, but it enters only if P12 ranks it."
+      }
+    },
+    "O19": {
+      "id": "O19",
+      "round": 3,
+      "by": "opponent",
+      "kind": "risk",
+      "axis": "soundness",
+      "severity": "low",
+      "answers": [
+        "P20",
+        "P4"
+      ],
+      "text": "This ledger and its evidence now name the exact shapes the planner will target (displayName and Object.assign statics, `new Date`, Cell method columns, `.includes`). If the heldout3 corpus node reads debate-2/ or nodes/regate, its library and file choices can drift toward or away from those shapes, and the clean check is lost without anyone opening next's output. The corpus brief should forbid reading debate-2/, nodes/*/outcome.md of planner nodes and every compiled output, and fix its library list before P12 reports. Unlikely, but cheap to prevent.",
+      "evidence": {
+        "type": "source",
+        "source": "docs/roadmaps/compiler-rewrite/CLAUDE.md (rules forbid only opening benchmarks/corpus/heldout/); nodes/regate/outcome.md Deviations (heldout2 exposed by reading output); debate-2/ledger.json P10, P17, O10, O16",
+        "detail": "The roadmap rules guard the held-out folder from planner workers but say nothing about a corpus builder reading the planner's target list."
+      }
+    },
+    "O20": {
+      "id": "O20",
+      "round": 3,
+      "by": "opponent",
+      "kind": "concession",
+      "answers": [
+        "O8",
+        "O9",
+        "O10",
+        "O11",
+        "O12",
+        "O13",
+        "O14"
+      ],
+      "why": "P17 keeps purity for tag-used children and adopts the structural load-time rule; P18 drops rule (a), conditions P11 on the census and adds callback and result checks; P19 adds the mutation operators O8, O10 and O12 asked for; P20 takes O13's 125k for the sibling harness and O14's 1.6M forecast; Q1 is answered.",
+      "text": "O8, O9, O10, O12, O13 and O14 are answered and no longer argue against the structure. O11 is answered for rule (a) and the misattribution; its toaster_store point is carried by O17."
+    }
+  }
+}
