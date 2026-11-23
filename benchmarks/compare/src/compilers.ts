@@ -3,7 +3,14 @@ import zlib from 'node:zlib';
 import * as babel from '@babel/core';
 import reactCompiler from 'babel-plugin-react-compiler';
 import forgetti from 'forgetti-0.8';
-import type { CompileInfo, Compiler, Target } from './types.ts';
+import {
+  getOutputName,
+  type CompiledSibling,
+  type CompileInfo,
+  type Compiler,
+  type CorpusCase,
+  type Target,
+} from './types.ts';
 
 export type NextCompile = (
   code: string,
@@ -98,13 +105,18 @@ const SLOT_PATTERNS: Record<Compiler, RegExp | null> = {
 };
 
 function runBabel(code: string, filename: string, plugin: babel.PluginItem | null): string {
-  const isTs = filename.endsWith('.tsx');
+  let parserPlugins: ('jsx' | 'typescript')[] = ['jsx'];
+  if (filename.endsWith('.tsx')) {
+    parserPlugins = ['jsx', 'typescript'];
+  } else if (filename.endsWith('.ts')) {
+    parserPlugins = ['typescript'];
+  }
   const result = babel.transformSync(code, {
     filename,
     configFile: false,
     babelrc: false,
     plugins: plugin ? [plugin] : [],
-    parserOpts: { plugins: isTs ? ['jsx', 'typescript'] : ['jsx'] },
+    parserOpts: { plugins: parserPlugins },
     retainLines: false,
   });
   if (result?.code == null) {
@@ -199,6 +211,7 @@ export function compileSource(
   const pattern = SLOT_PATTERNS[compiler];
   return {
     code: first.code,
+    siblings: [],
     raw: Buffer.byteLength(first.code),
     gz: zlib.gzipSync(first.code).length,
     slots: pattern ? sumSlots(first.code, pattern) : 0,
@@ -207,6 +220,89 @@ export function compileSource(
     compiled: first.compiled,
     bailouts: first.bailouts,
   };
+}
+
+/**
+ * Compiles the input of a case and every sibling module with the same compiler. The
+ * numbers add up over the files: bytes, slots, time, components and bailouts. Gzip is
+ * taken once over the input and then the siblings by name, so every file counts and
+ * each keeps its own runtime import line. A single-file case gives what `compileSource` gives.
+ */
+export function compileCase(
+  compiler: Compiler,
+  testCase: CorpusCase,
+  target: Target,
+  compileNext: NextCompile | null,
+): CompileInfo {
+  const input = compileSource(
+    compiler,
+    retarget(relinkCounter(testCase.source), target),
+    testCase.inputFile,
+    target,
+    compileNext,
+  );
+  if (testCase.siblings.length === 0) {
+    return input;
+  }
+
+  // Compile every sibling and add its numbers to the input's.
+  const siblings: CompiledSibling[] = [];
+  const bailouts = [...input.bailouts];
+  let raw = input.raw;
+  let slots = input.slots;
+  let ms = input.ms;
+  let units = input.units;
+  let compiled = input.compiled;
+  const streams = [input.code];
+  for (const sibling of testCase.siblings) {
+    let info: CompileInfo;
+    try {
+      info = compileSource(
+        compiler,
+        retarget(relinkCounter(sibling.source), target),
+        sibling.file,
+        target,
+        compileNext,
+      );
+    } catch (error) {
+      throw new Error(`${sibling.file}: ${String(error)}`, { cause: error });
+    }
+    siblings.push({ file: sibling.file, code: info.code });
+    streams.push(info.code);
+    for (const bailout of info.bailouts) {
+      bailouts.push(`${sibling.file}: ${bailout}`);
+    }
+    raw += info.raw;
+    slots += info.slots;
+    ms += info.ms;
+    units += info.units;
+    compiled += info.compiled;
+  }
+  return {
+    code: input.code,
+    siblings,
+    raw,
+    gz: zlib.gzipSync(streams.join('\n')).length,
+    slots,
+    ms: Number(ms.toFixed(2)),
+    units,
+    compiled,
+    bailouts,
+  };
+}
+
+/** Points a relative import of a sibling at the `.js` file the harness writes for it. */
+export function relinkSiblings(code: string, testCase: CorpusCase): string {
+  let result = code;
+  for (const sibling of testCase.siblings) {
+    const pattern = new RegExp(`(['"])\\./${escapeRegExp(sibling.file)}\\1`, 'g');
+    result = result.replace(pattern, `'./${getOutputName(sibling.file)}'`);
+  }
+  return result;
+}
+
+function escapeRegExp(text: string): string {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 /** Turns JSX and types in compiled output into plain `.js` for the target's JSX runtime. */
@@ -219,6 +315,8 @@ export function lowerJsx(code: string, filename: string, target: Target): string
   ];
   if (filename.endsWith('.tsx')) {
     presets.push(['@babel/preset-typescript', { isTSX: true, allExtensions: true }]);
+  } else if (filename.endsWith('.ts')) {
+    presets.push(['@babel/preset-typescript', { isTSX: false, allExtensions: true }]);
   }
   const result = babel.transformSync(code, {
     filename,

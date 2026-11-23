@@ -65,6 +65,12 @@ export function findDifferences(cell: Cell, plain: Cell): string[] {
 
 /** Child renders plus recomputes over the update steps. The mount is not counted. */
 export function sumWork(cell: Cell, plain: Cell): number {
+  // The uncompiled run is the yardstick. Without it there is nothing to charge.
+  if (plain.failure !== undefined) {
+    throw new Error(
+      `The uncompiled cell failed to load, so work cannot be summed: ${plain.failure}`,
+    );
+  }
   // A cell that failed to load is charged as the uncompiled run.
   if (cell.failure !== undefined) {
     return sumWork(plain, plain);

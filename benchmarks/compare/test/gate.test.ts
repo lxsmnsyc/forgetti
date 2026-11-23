@@ -22,6 +22,7 @@ interface CellOptions {
 function createCell(options: CellOptions): Cell {
   const compile: CompileInfo = {
     code: '',
+    siblings: [],
     raw: options.gz ?? 100,
     gz: options.gz ?? 100,
     slots: 0,

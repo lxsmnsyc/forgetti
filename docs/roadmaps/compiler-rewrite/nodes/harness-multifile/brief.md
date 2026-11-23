@@ -1,12 +1,13 @@
 ---
 id: harness-multifile
 title: Compile sibling modules in the compare harness
-status: active
+status: done
 priority: must
 type: feature
 milestone: planner
 size: M
 added: 2026-11-23
+spent: 225137
 verify: pnpm --filter compare test
 owns:
   - benchmarks/compare/src/**
