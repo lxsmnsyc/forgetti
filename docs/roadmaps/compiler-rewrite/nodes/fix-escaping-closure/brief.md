@@ -1,12 +1,13 @@
 ---
 id: fix-escaping-closure
 title: Compile components that bail out as escaping-closure
-status: active
+status: done
 priority: must
 type: fix
 milestone: tree-cache
 size: M
 added: 2026-11-24
+spent: 365842
 verify: pnpm --filter compare gate --set base --set tuning
 owns:
   - packages/forgetti/src/next/eligibility/**

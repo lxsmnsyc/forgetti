@@ -1,7 +1,7 @@
 ---
 id: fix-tree-view-size
 title: Bring heldout/tree_view under 1.15 times React Compiler gzip
-status: todo
+status: active
 priority: must
 type: fix
 milestone: tree-cache
