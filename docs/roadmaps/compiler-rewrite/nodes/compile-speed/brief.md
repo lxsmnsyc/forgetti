@@ -8,7 +8,7 @@ outline: true
 size: M
 owns: []
 depends_on:
-  - on: final-gate
+  - on: regate
     kind: hard
     why: needs the finished pipeline to profile
 ---

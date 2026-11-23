@@ -98,6 +98,8 @@ export interface OwnershipResult {
 
 export type ValueRef =
   | { kind: 'binding'; id: number }
+  /** A property read of a binding, such as `props.x`. Only plain names of a component's props object. */
+  | { kind: 'member'; id: number; name: string }
   | { kind: 'output'; block: number; index: number };
 
 export interface Output {

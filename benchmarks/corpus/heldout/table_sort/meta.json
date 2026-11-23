@@ -1,0 +1,8 @@
+{
+  "source": "https://github.com/TanStack/table/blob/main/examples/react/sorting/src/main.tsx",
+  "license": "MIT",
+  "derived": true,
+  "tests": "A data table with multi-column sort, custom enum order and a memoized sorted copy.",
+  "adaptation": "Rewritten without @tanstack/react-table: sort state, sort functions and header toggle follow the example. Data comes from props.",
+  "targets": ["react", "preact"]
+}

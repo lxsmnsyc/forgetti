@@ -1,11 +1,12 @@
 ---
 id: corpus-heldout
 title: Held-out corpus of real-shaped components
-status: todo
+status: done
 priority: must
 type: feature
 milestone: sound-baseline
 size: M
+spent: 280000
 verify: pnpm --filter compare test --set heldout
 owns:
   - benchmarks/corpus/heldout/**

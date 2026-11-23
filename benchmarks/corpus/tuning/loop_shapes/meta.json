@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "Rows cached by position: a map in a ternary arm, a ternary in a callback, nested maps, a for-of loop and a counter loop.",
+  "targets": ["react", "preact"]
+}

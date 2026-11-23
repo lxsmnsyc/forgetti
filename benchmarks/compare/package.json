@@ -6,7 +6,7 @@
     "table": "node src/cli.ts table",
     "gate": "node src/cli.ts gate",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "node src/test.ts"
   },
   "dependencies": {
     "@babel/core": "^8.1.3",

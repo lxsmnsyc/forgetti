@@ -1,0 +1,99 @@
+== target react
+ROW base/bailout: next 2 {'forgetti-0.8': 1, 'react-compiler': 2} best 1 f08diff 1 | stepx next 1 {'forgetti-0.8': 1, 'react-compiler': 1} best 1 | filex best 2 *
+ROW base/callback: next 3 {'forgetti-0.8': 1, 'react-compiler': 1} best 1 f08diff 0 | stepx next 3 {'forgetti-0.8': 1, 'react-compiler': 1} best 1 | filex best 1 *
+ROW base/deepprop: next 1 {'forgetti-0.8': 2, 'react-compiler': 1} best 1 f08diff 0 | stepx next 1 {'forgetti-0.8': 2, 'react-compiler': 1} best 1 | filex best 1
+ROW base/derived: next 2 {'forgetti-0.8': 2, 'react-compiler': 4} best 2 f08diff 0 | stepx next 2 {'forgetti-0.8': 2, 'react-compiler': 4} best 2 | filex best 2
+ROW base/earlyreturn: next 1 {'forgetti-0.8': 2, 'react-compiler': 1} best 1 f08diff 0 | stepx next 1 {'forgetti-0.8': 2, 'react-compiler': 1} best 1 | filex best 1
+ROW base/forloop: next 11 {'forgetti-0.8': 0, 'react-compiler': 11} best 0 f08diff 3 | stepx next 3 {'forgetti-0.8': 0, 'react-compiler': 3} best 0 | filex best 11 *
+ROW base/hook: next 6 {'forgetti-0.8': 2, 'react-compiler': 6} best 2 f08diff 0 | stepx next 6 {'forgetti-0.8': 2, 'react-compiler': 6} best 2 | filex best 2 *
+ROW base/jsxprops: next 6 {'forgetti-0.8': 4, 'react-compiler': 1} best 1 f08diff 0 | stepx next 6 {'forgetti-0.8': 4, 'react-compiler': 1} best 1 | filex best 1 *
+ROW base/map: next 2 {'forgetti-0.8': 2, 'react-compiler': 7} best 2 f08diff 0 | stepx next 2 {'forgetti-0.8': 2, 'react-compiler': 7} best 2 | filex best 2
+ROW base/mutate: next 4 {'forgetti-0.8': 1, 'react-compiler': 2} best 1 f08diff 0 | stepx next 4 {'forgetti-0.8': 1, 'react-compiler': 2} best 1 | filex best 1 *
+ROW base/statememo: next 1 {'forgetti-0.8': 1, 'react-compiler': 1} best 1 f08diff 0 | stepx next 1 {'forgetti-0.8': 1, 'react-compiler': 1} best 1 | filex best 1
+ROW base/switch: next 2 {'forgetti-0.8': 2, 'react-compiler': 2} best 2 f08diff 0 | stepx next 2 {'forgetti-0.8': 2, 'react-compiler': 2} best 2 | filex best 2
+ROW base/ternary: next 1 {'forgetti-0.8': 1, 'react-compiler': 2} best 1 f08diff 0 | stepx next 1 {'forgetti-0.8': 1, 'react-compiler': 2} best 1 | filex best 1
+ROW base/trycatch: next 4 {'forgetti-0.8': 2, 'react-compiler': 2} best 2 f08diff 0 | stepx next 4 {'forgetti-0.8': 2, 'react-compiler': 2} best 2 | filex best 2 *
+ROW base/usectx: next 0 {'forgetti-0.8': 0, 'react-compiler': 0} best 0 f08diff 1 | stepx next 0 {'forgetti-0.8': 0, 'react-compiler': 0} best 0 | filex best 0
+ROW tuning/alias_branch: next 4 {'forgetti-0.8': 0, 'react-compiler': 4} best 0 f08diff 2 | stepx next 2 {'forgetti-0.8': 0, 'react-compiler': 2} best 0 | filex best 4 *
+ROW tuning/alias_child: next 3 {'forgetti-0.8': 4, 'react-compiler': 3} best 3 f08diff 0 | stepx next 3 {'forgetti-0.8': 4, 'react-compiler': 3} best 3 | filex best 3
+ROW tuning/alias_closure: next 4 {'forgetti-0.8': 0, 'react-compiler': 4} best 0 f08diff 1 | stepx next 3 {'forgetti-0.8': 0, 'react-compiler': 3} best 0 | filex best 4 *
+ROW tuning/alias_field: next 4 {'forgetti-0.8': 0, 'react-compiler': 4} best 0 f08diff 1 | stepx next 3 {'forgetti-0.8': 0, 'react-compiler': 3} best 0 | filex best 4 *
+ROW tuning/alias_push: next 4 {'forgetti-0.8': 0, 'react-compiler': 4} best 0 f08diff 1 | stepx next 3 {'forgetti-0.8': 0, 'react-compiler': 3} best 0 | filex best 4 *
+ROW tuning/alias_spread: next 3 {'forgetti-0.8': 0, 'react-compiler': 3} best 0 f08diff 1 | stepx next 2 {'forgetti-0.8': 0, 'react-compiler': 2} best 0 | filex best 3 *
+ROW tuning/alias_unknown: next 4 {'forgetti-0.8': 0, 'react-compiler': 4} best 0 f08diff 2 | stepx next 2 {'forgetti-0.8': 0, 'react-compiler': 2} best 0 | filex best 4 *
+ROW tuning/control_assign: next 4 {'forgetti-0.8': 4, 'react-compiler': 4} best 4 f08diff 0 | stepx next 4 {'forgetti-0.8': 4, 'react-compiler': 4} best 4 | filex best 4
+ROW tuning/discard_strict: next 3 {'forgetti-0.8': 3, 'react-compiler': 3} best 3 f08diff 0 | stepx next 3 {'forgetti-0.8': 3, 'react-compiler': 3} best 3 | filex best 3
+ROW tuning/discard_suspense_mount: next 6 {'forgetti-0.8': 6, 'react-compiler': 6} best 6 f08diff 0 | stepx next 6 {'forgetti-0.8': 6, 'react-compiler': 6} best 6 | filex best 6
+ROW tuning/discard_suspense_update: next 4 {'forgetti-0.8': 4, 'react-compiler': 9} best 4 f08diff 5 | stepx next 1 {'forgetti-0.8': 1, 'react-compiler': 2} best 1 | filex best 9
+ROW tuning/discard_transition: next 4 {'forgetti-0.8': 10, 'react-compiler': 4} best 4 f08diff 0 | stepx next 4 {'forgetti-0.8': 10, 'react-compiler': 4} best 4 | filex best 4
+ROW tuning/hook_effect_event: next 2 {'forgetti-0.8': 2, 'react-compiler': 2} best 2 f08diff 0 | stepx next 2 {'forgetti-0.8': 2, 'react-compiler': 2} best 2 | filex best 2
+ROW tuning/hook_nested: next 11 {'forgetti-0.8': 4, 'react-compiler': 11} best 4 f08diff 0 | stepx next 11 {'forgetti-0.8': 4, 'react-compiler': 11} best 4 | filex best 4 *
+ROW tuning/hook_object: next 5 {'forgetti-0.8': 0, 'react-compiler': 5} best 0 f08diff 0 | stepx next 5 {'forgetti-0.8': 0, 'react-compiler': 5} best 0 | filex best 0 *
+ROW tuning/hook_use_cond: next 1 {'forgetti-0.8': 1, 'react-compiler': 6} best 1 f08diff 1 | stepx next 1 {'forgetti-0.8': 1, 'react-compiler': 5} best 1 | filex best 6
+ROW tuning/loop_shapes: next 23 {'forgetti-0.8': 11, 'react-compiler': 52} best 11 f08diff 12 | stepx next 13 {'forgetti-0.8': 11, 'react-compiler': 30} best 11 | filex best 52 *
+ROW tuning/throw_boundary_swap: next 3 {'forgetti-0.8': 2, 'react-compiler': 3} best 2 f08diff 2 | stepx next 2 {'forgetti-0.8': 2, 'react-compiler': 2} best 2 | filex best 3 *
+ROW tuning/throw_call: next 3 {'forgetti-0.8': 2, 'react-compiler': 3} best 2 f08diff 3 | stepx next 1 {'forgetti-0.8': 1, 'react-compiler': 1} best 1 | filex best 3 *
+ROW tuning/throw_group: next 6 {'forgetti-0.8': 5, 'react-compiler': 13} best 5 f08diff 2 | stepx next 2 {'forgetti-0.8': 2, 'react-compiler': 6} best 2 | filex best 13 *
+ROW tuning/throw_row: next 16 {'forgetti-0.8': 22, 'react-compiler': 28} best 22 f08diff 2 | stepx next 4 {'forgetti-0.8': 16, 'react-compiler': 16} best 16 | filex best 28
+ROW heldout/cart_summary: next 54 {'forgetti-0.8': 22, 'react-compiler': 24} best 22 f08diff 0 | stepx next 54 {'forgetti-0.8': 22, 'react-compiler': 24} best 22 | filex best 22 *
+ROW heldout/dashboard_card: next 32 {'forgetti-0.8': 23, 'react-compiler': 12} best 12 f08diff 2 | stepx next 28 {'forgetti-0.8': 21, 'react-compiler': 12} best 12 | filex best 12 *
+ROW heldout/form_validation: next 72 {'forgetti-0.8': 29, 'react-compiler': 25} best 25 f08diff 0 | stepx next 72 {'forgetti-0.8': 29, 'react-compiler': 25} best 25 | filex best 25 *
+ROW heldout/hex_input: next 0 {'forgetti-0.8': 0, 'react-compiler': 0} best 0 f08diff 0 | stepx next 0 {'forgetti-0.8': 0, 'react-compiler': 0} best 0 | filex best 0
+ROW heldout/hue_slider: next 0 {'forgetti-0.8': 0, 'react-compiler': 0} best 0 f08diff 0 | stepx next 0 {'forgetti-0.8': 0, 'react-compiler': 0} best 0 | filex best 0
+ROW heldout/list_filters: next 13 {'forgetti-0.8': 8, 'react-compiler': 13} best 8 f08diff 0 | stepx next 13 {'forgetti-0.8': 8, 'react-compiler': 13} best 8 | filex best 8 *
+ROW heldout/modal_effects: next 10 {'forgetti-0.8': 20, 'react-compiler': 10} best 10 f08diff 0 | stepx next 10 {'forgetti-0.8': 20, 'react-compiler': 10} best 10 | filex best 10
+ROW heldout/otp_input: next 0 {'forgetti-0.8': 0, 'react-compiler': 0} best 0 f08diff 33 | stepx next 0 {'forgetti-0.8': 0, 'react-compiler': 0} best 0 | filex best 0
+ROW heldout/table_sort: next 77 {'forgetti-0.8': 44, 'react-compiler': 158} best 44 f08diff 0 | stepx next 77 {'forgetti-0.8': 44, 'react-compiler': 158} best 44 | filex best 44 *
+ROW heldout/tree_view: next 40 {'forgetti-0.8': 25, 'react-compiler': 40} best 25 f08diff 0 | stepx next 40 {'forgetti-0.8': 25, 'react-compiler': 40} best 25 | filex best 25 *
+TOTALS react {'next': 461, 'forgetti-0.8': 274, 'react-compiler': 500} stepx {'next': 408, 'forgetti-0.8': 259, 'react-compiler': 431}
+STRICT 25 ['base/bailout', 'base/callback', 'base/forloop', 'base/hook', 'base/jsxprops', 'base/mutate', 'base/trycatch', 'tuning/alias_branch', 'tuning/alias_closure', 'tuning/alias_field', 'tuning/alias_push', 'tuning/alias_spread', 'tuning/alias_unknown', 'tuning/hook_nested', 'tuning/hook_object', 'tuning/loop_shapes', 'tuning/throw_boundary_swap', 'tuning/throw_call', 'tuning/throw_group', 'heldout/cart_summary', 'heldout/dashboard_card', 'heldout/form_validation', 'heldout/list_filters', 'heldout/table_sort', 'heldout/tree_view']
+STEPX 21 ['base/callback', 'base/forloop', 'base/hook', 'base/jsxprops', 'base/mutate', 'base/trycatch', 'tuning/alias_branch', 'tuning/alias_closure', 'tuning/alias_field', 'tuning/alias_push', 'tuning/alias_spread', 'tuning/alias_unknown', 'tuning/hook_nested', 'tuning/hook_object', 'tuning/loop_shapes', 'heldout/cart_summary', 'heldout/dashboard_card', 'heldout/form_validation', 'heldout/list_filters', 'heldout/table_sort', 'heldout/tree_view']
+FILEX 13 ['base/callback', 'base/hook', 'base/jsxprops', 'base/mutate', 'base/trycatch', 'tuning/hook_nested', 'tuning/hook_object', 'heldout/cart_summary', 'heldout/dashboard_card', 'heldout/form_validation', 'heldout/list_filters', 'heldout/table_sort', 'heldout/tree_view']
+== target preact
+ROW base/bailout: next 2 {'forgetti-0.8': 1} best 1 f08diff 1 | stepx next 1 {'forgetti-0.8': 1} best 1 | filex best None *
+ROW base/callback: next 3 {'forgetti-0.8': 1} best 1 f08diff 0 | stepx next 3 {'forgetti-0.8': 1} best 1 | filex best 1 *
+ROW base/deepprop: next 1 {'forgetti-0.8': 2} best 2 f08diff 0 | stepx next 1 {'forgetti-0.8': 2} best 2 | filex best 2
+ROW base/derived: next 2 {'forgetti-0.8': 2} best 2 f08diff 0 | stepx next 2 {'forgetti-0.8': 2} best 2 | filex best 2
+ROW base/earlyreturn: next 1 {'forgetti-0.8': 2} best 2 f08diff 0 | stepx next 1 {'forgetti-0.8': 2} best 2 | filex best 2
+ROW base/forloop: next 11 {'forgetti-0.8': 0} best 0 f08diff 3 | stepx next 3 {'forgetti-0.8': 0} best 0 | filex best None *
+ROW base/hook: next 6 {'forgetti-0.8': 2} best 2 f08diff 0 | stepx next 6 {'forgetti-0.8': 2} best 2 | filex best 2 *
+ROW base/jsxprops: next 6 {'forgetti-0.8': 4} best 4 f08diff 0 | stepx next 6 {'forgetti-0.8': 4} best 4 | filex best 4 *
+ROW base/map: next 2 {'forgetti-0.8': 2} best 2 f08diff 0 | stepx next 2 {'forgetti-0.8': 2} best 2 | filex best 2
+ROW base/mutate: next 4 {'forgetti-0.8': 1} best 1 f08diff 0 | stepx next 4 {'forgetti-0.8': 1} best 1 | filex best 1 *
+ROW base/statememo: next 1 {'forgetti-0.8': 1} best 1 f08diff 0 | stepx next 1 {'forgetti-0.8': 1} best 1 | filex best 1
+ROW base/switch: next 2 {'forgetti-0.8': 2} best 2 f08diff 0 | stepx next 2 {'forgetti-0.8': 2} best 2 | filex best 2
+ROW base/ternary: next 1 {'forgetti-0.8': 1} best 1 f08diff 0 | stepx next 1 {'forgetti-0.8': 1} best 1 | filex best 1
+ROW base/trycatch: next 4 {'forgetti-0.8': 2} best 2 f08diff 0 | stepx next 4 {'forgetti-0.8': 2} best 2 | filex best 2 *
+ROW base/usectx: next 0 {'forgetti-0.8': 0} best 0 f08diff 1 | stepx next 0 {'forgetti-0.8': 0} best 0 | filex best None
+ROW tuning/alias_branch: next 4 {'forgetti-0.8': 0} best 0 f08diff 2 | stepx next 2 {'forgetti-0.8': 0} best 0 | filex best None *
+ROW tuning/alias_child: next 3 {'forgetti-0.8': 4} best 4 f08diff 0 | stepx next 3 {'forgetti-0.8': 4} best 4 | filex best 4
+ROW tuning/alias_closure: next 4 {'forgetti-0.8': 0} best 0 f08diff 1 | stepx next 3 {'forgetti-0.8': 0} best 0 | filex best None *
+ROW tuning/alias_field: next 4 {'forgetti-0.8': 0} best 0 f08diff 1 | stepx next 3 {'forgetti-0.8': 0} best 0 | filex best None *
+ROW tuning/alias_push: next 4 {'forgetti-0.8': 0} best 0 f08diff 1 | stepx next 3 {'forgetti-0.8': 0} best 0 | filex best None *
+ROW tuning/alias_spread: next 3 {'forgetti-0.8': 0} best 0 f08diff 1 | stepx next 2 {'forgetti-0.8': 0} best 0 | filex best None *
+ROW tuning/alias_unknown: next 4 {'forgetti-0.8': 0} best 0 f08diff 2 | stepx next 2 {'forgetti-0.8': 0} best 0 | filex best None *
+ROW tuning/control_assign: next 4 {'forgetti-0.8': 4} best 4 f08diff 0 | stepx next 4 {'forgetti-0.8': 4} best 4 | filex best 4
+ROW tuning/discard_suspense_mount: next 4 {'forgetti-0.8': 4} best 4 f08diff 0 | stepx next 4 {'forgetti-0.8': 4} best 4 | filex best 4
+ROW tuning/discard_transition: next 4 {'forgetti-0.8': 8} best 8 f08diff 0 | stepx next 4 {'forgetti-0.8': 8} best 8 | filex best 8
+ROW tuning/hook_nested: next 11 {'forgetti-0.8': 4} best 4 f08diff 0 | stepx next 11 {'forgetti-0.8': 4} best 4 | filex best 4 *
+ROW tuning/hook_object: next 5 {'forgetti-0.8': 0} best 0 f08diff 0 | stepx next 5 {'forgetti-0.8': 0} best 0 | filex best 0 *
+ROW tuning/hook_use_cond: next 1 {'forgetti-0.8': 1} best 1 f08diff 1 | stepx next 1 {'forgetti-0.8': 1} best 1 | filex best None
+ROW tuning/loop_shapes: next 24 {'forgetti-0.8': 12} best 12 f08diff 12 | stepx next 14 {'forgetti-0.8': 12} best 12 | filex best None *
+ROW tuning/throw_boundary_swap: next 3 {'forgetti-0.8': 1} best 1 f08diff 3 | stepx next 1 {'forgetti-0.8': 1} best 1 | filex best None *
+ROW tuning/throw_call: next 2 {'forgetti-0.8': 1} best 1 f08diff 5 | stepx next 1 {'forgetti-0.8': 1} best 1 | filex best None *
+ROW tuning/throw_group: next 4 {'forgetti-0.8': 3} best 3 f08diff 5 | stepx next 2 {'forgetti-0.8': 2} best 2 | filex best None *
+ROW tuning/throw_row: next 10 {'forgetti-0.8': 16} best 16 f08diff 4 | stepx next 4 {'forgetti-0.8': 16} best 16 | filex best None
+ROW heldout/cart_summary: next 54 {'forgetti-0.8': 22} best 22 f08diff 0 | stepx next 54 {'forgetti-0.8': 22} best 22 | filex best 22 *
+ROW heldout/dashboard_card: next 32 {'forgetti-0.8': 23} best 23 f08diff 2 | stepx next 28 {'forgetti-0.8': 21} best 21 | filex best None *
+ROW heldout/form_validation: next 72 {'forgetti-0.8': 29} best 29 f08diff 0 | stepx next 72 {'forgetti-0.8': 29} best 29 | filex best 29 *
+ROW heldout/hex_input: next 0 {'forgetti-0.8': 0} best 0 f08diff 0 | stepx next 0 {'forgetti-0.8': 0} best 0 | filex best 0
+ROW heldout/hue_slider: next 0 {'forgetti-0.8': 0} best 0 f08diff 0 | stepx next 0 {'forgetti-0.8': 0} best 0 | filex best 0
+ROW heldout/list_filters: next 13 {'forgetti-0.8': 8} best 8 f08diff 0 | stepx next 13 {'forgetti-0.8': 8} best 8 | filex best 8 *
+ROW heldout/modal_effects: next 10 {'forgetti-0.8': 20} best 20 f08diff 0 | stepx next 10 {'forgetti-0.8': 20} best 20 | filex best 20
+ROW heldout/otp_input: next 0 {'forgetti-0.8': 0} best 0 f08diff 33 | stepx next 0 {'forgetti-0.8': 0} best 0 | filex best None
+ROW heldout/table_sort: next 77 {'forgetti-0.8': 44} best 44 f08diff 0 | stepx next 77 {'forgetti-0.8': 44} best 44 | filex best 44 *
+ROW heldout/tree_view: next 40 {'forgetti-0.8': 25} best 25 f08diff 0 | stepx next 40 {'forgetti-0.8': 25} best 25 | filex best 25 *
+TOTALS preact {'next': 442, 'forgetti-0.8': 252} stepx {'next': 400, 'forgetti-0.8': 249}
+STRICT 25 ['base/bailout', 'base/callback', 'base/forloop', 'base/hook', 'base/jsxprops', 'base/mutate', 'base/trycatch', 'tuning/alias_branch', 'tuning/alias_closure', 'tuning/alias_field', 'tuning/alias_push', 'tuning/alias_spread', 'tuning/alias_unknown', 'tuning/hook_nested', 'tuning/hook_object', 'tuning/loop_shapes', 'tuning/throw_boundary_swap', 'tuning/throw_call', 'tuning/throw_group', 'heldout/cart_summary', 'heldout/dashboard_card', 'heldout/form_validation', 'heldout/list_filters', 'heldout/table_sort', 'heldout/tree_view']
+STEPX 21 ['base/callback', 'base/forloop', 'base/hook', 'base/jsxprops', 'base/mutate', 'base/trycatch', 'tuning/alias_branch', 'tuning/alias_closure', 'tuning/alias_field', 'tuning/alias_push', 'tuning/alias_spread', 'tuning/alias_unknown', 'tuning/hook_nested', 'tuning/hook_object', 'tuning/loop_shapes', 'heldout/cart_summary', 'heldout/dashboard_card', 'heldout/form_validation', 'heldout/list_filters', 'heldout/table_sort', 'heldout/tree_view']
+FILEX 12 ['base/callback', 'base/hook', 'base/jsxprops', 'base/mutate', 'base/trycatch', 'tuning/hook_nested', 'tuning/hook_object', 'heldout/cart_summary', 'heldout/form_validation', 'heldout/list_filters', 'heldout/table_sort', 'heldout/tree_view']

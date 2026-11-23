@@ -1,0 +1,8 @@
+{
+  "source": "https://github.com/omgovich/react-colorful/tree/master/src/components/common",
+  "license": "MIT",
+  "derived": false,
+  "tests": "A draggable hue slider with a memo wrapper, a memoized handler tuple, ref callbacks and document listeners.",
+  "adaptation": "Files Interactive.tsx, Pointer.tsx and Hue.tsx joined into one file with the helpers they import (clamp, round, formatClassName, hsvaToHsla, hsvaToHslString, useEventCallback). TypeScript types removed. React.memo becomes the named import memo. Comments dropped. Logic unchanged.",
+  "targets": ["react", "preact"]
+}

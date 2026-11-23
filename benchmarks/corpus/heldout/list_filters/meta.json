@@ -1,0 +1,8 @@
+{
+  "source": "https://github.com/tastejs/todomvc/tree/master/examples/react/src/todo",
+  "license": "MIT",
+  "derived": true,
+  "tests": "A todo list with a reducer, a memo item with callbacks, a route filter and a footer count.",
+  "adaptation": "App, Main, Item and Footer merged into one file. The router hook becomes a route prop and classnames becomes string concatenation.",
+  "targets": ["react", "preact"]
+}

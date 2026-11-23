@@ -1,0 +1,8 @@
+{
+  "source": "https://github.com/TanStack/table/tree/main/examples/react/realtime-trading",
+  "license": "MIT",
+  "derived": true,
+  "tests": "A dashboard card with formatted totals, a memoized sparkline path, a changed-value ref hook and a sort that mutates its slice.",
+  "adaptation": "Written in the shape of the realtime-trading example, with quotes and history as props instead of a live feed and without the table library.",
+  "targets": ["react", "preact"]
+}

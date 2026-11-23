@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "A callback read during render sees a global that changed, and a props array that a call fills in place.",
+  "targets": ["react", "preact"]
+}

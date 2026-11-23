@@ -1,0 +1,9 @@
+{
+  "source": "https://github.com/react-bootstrap/react-bootstrap/tree/v2.10.10/src",
+  "license": "MIT",
+  "commit": "tag v2.10.10",
+  "derived": false,
+  "tests": "A list group with a context consumer in each item, spread props that are mutated, an event callback hook, a keyed list and a memo child.",
+  "adaptation": "Mostly vendored, partly rewritten: ListGroup.tsx and ListGroupItem.tsx with types, propTypes, docs and the warning calls removed, joined with the theme hook. useUncontrolled (uncontrollable), useNavItem, makeEventKey, the nav context and Nav (@restart/ui) are rewritten in reduced form because the harness has no such packages. classnames is replaced by a local classNames. Inbox, Preview and the unread memo are new. Preview carries bump('Row'). Inbox exposes select on globalThis.",
+  "targets": ["react", "preact"]
+}

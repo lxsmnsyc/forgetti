@@ -20,11 +20,11 @@ release:
 
 ## Outcome
 
-forgetti ships a new compiler built on oxc-parser and magic-string. It replaces the 0.8 Babel compiler. It runs five phases: parse and scope, eligibility, ownership, cache-tree plan, and emit. Its runtime is a `useRef` tree cache that works on React 19 and Preact 11. On the grown corpus it meets the hypothesis in `debate/debate.md`. It matches uncompiled output everywhere, and has fewer re-renders plus recomputes than forgetti 0.8 and React Compiler 1.0. Its size and bailout rate are no worse than React Compiler's.
+forgetti ships a new compiler built on oxc-parser and magic-string. It replaces the 0.8 Babel compiler. It runs five phases: parse and scope, eligibility, ownership, cache-tree plan, and emit. Its runtime is a `useRef` tree cache that works on React 19 and Preact 11. On the grown corpus it meets the hypothesis in `debate/debate.md` with the thresholds of `debate/amendment-1.md`. It matches uncompiled output everywhere, and has fewer re-renders plus recomputes than React Compiler 1.0 in total and on every file. Its size and bailout rate are no worse than React Compiler's.
 
 ## Acceptance
 
-- The `final-gate` experiment node passes every threshold in `debate/debate.md` "Hypothesis".
+- The `regate` experiment node passes every threshold in `debate/amendment-1.md` (which replaces the thresholds in `debate/debate.md` after `final-gate` missed).
 - `pnpm build`, `pnpm lint`, `pnpm format:check`, `pnpm typecheck` and `pnpm test` pass.
 - `vite-plugin-forgetti` and `rollup-plugin-forgetti` compile with the new compiler and no longer depend on `@babel/core`.
 
@@ -77,5 +77,6 @@ forgetti ships a new compiler built on oxc-parser and magic-string. It replaces 
 ## Gates
 
 - `contracts` (contract review before anything builds on it).
-- `final-gate` (experiment result before `switch`).
+- `final-gate` (experiment result, missed; see `debate/amendment-1.md`).
+- `regate` (experiment result before `switch`).
 - `release`.

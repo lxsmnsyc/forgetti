@@ -23,7 +23,7 @@ owns:
   - oxlint.config.ts
   - pnpm-lock.yaml
 depends_on:
-  - on: final-gate
+  - on: regate
     kind: hard
     why: ships only after the experiment passes
 ---
