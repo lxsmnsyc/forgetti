@@ -119,7 +119,7 @@ In ship order, one worktree at a time:
 
 ## Overruled
 
-- None.
+- P18, the 15% entry rule (user, 2026-11-23, after `census`): rules A, B and C (wrapper identity, nested fresh literal blocks, `new Date(arg)`) count as one family, since none saves work alone and together they save 22.9%. Rule D (fresh default parameters) may enter on its share of the work over React Compiler (25 of 87, 28.7%), though it is 5.6% of lost work.
 
 ## Cost of this debate
 
