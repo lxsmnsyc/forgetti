@@ -1,7 +1,7 @@
 ---
 id: regate
 title: S4b: hypothesis gate under amendment 1
-status: todo
+status: active
 priority: must
 type: experiment
 milestone: tree-cache
