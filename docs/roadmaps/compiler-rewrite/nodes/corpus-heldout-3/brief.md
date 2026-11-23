@@ -1,7 +1,7 @@
 ---
 id: corpus-heldout-3
 title: Third held-out corpus, sealed from planner work
-status: todo
+status: active
 priority: must
 type: feature
 milestone: planner
