@@ -1,7 +1,7 @@
 ---
 id: mutation-check
 title: Mutation soundness check on the corpus
-status: todo
+status: active
 priority: must
 type: feature
 milestone: planner
