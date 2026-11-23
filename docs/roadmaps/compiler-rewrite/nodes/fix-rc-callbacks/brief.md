@@ -1,7 +1,8 @@
 ---
 id: fix-rc-callbacks
 title: Match React Compiler on callbacks, JSX props, mutation and try/catch
-status: active
+status: done
+spent: 597644
 priority: must
 type: fix
 milestone: tree-cache

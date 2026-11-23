@@ -37,3 +37,4 @@ Close the soundness gaps that `eligibility-writes` lists under "remaining gaps" 
 - [ ] Forms that do not reproduce or cannot be closed cheaply are recorded in the outcome.
 - [ ] The 15 base and 20 tuning corpus files keep their eligibility result.
 - [ ] `pnpm --filter forgetti test` and typecheck pass.
+- From the `fix-rc-callbacks` review: a global read through an alias (`const g = globalThis; () => a + g.__g`) is not seen as a global read, so a closure passed to a child goes stale when `g.__g` changes. It was already so before that node. Treat a binding initialized to `globalThis`, `window` or `self` as a global.

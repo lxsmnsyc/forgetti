@@ -1,6 +1,6 @@
 ---
 name: phase-ir
-version: 4
+version: 5
 status: frozen
 defined_by: contracts
 ---
@@ -88,7 +88,9 @@ export interface OwnershipResult {
 // Phase 4: cache-tree plan
 export type ValueRef =
   | { kind: 'binding'; id: number }
-  | { kind: 'output'; block: number; index: number };
+  | { kind: 'output'; block: number; index: number }
+  // `<binding>.<name>`: only for a component's props parameter, when every use of it in the unit is a plain read.
+  | { kind: 'member'; id: number; name: string };
 export interface Output { range: Range; local: string }
 export interface SlotBlock {
   id: number;
