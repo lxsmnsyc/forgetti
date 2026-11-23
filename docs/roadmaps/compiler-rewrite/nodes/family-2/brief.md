@@ -2,7 +2,7 @@
 id: family-2
 title: Planner family node 2, chosen by the census
 status: todo
-priority: should
+priority: must
 type: feature
 milestone: planner
 size: M
