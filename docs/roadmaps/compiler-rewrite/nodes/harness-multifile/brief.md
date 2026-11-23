@@ -1,7 +1,7 @@
 ---
 id: harness-multifile
 title: Compile sibling modules in the compare harness
-status: todo
+status: active
 priority: must
 type: feature
 milestone: planner
