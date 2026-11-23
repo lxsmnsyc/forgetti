@@ -1,7 +1,7 @@
 ---
 id: census
 title: Refusal census weighted by lost steps
-status: todo
+status: active
 priority: must
 type: chore
 milestone: planner
