@@ -17,5 +17,5 @@
 
 ## State for the next session
 
-- Nothing is active. The batch `batch/compiler-rewrite` (worktree `../forgetti-batch`, local only) carries corpus-heldout and eligibility-writes. Cut when it holds about five nodes, or before `final-gate` needs it on `main`.
+- Nothing is active. The batch `batch/compiler-rewrite` (worktree `.claude/worktrees/batch`, local only) carries corpus-heldout and eligibility-writes. Cut when it holds about five nodes, or before `final-gate` needs it on `main`.
 - Next ready (sequential, take the first): `tree-loops`, then `eligibility-store-gaps`, `harness-timeout`, `runtime-test-speed`.
