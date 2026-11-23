@@ -7,7 +7,7 @@ type: chore
 milestone: planner
 size: M
 added: 2026-11-23
-spent: 485000
+spent: 420405
 owns:
   - benchmarks/compare/results/census/**
 depends_on:
