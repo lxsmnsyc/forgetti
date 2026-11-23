@@ -12,6 +12,9 @@ owns:
   - benchmarks/compare/mutate/**
   - benchmarks/compare/package.json
 depends_on:
+  - on: harness-rc-babel7
+    kind: hard
+    why: shares benchmarks/compare/package.json
   - on: harness-multifile
     kind: hard
     why: the check runs through the harness and shares its package.json

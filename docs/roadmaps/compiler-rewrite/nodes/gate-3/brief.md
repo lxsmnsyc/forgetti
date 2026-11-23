@@ -12,7 +12,11 @@ added: 2026-11-23
 verify: pnpm --filter compare gate --set heldout3
 owns:
   - benchmarks/compare/results/**
+  - benchmarks/compare/src/gate.ts
 depends_on:
+  - on: harness-rc-babel7
+    kind: hard
+    why: the gate needs React Compiler measured under its supported Babel
   - on: prune-bytes
     kind: hard
     why: the gate measures the final planner
@@ -41,3 +45,8 @@ Run the thresholds of `debate-2/debate.md` on `heldout3` alone, then on all sets
 ## Notes for the worker
 
 - Do not change compiler code.
+
+## Orchestrator notes
+
+- `src/gate.ts` names `heldout2` as `CLEAN_SET`. Make it take `heldout3` (an option or a constant change) in a separate first commit, before reading any `heldout3` row of next. `gate.ts` is owned for that change.
+- React Compiler now runs under Babel 7 (`harness-rc-babel7`). Earlier gates ran it under Babel 8, which weakened it on `heldout` and `heldout2`; compare against `results/rc-babel7/`, not `results/regate/`.
