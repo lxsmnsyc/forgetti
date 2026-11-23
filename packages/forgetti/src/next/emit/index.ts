@@ -214,10 +214,15 @@ function takeText(state: State, range: Range): string {
 }
 
 function getInput(state: State, ref: ValueRef): string {
-  const name =
-    ref.kind === 'binding'
-      ? state.bindingNames.get(ref.id)
-      : state.outputReads.get(ref.block)?.[ref.index];
+  let name: string | undefined;
+  if (ref.kind === 'output') {
+    name = state.outputReads.get(ref.block)?.[ref.index];
+  } else {
+    name = state.bindingNames.get(ref.id);
+    if (name !== undefined && ref.kind === 'member') {
+      name = `${name}.${ref.name}`;
+    }
+  }
   if (name === undefined) {
     throw new Error(`emit: unknown input ${JSON.stringify(ref)}`);
   }

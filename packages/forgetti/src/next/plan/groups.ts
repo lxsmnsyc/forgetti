@@ -6,25 +6,29 @@ import type {
   Group,
   OwnershipResult,
   Range,
+  Reference,
   ScopeResult,
   SlotBlock,
   ValueRef,
 } from '../ir';
-import type { Context } from './baseline';
+import type { Context, UnitRef } from './baseline';
 import {
   HOOK_NAME,
   IMPURE_MEMBERS,
   STABLE_GLOBALS,
   createContext,
   createLocal,
+  findDeferred,
   findInitializer,
   getCalleeName,
   getMemberName,
   getRange,
+  isAssignedReadOnly,
   isElement,
   isInside,
   isPlainInput,
   isPureSyntax,
+  isReadOnlyUse,
   isResultReadOnly,
   isStableOuter,
   pushChildren,
@@ -77,8 +81,8 @@ export interface Candidate {
 interface Piece {
   node: AstNode;
   range: Range;
-  /** Binding ids the element reads, or undefined when the element may not be cached. */
-  flat: number[] | undefined;
+  /** The inputs the element reads, or undefined when the element may not be cached. */
+  flat: Dep[] | undefined;
   /** Elements nested in unconditional positions: children, attribute values, `{<jsx />}`. */
   subs: Piece[];
 }
@@ -90,14 +94,42 @@ interface Owner {
   children: Owner[];
 }
 
+/** A value a block reads. `key` tells equal inputs apart, such as `3` and `3.x`. */
 interface Dep {
-  id: number;
+  key: string;
+  ref: ValueRef;
   position: number;
 }
 
 interface PositionedRef {
   ref: ValueRef;
   position: number;
+}
+
+/** The binding of a component's first parameter when it is a plain name. */
+function findPropsId(ctx: Context, unitId: number): number | undefined {
+  const unit = ctx.scope.units.find((item) => item.id === unitId);
+  const node: unknown = unit?.node;
+  if (unit?.kind !== 'component' || !isNode(node)) {
+    return undefined;
+  }
+  const params = getChildren(node, 'params');
+  const first = params.length > 0 ? params[0] : undefined;
+  if (first?.type !== 'Identifier') {
+    return undefined;
+  }
+  const binding = ctx.scope.bindings.find((item) => item.declaration.start === first.start);
+  if (!binding) {
+    return undefined;
+  }
+  // A call that gets `props` or one of its properties may change it in place, anywhere in the unit.
+  for (const reference of binding.references) {
+    const target: unknown = reference.node;
+    if (!isNode(target) || reference.write || !isReadOnlyUse(ctx, target)) {
+      return undefined;
+    }
+  }
+  return binding.id;
 }
 
 export function unwrap(node: AstNode | undefined): AstNode | undefined {
@@ -108,8 +140,8 @@ export function unwrap(node: AstNode | undefined): AstNode | undefined {
   return current;
 }
 
-/** Finds the elements nested in positions that always run when the element runs. */
-function findSubElements(node: AstNode): AstNode[] {
+/** Finds the elements and call sites nested in positions that always run when the element runs. */
+function findSubElements(node: AstNode, isCallSite: (call: AstNode) => boolean): AstNode[] {
   const found: AstNode[] = [];
   const items: (AstNode | undefined)[] = [];
   const opening = getChild(node, 'openingElement');
@@ -123,7 +155,7 @@ function findSubElements(node: AstNode): AstNode[] {
     const direct = unwrap(item);
     const inner =
       direct?.type === 'JSXExpressionContainer' ? unwrap(getChild(direct, 'expression')) : direct;
-    if (inner && isElement(inner)) {
+    if (inner && (isElement(inner) || isCallSite(inner))) {
       found.push(inner);
     }
   }
@@ -180,6 +212,9 @@ export class GroupPlanner {
 
   private frozen = new Map<number, boolean>();
 
+  /** The props object of a component. It is never nullish, so its properties can be inputs. */
+  private readonly propsId: number | undefined;
+
   /** Binding ids read by the tests that guard each frozen group's writes. */
   private readonly guardIds = new Map<number, number[]>();
 
@@ -189,6 +224,7 @@ export class GroupPlanner {
     private readonly plan: CachePlan,
   ) {
     this.size = plan.root.size;
+    this.propsId = findPropsId(ctx, plan.unit);
     for (const group of ownership.groups) {
       for (const member of group.members) {
         this.groupOf.set(member, group);
@@ -205,6 +241,7 @@ export class GroupPlanner {
         if (candidate) {
           candidates.push(candidate);
         }
+        candidates.push(...this.findTryCandidates(statement));
       }
     } else if (isElement(body)) {
       candidates.push({ expr: body, at: getRange(body), kind: 'element' });
@@ -222,6 +259,55 @@ export class GroupPlanner {
       ...this.plan,
       root: { ...root, size: this.size, blocks: [...root.blocks, ...this.blocks] },
     };
+  }
+
+  /**
+   * The calls a `try` statement stores in a `let`, as in `out = risky(a);`. The block sits
+   * inside the `try`, so a call that throws leaves the slots as they were and runs again.
+   */
+  private findTryCandidates(statement: AstNode): Candidate[] {
+    const found: Candidate[] = [];
+    if (statement.type !== 'TryStatement') {
+      return found;
+    }
+    const handler = getChild(statement, 'handler');
+    const regions = [
+      getChild(statement, 'block'),
+      handler && getChild(handler, 'body'),
+      getChild(statement, 'finalizer'),
+    ];
+    for (const region of regions) {
+      for (const inner of region ? getChildren(region, 'body') : []) {
+        const candidate = this.findAssignedCall(inner);
+        if (candidate) {
+          found.push(candidate);
+        }
+      }
+    }
+    return found;
+  }
+
+  /** `name = call(...)`, where `name` is a local that is only assigned and read. */
+  private findAssignedCall(statement: AstNode): Candidate | undefined {
+    if (statement.type !== 'ExpressionStatement') {
+      return undefined;
+    }
+    const assignment = unwrap(getChild(statement, 'expression'));
+    const right = unwrap(assignment && getChild(assignment, 'right'));
+    const left = assignment && getChild(assignment, 'left');
+    if (assignment?.type !== 'AssignmentExpression' || assignment.operator !== '=') {
+      return undefined;
+    }
+    if (left?.type !== 'Identifier' || right?.type !== 'CallExpression') {
+      return undefined;
+    }
+    const entry = this.ctx.refs.find((item) => item.reference.range.start === left.start);
+    const binding = entry?.binding;
+    const isLocal = binding && isInside(binding.declaration, this.ctx.unitRange);
+    if (!binding || !isLocal || !isAssignedReadOnly(this.ctx, binding)) {
+      return undefined;
+    }
+    return { expr: right, at: getRange(statement), kind: 'value' };
   }
 
   /** The blocks planned so far and the slot count they use. */
@@ -309,16 +395,12 @@ export class GroupPlanner {
 
   private createPiece(node: AstNode): Piece {
     const subs: Piece[] = [];
-    for (const sub of findSubElements(node)) {
+    for (const sub of findSubElements(node, (call) => this.isGroupMap(call))) {
       subs.push(this.createPiece(sub));
     }
     const range = getRange(node);
     const deps = this.isCacheable(node) ? this.collectDeps(range, []) : undefined;
-    const flat: number[] | undefined = [];
-    for (const dep of deps ?? []) {
-      flat.push(dep.id);
-    }
-    return { node, range, flat: deps ? flat : undefined, subs };
+    return { node, range, flat: deps, subs };
   }
 
   /** Decides which pieces own a block. A piece with the inputs of its owner joins the owner's block. */
@@ -329,7 +411,11 @@ export class GroupPlanner {
       }
       return;
     }
-    const key = [...piece.flat].sort((left, right) => left - right).join(',');
+    const keys: string[] = [];
+    for (const dep of piece.flat) {
+      keys.push(dep.key);
+    }
+    const key = keys.sort().join(',');
     if (ownerKey === key) {
       for (const sub of piece.subs) {
         this.place(sub, key, region);
@@ -377,7 +463,7 @@ export class GroupPlanner {
       }
     }
     for (const dep of this.collectDeps(owner.piece.range, excluded) ?? []) {
-      refs.push({ ref: { kind: 'binding', id: dep.id }, position: dep.position });
+      refs.push({ ref: dep.ref, position: dep.position });
     }
     refs.sort((left, right) => left.position - right.position);
     const inputs: ValueRef[] = [];
@@ -389,8 +475,8 @@ export class GroupPlanner {
 
   private buildShared(list: Owner[], outputs: Map<Owner, ValueRef>): void {
     const inputs: ValueRef[] = [];
-    for (const id of list[0].piece.flat ?? []) {
-      inputs.push({ kind: 'binding', id });
+    for (const dep of list[0].piece.flat ?? []) {
+      inputs.push(dep.ref);
     }
     const pieces: Piece[] = [];
     for (const owner of list) {
@@ -417,7 +503,64 @@ export class GroupPlanner {
 
   /** True when the node reads no hidden state and calls nothing that can change one. */
   private isCacheable(node: AstNode): boolean {
-    return isPureSyntax(this.ctx, node) && isGlobalStable(this.ctx, getRange(node));
+    if (!isPureSyntax(this.ctx, node)) {
+      return false;
+    }
+    // A closure may run during render wherever it is passed, so it reads no changing global.
+    // Writing to a global (`globalThis.n = id`) reads no value and stays allowed in a closure.
+    const range = getRange(node);
+    const deferred = findDeferred(node);
+    for (const reference of this.ctx.globals) {
+      if (!isInside(reference.range, range) || isGlobalStable(this.ctx, reference.range)) {
+        continue;
+      }
+      let isLater = false;
+      for (const item of deferred) {
+        isLater ||= isInside(reference.range, item);
+      }
+      if (!isLater || !this.isGlobalWrite(reference)) {
+        return false;
+      }
+    }
+    // Hidden state in a closure body, such as `ref.current` or `Math.random`, is not pure either.
+    return walkNodes(node, (item) => {
+      if (item.type !== 'MemberExpression') {
+        return true;
+      }
+      const name = getMemberName(item);
+      return name === undefined || !IMPURE_MEMBERS.has(name);
+    });
+  }
+
+  /** True when the global is only the object of an assignment target, as in `globalThis.n = id`. */
+  private isGlobalWrite(reference: Reference): boolean {
+    const node: unknown = reference.node;
+    const parent = isNode(node) ? this.ctx.index.parents.get(node) : undefined;
+    const outer = parent && this.ctx.index.parents.get(parent);
+    return (
+      parent?.type === 'MemberExpression' &&
+      getChild(parent, 'object') === node &&
+      outer?.type === 'AssignmentExpression' &&
+      outer.operator === '=' &&
+      getChild(outer, 'left') === parent
+    );
+  }
+
+  /** True for `xs.map(fn)` where `xs` holds a group, so its result can be kept on the group's inputs. */
+  private isGroupMap(node: AstNode): boolean {
+    if (node.type !== 'CallExpression' || getCalleeName(node) !== 'map') {
+      return false;
+    }
+    const callee = getChild(node, 'callee');
+    const object = callee && getChild(callee, 'object');
+    const args = getChildren(node, 'arguments');
+    if (callee?.type !== 'MemberExpression' || object?.type !== 'Identifier' || args.length !== 1) {
+      return false;
+    }
+    const isFunction =
+      args[0].type === 'ArrowFunctionExpression' || args[0].type === 'FunctionExpression';
+    const entry = this.ctx.refs.find((item) => item.reference.range.start === object.start);
+    return isFunction && entry !== undefined && this.groupOf.has(entry.binding.id);
   }
 
   /**
@@ -425,34 +568,78 @@ export class GroupPlanner {
    * of a frozen group stands for the group's inputs. Undefined when any read may change.
    */
   private collectDeps(range: Range, excluded: Range[]): Dep[] | undefined {
-    const deps: Dep[] = [];
-    const seen = new Set<number>();
-    for (const { reference, binding } of this.ctx.refs) {
+    const visible: UnitRef[] = [];
+    for (const item of this.ctx.refs) {
+      const { reference, binding } = item;
       if (!isInside(reference.range, range) || isInside(binding.declaration, range)) {
         continue;
       }
       let skip = false;
-      for (const item of excluded) {
-        if (isInside(reference.range, item)) {
-          skip = true;
-          break;
-        }
+      for (const hole of excluded) {
+        skip ||= isInside(reference.range, hole);
       }
-      if (skip) {
-        continue;
+      if (!skip) {
+        visible.push(item);
       }
+    }
+
+    // The props object is read by property when every read in the range is a plain property read.
+    const isByName = new Map<number, boolean>();
+    for (const { reference, binding } of visible) {
+      if (binding.id === this.propsId) {
+        const known = isByName.get(binding.id) ?? true;
+        isByName.set(binding.id, known && this.getReadName(reference) !== undefined);
+      }
+    }
+
+    const deps: Dep[] = [];
+    const seen = new Set<string>();
+    for (const { reference, binding } of visible) {
       const ids = this.getBindingDeps(binding);
       if (!ids) {
         return undefined;
       }
-      for (const id of ids) {
-        if (!seen.has(id)) {
-          seen.add(id);
-          deps.push({ id, position: reference.range.start });
+      const name = this.getReadName(reference);
+      const isMember =
+        name !== undefined &&
+        isByName.get(binding.id) === true &&
+        ids.length === 1 &&
+        ids[0] === binding.id;
+      const found: Dep[] = [];
+      if (isMember) {
+        const ref: ValueRef = { kind: 'member', id: binding.id, name };
+        found.push({ key: `${binding.id}.${name}`, ref, position: reference.range.start });
+      } else {
+        for (const id of ids) {
+          const ref: ValueRef = { kind: 'binding', id };
+          found.push({ key: String(id), ref, position: reference.range.start });
+        }
+      }
+      for (const dep of found) {
+        if (!seen.has(dep.key)) {
+          seen.add(dep.key);
+          deps.push(dep);
         }
       }
     }
     return deps;
+  }
+
+  /** The property a reference reads as `props.name`, or undefined for any other use. */
+  private getReadName(reference: Reference): string | undefined {
+    const node: unknown = reference.node;
+    const parent = isNode(node) ? this.ctx.index.parents.get(node) : undefined;
+    if (parent?.type !== 'MemberExpression' || parent.computed === true) {
+      return undefined;
+    }
+    const property = getChild(parent, 'property');
+    if (parent.optional === true || getChild(parent, 'object') !== node) {
+      return undefined;
+    }
+    if (property?.type !== 'Identifier' || typeof property.name !== 'string') {
+      return undefined;
+    }
+    return property.name;
   }
 
   private getBindingDeps(binding: Binding): number[] | undefined {

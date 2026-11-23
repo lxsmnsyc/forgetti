@@ -154,6 +154,49 @@ export function walkNodes(root: AstNode, visit: (node: AstNode) => boolean): boo
   return true;
 }
 
+const CALLS = new Set(['CallExpression', 'NewExpression', 'TaggedTemplateExpression']);
+
+const FUNCTIONS = new Set(['ArrowFunctionExpression', 'FunctionExpression']);
+
+/**
+ * Like `walkNodes`, but it skips the body of a closure that no call in the walked tree can
+ * run. A closure written as a call argument may run during render, so it is walked.
+ */
+export function walkEager(
+  root: AstNode,
+  visit: (node: AstNode, deferred: boolean) => boolean,
+): boolean {
+  const stack: { node: AstNode; called: boolean }[] = [{ node: root, called: false }];
+  for (let item = stack.pop(); item; item = stack.pop()) {
+    const deferred = !item.called && FUNCTIONS.has(item.node.type);
+    if (!visit(item.node, deferred)) {
+      return false;
+    }
+    if (deferred) {
+      continue;
+    }
+    const called = item.called || CALLS.has(item.node.type);
+    const children: AstNode[] = [];
+    pushChildren(item.node, children);
+    for (const child of children) {
+      stack.push({ node: child, called });
+    }
+  }
+  return true;
+}
+
+/** The ranges of the closures inside `root` that render does not run. */
+export function findDeferred(root: AstNode): Range[] {
+  const ranges: Range[] = [];
+  walkEager(root, (node, deferred) => {
+    if (deferred) {
+      ranges.push(getRange(node));
+    }
+    return true;
+  });
+  return ranges;
+}
+
 /** The declarator initializer of a binding, when it has one. */
 export function findInitializer(ctx: Context, binding: Binding): AstNode | undefined {
   let node: AstNode | undefined;
@@ -302,7 +345,7 @@ export function isPlainInput(ctx: Context, binding: Binding, statementStart: num
 }
 
 /** True when the node is only read by whatever holds it, never changed or handed to a call. */
-function isReadOnlyUse(ctx: Context, node: AstNode): boolean {
+export function isReadOnlyUse(ctx: Context, node: AstNode): boolean {
   const parent = ctx.index.parents.get(node);
   if (!parent) {
     return false;
@@ -342,10 +385,36 @@ export function isResultReadOnly(ctx: Context, binding: Binding): boolean {
   return true;
 }
 
+/**
+ * True when every write of `binding` is a plain `name = value` and every read only reads it.
+ * A call result stored in such a name is never changed after the call.
+ */
+export function isAssignedReadOnly(ctx: Context, binding: Binding): boolean {
+  for (const reference of binding.references) {
+    const node: unknown = reference.node;
+    if (!isNode(node)) {
+      return false;
+    }
+    if (reference.write) {
+      const parent = ctx.index.parents.get(node);
+      const isPlain =
+        parent?.type === 'AssignmentExpression' &&
+        parent.operator === '=' &&
+        getChild(parent, 'left') === node;
+      if (!isPlain) {
+        return false;
+      }
+    } else if (!isReadOnlyUse(ctx, node)) {
+      return false;
+    }
+  }
+  return true;
+}
+
 /** Checks the syntax of a candidate. Returns false when any part may change or read hidden state. */
 export function isPureSyntax(ctx: Context, expr: AstNode): boolean {
   const range = getRange(expr);
-  return walkNodes(expr, (node) => {
+  return walkEager(expr, (node) => {
     switch (node.type) {
       case 'ThisExpression':
       case 'Super':
