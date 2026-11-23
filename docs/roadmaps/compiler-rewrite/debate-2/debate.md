@@ -2,7 +2,7 @@
 goal: Change the forgetti next planner so it saves child re-renders and recomputes on component shapes it was not tuned on, meeting amendment-1's work thresholds on a fresh held-out set while staying sound and within size
 date: 2026-11-23
 rounds: 3 of 3
-status: proposed
+status: approved
 roadmap: docs/roadmaps/compiler-rewrite
 supersedes: debate/debate.md (its settled structure stands; this debate replaces the plan after `regate`)
 decision: none
