@@ -40,6 +40,7 @@ Run the thresholds in `debate/amendment-1.md` on every set and both targets, and
 ## Acceptance
 
 - [ ] First update `benchmarks/compare/src/gate.ts` to the amended thresholds (React Compiler and uncompiled as baselines, forgetti 0.8 reported only) in a separate commit, before reading any `heldout2` row.
+- [ ] The gate replaces React Compiler's count with uncompiled output's on any step where React Compiler differs from uncompiled (amendment-1), and lists those steps.
 - [ ] `regate.md` holds the full table and each threshold with its value and pass or miss, `heldout2` reported apart.
 - [ ] forgetti 0.8 rows are listed with wrong steps marked, and every file where it is sound and lower is listed.
 - [ ] On a miss or kill, `outcome.md` says which, and the roadmap stops.
