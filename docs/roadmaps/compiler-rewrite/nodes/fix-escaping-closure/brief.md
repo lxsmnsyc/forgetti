@@ -1,7 +1,7 @@
 ---
 id: fix-escaping-closure
 title: Compile components that bail out as escaping-closure
-status: todo
+status: active
 priority: must
 type: fix
 milestone: tree-cache
