@@ -1,5 +1,6 @@
 import type { CachePlan, OwnershipResult, ScopeResult } from '../ir';
 import { runBranches } from './branches';
+import { runPrune } from './cost';
 import { runGroups } from './groups';
 import { runLoops } from './loops';
 
@@ -11,7 +12,7 @@ export type PlanPass = (
 ) => CachePlan;
 
 export interface NamedPass {
-  name: 'groups' | 'branches' | 'loops';
+  name: 'groups' | 'branches' | 'loops' | 'prune';
   run: PlanPass;
 }
 
@@ -20,6 +21,7 @@ export const passes: readonly NamedPass[] = [
   { name: 'groups', run: runGroups },
   { name: 'branches', run: runBranches },
   { name: 'loops', run: runLoops },
+  { name: 'prune', run: runPrune },
 ];
 
 /** Runs every pass over the plan of one unit, in order. */
