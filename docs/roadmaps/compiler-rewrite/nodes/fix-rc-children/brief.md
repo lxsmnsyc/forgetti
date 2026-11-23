@@ -1,7 +1,7 @@
 ---
 id: fix-rc-children
 title: Stop child re-renders on unchanged inputs (cart and dashboard shapes)
-status: todo
+status: active
 priority: must
 type: fix
 milestone: tree-cache
