@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "A stale value under a memo boundary that did re-render must fail the mutation check (review round 2, R1).",
+  "targets": ["react", "preact"]
+}

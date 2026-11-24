@@ -9,7 +9,7 @@ Rules for agents working on a node:
 - If a contract is wrong, write `contracts/<name>.change-request.md` and adapt locally. Do not edit the contract.
 - Keep notes in your `log.md`. Finish by writing `outcome.md` from the template.
 - Read the outcomes of your direct dependencies. Do not read other nodes' logs.
-- Never open `benchmarks/corpus/heldout/`, unless your node is `corpus-heldout` or `final-gate`. Those files measure the result and must not tune it.
+- Never open `benchmarks/corpus/heldout3/`, unless your node is `corpus-heldout-3` or `gate-3`. Those files measure the result and must not tune it. `heldout` and `heldout2` are exposed and are development sets now.
 - Do not read React Compiler's source code. Run it only through the harness in `benchmarks/compare/`.
 - Load the agent-skills `ts-style` and `plain-writing` skills before writing code or prose.
 

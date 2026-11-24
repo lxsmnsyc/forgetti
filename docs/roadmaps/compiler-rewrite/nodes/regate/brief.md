@@ -1,7 +1,7 @@
 ---
 id: regate
 title: S4b: hypothesis gate under amendment 1
-status: todo
+status: done
 priority: must
 type: experiment
 milestone: tree-cache
@@ -9,6 +9,7 @@ gate: true
 hypothesis: docs/roadmaps/compiler-rewrite/debate/amendment-1.md
 size: M
 added: 2026-11-24
+spent: 328719
 verify: pnpm --filter compare gate --set base --set tuning --set heldout --set heldout2
 owns:
   - benchmarks/compare/results/**

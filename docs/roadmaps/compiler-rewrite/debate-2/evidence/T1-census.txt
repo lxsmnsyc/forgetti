@@ -1,0 +1,54 @@
+T1 census: planner refusal reasons (next compiler, sets base+tuning+heldout+heldout2, React and Preact compiles de-duplicated)
+Instrumented: next/plan/groups.ts only (isCacheable, getBindingDeps/collectDeps, isFrozenGroup, findCandidate const refusals, planCandidate cheap/no-input exits).
+Not instrumented: baseline.ts, loops.ts, branches.ts, findCandidate statement-shape exits (non-const statements), findAssignedCall, findPropsId.
+Unique records: 362 (file, unit, reason, snippet). Counts are refusal sites, not lost cache hits.
+Equal-to-plain react files (next == plain > 0 in regate checks.txt), 21: base/bailout, base/hook, base/statememo, tuning/alias_{branch,closure,field,push,spread,unknown}, tuning/callback_globals, tuning/control_assign, tuning/hook_effect_event, tuning/hook_object, heldout/list_filters, heldout2/{accordion,discussions_table,form_check,list_group,pagination,toast_stack,toaster_store}
+
+reason                      all   heldout2  equal-to-plain(all sets)  equal-to-plain in heldout2
+outer_binding_unstable       57     51 (31.1%)   43 (22.8%)            43 (29.1%)
+cand_result_not_readonly     71     34 (20.7%)   37 (19.6%)            30 (20.3%)
+cand_destructuring           61     30 (18.3%)   35 (18.5%)            27 (18.2%)
+cheap_expression             84     26 (15.9%)   29 (15.3%)            26 (17.6%)
+impure_syntax                36     16 (9.8%)    20 (10.6%)            16 (10.8%)
+cand_result_unsafe           29      2 (1.2%)    15 (7.9%)              1 (0.7%)
+unstable_global_read          3      3 (1.8%)     3 (1.6%)              3 (2.0%)
+unstable_global_write         5      2 (1.2%)     5 (2.6%)              2 (1.4%)
+group_not_frozen:guard_unusable 8    0            2 (1.1%)              0
+local_not_plain_input         8      0            0                     0
+totals                      362    164           189                   148
+
+Meaning of codes
+outer_binding_unstable: JSX/value reads a binding declared outside the unit that isStableOuter rejects (imported components, module values).
+cand_result_not_readonly: const x = call(...) where x is later handed on or changed (isResultReadOnly false). Includes hook calls.
+cand_destructuring: const { a, ...rest } = expr; not a plain-name declarator.
+cheap_expression: value cheaper than one compare, no slot by design.
+impure_syntax: isPureSyntax false (calls, new, hooks, assignments inside the node).
+cand_result_unsafe: the result binding is in ctx.unsafe (a group changes it or it changes in render).
+unstable_global_read/write: a global outside STABLE_GLOBALS read or written in the node.
+
+heldout2 top 3
+1. outer_binding_unstable 51 (31.1%)
+   heldout2/accordion AccordionHeader: <AccordionButton onClick={onClick}>{children}</AccordionButt...
+   heldout2/accordion AccordionHeader: <Component ref={ref} {...props} className={classNames(classN...
+2. cand_result_not_readonly 34 (20.7%)
+   heldout2/accordion AccordionBody: const show = isAccordionItemSelected(activeEventKey, eventKe...
+   heldout2/accordion Accordion: const prefix = useBootstrapPrefix(bsPrefix, 'accordion');
+3. cand_destructuring 30 (18.3%)
+   heldout2/accordion useBootstrapPrefix: const { prefixes } = useContext(ThemeContext);
+   heldout2/accordion useUncontrolled: const { defaultActiveKey, ...rest } = props;
+
+Per heldout2 file (refusal sites)
+accordion 24: destructuring 8, outer 8, cheap 3, not_readonly 3, impure_syntax 2
+discussions_table 15: outer 12, cheap 3
+form_check 21: cheap 6, destructuring 5, impure_syntax 3, outer 3, global_read 2, not_readonly 1, global_write 1
+list_group 21: destructuring 5, cheap 5, not_readonly 4, outer 4, impure_syntax 3
+pagination 25: outer 10, not_readonly 6, cheap 4, impure_syntax 3, destructuring 2
+pricing_plans 16: outer 8, not_readonly 4, destructuring 3, unsafe 1
+toast_stack 25: not_readonly 9, destructuring 4, cheap 4, impure_syntax 3, outer 3, global_read 1, global_write 1
+toaster_store 17: not_readonly 7, destructuring 3, outer 3, impure_syntax 2, cheap 1, unsafe 1
+
+Caveats
+- Sites are not weighted by steps lost. A refusal counts once whether it costs 0 or many cache hits.
+- cheap_expression is a deliberate no-slot choice; destructuring and hook-call results (many cand_result_not_readonly rows are hook calls) are not cacheable by any compiler, so they may not map to lost hits.
+- Nested pieces each log their own refusal, so one JSX tree can add several outer_binding_unstable rows.
+- Not in the tally: units that next skips or bails out (diagnostics), and refusals in loops.ts/branches.ts/baseline.ts.

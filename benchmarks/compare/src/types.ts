@@ -15,12 +15,31 @@ export interface CaseMeta {
   targets: Target[];
 }
 
+/** Extensions of a module file in a case folder. */
+export const MODULE_FILE = /\.(jsx|tsx|js|ts)$/;
+
+/** The `.js` name the harness writes for a module file. */
+export function getOutputName(file: string): string {
+  return file.replace(MODULE_FILE, '.js');
+}
+
+/** A module next to the input, in the same case folder. */
+export interface SiblingModule {
+  /** File name in the case folder, such as `button.jsx`. */
+  file: string;
+  /** Absolute path. */
+  path: string;
+  source: string;
+}
+
 export interface CorpusCase {
   set: string;
   name: string;
   dir: string;
   inputFile: string;
   source: string;
+  /** Sibling modules, sorted by file name. Empty for a single-file case. */
+  siblings: SiblingModule[];
   meta: CaseMeta;
 }
 
@@ -45,15 +64,27 @@ export interface ActContext {
   startTransition: (callback: () => void) => void;
 }
 
-export interface CompileInfo {
+/** The compiled code of one sibling module. */
+export interface CompiledSibling {
+  file: string;
   code: string;
+}
+
+export interface CompileInfo {
+  /** The compiled input. */
+  code: string;
+  /** The compiled siblings. Empty for a single-file case. */
+  siblings: CompiledSibling[];
+  /** Bytes of every compiled file. */
   raw: number;
+  /** Gzip of every compiled file, input first, then siblings by name, joined in one stream. */
   gz: number;
   slots: number;
-  /** Median of 20 compiles after the first one. */
+  /** Median of 20 compiles after the first one. Summed over the files. */
   ms: number;
   units: number;
   compiled: number;
+  /** A sibling's bailouts are prefixed with its file name. */
   bailouts: string[];
 }
 

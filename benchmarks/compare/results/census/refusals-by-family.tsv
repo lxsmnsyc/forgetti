@@ -1,0 +1,24 @@
+family	sites	files
+cheap_expression	86	base/deepprop base/derived base/mutate heldout/cart_summary heldout/dashboard_card heldout/form_validation heldout/hex_input heldout/hue_slider heldout/list_filters heldout/modal_effects heldout/table_sort heldout/tree_view heldout2/accordion heldout2/discussions_table heldout2/form_check heldout2/list_group heldout2/pagination heldout2/toast_stack heldout2/toaster_store tuning/hook_nested tuning/hook_use_cond tuning/stable_children tuning/throw_boundary_swap tuning/throw_group
+destructuring	61	base/hook base/statememo heldout/cart_summary heldout/dashboard_card heldout/form_validation heldout/hex_input heldout/hue_slider heldout/list_filters heldout/modal_effects heldout/otp_input heldout/table_sort heldout/tree_view heldout2/accordion heldout2/form_check heldout2/list_group heldout2/pagination heldout2/pricing_plans heldout2/toast_stack heldout2/toaster_store tuning/discard_strict tuning/discard_transition tuning/hook_effect_event tuning/hook_nested tuning/hook_object tuning/throw_boundary_swap
+identity:member_write_or_read	55	heldout2/accordion heldout2/discussions_table heldout2/form_check heldout2/list_group heldout2/pagination heldout2/toast_stack
+result:hook_call	41	heldout/dashboard_card heldout/form_validation heldout/hex_input heldout/hue_slider heldout/list_filters heldout/modal_effects heldout/table_sort heldout2/accordion heldout2/list_group heldout2/pagination heldout2/pricing_plans heldout2/toast_stack heldout2/toaster_store tuning/discard_transition tuning/hook_effect_event
+impure:hook_in_expression	36	base/statememo base/usectx heldout/dashboard_card heldout/hex_input heldout/list_filters heldout/modal_effects heldout/tree_view heldout2/accordion heldout2/form_check heldout2/list_group heldout2/pagination heldout2/toast_stack heldout2/toaster_store tuning/discard_suspense_mount tuning/discard_suspense_update tuning/hook_nested tuning/hook_object tuning/hook_use_cond
+result:unsafe	29	base/forloop base/mutate heldout/dashboard_card heldout/hex_input heldout/hue_slider heldout/modal_effects heldout/table_sort heldout2/pricing_plans heldout2/toaster_store tuning/alias_branch tuning/alias_closure tuning/alias_field tuning/alias_push tuning/alias_spread tuning/alias_unknown tuning/control_assign tuning/loop_shapes
+result:passed_on	24	base/hook heldout/cart_summary heldout/dashboard_card heldout/form_validation heldout/table_sort heldout/tree_view heldout2/accordion heldout2/form_check heldout2/list_group heldout2/pagination heldout2/pricing_plans heldout2/toast_stack heldout2/toaster_store tuning/stable_children
+identity:call_initialized	18	heldout2/accordion heldout2/form_check heldout2/list_group heldout2/pagination
+pruned_host_block	15	heldout/cart_summary heldout/dashboard_card heldout/form_validation heldout/hex_input heldout/list_filters heldout/table_sort heldout/tree_view heldout2/pagination heldout2/toaster_store tuning/discard_transition
+group_not_frozen	14	base/forloop heldout2/pricing_plans tuning/alias_closure tuning/control_assign tuning/loop_shapes
+purity:reads_ref_current	13	heldout/dashboard_card heldout/hex_input heldout2/list_group heldout2/pricing_plans heldout2/toast_stack
+branches:not_hoistable	12	heldout/dashboard_card heldout2/discussions_table heldout2/form_check heldout2/pagination heldout2/toast_stack
+purity:reads_global	9	heldout/modal_effects heldout/otp_input heldout2/discussions_table heldout2/toaster_store tuning/discard_strict
+global_read	8	heldout2/form_check heldout2/toast_stack tuning/callback_globals
+props_not_readonly	7	base/deepprop heldout/hex_input heldout2/accordion heldout2/list_group heldout2/pricing_plans tuning/callback_globals
+loops:map_body_no_block	7	heldout/table_sort heldout2/discussions_table heldout2/form_check heldout2/list_group heldout2/pagination
+loops:loop_body_no_block	6	heldout/dashboard_card heldout2/toaster_store tuning/alias_closure tuning/loop_shapes tuning/stable_children
+result:method_on_result	6	heldout/cart_summary heldout/modal_effects heldout/table_sort heldout2/pagination heldout2/toaster_store
+unit_bailout	5	base/bailout heldout/otp_input heldout2/accordion heldout2/list_group heldout2/toast_stack
+local:unsafe	5	heldout/dashboard_card tuning/loop_shapes
+identity:other	5	heldout2/pagination heldout2/pricing_plans
+local:hidden_state	4	heldout/hue_slider heldout/modal_effects heldout2/pricing_plans
+loops:map_receiver_not_hoistable	2	base/mutate heldout/dashboard_card

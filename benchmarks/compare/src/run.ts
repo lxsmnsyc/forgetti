@@ -2,16 +2,18 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { GlobalRegistrator } from '@happy-dom/global-registrator';
-import { lowerJsx, retarget } from './compilers.ts';
+import { lowerJsx, relinkSiblings, retarget } from './compilers.ts';
 import { CORPUS_DIR, OUT_DIR, type Loader } from './loader.ts';
-import type {
-  ActContext,
-  Compiler,
-  CorpusCase,
-  Scenario,
-  Step,
-  StepResult,
-  Target,
+import {
+  getOutputName,
+  type ActContext,
+  type CompileInfo,
+  type Compiler,
+  type CorpusCase,
+  type Scenario,
+  type Step,
+  type StepResult,
+  type Target,
 } from './types.ts';
 
 type Element = unknown;
@@ -118,7 +120,7 @@ export function writeModule(
   compiler: Compiler,
   target: Target,
   testCase: CorpusCase,
-  compiled: string,
+  compile: CompileInfo,
 ): string {
   const dir = path.join(OUT_DIR, compiler, target, testCase.set, testCase.name);
   fs.mkdirSync(dir, { recursive: true });
@@ -130,13 +132,29 @@ export function writeModule(
     lowerJsx(retarget(counter, target), 'counter.js', target),
   );
 
-  let code = compiled;
+  // Each sibling is written as `<name>.js` next to the input, from its own compiled code.
+  for (const sibling of compile.siblings) {
+    const name = getOutputName(sibling.file);
+    fs.writeFileSync(
+      path.join(dir, name),
+      lowerJsx(prepareCode(compiler, sibling.code, testCase), sibling.file, target),
+    );
+  }
+
+  const file = path.join(dir, 'input.js');
+  fs.writeFileSync(
+    file,
+    lowerJsx(prepareCode(compiler, compile.code, testCase), testCase.inputFile, target),
+  );
+  return file;
+}
+
+function prepareCode(compiler: Compiler, compiled: string, testCase: CorpusCase): string {
+  let code = relinkSiblings(compiled, testCase);
   if (compiler === 'forgetti-0.8') {
     code = code.replace(/(['"])forgetti\/runtime\1/g, "'forgetti-0.8/runtime'");
   }
-  const file = path.join(dir, 'input.js');
-  fs.writeFileSync(file, lowerJsx(code, testCase.inputFile, target));
-  return file;
+  return code;
 }
 
 async function loadScenarios(testCase: CorpusCase): Promise<Scenario[]> {

@@ -1,0 +1,22 @@
+P9 evidence: why outer_binding_unstable fires (read only, commit 5308757)
+
+1. Module-level property writes on components, per corpus file
+   command: grep -rc --include=input.jsx "\.displayName = \|\.defaultProps = " benchmarks/corpus
+   heldout2: discussions_table 9, accordion 5, pagination 4, toast_stack 4, form_check 4, list_group 2, pricing_plans 1, toaster_store 0  (29 writes, 7 of 8 files)
+   base, tuning, heldout: 0 in all 54 files
+
+2. packages/forgetti/src/next/plan/baseline.ts
+   - isStableOuter (323-346): a `const X = forwardRef(...)`/`memo(...)` binding is stable only through
+     isComponentWrapper (352-364), which returns false when any reference has a MemberExpression parent.
+     `X.displayName = 'X'` at module top level is such a reference, so every element `<X/>` is refused.
+   - a function binding is stable only when readsChangingState (268-320) is false. It walks the whole
+     function, deferred closures included, and returns true on any non-STABLE_GLOBALS global
+     (document, window, globalThis) or any `.current` / `.random` / `.now` member (IMPURE_MEMBERS, line 62).
+     So a function component that reads `ref.current` in an effect, or `document` in a handler, is
+     refused as a JSX tag, although `<X/>` never calls X during the parent's render.
+3. packages/forgetti/src/next/plan/groups.ts 736-740: getBindingDeps returns undefined (refuse) for every
+   outer binding isStableOuter rejects, regardless of whether the unit calls it or only uses its identity.
+
+4. Census J12 (evidence/T1-census.txt): outer_binding_unstable is 51 of 164 heldout2 refusals (31.1%),
+   43 of them on heldout2 files where next equals uncompiled work; discussions_table 12 of its 15 refusals
+   (it has the most displayName writes, 9, and the largest gap to React Compiler, 42 work).

@@ -1,0 +1,171 @@
+case	target	key	lost_units	site	kind	cached	innermost_refusals
+base/bailout	preact	Child	2	input.jsx:L8	element	False	UNIT unit_ineligible[mutates-props] ; 
+base/bailout	react	Child	2	input.jsx:L8	element	False	UNIT unit_ineligible[mutates-props] ; 
+base/callback	preact	Btn	1	input.jsx:L4	element	True	
+base/callback	react	Btn	1	input.jsx:L4	element	True	
+base/deepprop	preact	Child	1	input.jsx:L4	element	True	
+base/deepprop	react	Child	1	input.jsx:L4	element	True	
+base/forloop	preact	Row	11	input.jsx:L5	element	True	
+base/forloop	react	Row	11	input.jsx:L5	element	True	
+base/hook	preact	x	3	-	-	-	no site found
+base/hook	preact	y	3	-	-	-	no site found
+base/hook	react	x	3	-	-	-	no site found
+base/hook	react	y	3	-	-	-	no site found
+base/mutate	preact	Child	2	input.jsx:L6	element	True	map_receiver_not_hoistable[binding:unsafe](arr)@L6
+base/mutate	react	Child	2	input.jsx:L6	element	True	map_receiver_not_hoistable[binding:unsafe](arr)@L6
+base/statememo	preact	total	1	input.jsx:L6	call	False	impure_syntax[CallExpression|hook:useMemo]@L6
+base/statememo	react	total	1	input.jsx:L6	call	False	impure_syntax[CallExpression|hook:useMemo]@L6
+base/switch	preact	Child	2	input.jsx:L5	element	True	
+base/switch	preact	Child	2	input.jsx:L6	element	True	
+base/switch	react	Child	2	input.jsx:L5	element	True	
+base/switch	react	Child	2	input.jsx:L6	element	True	
+base/ternary	preact	Child	1	input.jsx:L3	element	True	
+base/ternary	preact	Child	1	input.jsx:L3	element	True	
+base/ternary	react	Child	1	input.jsx:L3	element	True	
+base/ternary	react	Child	1	input.jsx:L3	element	True	
+base/trycatch	preact	risky	2	input.jsx:L6	call	False	
+base/trycatch	react	risky	2	input.jsx:L6	call	False	
+heldout/form_validation	preact	Btn	2	input.jsx:L139	element	True	
+heldout/form_validation	preact	Child	2	input.jsx:L140	element	True	
+heldout/form_validation	preact	validate	12	input.jsx:L41	call	False	
+heldout/form_validation	react	Btn	2	input.jsx:L139	element	True	
+heldout/form_validation	react	Child	2	input.jsx:L140	element	True	
+heldout/form_validation	react	validate	12	input.jsx:L41	call	False	
+heldout/list_filters	preact	Row	6	input.jsx:L161	element	True	
+heldout/list_filters	preact	reduce	7	-	-	-	no site found
+heldout/list_filters	react	Row	6	input.jsx:L161	element	True	
+heldout/list_filters	react	reduce	7	-	-	-	no site found
+heldout/tree_view	preact	Row	16	input.jsx:L77	element	True	pruned_host_block[]@L73 ; pruned_host_block[]@L61
+heldout/tree_view	preact	Row	16	input.jsx:L105	element	True	
+heldout/tree_view	preact	reduce	5	-	-	-	no site found
+heldout/tree_view	preact	walk	19	input.jsx:L34	call	False	
+heldout/tree_view	preact	walk	19	input.jsx:L100	call	True	
+heldout/tree_view	react	Row	16	input.jsx:L77	element	True	pruned_host_block[]@L73 ; pruned_host_block[]@L61
+heldout/tree_view	react	Row	16	input.jsx:L105	element	True	
+heldout/tree_view	react	reduce	4	-	-	-	no site found
+heldout/tree_view	react	walk	19	input.jsx:L34	call	False	
+heldout/tree_view	react	walk	19	input.jsx:L100	call	True	
+heldout2/accordion	preact	matches	4	input.jsx:L214	call	False	cand_result_not_readonly[hook:method:map|hook:useMemo](matches)@L212
+heldout2/accordion	react	matches	4	input.jsx:L214	call	False	cand_result_not_readonly[hook:method:map|hook:useMemo](matches)@L212
+heldout2/discussions_table	preact	Row	32	input.jsx:L236	element	False	outer_binding_unstable[element|purity:fn_reads_global:Date](formatDate)@L201
+heldout2/discussions_table	preact	formatDate	32	input.jsx:L213	call	False	outer_binding_unstable[element|purity:fn_reads_global:Date](formatDate)@L201
+heldout2/discussions_table	react	Row	32	input.jsx:L236	element	False	outer_binding_unstable[element|purity:fn_reads_global:Date](formatDate)@L201
+heldout2/discussions_table	react	formatDate	32	input.jsx:L213	call	False	outer_binding_unstable[element|purity:fn_reads_global:Date](formatDate)@L201
+heldout2/form_check	preact	Child	36	input.jsx:L172	element	False	branch_not_hoistable[binding:outer:identity:wrapper_member_write:displayName](FormCheckLabel)@L169 ; outer_binding_unstable[element|identity:wrapper_member_write:displayName](FormCheckLabel)@L158 ; outer_binding_unstable[element|identity:wrapper_member_write:displayName](Feedback)@L158
+heldout2/form_check	preact	summary	5	input.jsx:L203	call	False	impure_syntax[CallExpression|hook:useMemo]@L203
+heldout2/form_check	react	Child	36	input.jsx:L172	element	False	branch_not_hoistable[binding:outer:identity:wrapper_member_write:displayName](FormCheckLabel)@L169 ; outer_binding_unstable[element|identity:wrapper_member_write:displayName](FormCheckLabel)@L158 ; outer_binding_unstable[element|identity:wrapper_member_write:displayName](Feedback)@L158
+heldout2/form_check	react	summary	5	input.jsx:L203	call	False	impure_syntax[CallExpression|hook:useMemo]@L203
+heldout2/list_group	preact	Row	3	input.jsx:L230	element	True	outer_binding_unstable[element|identity:wrapper_member_write:displayName](ListGroup)@L214 ; outer_binding_unstable[element|purity:forwardRef_reads_via:useEventCallback>hidden_member:current](ListGroupItem)@L214
+heldout2/list_group	preact	unread	2	input.jsx:L203	call	False	impure_syntax[CallExpression|hook:useMemo]@L203
+heldout2/list_group	react	Row	3	input.jsx:L230	element	True	outer_binding_unstable[element|identity:wrapper_member_write:displayName](ListGroup)@L214 ; outer_binding_unstable[element|purity:forwardRef_reads_via:useEventCallback>hidden_member:current](ListGroupItem)@L214
+heldout2/list_group	react	unread	2	input.jsx:L203	call	False	impure_syntax[CallExpression|hook:useMemo]@L203
+heldout2/pagination	preact	Row	6	input.jsx:L200	element	True	outer_binding_unstable[element|identity:wrapper_member_write:displayName](Pagination)@L185 ; outer_binding_unstable[element|identity:init_call:createButton](First)@L185 ; outer_binding_unstable[element|identity:init_call:createButton](Prev)@L185
+heldout2/pagination	preact	window	7	input.jsx:L177	call	False	cand_result_not_readonly[hook:member:numbers>method:map|hook:useMemo](pages)@L175
+heldout2/pagination	react	Row	6	input.jsx:L200	element	True	outer_binding_unstable[element|identity:wrapper_member_write:displayName](Pagination)@L185 ; outer_binding_unstable[element|identity:init_call:createButton](First)@L185 ; outer_binding_unstable[element|identity:init_call:createButton](Prev)@L185
+heldout2/pagination	react	window	7	input.jsx:L177	call	False	cand_result_not_readonly[hook:member:numbers>method:map|hook:useMemo](pages)@L175
+heldout2/pricing_plans	preact	Btn	4	input.jsx:L221	element	True	outer_binding_unstable[element|purity:forwardRef_reads_via:mergeRefs>hidden_member:current](Button)@L221 ; group_not_frozen[element|group_code_impure/unsafe](handleStripeCheckout)@L221 ; outer_binding_unstable[element|purity:forwardRef_reads_via:mergeRefs>hidden_member:current](Button)@L214
+heldout2/pricing_plans	preact	format	4	input.jsx:L198	call	True	outer_binding_unstable[element|purity:forwardRef_reads_via:mergeRefs>hidden_member:current](Button)@L193 ; group_not_frozen[element|group_code_impure/unsafe](handleStripeCheckout)@L193 ; outer_binding_unstable[element|purity:forwardRef_reads_via:mergeRefs>hidden_member:current](Button)@L169
+heldout2/pricing_plans	preact	intervals	3	input.jsx:L121	call	False	cand_result_not_readonly[call:method:includes|call:listIntervals](intervals)@L120
+heldout2/pricing_plans	react	Btn	4	input.jsx:L221	element	True	outer_binding_unstable[element|purity:forwardRef_reads_via:mergeRefs>hidden_member:current](Button)@L221 ; group_not_frozen[element|group_code_impure/unsafe](handleStripeCheckout)@L221 ; outer_binding_unstable[element|purity:forwardRef_reads_via:mergeRefs>hidden_member:current](Button)@L214
+heldout2/pricing_plans	react	format	4	input.jsx:L198	call	True	outer_binding_unstable[element|purity:forwardRef_reads_via:mergeRefs>hidden_member:current](Button)@L193 ; group_not_frozen[element|group_code_impure/unsafe](handleStripeCheckout)@L193 ; outer_binding_unstable[element|purity:forwardRef_reads_via:mergeRefs>hidden_member:current](Button)@L169
+heldout2/pricing_plans	react	intervals	3	input.jsx:L121	call	False	cand_result_not_readonly[call:method:includes|call:listIntervals](intervals)@L120
+heldout2/toast_stack	preact	Child	23	input.jsx:L245	element	True	outer_binding_unstable[element|identity:wrapper_member_write:displayName](ToastBody)@L244 ; unstable_global_read[element|closure:globalThis]@L233 ; unstable_global_read[element|eager:globalThis]@L231
+heldout2/toast_stack	preact	visible	4	input.jsx:L217	call	False	cand_result_not_readonly[hook:method:map|hook:useMemo](visible)@L215
+heldout2/toast_stack	react	Child	23	input.jsx:L245	element	True	outer_binding_unstable[element|identity:wrapper_member_write:displayName](ToastBody)@L244 ; unstable_global_read[element|closure:globalThis]@L233 ; unstable_global_read[element|eager:globalThis]@L231
+heldout2/toast_stack	react	visible	4	input.jsx:L217	call	False	cand_result_not_readonly[hook:method:map|hook:useMemo](visible)@L215
+heldout2/toaster_store	preact	Child	56	input.jsx:L228	element	True	outer_binding_unstable[element|purity:fn_reads_global:MutationObserver](ToastWrapper)@L220 ; outer_binding_unstable[element|purity:fn_reads_global:MutationObserver](ToastWrapper)@L207
+heldout2/toaster_store	preact	merge	18	input.jsx:L72	call	True	
+heldout2/toaster_store	react	Child	56	input.jsx:L228	element	True	outer_binding_unstable[element|purity:fn_reads_global:MutationObserver](ToastWrapper)@L220 ; outer_binding_unstable[element|purity:fn_reads_global:MutationObserver](ToastWrapper)@L207
+heldout2/toaster_store	react	merge	18	input.jsx:L72	call	True	
+tuning/alias_branch	preact	build	4	input.jsx:L4	call	False	
+tuning/alias_branch	react	build	4	input.jsx:L4	call	False	
+tuning/alias_child	preact	Child	2	input.jsx:L4	element	True	
+tuning/alias_child	preact	Child	2	input.jsx:L4	element	True	
+tuning/alias_child	react	Child	2	input.jsx:L4	element	True	
+tuning/alias_child	react	Child	2	input.jsx:L4	element	True	
+tuning/alias_closure	preact	build	4	input.jsx:L5	call	False	loop_body_no_block[]@L4
+tuning/alias_closure	react	build	4	input.jsx:L5	call	False	loop_body_no_block[]@L4
+tuning/alias_field	preact	build	4	-	-	-	no site found
+tuning/alias_field	react	build	4	-	-	-	no site found
+tuning/alias_push	preact	build	4	-	-	-	no site found
+tuning/alias_push	react	build	4	-	-	-	no site found
+tuning/alias_spread	preact	build	3	-	-	-	no site found
+tuning/alias_spread	react	build	3	-	-	-	no site found
+tuning/alias_unknown	preact	build	4	-	-	-	no site found
+tuning/alias_unknown	react	build	4	-	-	-	no site found
+tuning/callback_globals	preact	Call	2	input.jsx:L22	element	True	
+tuning/callback_globals	preact	CallMemo	2	input.jsx:L17	element	True	
+tuning/callback_globals	preact	Child	4	input.jsx:L27	element	True	
+tuning/callback_globals	react	Call	2	input.jsx:L22	element	True	
+tuning/callback_globals	react	CallMemo	2	input.jsx:L17	element	True	
+tuning/callback_globals	react	Child	4	input.jsx:L27	element	True	
+tuning/control_assign	preact	Child	4	input.jsx:L4	element	True	
+tuning/control_assign	preact	Child	4	input.jsx:L9	element	True	
+tuning/control_assign	preact	Child	4	input.jsx:L14	element	True	
+tuning/control_assign	preact	Child	4	input.jsx:L19	element	False	
+tuning/control_assign	react	Child	4	input.jsx:L4	element	True	
+tuning/control_assign	react	Child	4	input.jsx:L9	element	True	
+tuning/control_assign	react	Child	4	input.jsx:L14	element	True	
+tuning/control_assign	react	Child	4	input.jsx:L19	element	False	
+tuning/discard_suspense_mount	preact	fmt	4	input.jsx:L5	call	False	
+tuning/discard_suspense_mount	react	fmt	6	input.jsx:L5	call	False	
+tuning/discard_suspense_update	react	fmt	1	input.jsx:L5	call	False	
+tuning/escaping_closure	preact	Child	3	input.jsx:L51	element	True	
+tuning/escaping_closure	preact	Child	3	input.jsx:L58	element	True	
+tuning/escaping_closure	preact	label	6	input.jsx:L10	call	True	
+tuning/escaping_closure	preact	validate	1	input.jsx:L39	call	True	
+tuning/escaping_closure	react	Child	3	input.jsx:L51	element	True	
+tuning/escaping_closure	react	Child	3	input.jsx:L58	element	True	
+tuning/escaping_closure	react	label	6	input.jsx:L10	call	True	
+tuning/escaping_closure	react	validate	1	input.jsx:L39	call	True	
+tuning/hook_effect_event	react	tick	2	input.jsx:L6	call	False	
+tuning/hook_nested	preact	Child	1	input.jsx:L13	element	True	
+tuning/hook_nested	preact	double	1	input.jsx:L7	call	False	impure_syntax[CallExpression|hook:useDouble]@L7
+tuning/hook_nested	preact	label	1	input.jsx:L12	call	False	impure_syntax[CallExpression|hook:useLabel]@L12
+tuning/hook_nested	react	Child	1	input.jsx:L13	element	True	
+tuning/hook_nested	react	double	1	input.jsx:L7	call	False	impure_syntax[CallExpression|hook:useDouble]@L7
+tuning/hook_nested	react	label	1	input.jsx:L12	call	False	impure_syntax[CallExpression|hook:useLabel]@L12
+tuning/hook_object	preact	total	5	input.jsx:L10	call	False	impure_syntax[CallExpression|hook:useStats]@L10
+tuning/hook_object	react	total	5	input.jsx:L10	call	False	impure_syntax[CallExpression|hook:useStats]@L10
+tuning/hook_use_cond	preact	upper	1	input.jsx:L6	call	False	
+tuning/hook_use_cond	react	upper	1	input.jsx:L6	call	False	
+tuning/loop_shapes	preact	Child	6	input.jsx:L6	element	True	
+tuning/loop_shapes	preact	Child	6	input.jsx:L24	element	True	
+tuning/loop_shapes	preact	Child	6	input.jsx:L32	element	True	
+tuning/loop_shapes	preact	Row	6	input.jsx:L3	element	True	
+tuning/loop_shapes	preact	Row	6	input.jsx:L6	element	True	
+tuning/loop_shapes	preact	Row	6	input.jsx:L9	element	True	
+tuning/loop_shapes	preact	Row	6	input.jsx:L12	element	True	
+tuning/loop_shapes	preact	Row	6	input.jsx:L17	element	True	
+tuning/loop_shapes	react	Child	6	input.jsx:L6	element	True	
+tuning/loop_shapes	react	Child	6	input.jsx:L24	element	True	
+tuning/loop_shapes	react	Child	6	input.jsx:L32	element	True	
+tuning/loop_shapes	react	Row	6	input.jsx:L3	element	True	
+tuning/loop_shapes	react	Row	6	input.jsx:L6	element	True	
+tuning/loop_shapes	react	Row	6	input.jsx:L9	element	True	
+tuning/loop_shapes	react	Row	6	input.jsx:L12	element	True	
+tuning/loop_shapes	react	Row	6	input.jsx:L17	element	True	
+tuning/stable_children	preact	Child	5	input.jsx:L43	element	True	
+tuning/stable_children	preact	Child	5	input.jsx:L61	element	True	
+tuning/stable_children	preact	Row	6	input.jsx:L25	element	True	
+tuning/stable_children	preact	Row	6	input.jsx:L44	element	True	
+tuning/stable_children	preact	Row	6	input.jsx:L60	element	True	
+tuning/stable_children	preact	format	2	input.jsx:L42	call	True	
+tuning/stable_children	react	Child	5	input.jsx:L43	element	True	
+tuning/stable_children	react	Child	5	input.jsx:L61	element	True	
+tuning/stable_children	react	Row	6	input.jsx:L25	element	True	
+tuning/stable_children	react	Row	6	input.jsx:L44	element	True	
+tuning/stable_children	react	Row	6	input.jsx:L60	element	True	
+tuning/stable_children	react	format	2	input.jsx:L42	call	True	
+tuning/throw_boundary_swap	preact	risky	3	input.jsx:L4	call	False	
+tuning/throw_boundary_swap	react	risky	3	input.jsx:L4	call	False	
+tuning/throw_call	preact	risky	2	input.jsx:L15	call	False	
+tuning/throw_call	react	risky	3	input.jsx:L15	call	False	
+tuning/throw_group	preact	risky	1	input.jsx:L15	call	False	
+tuning/throw_group	preact	sum	1	input.jsx:L22	call	False	
+tuning/throw_group	react	risky	1	input.jsx:L15	call	False	
+tuning/throw_group	react	sum	1	input.jsx:L22	call	False	
+tuning/throw_row	preact	Row	3	input.jsx:L20	element	True	
+tuning/throw_row	preact	risky	3	input.jsx:L15	call	False	
+tuning/throw_row	react	Row	6	input.jsx:L20	element	True	
+tuning/throw_row	react	risky	6	input.jsx:L15	call	False	

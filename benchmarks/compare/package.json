@@ -5,7 +5,8 @@
   "scripts": {
     "table": "node src/cli.ts table",
     "gate": "node src/cli.ts gate",
-    "typecheck": "tsc --noEmit",
+    "mutate": "node mutate/index.ts",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p mutate",
     "test": "node src/test.ts"
   },
   "dependencies": {
@@ -22,6 +23,7 @@
     "vite": "^8.3.8"
   },
   "devDependencies": {
+    "@babel/core-7": "npm:@babel/core@7.29.13",
     "@types/node": "^26.6.6",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",

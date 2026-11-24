@@ -1,0 +1,6 @@
+{
+  "source": "written",
+  "license": "n/a",
+  "tests": "A case of three files: the input imports a component and a function from its siblings.",
+  "targets": ["react", "preact"]
+}

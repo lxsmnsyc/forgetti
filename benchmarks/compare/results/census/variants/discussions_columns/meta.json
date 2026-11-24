@@ -1,0 +1,9 @@
+{
+  "source": "https://github.com/alan2207/bulletproof-react/tree/master/apps/react-vite/src",
+  "license": "MIT",
+  "commit": "9506629ed003a561c6627735480cce4994244bb4",
+  "derived": false,
+  "tests": "A data table with a pagination footer. Cell components are new functions on every render, so each cell remounts. Spread props, forwardRef parts, keyed rows and columns, a per-row child and a date format call.",
+  "adaptation": "components/ui/table/table.tsx, components/ui/table/pagination.tsx and features/discussions/components/discussions-list.tsx joined with types removed. The query hooks, router, paths, Spinner and icons are replaced by props and plain text. cn is a local join, Link is a plain anchor, and the footer, caption and displayName lines of four link parts are dropped. formatDate carries bump('formatDate') and returns the value. DeleteDiscussion is a stub that carries bump('Row'). Scenarios pass discussions and meta as props.",
+  "targets": ["react", "preact"]
+}

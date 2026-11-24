@@ -1,0 +1,9 @@
+{
+  "source": "https://github.com/react-component/progress/tree/8efdfd5b5fda84c5030f284c2c1ec2da0a1dd25e/src",
+  "license": "MIT",
+  "commit": "8efdfd5b5fda84c5030f284c2c1ec2da0a1dd25e",
+  "derived": false,
+  "tests": "A progress ring: default props merged by spread, an id hook, a style helper called per stroke, two render functions (stacked strokes or steps) with a ref callback per element written into an array that an effect reads, a forwardRef stroke child with a gradient branch and a fragment, and a style element for the loading animation.",
+  "adaptation": "Vendored with types removed and the file split kept: Circle/index.tsx is the input; Circle/PtgCircle.tsx, Circle/util.ts, common.ts and utils/getIndeterminateCircle.tsx are siblings. React namespace calls became named imports because the harness retargets named imports only, and the process.env.NODE_ENV guard around displayName is dropped. useId (@rc-component/util) is reduced to its counter fallback so React and Preact print the same ids, and clsx is a local clsx, both in util.js. PtgCircle counts bump('Row'). UploadProgress is new: it holds the percent in state, exposes the setter on globalThis, and sums it with sumPercent.",
+  "targets": ["react", "preact"]
+}

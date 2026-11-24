@@ -23,9 +23,9 @@ owns:
   - oxlint.config.ts
   - pnpm-lock.yaml
 depends_on:
-  - on: regate
+  - on: gate-3
     kind: hard
-    why: ships only after the experiment passes
+    why: ships after the debate-2 gate (a sound, within-size work miss also ships, Q1)
 ---
 
 # Ship the new compiler as forgetti and port the plugins

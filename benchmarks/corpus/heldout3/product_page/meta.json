@@ -1,0 +1,9 @@
+{
+  "source": "https://github.com/vercel/commerce/tree/f7521d57d29f0eb3d23c1399cf9bb299d61fcd21/components",
+  "license": "MIT",
+  "commit": "f7521d57d29f0eb3d23c1399cf9bb299d61fcd21",
+  "derived": false,
+  "tests": "A storefront product page: a variant selector that builds combinations with reduce and checks every option value in nested loops, inline click handlers per option, a cart context with a reducer and a memoized hook value, an add-to-cart form with a bound action, a price child that formats with Intl, and a fragment root.",
+  "adaptation": "App code vendored with types removed and the file split kept: product/product-description.tsx is the input with cart/open-cart.tsx joined; product/variant-selector.tsx, cart/add-to-cart.tsx, cart/cart-context.tsx, price.tsx and prose.tsx are siblings. next/navigation is replaced by a context in navigation.jsx that the page fills from a query string in state. React 19 features Preact lacks are replaced: formAction on the option buttons becomes onClick on type=button buttons, the form action of AddToCart becomes onSubmit, useActionState with the addItem server action becomes a state hook that sets the same error message, and use(cartPromise) with useOptimistic becomes a reducer in CartProvider shared through the context. clsx and the heroicons are local stand-ins in util.jsx. Price counts bump('Child') and SubmitButton bump('Btn'). CartButton (the trigger of cart/modal.tsx) and ProductPage are new; the page exposes its root and the query setter on globalThis and finds the selected variant with findSelectedVariant.",
+  "targets": ["react", "preact"]
+}

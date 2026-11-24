@@ -1,0 +1,9 @@
+{
+  "source": "https://github.com/vercel/commerce/tree/f7521d57d29f0eb3d23c1399cf9bb299d61fcd21/components/layout/search/filter",
+  "license": "MIT",
+  "commit": "f7521d57d29f0eb3d23c1399cf9bb299d61fcd21",
+  "derived": false,
+  "tests": "Search filters: two filter lists in Suspense, each rendering a link list and a dropdown; items read the router context, pick a link or a paragraph tag at render, and build URLs with URLSearchParams; the dropdown sets state in an effect from the list and adds a window listener with cleanup.",
+  "adaptation": "App code vendored with types removed and the file split kept: filter/index.tsx is the input; filter/dropdown.tsx and filter/item.tsx are siblings. next/navigation and next/link are replaced by a context and a Link in navigation.jsx that the layout fills from path and query state. lib/utils.ts createUrl, clsx and the heroicon are in util.jsx. Both filter items count bump('Row'). SearchLayout is new, after app/search/layout.tsx with the collections passed as a list instead of fetched; it exposes its root and setters on globalThis and describes the query with describeQuery.",
+  "targets": ["react", "preact"]
+}
