@@ -1,6 +1,6 @@
 {
   "name": "forgetti",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "description": "Solve your hook spaghetti. Inspired by React Forget",
   "keywords": [
     "babel",

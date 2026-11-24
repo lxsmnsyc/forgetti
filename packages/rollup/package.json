@@ -1,6 +1,6 @@
 {
   "name": "rollup-plugin-forgetti",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "description": "Solve your hook spaghetti. Inspired by React Forget",
   "keywords": [
     "babel",
@@ -63,7 +63,7 @@
     "typescript": "^7.0.2"
   },
   "peerDependencies": {
-    "forgetti": "^0.8",
+    "forgetti": "^0.8.6",
     "rollup": "^3"
   },
   "engines": {
