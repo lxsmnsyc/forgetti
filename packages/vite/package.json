@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-forgetti",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "description": "Solve your hook spaghetti. Inspired by React Forget",
   "keywords": [
     "babel",
@@ -63,7 +63,7 @@
     "vite": "^5.0.11"
   },
   "peerDependencies": {
-    "forgetti": "^0.8",
+    "forgetti": "^0.8.6",
     "vite": "^3 || ^4 || ^5"
   },
   "engines": {
